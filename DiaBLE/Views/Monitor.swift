@@ -102,32 +102,11 @@ struct Monitor: View {
 
                 }.font(.footnote).foregroundColor(.yellow)
 
-
                 Text(info.text)
                     .font(.footnote)
                     .padding(.vertical, 5)
 
-
-                VStack(spacing: 2) {
-                    if history.values.count > 0 {
-                        Text("OOP history: [\(history.values.map{String($0.value)}.joined(separator: " "))]")
-                            .foregroundColor(.blue)
-                    }
-                    if history.rawValues.count > 0 {
-                        Text("Raw history: [\(history.rawValues.map{String($0.value)}.joined(separator: " "))]")
-                            .foregroundColor(.yellow)
-                        if history.calibratedTrend.count > 0 {
-                            Text("Calibrated trend: [\(history.calibratedTrend.map{String($0.value)}.joined(separator: " "))]")
-                                .foregroundColor(.purple)
-                        } else {
-                            Text("Raw trend: [\(history.rawTrend.map{String($0.value)}.joined(separator: " "))]")
-                                .foregroundColor(.yellow)
-                        }
-                    }
-                }
-                .font(.footnote)
-                .layoutPriority(1.0)
-
+                Spacer()
 
                 if app.calibration.offsetOffset != 0.0 {
                     VStack(spacing: 8) {
