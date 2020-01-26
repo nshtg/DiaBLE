@@ -120,7 +120,9 @@ class Settings: ObservableObject {
             if type != .none && preferredWatch != .none {
                 preferredWatch = .none
             }
-            if type != .none && preferredDevicePattern != "" {
+            if type != .none {
+                preferredDevicePattern = type.rawValue
+            } else {
                 preferredDevicePattern = ""
             }
         }
