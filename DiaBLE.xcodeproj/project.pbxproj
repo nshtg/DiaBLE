@@ -1,0 +1,1058 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C50FA49023C9F2E800928229 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50FA48F23C9F2E800928229 /* Watch.swift */; };
+		C50FA49323CA7B9400928229 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50FA49223CA7B9400928229 /* HealthKit.framework */; };
+		C513933123B8EB7600CB245F /* alarm_high.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C513933023B8EB7600CB245F /* alarm_high.mp3 */; };
+		C51A2F4823AD4BA9003D6519 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = C51A2F4723AD4BA9003D6519 /* README.md */; };
+		C522C77123D4D363002021F7 /* Details.swift in Sources */ = {isa = PBXBuildFile; fileRef = C522C77023D4D363002021F7 /* Details.swift */; };
+		C53C76ED23D9AFD700B59A98 /* Nightscout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EC23D9AFD700B59A98 /* Nightscout.swift */; };
+		C53C76EF23D9B87A00B59A98 /* OnlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EE23D9B87A00B59A98 /* OnlineView.swift */; };
+		C5521C8223BB5D5A00826CFB /* Observables.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5521C8123BB5D5A00826CFB /* Observables.swift */; };
+		C566341323B14D55001EB5F3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566341223B14D55001EB5F3 /* Extensions.swift */; };
+		C585079F23C50BF20079539D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C585079D23C50BF20079539D /* Interface.storyboard */; };
+		C58507A123C50BF30079539D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C58507A023C50BF30079539D /* Assets.xcassets */; };
+		C58507A823C50BF40079539D /* DiaBLE Watch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C58507A723C50BF40079539D /* DiaBLE Watch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C58507AD23C50BF40079539D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507AC23C50BF40079539D /* ContentView.swift */; };
+		C58507AF23C50BF40079539D /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507AE23C50BF40079539D /* HostingController.swift */; };
+		C58507B123C50BF40079539D /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507B023C50BF40079539D /* ExtensionDelegate.swift */; };
+		C58507B323C50BF40079539D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507B223C50BF40079539D /* NotificationController.swift */; };
+		C58507B523C50BF40079539D /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507B423C50BF40079539D /* NotificationView.swift */; };
+		C58507B723C50BF40079539D /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507B623C50BF40079539D /* ComplicationController.swift */; };
+		C58507B923C50BF40079539D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C58507B823C50BF40079539D /* Assets.xcassets */; };
+		C58507BC23C50BF40079539D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C58507BB23C50BF40079539D /* Preview Assets.xcassets */; };
+		C58507C123C50BF40079539D /* DiaBLE Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C585079B23C50BF20079539D /* DiaBLE Watch.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C5965CC323DCC13300B3C5D8 /* ViewRepresentables.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5965CC223DCC13300B3C5D8 /* ViewRepresentables.swift */; };
+		C597AF6B23AB9E3E0012926C /* NFC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C597AF6A23AB9E3E0012926C /* NFC.swift */; };
+		C5A1B8B023C6410A00D60962 /* Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */; };
+		C5A5796E23A2CEE800945F72 /* Transmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5796D23A2CEE800945F72 /* Transmitter.swift */; };
+		C5A5797023A2CF0700945F72 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5796F23A2CF0700945F72 /* Sensor.swift */; };
+		C5A5797223A2CF2C00945F72 /* LibreOOP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5797123A2CF2C00945F72 /* LibreOOP.swift */; };
+		C5C20E4523C77FD800475327 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4423C77FD800475327 /* DataView.swift */; };
+		C5C20E4723C780FB00475327 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4623C780FB00475327 /* Monitor.swift */; };
+		C5C937E423CBA0AE00A87BAB /* HealthKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C937E323CBA0AE00A87BAB /* HealthKit.swift */; };
+		C5DB1CFB23DB6208009F5C68 /* Legacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DB1CFA23DB6208009F5C68 /* Legacy.swift */; };
+		C5DF10F423C783140023E0E2 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DF10F323C783140023E0E2 /* LogView.swift */; };
+		C5DF10F623C7838B0023E0E2 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DF10F523C7838A0023E0E2 /* Graph.swift */; };
+		C5DF10F823C783F90023E0E2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DF10F723C783F90023E0E2 /* SettingsView.swift */; };
+		C5E1013A23A2774C00678DF6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1013923A2774C00678DF6 /* AppDelegate.swift */; };
+		C5E1013C23A2774C00678DF6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1013B23A2774C00678DF6 /* SceneDelegate.swift */; };
+		C5E1013F23A2774C00678DF6 /* DiaBLE.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5E1013D23A2774C00678DF6 /* DiaBLE.xcdatamodeld */; };
+		C5E1014123A2774C00678DF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1014023A2774C00678DF6 /* ContentView.swift */; };
+		C5E1014323A2774D00678DF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5E1014223A2774D00678DF6 /* Assets.xcassets */; };
+		C5E1014623A2774D00678DF6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5E1014523A2774D00678DF6 /* Preview Assets.xcassets */; };
+		C5E1014923A2774D00678DF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5E1014723A2774D00678DF6 /* LaunchScreen.storyboard */; };
+		C5E1015423A2774D00678DF6 /* DiaBLETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1015323A2774D00678DF6 /* DiaBLETests.swift */; };
+		C5E1015F23A2774D00678DF6 /* DiaBLEUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1015E23A2774D00678DF6 /* DiaBLEUITests.swift */; };
+		C5EA857723B28861004A4128 /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = C5EA857623B28861004A4128 /* TODO.md */; };
+		C5FB2EF323A2794D0046F4F9 /* MainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FB2EF223A2794D0046F4F9 /* MainDelegate.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C58507A923C50BF40079539D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5E1012E23A2774C00678DF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C58507A623C50BF40079539D;
+			remoteInfo = "DiaBLE Watch Extension";
+		};
+		C58507BF23C50BF40079539D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5E1012E23A2774C00678DF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C585079A23C50BF20079539D;
+			remoteInfo = "DiaBLE Watch";
+		};
+		C5E1015023A2774D00678DF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5E1012E23A2774C00678DF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5E1013523A2774C00678DF6;
+			remoteInfo = DiaBLE;
+		};
+		C5E1015B23A2774D00678DF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C5E1012E23A2774C00678DF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C5E1013523A2774C00678DF6;
+			remoteInfo = DiaBLE;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C58507C223C50BF40079539D /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				C58507C123C50BF40079539D /* DiaBLE Watch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C58507C523C50BF40079539D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C58507A823C50BF40079539D /* DiaBLE Watch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C50FA48F23C9F2E800928229 /* Watch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watch.swift; sourceTree = "<group>"; };
+		C50FA49223CA7B9400928229 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		C513933023B8EB7600CB245F /* alarm_high.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm_high.mp3; sourceTree = "<group>"; };
+		C51A2F4723AD4BA9003D6519 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		C522C77023D4D363002021F7 /* Details.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Details.swift; sourceTree = "<group>"; };
+		C53C76EC23D9AFD700B59A98 /* Nightscout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nightscout.swift; sourceTree = "<group>"; };
+		C53C76EE23D9B87A00B59A98 /* OnlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineView.swift; sourceTree = "<group>"; };
+		C5521C8123BB5D5A00826CFB /* Observables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observables.swift; sourceTree = "<group>"; };
+		C566341223B14D55001EB5F3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C585079B23C50BF20079539D /* DiaBLE Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DiaBLE Watch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C585079E23C50BF20079539D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		C58507A023C50BF30079539D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C58507A223C50BF30079539D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C58507A723C50BF40079539D /* DiaBLE Watch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "DiaBLE Watch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C58507AC23C50BF40079539D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C58507AE23C50BF40079539D /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
+		C58507B023C50BF40079539D /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		C58507B223C50BF40079539D /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		C58507B423C50BF40079539D /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		C58507B623C50BF40079539D /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		C58507B823C50BF40079539D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C58507BB23C50BF40079539D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C58507BD23C50BF40079539D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C58507BE23C50BF40079539D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		C5965CC223DCC13300B3C5D8 /* ViewRepresentables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRepresentables.swift; sourceTree = "<group>"; };
+		C597AF6A23AB9E3E0012926C /* NFC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFC.swift; sourceTree = "<group>"; };
+		C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bluetooth.swift; sourceTree = "<group>"; };
+		C5A5796D23A2CEE800945F72 /* Transmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transmitter.swift; sourceTree = "<group>"; };
+		C5A5796F23A2CF0700945F72 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
+		C5A5797123A2CF2C00945F72 /* LibreOOP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreOOP.swift; sourceTree = "<group>"; };
+		C5C20E4423C77FD800475327 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
+		C5C20E4623C780FB00475327 /* Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitor.swift; sourceTree = "<group>"; };
+		C5C80BCA23A27EFA00ACFDE9 /* DiaBLE.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiaBLE.entitlements; sourceTree = "<group>"; };
+		C5C937E323CBA0AE00A87BAB /* HealthKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit.swift; sourceTree = "<group>"; };
+		C5DB1CFA23DB6208009F5C68 /* Legacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legacy.swift; sourceTree = "<group>"; };
+		C5DF10F323C783140023E0E2 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		C5DF10F523C7838A0023E0E2 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
+		C5DF10F723C783F90023E0E2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		C5E1013623A2774C00678DF6 /* DiaBLE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiaBLE.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5E1013923A2774C00678DF6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C5E1013B23A2774C00678DF6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C5E1013E23A2774C00678DF6 /* DiaBLE.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaBLE.xcdatamodel; sourceTree = "<group>"; };
+		C5E1014023A2774C00678DF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C5E1014223A2774D00678DF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C5E1014523A2774D00678DF6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C5E1014823A2774D00678DF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C5E1014A23A2774D00678DF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C5E1014F23A2774D00678DF6 /* DiaBLETests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaBLETests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5E1015323A2774D00678DF6 /* DiaBLETests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaBLETests.swift; sourceTree = "<group>"; };
+		C5E1015523A2774D00678DF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C5E1015A23A2774D00678DF6 /* DiaBLEUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaBLEUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5E1015E23A2774D00678DF6 /* DiaBLEUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaBLEUITests.swift; sourceTree = "<group>"; };
+		C5E1016023A2774D00678DF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C5EA857623B28861004A4128 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
+		C5FB2EF223A2794D0046F4F9 /* MainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDelegate.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C58507A423C50BF40079539D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5E1013323A2774C00678DF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C50FA49323CA7B9400928229 /* HealthKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5E1014C23A2774D00678DF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5E1015723A2774D00678DF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C50FA49123CA7B9400928229 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C50FA49223CA7B9400928229 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C585079C23C50BF20079539D /* DiaBLE Watch */ = {
+			isa = PBXGroup;
+			children = (
+				C585079D23C50BF20079539D /* Interface.storyboard */,
+				C58507A023C50BF30079539D /* Assets.xcassets */,
+				C58507A223C50BF30079539D /* Info.plist */,
+			);
+			path = "DiaBLE Watch";
+			sourceTree = "<group>";
+		};
+		C58507AB23C50BF40079539D /* DiaBLE Watch Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C58507AC23C50BF40079539D /* ContentView.swift */,
+				C58507AE23C50BF40079539D /* HostingController.swift */,
+				C58507B023C50BF40079539D /* ExtensionDelegate.swift */,
+				C58507B223C50BF40079539D /* NotificationController.swift */,
+				C58507B423C50BF40079539D /* NotificationView.swift */,
+				C58507B623C50BF40079539D /* ComplicationController.swift */,
+				C58507B823C50BF40079539D /* Assets.xcassets */,
+				C58507BD23C50BF40079539D /* Info.plist */,
+				C58507BE23C50BF40079539D /* PushNotificationPayload.apns */,
+				C58507BA23C50BF40079539D /* Preview Content */,
+			);
+			path = "DiaBLE Watch Extension";
+			sourceTree = "<group>";
+		};
+		C58507BA23C50BF40079539D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C58507BB23C50BF40079539D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C5C20E4323C77F7700475327 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C5E1014023A2774C00678DF6 /* ContentView.swift */,
+				C5C20E4423C77FD800475327 /* DataView.swift */,
+				C522C77023D4D363002021F7 /* Details.swift */,
+				C5DF10F523C7838A0023E0E2 /* Graph.swift */,
+				C5DF10F323C783140023E0E2 /* LogView.swift */,
+				C5C20E4623C780FB00475327 /* Monitor.swift */,
+				C53C76EE23D9B87A00B59A98 /* OnlineView.swift */,
+				C5DF10F723C783F90023E0E2 /* SettingsView.swift */,
+				C5965CC223DCC13300B3C5D8 /* ViewRepresentables.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C5E1012D23A2774C00678DF6 = {
+			isa = PBXGroup;
+			children = (
+				C51A2F4723AD4BA9003D6519 /* README.md */,
+				C5EA857623B28861004A4128 /* TODO.md */,
+				C5E1013823A2774C00678DF6 /* DiaBLE */,
+				C5E1015223A2774D00678DF6 /* DiaBLETests */,
+				C5E1015D23A2774D00678DF6 /* DiaBLEUITests */,
+				C585079C23C50BF20079539D /* DiaBLE Watch */,
+				C58507AB23C50BF40079539D /* DiaBLE Watch Extension */,
+				C5E1013723A2774C00678DF6 /* Products */,
+				C50FA49123CA7B9400928229 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C5E1013723A2774C00678DF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C5E1013623A2774C00678DF6 /* DiaBLE.app */,
+				C5E1014F23A2774D00678DF6 /* DiaBLETests.xctest */,
+				C5E1015A23A2774D00678DF6 /* DiaBLEUITests.xctest */,
+				C585079B23C50BF20079539D /* DiaBLE Watch.app */,
+				C58507A723C50BF40079539D /* DiaBLE Watch Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C5E1013823A2774C00678DF6 /* DiaBLE */ = {
+			isa = PBXGroup;
+			children = (
+				C5C20E4323C77F7700475327 /* Views */,
+				C566341223B14D55001EB5F3 /* Extensions.swift */,
+				C5521C8123BB5D5A00826CFB /* Observables.swift */,
+				C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */,
+				C5FB2EF223A2794D0046F4F9 /* MainDelegate.swift */,
+				C5A5796F23A2CF0700945F72 /* Sensor.swift */,
+				C5A5796D23A2CEE800945F72 /* Transmitter.swift */,
+				C5C937E323CBA0AE00A87BAB /* HealthKit.swift */,
+				C5A5797123A2CF2C00945F72 /* LibreOOP.swift */,
+				C597AF6A23AB9E3E0012926C /* NFC.swift */,
+				C53C76EC23D9AFD700B59A98 /* Nightscout.swift */,
+				C50FA48F23C9F2E800928229 /* Watch.swift */,
+				C5DB1CFA23DB6208009F5C68 /* Legacy.swift */,
+				C5E1013923A2774C00678DF6 /* AppDelegate.swift */,
+				C5E1013B23A2774C00678DF6 /* SceneDelegate.swift */,
+				C513933023B8EB7600CB245F /* alarm_high.mp3 */,
+				C5E1014223A2774D00678DF6 /* Assets.xcassets */,
+				C5E1014723A2774D00678DF6 /* LaunchScreen.storyboard */,
+				C5E1014A23A2774D00678DF6 /* Info.plist */,
+				C5C80BCA23A27EFA00ACFDE9 /* DiaBLE.entitlements */,
+				C5E1013D23A2774C00678DF6 /* DiaBLE.xcdatamodeld */,
+				C5E1014423A2774D00678DF6 /* Preview Content */,
+			);
+			path = DiaBLE;
+			sourceTree = "<group>";
+		};
+		C5E1014423A2774D00678DF6 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				C5E1014523A2774D00678DF6 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C5E1015223A2774D00678DF6 /* DiaBLETests */ = {
+			isa = PBXGroup;
+			children = (
+				C5E1015323A2774D00678DF6 /* DiaBLETests.swift */,
+				C5E1015523A2774D00678DF6 /* Info.plist */,
+			);
+			path = DiaBLETests;
+			sourceTree = "<group>";
+		};
+		C5E1015D23A2774D00678DF6 /* DiaBLEUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C5E1015E23A2774D00678DF6 /* DiaBLEUITests.swift */,
+				C5E1016023A2774D00678DF6 /* Info.plist */,
+			);
+			path = DiaBLEUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C585079A23C50BF20079539D /* DiaBLE Watch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C58507C923C50BF40079539D /* Build configuration list for PBXNativeTarget "DiaBLE Watch" */;
+			buildPhases = (
+				C585079923C50BF20079539D /* Resources */,
+				C58507C523C50BF40079539D /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C58507AA23C50BF40079539D /* PBXTargetDependency */,
+			);
+			name = "DiaBLE Watch";
+			productName = "DiaBLE Watch";
+			productReference = C585079B23C50BF20079539D /* DiaBLE Watch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		C58507A623C50BF40079539D /* DiaBLE Watch Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C58507C823C50BF40079539D /* Build configuration list for PBXNativeTarget "DiaBLE Watch Extension" */;
+			buildPhases = (
+				C58507A323C50BF40079539D /* Sources */,
+				C58507A423C50BF40079539D /* Frameworks */,
+				C58507A523C50BF40079539D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DiaBLE Watch Extension";
+			productName = "DiaBLE Watch Extension";
+			productReference = C58507A723C50BF40079539D /* DiaBLE Watch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+		C5E1013523A2774C00678DF6 /* DiaBLE */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5E1016323A2774D00678DF6 /* Build configuration list for PBXNativeTarget "DiaBLE" */;
+			buildPhases = (
+				C5E1013223A2774C00678DF6 /* Sources */,
+				C5E1013323A2774C00678DF6 /* Frameworks */,
+				C5E1013423A2774C00678DF6 /* Resources */,
+				C58507C223C50BF40079539D /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C58507C023C50BF40079539D /* PBXTargetDependency */,
+			);
+			name = DiaBLE;
+			productName = DiaBLE;
+			productReference = C5E1013623A2774C00678DF6 /* DiaBLE.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C5E1014E23A2774D00678DF6 /* DiaBLETests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5E1016623A2774D00678DF6 /* Build configuration list for PBXNativeTarget "DiaBLETests" */;
+			buildPhases = (
+				C5E1014B23A2774D00678DF6 /* Sources */,
+				C5E1014C23A2774D00678DF6 /* Frameworks */,
+				C5E1014D23A2774D00678DF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C5E1015123A2774D00678DF6 /* PBXTargetDependency */,
+			);
+			name = DiaBLETests;
+			productName = DiaBLETests;
+			productReference = C5E1014F23A2774D00678DF6 /* DiaBLETests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C5E1015923A2774D00678DF6 /* DiaBLEUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C5E1016923A2774D00678DF6 /* Build configuration list for PBXNativeTarget "DiaBLEUITests" */;
+			buildPhases = (
+				C5E1015623A2774D00678DF6 /* Sources */,
+				C5E1015723A2774D00678DF6 /* Frameworks */,
+				C5E1015823A2774D00678DF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C5E1015C23A2774D00678DF6 /* PBXTargetDependency */,
+			);
+			name = DiaBLEUITests;
+			productName = DiaBLEUITests;
+			productReference = C5E1015A23A2774D00678DF6 /* DiaBLEUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C5E1012E23A2774C00678DF6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = "Guido Soranzio";
+				TargetAttributes = {
+					C585079A23C50BF20079539D = {
+						CreatedOnToolsVersion = 11.3;
+					};
+					C58507A623C50BF40079539D = {
+						CreatedOnToolsVersion = 11.3;
+					};
+					C5E1013523A2774C00678DF6 = {
+						CreatedOnToolsVersion = 11.3;
+					};
+					C5E1014E23A2774D00678DF6 = {
+						CreatedOnToolsVersion = 11.3;
+						TestTargetID = C5E1013523A2774C00678DF6;
+					};
+					C5E1015923A2774D00678DF6 = {
+						CreatedOnToolsVersion = 11.3;
+						TestTargetID = C5E1013523A2774C00678DF6;
+					};
+				};
+			};
+			buildConfigurationList = C5E1013123A2774C00678DF6 /* Build configuration list for PBXProject "DiaBLE" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C5E1012D23A2774C00678DF6;
+			productRefGroup = C5E1013723A2774C00678DF6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C5E1013523A2774C00678DF6 /* DiaBLE */,
+				C5E1014E23A2774D00678DF6 /* DiaBLETests */,
+				C5E1015923A2774D00678DF6 /* DiaBLEUITests */,
+				C585079A23C50BF20079539D /* DiaBLE Watch */,
+				C58507A623C50BF40079539D /* DiaBLE Watch Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C585079923C50BF20079539D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C58507A123C50BF30079539D /* Assets.xcassets in Resources */,
+				C585079F23C50BF20079539D /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C58507A523C50BF40079539D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C58507BC23C50BF40079539D /* Preview Assets.xcassets in Resources */,
+				C58507B923C50BF40079539D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5E1013423A2774C00678DF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5E1014923A2774D00678DF6 /* LaunchScreen.storyboard in Resources */,
+				C5E1014623A2774D00678DF6 /* Preview Assets.xcassets in Resources */,
+				C513933123B8EB7600CB245F /* alarm_high.mp3 in Resources */,
+				C51A2F4823AD4BA9003D6519 /* README.md in Resources */,
+				C5E1014323A2774D00678DF6 /* Assets.xcassets in Resources */,
+				C5EA857723B28861004A4128 /* TODO.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5E1014D23A2774D00678DF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5E1015823A2774D00678DF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C58507A323C50BF40079539D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C58507AF23C50BF40079539D /* HostingController.swift in Sources */,
+				C58507AD23C50BF40079539D /* ContentView.swift in Sources */,
+				C58507B323C50BF40079539D /* NotificationController.swift in Sources */,
+				C58507B123C50BF40079539D /* ExtensionDelegate.swift in Sources */,
+				C58507B523C50BF40079539D /* NotificationView.swift in Sources */,
+				C58507B723C50BF40079539D /* ComplicationController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5E1013223A2774C00678DF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C597AF6B23AB9E3E0012926C /* NFC.swift in Sources */,
+				C5E1013A23A2774C00678DF6 /* AppDelegate.swift in Sources */,
+				C5C20E4723C780FB00475327 /* Monitor.swift in Sources */,
+				C5521C8223BB5D5A00826CFB /* Observables.swift in Sources */,
+				C5E1013F23A2774C00678DF6 /* DiaBLE.xcdatamodeld in Sources */,
+				C5A1B8B023C6410A00D60962 /* Bluetooth.swift in Sources */,
+				C522C77123D4D363002021F7 /* Details.swift in Sources */,
+				C5E1014123A2774C00678DF6 /* ContentView.swift in Sources */,
+				C50FA49023C9F2E800928229 /* Watch.swift in Sources */,
+				C53C76EF23D9B87A00B59A98 /* OnlineView.swift in Sources */,
+				C5A5796E23A2CEE800945F72 /* Transmitter.swift in Sources */,
+				C5DF10F623C7838B0023E0E2 /* Graph.swift in Sources */,
+				C566341323B14D55001EB5F3 /* Extensions.swift in Sources */,
+				C5965CC323DCC13300B3C5D8 /* ViewRepresentables.swift in Sources */,
+				C5DF10F823C783F90023E0E2 /* SettingsView.swift in Sources */,
+				C5C20E4523C77FD800475327 /* DataView.swift in Sources */,
+				C53C76ED23D9AFD700B59A98 /* Nightscout.swift in Sources */,
+				C5FB2EF323A2794D0046F4F9 /* MainDelegate.swift in Sources */,
+				C5A5797223A2CF2C00945F72 /* LibreOOP.swift in Sources */,
+				C5DB1CFB23DB6208009F5C68 /* Legacy.swift in Sources */,
+				C5E1013C23A2774C00678DF6 /* SceneDelegate.swift in Sources */,
+				C5C937E423CBA0AE00A87BAB /* HealthKit.swift in Sources */,
+				C5DF10F423C783140023E0E2 /* LogView.swift in Sources */,
+				C5A5797023A2CF0700945F72 /* Sensor.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5E1014B23A2774D00678DF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5E1015423A2774D00678DF6 /* DiaBLETests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C5E1015623A2774D00678DF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5E1015F23A2774D00678DF6 /* DiaBLEUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C58507AA23C50BF40079539D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C58507A623C50BF40079539D /* DiaBLE Watch Extension */;
+			targetProxy = C58507A923C50BF40079539D /* PBXContainerItemProxy */;
+		};
+		C58507C023C50BF40079539D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = C585079A23C50BF20079539D /* DiaBLE Watch */;
+			targetProxy = C58507BF23C50BF40079539D /* PBXContainerItemProxy */;
+		};
+		C5E1015123A2774D00678DF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5E1013523A2774C00678DF6 /* DiaBLE */;
+			targetProxy = C5E1015023A2774D00678DF6 /* PBXContainerItemProxy */;
+		};
+		C5E1015C23A2774D00678DF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C5E1013523A2774C00678DF6 /* DiaBLE */;
+			targetProxy = C5E1015B23A2774D00678DF6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C585079D23C50BF20079539D /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C585079E23C50BF20079539D /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+		C5E1014723A2774D00678DF6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C5E1014823A2774D00678DF6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C58507C323C50BF40079539D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.0.1;
+				DEVELOPMENT_TEAM = Z25SC9UDC8;
+				IBSC_MODULE = DiaBLE_Watch_Extension;
+				INFOPLIST_FILE = "DiaBLE Watch/Info.plist";
+				MARKETING_VERSION = "Pre-Alpha";
+				PRODUCT_BUNDLE_IDENTIFIER = name.soranzio.guido.diable.DiaBLE.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Debug;
+		};
+		C58507C423C50BF40079539D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.0.1;
+				DEVELOPMENT_TEAM = Z25SC9UDC8;
+				IBSC_MODULE = DiaBLE_Watch_Extension;
+				INFOPLIST_FILE = "DiaBLE Watch/Info.plist";
+				MARKETING_VERSION = "Pre-Alpha";
+				PRODUCT_BUNDLE_IDENTIFIER = name.soranzio.guido.diable.DiaBLE.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Release;
+		};
+		C58507C623C50BF40079539D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.0.1;
+				DEVELOPMENT_ASSET_PATHS = "\"DiaBLE Watch Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = Z25SC9UDC8;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "DiaBLE Watch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = "Pre-Alpha";
+				PRODUCT_BUNDLE_IDENTIFIER = name.soranzio.guido.diable.DiaBLE.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Debug;
+		};
+		C58507C723C50BF40079539D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.0.1;
+				DEVELOPMENT_ASSET_PATHS = "\"DiaBLE Watch Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = Z25SC9UDC8;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "DiaBLE Watch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = "Pre-Alpha";
+				PRODUCT_BUNDLE_IDENTIFIER = name.soranzio.guido.diable.DiaBLE.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.1;
+			};
+			name = Release;
+		};
+		C5E1016123A2774D00678DF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C5E1016223A2774D00678DF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C5E1016423A2774D00678DF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DiaBLE/DiaBLE.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.0.1;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"DiaBLE/Preview Content\"";
+				DEVELOPMENT_TEAM = Z25SC9UDC8;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = DiaBLE/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = "Pre-Alpha";
+				PRODUCT_BUNDLE_IDENTIFIER = name.soranzio.guido.diable.DiaBLE;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C5E1016523A2774D00678DF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DiaBLE/DiaBLE.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0.0.1;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"DiaBLE/Preview Content\"";
+				DEVELOPMENT_TEAM = Z25SC9UDC8;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = DiaBLE/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = "Pre-Alpha";
+				PRODUCT_BUNDLE_IDENTIFIER = name.soranzio.guido.diable.DiaBLE;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C5E1016723A2774D00678DF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z25SC9UDC8;
+				INFOPLIST_FILE = DiaBLETests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = name.soranzio.guido.diable.DiaBLETests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DiaBLE.app/DiaBLE";
+			};
+			name = Debug;
+		};
+		C5E1016823A2774D00678DF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z25SC9UDC8;
+				INFOPLIST_FILE = DiaBLETests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = name.soranzio.guido.diable.DiaBLETests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DiaBLE.app/DiaBLE";
+			};
+			name = Release;
+		};
+		C5E1016A23A2774D00678DF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z25SC9UDC8;
+				INFOPLIST_FILE = DiaBLEUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = name.soranzio.guido.diable.DiaBLEUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DiaBLE;
+			};
+			name = Debug;
+		};
+		C5E1016B23A2774D00678DF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z25SC9UDC8;
+				INFOPLIST_FILE = DiaBLEUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = name.soranzio.guido.diable.DiaBLEUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DiaBLE;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C58507C823C50BF40079539D /* Build configuration list for PBXNativeTarget "DiaBLE Watch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C58507C623C50BF40079539D /* Debug */,
+				C58507C723C50BF40079539D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C58507C923C50BF40079539D /* Build configuration list for PBXNativeTarget "DiaBLE Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C58507C323C50BF40079539D /* Debug */,
+				C58507C423C50BF40079539D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5E1013123A2774C00678DF6 /* Build configuration list for PBXProject "DiaBLE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5E1016123A2774D00678DF6 /* Debug */,
+				C5E1016223A2774D00678DF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5E1016323A2774D00678DF6 /* Build configuration list for PBXNativeTarget "DiaBLE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5E1016423A2774D00678DF6 /* Debug */,
+				C5E1016523A2774D00678DF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5E1016623A2774D00678DF6 /* Build configuration list for PBXNativeTarget "DiaBLETests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5E1016723A2774D00678DF6 /* Debug */,
+				C5E1016823A2774D00678DF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C5E1016923A2774D00678DF6 /* Build configuration list for PBXNativeTarget "DiaBLEUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C5E1016A23A2774D00678DF6 /* Debug */,
+				C5E1016B23A2774D00678DF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C5E1013D23A2774C00678DF6 /* DiaBLE.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C5E1013E23A2774C00678DF6 /* DiaBLE.xcdatamodel */,
+			);
+			currentVersion = C5E1013E23A2774C00678DF6 /* DiaBLE.xcdatamodel */;
+			path = DiaBLE.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = C5E1012E23A2774C00678DF6 /* Project object */;
+}
