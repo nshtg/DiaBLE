@@ -365,7 +365,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
 
         if app.transmitter.type == .watch(.watlaa) && serviceUUID == Watlaa.dataServiceUUID {
-            // app.transmitter.peripheral?.readValue(for: app.transmitter.characteristics[Watlaa.UUID.dataRead.rawValue]!)
+            (app.transmitter as! Watlaa).readSetup()
             log("Watlaa: reading data")
         }
     }

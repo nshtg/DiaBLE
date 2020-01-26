@@ -95,11 +95,7 @@ class Watlaa: Watch {
             if buffer.count == 344 {
                 let fram = buffer[..<344]
                 sensor!.fram = Data(fram)
-                readValue(for: .calibration)
-                readValue(for: .glucoseUnit)
-                readValue(for: .lastGlucose)
-                readValue(for: .bridgeStatus)
-                readValue(for: .alerts)
+                readSetup()
                 main.info("\n\n\(sensor!.type)  +  \(name)")
             }
 
@@ -149,5 +145,14 @@ class Watlaa: Watch {
         default:
             break
         }
+    }
+
+
+    func readSetup() {
+        readValue(for: .calibration)
+        readValue(for: .glucoseUnit)
+        readValue(for: .lastGlucose)
+        readValue(for: .bridgeStatus)
+        readValue(for: .alerts)
     }
 }
