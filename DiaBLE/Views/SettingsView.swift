@@ -15,7 +15,7 @@ struct SettingsView: View {
 
                 VStack(spacing: 20) {
                     VStack {
-                        HStack {
+                        HStack(spacing: 0) {
                             Button(action: {} ) { Image("Bluetooth").resizable().frame(width: 32, height: 32).foregroundColor(.accentColor)
                             }
                             Picker(selection: $settings.preferredTransmitter, label: Text("Preferred")) {
@@ -25,22 +25,24 @@ struct SettingsView: View {
                             }.pickerStyle(SegmentedPickerStyle())
                         }
                         TextField("device name pattern", text: $settings.preferredDevicePattern).foregroundColor(.accentColor)
-                        }
+                            .padding(.horizontal, 32)
+                            .frame(alignment: .center)
+                    }
 
                     HStack  {
-                        Image(systemName: "clock.fill").foregroundColor(.white)
+                        Image(systemName: "clock.fill").resizable().frame(width: 18, height: 18).padding(.leading, 7).foregroundColor(.white)
                         Picker(selection: $settings.preferredWatch, label: Text("Preferred")) {
                             ForEach(WatchType.allCases) { t in
                                 Text(t.name).tag(t)
                             }
                         }.pickerStyle(SegmentedPickerStyle())
-                }
-                        Button(action: {
-                            _ = self.settings.preferredWatch
-                        }) {
-                            Text(" Details ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
-                        }.disabled(self.settings.preferredWatch == .none)
                     }
+                    Button(action: {
+                        _ = self.settings.preferredWatch
+                    }) {
+                        Text(" Details... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
+                    }.disabled(self.settings.preferredWatch == .none)
+                }
 
                 Spacer()
 

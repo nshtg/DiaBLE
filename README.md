@@ -15,4 +15,4 @@ The project started as a single script for the iPad Swift Playgrounds and was qu
 Please refer to the [TODOs list](https://github.com/gui-dos/DiaBLE/blob/master/TODO.md) for the up-to-date status of all the current limitations and known bugs of this prototype.
 
 ---
-Credits: [bubbledevteam](https://github.com/bubbledevteam), [dabear](https://github.com/dabear?tab=repositories), [LibreMonitor](https://github.com/UPetersen/LibreMonitor/tree/Swift4), [Nightguard]( https://github.com/nightscout/nightguard), [WoofWoof](https://github.com/gshaviv/ninety-two), [xDrip for iOS](https://github.com/JohanDegraeve/xdripswift).
+Credits: [bubbledevteam](https://github.com/bubbledevteam?tab=repositories), [dabear](https://github.com/dabear?tab=repositories), [LibreMonitor](https://github.com/UPetersen/LibreMonitor/tree/Swift4), [Nightguard]( https://github.com/nightscout/nightguard), [WoofWoof](https://github.com/gshaviv/ninety-two), [xDrip for iOS](https://github.com/JohanDegraeve/xdripswift).

@@ -204,7 +204,14 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         var found = false
 
         if name.lowercased().contains("wat") { // Hopefully people don't rename their watch device name...
-            found = true
+            for watchType in WatchType.allCases {
+                if name.lowercased().contains(watchType.rawValue) {
+                    found = true // found a watch different than the Apple Watch
+                }
+                if settings.preferredWatch == .none || settings.preferredWatch == .appleWatch {
+                    found = true // it is an Apple Watch and the user didn't choose another one
+                }
+            }
         }
         if found == true && settings.preferredTransmitter != .none  {
             found = false
@@ -222,7 +229,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
 
         if (found && !settings.preferredDevicePattern.isEmpty && !name.contains(settings.preferredDevicePattern))
-            || !found && (settings.preferredTransmitter != .none || (!settings.preferredDevicePattern.isEmpty && !name.lowercased().contains(settings.preferredDevicePattern.lowercased()))) {
+            || !found && (settings.preferredTransmitter != .none || settings.preferredWatch != .none || (!settings.preferredDevicePattern.isEmpty && !name.lowercased().contains(settings.preferredDevicePattern.lowercased()))) {
             log("Bluetooth: skipping \"\(name)\" service")
             return
         }
@@ -240,6 +247,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             } else {
                 app.watch = AppleWatch(peripheral: peripheral, main: main)
             }
+            app.transmitter = app.watch
         } else {
             app.transmitter = Transmitter(peripheral: peripheral, main: main)
             app.transmitter.name = name
@@ -257,7 +265,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                 log("Bluetooth: \(name)'s advertised manufacturer data: \(manifacturerData.hex)" )
             }
         }
-        
+
         main.info("\n\n\(app.transmitter.name)")
         app.transmitter.peripheral?.delegate = self
         centralManager.connect(app.transmitter.peripheral!, options: nil)
@@ -348,7 +356,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             // bubble!.write([0x00, 0x01, 0x05])
             // log("Bubble: writing reset and send data every 5 minutes command 0x000105")
         }
-        
+
         if app.transmitter.type == .transmitter(.miaomiao) && serviceUUID == MiaoMiao.dataServiceUUID {
             let readCommand = app.transmitter.readCommand(interval: settings.readingInterval)
             app.transmitter.write(readCommand)
@@ -415,7 +423,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             log("\(msg) \(uuid): \(uuid != .batteryLevel ? data.string : String(Int(data[0]))) ")
 
             switch uuid {
-                
+
             case .batteryLevel:
                 app.transmitter.battery = Int(data[0])
             case .model:
