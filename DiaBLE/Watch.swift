@@ -62,9 +62,10 @@ class Watlaa: Watch {
     var slope: Float = 0.0
     var intercept: Float = 0.0
     var lastGlucose: Int = 0
-    var lastReadingDate: Int = 0
+    var lastGlucoseAge: Int = 0
     var unit: GlucoseUnit = .mgdl
 
+    var lastReadingDate: Date = Date()
 
     func readValue(for uuid: UUID) {
         peripheral?.readValue(for: characteristics[uuid.rawValue]!)
@@ -89,6 +90,7 @@ class Watlaa: Watch {
                 }
             }
             if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
+            lastReadingDate = main.app.lastReadingDate
             buffer.append(data)
             main.log("\(name): partial buffer count: \(buffer.count)")
 
@@ -103,7 +105,7 @@ class Watlaa: Watch {
             let value = Int(data[1]) << 8 + Int(data[0])
             let age   = Int(data[3]) << 8 + Int(data[2])
             lastGlucose = value
-            lastReadingDate = age
+            lastGlucoseAge = age
             main.log("\(name): last raw glucose: \(value), age: \(age) minutes")
 
         case .calibration:
