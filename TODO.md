@@ -13,6 +13,7 @@ TODO
 
 * UNUserNotificationCenterDelegate methods
 * save measurements by using HealthKit
+* create calendar events to be displayed as Apple Watch complications
 * upload to Nightscout
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file
 * landcape mode

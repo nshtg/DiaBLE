@@ -10,9 +10,9 @@ struct OOPServer {
     var historyEndpoint: String
 
     static let `default`: OOPServer = OOPServer(siteURL: "https://www.glucose.space/",
-                                             token: "bubble-201907",
-                                             calibrationEndpoint: "calibrateSensor",
-                                             historyEndpoint: "libreoop2")
+                                                token: "bubble-201907",
+                                                calibrationEndpoint: "calibrateSensor",
+                                                historyEndpoint: "libreoop2")
 }
 
 

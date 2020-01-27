@@ -63,7 +63,7 @@ struct SettingsView: View {
 
                 Button(action: {
                     let transmitter = self.app.transmitter
-                    self.app.selectedTab = self.settings.preferredDevicePattern.isEmpty ? .monitor : .log
+                    self.app.selectedTab = (self.settings.preferredTransmitter != .none || self.settings.preferredWatch != .none) ? .monitor : .log
                     let centralManager = self.app.main.centralManager
                     if transmitter != nil {
                         centralManager.cancelPeripheralConnection(transmitter!.peripheral!)
