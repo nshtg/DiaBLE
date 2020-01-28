@@ -69,8 +69,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
 
     public func log(_ text: String) {
-        if settings.logging || text.hasPrefix("Log") {
-            DispatchQueue.main.async {
+        DispatchQueue.main.async {
+            if self.settings.logging || text.hasPrefix("Log") {
                 if self.settings.reversedLog {
                     self.log.text = "\(text)\n \n\(self.log.text)"
                 } else {
@@ -82,10 +82,12 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
     }
 
     public func info(_ text: String) {
-        if text.prefix(2) == "\n\n" {
-            info.text = String(text.dropFirst(2))
-        } else if !info.text.contains(text) {
-            info.text.append(" \(text)")
+        DispatchQueue.main.async {
+            if text.prefix(2) == "\n\n" {
+                self.info.text = String(text.dropFirst(2))
+            } else if !self.info.text.contains(text) {
+                self.info.text.append(" \(text)")
+            }
         }
     }
 

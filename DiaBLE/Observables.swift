@@ -95,7 +95,7 @@ class Settings: ObservableObject {
     static let defaults: [String: Any] = [
         "preferredTransmitter": TransmitterType.none.id,
         "preferredWatch": WatchType.none.id,
-        "preferredDevicePattern": "bubble miaomiao watlaa",
+        "preferredDevicePattern": BLE.knownDevicesIds.joined(separator: " "),
         "readingInterval": 5,
 
         "targetLow": 80.0,

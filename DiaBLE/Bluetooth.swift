@@ -4,7 +4,8 @@ import CoreBluetooth
 
 class BLE {
 
-    static let knownDevices: [Device.Type] = DeviceType.allCases.map { ($0.type as! Device.Type) }
+    static let knownDevices: [Device.Type] = DeviceType.allCases.filter{ $0.id != "none" }.map{ ($0.type as! Device.Type) }
+    static let knownDevicesIds: [String] = DeviceType.allCases.filter{ $0.id != "none" }.map{ $0.id }
 
     enum UUID: String, CustomStringConvertible, CaseIterable {
         

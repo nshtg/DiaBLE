@@ -46,6 +46,7 @@ struct OnlineView: View {
                         }
                     }
                 }.foregroundColor(.accentColor)
+                    .padding(.bottom, 4)
 
                 WebView(site: settings.nightscoutSite)
 
