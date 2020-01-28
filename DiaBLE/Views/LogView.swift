@@ -34,9 +34,7 @@ struct LogView: View {
                         }
                     }) { VStack {
                         Image(systemName: "radiowaves.left")
-                            .resizable()
-                            .rotationEffect(.degrees(90))
-                            .frame(width: 16, height: 32)
+                            .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32)
                         Text("NFC").bold().offset(y: -16)
                         }
                     }.alert(isPresented: $showingNFCAlert) {
@@ -78,9 +76,7 @@ struct LogView: View {
                 Button(action: {
                     self.settings.debugLevel = 1 - self.settings.debugLevel
                 }) { VStack {
-                    Image(systemName: "wrench.fill")
-                        .resizable()
-                        .frame(width: 24, height: 24)
+                    Image(systemName: "wrench.fill").resizable().frame(width: 24, height: 24)
                     Text(settings.debugLevel == 1 ? "Devel" : "Basic").font(.caption).offset(y: -6)
                     }
                 }.background(settings.debugLevel == 1 ? Color.accentColor : Color.clear)
@@ -89,18 +85,14 @@ struct LogView: View {
 
                 Button(action: { UIPasteboard.general.string = self.log.text }) {
                     VStack {
-                        Image(systemName: "doc.on.doc")
-                            .resizable()
-                            .frame(width: 24, height: 24)
+                        Image(systemName: "doc.on.doc").resizable().frame(width: 24, height: 24)
                         Text("Copy").offset(y: -6)
                     }
                 }
 
                 Button(action: { self.log.text = "Log cleared \(Date().local)\n" }) {
                     VStack {
-                        Image(systemName: "clear")
-                            .resizable()
-                            .frame(width: 24, height: 24)
+                        Image(systemName: "clear").resizable().frame(width: 24, height: 24)
                         Text("Clear").offset(y: -6)
                     }
                 }
@@ -110,9 +102,7 @@ struct LogView: View {
                     self.log.text = self.log.text.split(separator:"\n").reversed().joined(separator: "\n")
                     if !self.settings.reversedLog { self.log.text.append(" \n") }
                 }) { VStack {
-                    Image(systemName: "backward.fill")
-                        .resizable()
-                        .frame(width: 12, height: 12).offset(y: 5)
+                    Image(systemName: "backward.fill").resizable().frame(width: 12, height: 12).offset(y: 5)
                     Text(" REV ").offset(y: -2)
                     }
                 }.background(settings.reversedLog ? Color.accentColor : Color.clear)
@@ -125,9 +115,7 @@ struct LogView: View {
                     self.settings.logging.toggle()
                     self.app.main.log("\(self.settings.logging ? "Log started" : "Log stopped") \(Date().local)")
                 }) { VStack {
-                    Image(systemName: settings.logging ? "stop.circle" : "play.circle")
-                        .resizable()
-                        .frame(width: 32, height: 32)
+                    Image(systemName: settings.logging ? "stop.circle" : "play.circle").resizable().frame(width: 32, height: 32)
                     }
                 }.foregroundColor(settings.logging ? .red : .green)
 

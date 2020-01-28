@@ -160,10 +160,7 @@ struct Monitor: View {
                     }
                 }) { VStack {
                     Image(systemName: "radiowaves.left")
-                        .resizable()
-                        .rotationEffect(.degrees(90))
-                        .frame(width: 16, height: 32)
-                        .offset(y: 8)
+                        .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32).offset(y: 8)
                     Text("NFC").font(.footnote).bold().offset(y: -8)
                     Text("  Scan  ").font(.footnote).offset(y: -12)
                     }

@@ -145,7 +145,7 @@ class Settings: ObservableObject {
     @Published var preferredDevicePattern: String = UserDefaults.standard.string(forKey: "preferredDevicePattern")! {
         willSet(pattern) {
             if !pattern.isEmpty {
-                if !preferredTransmitter.id.lowercased().contains(pattern.lowercased()) {
+                if !preferredTransmitter.id.contains(pattern.lowercased()) {
                     preferredTransmitter = .none
                 }
             }
