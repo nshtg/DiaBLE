@@ -17,10 +17,10 @@ struct DataView: View {
         NavigationView {
             VStack {
 
-                if app.transmitterState == "Connected" {
-                    Text("\(Date().dateTime)")
-                        .foregroundColor(.white)
+                Text("\(Date().dateTime)")
+                    .foregroundColor(.white)
 
+                if app.transmitterState == "Connected" {
                     Text(readingCountdown > 0 || info.text.hasSuffix("sensor") ?
                         "\(readingCountdown) s" : "")
                         .fixedSize()

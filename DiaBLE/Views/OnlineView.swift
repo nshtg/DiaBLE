@@ -24,24 +24,24 @@ struct OnlineView: View {
                         .onReceive(timer) { _ in
                             self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
                     }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
-
-                    WebView(site: settings.nightscoutSite)
-
-                    HStack {
-                        Image("Nightscout").resizable().frame(width: 32, height: 32).shadow(color: Color.white, radius: 2.0 )
-                        VStack(spacing: 0) {
-                            HStack(spacing: 0) {
-                                Text("https://").foregroundColor(Color.init(UIColor.lightGray))
-                                TextField("Nightscout URL", text: $settings.nightscoutSite)
-                            }
-                            SecureField("token", text: $settings.nightscoutToken)
-                        }
-                        Button(action: {
-                            // TODO: reload
-                        }
-                        ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)}
-                    }.foregroundColor(.accentColor)
                 }
+
+                WebView(site: settings.nightscoutSite)
+
+                HStack {
+                    Image("Nightscout").resizable().frame(width: 32, height: 32).shadow(color: Color.white, radius: 2.0 )
+                    VStack(spacing: 0) {
+                        HStack(spacing: 0) {
+                            Text("https://").foregroundColor(Color.init(UIColor.lightGray))
+                            TextField("Nightscout URL", text: $settings.nightscoutSite)
+                        }
+                        SecureField("token", text: $settings.nightscoutToken)
+                    }
+                    Button(action: {
+                        // TODO: reload
+                    }
+                    ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)}
+                }.foregroundColor(.accentColor)
                 Spacer().frame(maxHeight: .infinity)
             }
             .navigationBarTitle("TODO:  Online", displayMode: .inline)

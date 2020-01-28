@@ -70,10 +70,12 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
     public func log(_ text: String) {
         if settings.logging || text.hasPrefix("Log") {
-            if settings.reversedLog {
-                log.text = "\(text)\n \n\(log.text)"
-            } else {
-                log.text.append(" \n\(text)\n")
+            DispatchQueue.main.async {
+                if self.settings.reversedLog {
+                    self.log.text = "\(text)\n \n\(self.log.text)"
+                } else {
+                    self.log.text.append(" \n\(text)\n")
+                }
             }
         }
         print("\(text)")
