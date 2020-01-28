@@ -19,7 +19,7 @@ struct DataView: View {
 
                 if app.transmitterState == "Connected" {
                     Text("\(Date().dateTime)")
-                    .foregroundColor(.white)
+                        .foregroundColor(.white)
 
                     Text(readingCountdown > 0 || info.text.hasSuffix("sensor") ?
                         "\(readingCountdown) s" : "")
@@ -31,46 +31,55 @@ struct DataView: View {
 
                 VStack {
                     HStack {
-                        VStack {
-                            Text("OOP history")
-                            ScrollView {
-                                ForEach(history.values) { glucose in
-                                    Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
-                                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        if history.values.count > 0 {
+                            VStack {
+                                Text("OOP history")
+                                ScrollView {
+                                    ForEach(history.values) { glucose in
+                                        Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
+                                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                                    }
                                 }
-                            }
-                        }.foregroundColor(.blue)
+                            }.foregroundColor(.blue)
+                        }
 
-                        VStack {
-                            Text("Raw history")
-                            ScrollView {
-                                ForEach(history.rawValues) { glucose in
-                                    Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
-                                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        if history.rawValues.count > 0 {
+                            VStack {
+                                Text("Raw history")
+                                ScrollView {
+                                    ForEach(history.rawValues) { glucose in
+                                        Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
+                                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                                    }
                                 }
-                            }
-                        }.foregroundColor(.yellow)
+                            }.foregroundColor(.yellow)
+                        }
                     }
 
                     HStack {
-                        VStack {
-                            Text("Calibrated history")
-                            ScrollView {
-                                ForEach(history.calibratedValues) { glucose in
-                                    Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
-                                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                        if history.calibratedValues.count > 0 {
+                            VStack {
+                                Text("Calibrated history")
+                                ScrollView {
+                                    ForEach(history.calibratedValues) { glucose in
+                                        Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
+                                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                                    }
                                 }
-                            }
-                        }.foregroundColor(.purple)
-                        VStack {
-                            Text("Calibrated trend")
-                            ScrollView {
-                                ForEach(history.calibratedTrend) { glucose in
-                                    Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
-                                        .frame(maxWidth: .infinity, alignment: .topLeading)
+                            }.foregroundColor(.purple)
+                        }
+
+                        if history.calibratedTrend.count > 0 {
+                            VStack {
+                                Text("Calibrated trend")
+                                ScrollView {
+                                    ForEach(history.calibratedTrend) { glucose in
+                                        Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
+                                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                                    }
                                 }
-                            }
-                        }.foregroundColor(.purple)
+                            }.foregroundColor(.purple)
+                        }
                     }
 
                     if history.storedValues.count > 0 {
