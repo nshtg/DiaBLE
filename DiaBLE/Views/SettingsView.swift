@@ -16,18 +16,21 @@ struct SettingsView: View {
                 VStack(spacing: 20) {
                     VStack {
                         HStack(spacing: 0) {
-                            Button(action: {} ) { Image("Bluetooth").resizable().frame(width: 32, height: 32).foregroundColor(.accentColor)
-                            }
+                            Button(action: {} ) { Image("Bluetooth").resizable().frame(width: 32, height: 32) }
                             Picker(selection: $settings.preferredTransmitter, label: Text("Preferred")) {
                                 ForEach(TransmitterType.allCases) { t in
                                     Text(t.name).tag(t)
                                 }
                             }.pickerStyle(SegmentedPickerStyle())
                         }
-                        TextField("device name pattern", text: $settings.preferredDevicePattern).foregroundColor(.accentColor)
-                            .padding(.horizontal, 32)
-                            .frame(alignment: .center)
-                    }
+                        HStack(spacing: 0) {
+                            Button(action: {} ) { Image(systemName: "line.horizontal.3.decrease.circle").resizable().frame(width: 20, height: 20).padding(.leading, 6)
+                            }
+                            TextField("device name pattern", text: $settings.preferredDevicePattern)
+                                .padding(.horizontal, 12)
+                                .frame(alignment: .center)
+                        }
+                    }.foregroundColor(.accentColor)
 
                     HStack  {
                         Image(systemName: "clock.fill").resizable().frame(width: 18, height: 18).padding(.leading, 7).foregroundColor(.white)

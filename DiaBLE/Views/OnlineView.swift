@@ -18,7 +18,7 @@ struct OnlineView: View {
             VStack(spacing: 0) {
 
                 HStack {
-                    Image("Nightscout").resizable().frame(width: 32, height: 32).shadow(color: .white, radius: 4.0 )
+                    Image("Nightscout").resizable().frame(width: 32, height: 32).shadow(color: Color.init(UIColor.cyan), radius: 4.0 )
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
                             Text("https://").foregroundColor(Color.init(UIColor.lightGray))
