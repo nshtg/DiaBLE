@@ -95,7 +95,7 @@ class Settings: ObservableObject {
     static let defaults: [String: Any] = [
         "preferredTransmitter": TransmitterType.none.id,
         "preferredWatch": WatchType.none.id,
-        "preferredDevicePattern": "",
+        "preferredDevicePattern": "bubble miaomiao watlaa",
         "readingInterval": 5,
 
         "targetLow": 80.0,
@@ -145,7 +145,7 @@ class Settings: ObservableObject {
     @Published var preferredDevicePattern: String = UserDefaults.standard.string(forKey: "preferredDevicePattern")! {
         willSet(pattern) {
             if !pattern.isEmpty {
-                if !preferredTransmitter.id.contains(pattern.lowercased()) {
+                if !preferredTransmitter.id.matches(pattern) {
                     preferredTransmitter = .none
                 }
             }

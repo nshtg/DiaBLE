@@ -204,9 +204,9 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         var found = false
 
-        if name.lowercased().contains("wat") { // Found a watch: hopefully people don't rename their watch device name...
+        if name.matches("wat") { // Found a watch: hopefully people don't rename their watch device name...
             for watchType in WatchType.allCases {
-                if name.lowercased().contains(watchType.id) {
+                if name.matches(watchType.id) {
                     found = true // found a watch different than the Apple Watch
                 }
                 if settings.preferredWatch == .none || settings.preferredWatch == .appleWatch {
@@ -221,7 +221,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             found = false
         }
         for transmitterType in TransmitterType.allCases {
-            if name.lowercased().contains(transmitterType.id) {
+            if name.matches(transmitterType.id) {
                 found = true
                 if settings.preferredTransmitter != .none && transmitterType != settings.preferredTransmitter {
                     found = false
@@ -232,8 +232,8 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             }
         }
 
-        if (found && !settings.preferredDevicePattern.isEmpty && !name.lowercased().contains(settings.preferredDevicePattern.lowercased()))
-            || !found && (settings.preferredTransmitter != .none || settings.preferredWatch != .none || (!settings.preferredDevicePattern.isEmpty && !name.lowercased().contains(settings.preferredDevicePattern.lowercased()))) {
+        if (found && !settings.preferredDevicePattern.isEmpty && !name.matches(settings.preferredDevicePattern))
+            || !found && (settings.preferredTransmitter != .none || settings.preferredWatch != .none || (!settings.preferredDevicePattern.isEmpty && !name.matches(settings.preferredDevicePattern))) {
             log("Bluetooth: skipping \"\(name)\" service")
             main.info("\n\nScanning...\nSkipping \(name)...")
             return
@@ -244,9 +244,9 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         if name == "Bubble" {
             app.transmitter = Bubble(peripheral: peripheral, main: main)
-        } else if name.contains("miaomiao") {
+        } else if name.matches("miaomiao") {
             app.transmitter = MiaoMiao(peripheral: peripheral, main: main)
-        } else if name.lowercased().contains("wat") {
+        } else if name.matches("wat") {
             if name.hasPrefix("Watlaa") {
                 app.watch = Watlaa(peripheral: peripheral, main: main)
             } else {

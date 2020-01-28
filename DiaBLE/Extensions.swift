@@ -11,6 +11,10 @@ extension Data {
 extension String {
     var base64: String? { self.data(using: .utf8)?.base64EncodedString() }
     var base64Data: Data? { Data(base64Encoded: self) }
+
+    func matches(_ pattern: String) -> Bool {
+        return pattern.split(separator: " ").contains { self.lowercased().contains($0.lowercased()) }
+    }
 }
 
 
