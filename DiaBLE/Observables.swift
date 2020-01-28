@@ -59,7 +59,7 @@ class Log: ObservableObject {
 
 class Info: ObservableObject {
     @Published var text: String
-    init(_ text: String = "Scanning...") {
+    init(_ text: String = "Welcome to DiaBLE!") {
         self.text = text
     }
 }

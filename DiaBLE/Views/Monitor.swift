@@ -142,6 +142,7 @@ struct Monitor: View {
                     }
                     if centralManager.state == .poweredOn {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)
+                        self.app.main.info("\n\nScanning...")
                     }
                     if let healthKit = self.app.main.healthKit { healthKit.read() }
                 }

@@ -188,6 +188,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         case .poweredOn:
             log("Bluetooth state: Powered on")
             centralManager.scanForPeripherals(withServices: nil, options: nil)
+            main.info("\n\nScanning...")
         case .resetting:    log("Bluetooth state: Resetting")
         case .unauthorized: log("Bluetooth state: Unauthorized")
         case .unknown:      log("Bluetooth state: Unknown")
@@ -203,13 +204,16 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         var found = false
 
-        if name.lowercased().contains("wat") { // Hopefully people don't rename their watch device name...
+        if name.lowercased().contains("wat") { // Found a watch: hopefully people don't rename their watch device name...
             for watchType in WatchType.allCases {
                 if name.lowercased().contains(watchType.id) {
                     found = true // found a watch different than the Apple Watch
                 }
                 if settings.preferredWatch == .none || settings.preferredWatch == .appleWatch {
                     found = true // it is an Apple Watch and the user didn't choose another one
+                }
+                if settings.preferredWatch != .none && watchType != settings.preferredWatch {
+                    found = false
                 }
             }
         }
@@ -231,6 +235,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         if (found && !settings.preferredDevicePattern.isEmpty && !name.lowercased().contains(settings.preferredDevicePattern.lowercased()))
             || !found && (settings.preferredTransmitter != .none || settings.preferredWatch != .none || (!settings.preferredDevicePattern.isEmpty && !name.lowercased().contains(settings.preferredDevicePattern.lowercased()))) {
             log("Bluetooth: skipping \"\(name)\" service")
+            main.info("\n\nScanning...\nSkipping \"\(name)\"...")
             return
         }
 
@@ -375,14 +380,18 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         let name = peripheral.name ?? "Unnamed peripheral"
         app.transmitter.state = peripheral.state
         log("\(name) has disconnected.")
+        app.transmitterState = "Disconnected"
         if error != nil {
             let errorCode = CBError.Code(rawValue: (error! as NSError).code)! // 6 = timed out when out of range
             log("Bluetooth error type \(errorCode.rawValue): \(error!.localizedDescription)")
             if app.transmitter != nil && (settings.preferredTransmitter == .none || settings.preferredTransmitter.id == app.transmitter.type.id) {
                 centralManager.connect(peripheral, options: nil)
+            } else {
+                app.transmitter = nil
             }
+        } else {
+            app.transmitter = nil
         }
-        app.transmitterState = "Disconnected"
     }
 
 
