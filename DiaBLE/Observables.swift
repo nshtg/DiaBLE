@@ -21,6 +21,7 @@ class App: ObservableObject {
     init(
         transmitter: Transmitter! = nil,
         sensor: Sensor! = nil,
+        watch: Transmitter! = nil,
 
         selectedTab: Tab = .monitor,
 
@@ -92,8 +93,8 @@ class History: ObservableObject {
 class Settings: ObservableObject {
 
     static let defaults: [String: Any] = [
-        "preferredTransmitter": TransmitterType.none.rawValue,
-        "preferredWatch": WatchType.none.rawValue,
+        "preferredTransmitter": TransmitterType.none.id,
+        "preferredWatch": WatchType.none.id,
         "preferredDevicePattern": "",
         "readingInterval": 5,
 
@@ -121,12 +122,12 @@ class Settings: ObservableObject {
                 preferredWatch = .none
             }
             if type != .none {
-                preferredDevicePattern = type.rawValue
+                preferredDevicePattern = type.id
             } else {
                 preferredDevicePattern = ""
             }
         }
-        didSet { UserDefaults.standard.set(self.preferredTransmitter.rawValue, forKey: "preferredTransmitter") }
+        didSet { UserDefaults.standard.set(self.preferredTransmitter.id, forKey: "preferredTransmitter") }
     }
 
     @Published var preferredWatch: WatchType = WatchType(rawValue: UserDefaults.standard.string(forKey: "preferredWatch")!)! {
@@ -144,7 +145,9 @@ class Settings: ObservableObject {
     @Published var preferredDevicePattern: String = UserDefaults.standard.string(forKey: "preferredDevicePattern")! {
         willSet(pattern) {
             if !pattern.isEmpty {
-                preferredTransmitter = .none
+                if !preferredTransmitter.id.lowercased().contains(pattern.lowercased()) {
+                    preferredTransmitter = .none
+                }
             }
         }
         didSet { UserDefaults.standard.set(self.preferredDevicePattern, forKey: "preferredDevicePattern") }

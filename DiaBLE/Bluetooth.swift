@@ -75,8 +75,8 @@ enum DeviceType: CaseIterable, Hashable, Identifiable {
     var id: String {
         switch self {
         case .none:                  return "none"
-        case .transmitter(let type): return type.rawValue
-        case .watch(let type):       return type.rawValue
+        case .transmitter(let type): return type.id
+        case .watch(let type):       return type.id
         }
     }
 
@@ -205,7 +205,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         if name.lowercased().contains("wat") { // Hopefully people don't rename their watch device name...
             for watchType in WatchType.allCases {
-                if name.lowercased().contains(watchType.rawValue) {
+                if name.lowercased().contains(watchType.id) {
                     found = true // found a watch different than the Apple Watch
                 }
                 if settings.preferredWatch == .none || settings.preferredWatch == .appleWatch {
@@ -217,7 +217,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             found = false
         }
         for transmitterType in TransmitterType.allCases {
-            if name.lowercased().contains(transmitterType.rawValue) {
+            if name.lowercased().contains(transmitterType.id) {
                 found = true
                 if settings.preferredTransmitter != .none && transmitterType != settings.preferredTransmitter {
                     found = false

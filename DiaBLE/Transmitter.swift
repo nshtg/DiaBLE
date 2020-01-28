@@ -205,7 +205,7 @@ class MiaoMiao: Transmitter {
             buffer.append(data)
             main.log("\(name): partial buffer count: \(buffer.count)")
             if buffer.count >= 363 {
-                main.log("\(name) data count: \(Int(buffer[1]) << 8 + Int(buffer[2]))")
+                main.log("\(name): data count: \(Int(buffer[1]) << 8 + Int(buffer[2]))")
 
                 battery = Int(buffer[13])
                 firmware = buffer[14...15].hex
