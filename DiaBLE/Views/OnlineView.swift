@@ -4,7 +4,6 @@ import SwiftUI
 
 struct OnlineView: View {
     @EnvironmentObject var app: App
-    @EnvironmentObject var info: Info
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
@@ -20,11 +19,11 @@ struct OnlineView: View {
                 HStack {
                     Image("Nightscout").resizable().frame(width: 32, height: 32).shadow(color: Color.init(UIColor.cyan), radius: 4.0 )
                     VStack(spacing: 0) {
-                        HStack(spacing: 0) {
+                        HStack(alignment: .firstTextBaseline, spacing: 0) {
                             Text("https://").foregroundColor(Color.init(UIColor.lightGray))
                             TextField("Nightscout URL", text: $settings.nightscoutSite)
                         }
-                        HStack {
+                        HStack(alignment: .firstTextBaseline) {
                             Text("token:").foregroundColor(Color.init(UIColor.lightGray))
                             SecureField("token", text: $settings.nightscoutToken)
                         }
@@ -37,7 +36,7 @@ struct OnlineView: View {
                         ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32) }
 
                         if app.transmitterState == "Connected" {
-                            Text(readingCountdown > 0 || info.text.hasSuffix("sensor") ?
+                            Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
                                 "\(readingCountdown) s" : "")
                                 .fixedSize()
                                 .onReceive(timer) { _ in
@@ -60,7 +59,6 @@ struct OnlineView: View {
 
 struct OnlineView_Previews: PreviewProvider {
     @EnvironmentObject var app: App
-    @EnvironmentObject var info: Info
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
@@ -68,7 +66,6 @@ struct OnlineView_Previews: PreviewProvider {
         Group {
             ContentView()
                 .environmentObject(App.test(tab: .online))
-                .environmentObject(Info.test)
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

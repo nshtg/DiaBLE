@@ -4,7 +4,6 @@ import SwiftUI
 
 struct DataView: View {
     @EnvironmentObject var app: App
-    @EnvironmentObject var info: Info
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
@@ -21,7 +20,7 @@ struct DataView: View {
                     .foregroundColor(.white)
 
                 if app.transmitterState == "Connected" {
-                    Text(readingCountdown > 0 || info.text.hasSuffix("sensor") ?
+                    Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
                         "\(readingCountdown) s" : "")
                         .fixedSize()
                         .onReceive(timer) { _ in
@@ -115,7 +114,6 @@ struct DataView: View {
 
 struct DataView_Previews: PreviewProvider {
     @EnvironmentObject var app: App
-    @EnvironmentObject var info: Info
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
@@ -123,7 +121,6 @@ struct DataView_Previews: PreviewProvider {
         Group {
             ContentView()
                 .environmentObject(App.test(tab: .data))
-                .environmentObject(Info.test)
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

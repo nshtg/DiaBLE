@@ -122,7 +122,6 @@ struct Graph: View {
 
 struct Graph_Previews: PreviewProvider {
     @EnvironmentObject var app: App
-    @EnvironmentObject var info: Info
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
@@ -130,7 +129,6 @@ struct Graph_Previews: PreviewProvider {
         Group {
             ContentView()
                 .environmentObject(App.test(tab: .monitor))
-                .environmentObject(Info.test)
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

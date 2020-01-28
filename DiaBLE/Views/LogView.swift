@@ -4,7 +4,6 @@ import SwiftUI
 
 struct LogView: View {
     @EnvironmentObject var app: App
-    @EnvironmentObject var info: Info
     @EnvironmentObject var log: Log
     @EnvironmentObject var settings: Settings
 
@@ -64,7 +63,7 @@ struct LogView: View {
 
                 if app.transmitterState == "Connected" {
 
-                    Text(readingCountdown > 0 || info.text.hasSuffix("sensor") ?
+                    Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
                         "\(readingCountdown) s" : "")
                         .fixedSize()
                         .onReceive(timer) { _ in
@@ -131,7 +130,6 @@ struct LogView: View {
 
 struct LogView_Previews: PreviewProvider {
     @EnvironmentObject var app: App
-    @EnvironmentObject var info: Info
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
@@ -139,7 +137,6 @@ struct LogView_Previews: PreviewProvider {
         Group {
             ContentView()
                 .environmentObject(App.test(tab: .log))
-                .environmentObject(Info.test)
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

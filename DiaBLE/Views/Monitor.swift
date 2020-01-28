@@ -4,7 +4,6 @@ import SwiftUI
 
 struct Monitor: View {
     @EnvironmentObject var app: App
-    @EnvironmentObject var info: Info
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
@@ -52,7 +51,7 @@ struct Monitor: View {
 
                         if app.transmitterState == "Connected" {
 
-                            Text(readingCountdown > 0 || info.text.hasSuffix("sensor") ?
+                            Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
                                 "\(readingCountdown) s" : "")
                                 .fixedSize()
                                 .onReceive(timer) { _ in
@@ -102,7 +101,7 @@ struct Monitor: View {
 
                 }.font(.footnote).foregroundColor(.yellow)
 
-                Text(info.text)
+                Text(app.info)
                     .font(.footnote)
                     .padding(.vertical, 5)
 
@@ -178,7 +177,6 @@ struct Monitor: View {
 
 struct Monitor_Previews: PreviewProvider {
     @EnvironmentObject var app: App
-    @EnvironmentObject var info: Info
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
@@ -186,7 +184,6 @@ struct Monitor_Previews: PreviewProvider {
         Group {
             ContentView()
                 .environmentObject(App.test(tab: .monitor))
-                .environmentObject(Info.test)
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

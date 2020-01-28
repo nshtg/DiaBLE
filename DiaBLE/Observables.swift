@@ -14,7 +14,9 @@ class App: ObservableObject {
     @Published var lastReadingDate: Date
     @Published var oopAlarm: String
     @Published var oopTrend: String
+
     @Published var transmitterState: String
+    @Published var info: String
 
     @Published var calibration: Calibration
 
@@ -29,7 +31,10 @@ class App: ObservableObject {
         lastReadingDate: Date = Date(),
         oopAlarm: String = "",
         oopTrend: String = "",
+
         transmitterState: String = "",
+        info: String = "Welcome to DiaBLE!",
+
 
         calibration: Calibration = Calibration()) {
 
@@ -42,7 +47,9 @@ class App: ObservableObject {
         self.lastReadingDate = lastReadingDate
         self.oopAlarm = oopAlarm
         self.oopTrend = oopTrend
+
         self.transmitterState = transmitterState
+        self.info = info
 
         self.calibration = calibration
     }
@@ -52,14 +59,6 @@ class App: ObservableObject {
 class Log: ObservableObject {
     @Published var text: String
     init(_ text: String = "Log \(Date().local)\n") {
-        self.text = text
-    }
-}
-
-
-class Info: ObservableObject {
-    @Published var text: String
-    init(_ text: String = "Welcome to DiaBLE!") {
         self.text = text
     }
 }
@@ -263,16 +262,12 @@ extension App {
             oopAlarm: "HIGH_GLUCOSE",
             oopTrend: "FALLING",
             transmitterState: "Connected",
+            info: "Sensor + Transmitter\nError about connection\nError about sensor",
             calibration: Calibration(slopeSlope: 0.123456, slopeOffset: 0.123456, offsetOffset: -15.123456, offsetSlope: 0.123456)
         )
     }
 }
 
-extension Info {
-    static var test: Info {
-        return Info("Sensor + Transmitter\nError about connection\nError about sensor")
-    }
-}
 
 extension History {
     static var test: History {

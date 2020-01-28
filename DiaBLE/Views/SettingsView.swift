@@ -102,10 +102,18 @@ struct SettingsView: View {
                     }.accentColor(.red)
                 }.padding(.horizontal, 40)
 
-                Button(action: {
-                    self.settings.mutedAudio.toggle()
-                }) {
-                    Image(systemName: settings.mutedAudio ? "speaker.slash.fill" : "speaker.2.fill").resizable().frame(width: 24, height: 24).foregroundColor(.accentColor)
+                HStack(spacing: 20) {
+                    Button(action: {
+                        self.settings.mutedAudio.toggle()
+                    }) {
+                        Image(systemName: settings.mutedAudio ? "speaker.slash.fill" : "speaker.2.fill").resizable().frame(width: 24, height: 24).foregroundColor(.accentColor)
+                    }
+
+                    Button(action: {
+                        self.settings.mutedAudio.toggle()
+                    }) {
+                        Image(systemName: settings.mutedAudio ? "calendar.circle" : "calendar.circle.fill").resizable().frame(width: 24, height: 24).foregroundColor(.accentColor)
+                    }
                 }
 
                 Spacer()
@@ -120,7 +128,6 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     @EnvironmentObject var app: App
-    @EnvironmentObject var info: Info
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
@@ -128,7 +135,6 @@ struct SettingsView_Previews: PreviewProvider {
         Group {
             ContentView()
                 .environmentObject(App.test(tab: .settings))
-                .environmentObject(Info.test)
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

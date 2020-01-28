@@ -32,7 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
             // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
 
-            let contentView = ContentView().environmentObject(mainDelegate.app).environmentObject(mainDelegate.log).environmentObject(mainDelegate.info).environmentObject(mainDelegate.history).environmentObject(mainDelegate.settings).environment(\.managedObjectContext, context)
+            let contentView = ContentView().environmentObject(mainDelegate.app).environmentObject(mainDelegate.log).environmentObject(mainDelegate.history).environmentObject(mainDelegate.settings).environment(\.managedObjectContext, context)
             window.rootViewController = UIHostingController(rootView: contentView)
             self.window = window
             window.makeKeyAndVisible()

@@ -7,7 +7,6 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
     var app: App
     var log: Log
-    var info: Info
     var history: History
     var settings: Settings
 
@@ -21,7 +20,6 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
     override init() {
         app = App()
         log = Log()
-        info = Info()
         history = History()
         settings = Settings()
 
@@ -84,9 +82,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
     public func info(_ text: String) {
         DispatchQueue.main.async {
             if text.prefix(2) == "\n\n" {
-                self.info.text = String(text.dropFirst(2))
-            } else if !self.info.text.contains(text) {
-                self.info.text.append(" \(text)")
+                self.app.info = String(text.dropFirst(2))
+            } else if !self.app.info.contains(text) {
+                self.app.info.append(" \(text)")
             }
         }
     }
