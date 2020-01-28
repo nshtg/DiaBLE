@@ -17,32 +17,39 @@ struct OnlineView: View {
         NavigationView {
             VStack(spacing: 0) {
 
-                if app.transmitterState == "Connected" {
-                    Text(readingCountdown > 0 || info.text.hasSuffix("sensor") ?
-                        "\(readingCountdown) s" : "")
-                        .fixedSize()
-                        .onReceive(timer) { _ in
-                            self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                    }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
-                }
-
-                WebView(site: settings.nightscoutSite)
-
                 HStack {
-                    Image("Nightscout").resizable().frame(width: 32, height: 32).shadow(color: Color.white, radius: 2.0 )
+                    Image("Nightscout").resizable().frame(width: 32, height: 32).shadow(color: .white, radius: 4.0 )
                     VStack(spacing: 0) {
                         HStack(spacing: 0) {
                             Text("https://").foregroundColor(Color.init(UIColor.lightGray))
                             TextField("Nightscout URL", text: $settings.nightscoutSite)
                         }
-                        SecureField("token", text: $settings.nightscoutToken)
+                        HStack {
+                            Text("token:").foregroundColor(Color.init(UIColor.lightGray))
+                            SecureField("token", text: $settings.nightscoutToken)
+                        }
                     }
-                    Button(action: {
-                        // TODO: reload
+
+                    VStack(spacing: 0) {
+                        Button(action: {
+                            // TODO: reload
+                        }
+                        ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32) }
+
+                        if app.transmitterState == "Connected" {
+                            Text(readingCountdown > 0 || info.text.hasSuffix("sensor") ?
+                                "\(readingCountdown) s" : "")
+                                .fixedSize()
+                                .onReceive(timer) { _ in
+                                    self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
+                            }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
+                        }
                     }
-                    ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)}
                 }.foregroundColor(.accentColor)
-                Spacer().frame(maxHeight: .infinity)
+
+                WebView(site: settings.nightscoutSite)
+
+                // Spacer().frame(maxHeight: .infinity)
             }
             .navigationBarTitle("TODO:  Online", displayMode: .inline)
         }.navigationViewStyle(StackNavigationViewStyle())
