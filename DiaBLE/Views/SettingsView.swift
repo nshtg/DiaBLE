@@ -40,11 +40,10 @@ struct SettingsView: View {
                             }
                         }.pickerStyle(SegmentedPickerStyle())
                     }
-                    Button(action: {
-                        _ = self.settings.preferredWatch
-                    }) {
+
+                    NavigationLink(destination: Details(transmitter: app.transmitter)) {
                         Text(" Details... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
-                    }.disabled(self.settings.preferredWatch == .none)
+                    }.disabled(self.app.transmitter == nil || self.settings.preferredWatch == .none)
                 }
 
                 Spacer()

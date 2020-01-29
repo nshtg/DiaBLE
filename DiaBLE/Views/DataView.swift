@@ -104,10 +104,8 @@ struct DataView: View {
                     }
                 }
             }
-                //            .font(Font.footnote.monospacedDigit())
-                .font(.system(.caption, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
-
-                .navigationBarTitle("TODO:  Data", displayMode: .inline)
+            .font(.system(.caption, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
+            .navigationBarTitle("TODO:  Data", displayMode: .inline)
 
         }.navigationViewStyle(StackNavigationViewStyle())
     }
