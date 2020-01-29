@@ -35,7 +35,7 @@ struct DataView: View {
                                 Text("OOP history")
                                 ScrollView {
                                     ForEach(history.values) { glucose in
-                                        Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
+                                        Text("\(String(glucose.id)) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
                                             .frame(maxWidth: .infinity, alignment: .topLeading)
                                     }
                                 }
@@ -47,7 +47,7 @@ struct DataView: View {
                                 Text("Raw history")
                                 ScrollView {
                                     ForEach(history.rawValues) { glucose in
-                                        Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
+                                        Text("\(String(glucose.id)) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
                                             .frame(maxWidth: .infinity, alignment: .topLeading)
                                     }
                                 }
@@ -61,7 +61,7 @@ struct DataView: View {
                                 Text("Calibrated history")
                                 ScrollView {
                                     ForEach(history.calibratedValues) { glucose in
-                                        Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
+                                        Text("\(String(glucose.id)) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
                                             .frame(maxWidth: .infinity, alignment: .topLeading)
                                     }
                                 }
@@ -73,7 +73,7 @@ struct DataView: View {
                                 Text("Calibrated trend")
                                 ScrollView {
                                     ForEach(history.calibratedTrend) { glucose in
-                                        Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
+                                        Text("\(String(glucose.id)) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
                                             .frame(maxWidth: .infinity, alignment: .topLeading)
                                     }
                                 }
@@ -85,7 +85,7 @@ struct DataView: View {
                                 Text("Raw trend")
                                 ScrollView {
                                     ForEach(history.rawTrend) { glucose in
-                                        Text("\(String(glucose.id))  \(glucose.date.shortDateTime)   \(String(glucose.value))")
+                                        Text("\(String(glucose.id)) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
                                             .frame(maxWidth: .infinity, alignment: .topLeading)
                                     }
                                 }
@@ -97,15 +97,17 @@ struct DataView: View {
                         VStack {
                             Text("HealthKit")
                             List(history.storedValues) { glucose in
-                                Text("\(String(glucose.source[..<glucose.source.lastIndex(of: " ")!])) \(glucose.date.shortDateTime)   \(String(glucose.value))")
+                                Text("\(String(glucose.source[..<glucose.source.lastIndex(of: " ")!])) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
                                     .frame(maxWidth: .infinity, alignment: .topLeading)
                             }.onAppear { if let healthKit = self.app.main?.healthKit { healthKit.read() } }
                         }.foregroundColor(.red)
                     }
                 }
             }
-            .font(Font.footnote.monospacedDigit())
-            .navigationBarTitle("TODO:  Data", displayMode: .inline)
+                //            .font(Font.footnote.monospacedDigit())
+                .font(.system(.caption, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
+
+                .navigationBarTitle("TODO:  Data", displayMode: .inline)
 
         }.navigationViewStyle(StackNavigationViewStyle())
     }

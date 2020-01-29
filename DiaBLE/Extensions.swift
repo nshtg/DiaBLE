@@ -26,7 +26,7 @@ extension Date {
     }
     var shortDateTime: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM-d  HH:mm"
+        formatter.dateFormat = "MMM-d HH:mm"
         return formatter.string(from: self)
     }
     var dateTime: String {
