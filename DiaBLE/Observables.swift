@@ -147,6 +147,9 @@ class Settings: ObservableObject {
                 if !preferredTransmitter.id.matches(pattern) {
                     preferredTransmitter = .none
                 }
+                if !preferredWatch.id.matches(pattern) {
+                    preferredWatch = .none
+                }
             }
         }
         didSet { UserDefaults.standard.set(self.preferredDevicePattern, forKey: "preferredDevicePattern") }
