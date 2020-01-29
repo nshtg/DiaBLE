@@ -5,7 +5,7 @@ import CoreBluetooth
 class BLE {
 
     static let knownDevices: [Device.Type] = DeviceType.allCases.filter{ $0.id != "none" }.map{ ($0.type as! Device.Type) }
-    static let knownDevicesIds: [String] = DeviceType.allCases.filter{ $0.id != "none" }.map{ $0.id }
+    static let knownDevicesIds: [String]   = DeviceType.allCases.filter{ $0.id != "none" }.map{ $0.id }
 
     enum UUID: String, CustomStringConvertible, CaseIterable {
         
@@ -48,15 +48,15 @@ class BLE {
 extension CBCharacteristicProperties: CustomStringConvertible {
     public var description: String {
         var d = [String: Bool]()
-        d["Broadcast"] = self.contains(.broadcast)
-        d["Read"] = self.contains(.read)
-        d["WriteWithoutResponse"] = self.contains(.writeWithoutResponse)
-        d["Write"] = self.contains(.write)
-        d["Notify"] = self.contains(.notify)
-        d["Indicate"] = self.contains(.indicate)
-        d["AuthenticatedSignedWrites"] = self.contains(.authenticatedSignedWrites)
-        d["ExtendedProperties"] = self.contains(.extendedProperties)
-        d["NotifyEncryptionRequired"] = self.contains(.notifyEncryptionRequired)
+        d["Broadcast"]                  = self.contains(.broadcast)
+        d["Read"]                       = self.contains(.read)
+        d["WriteWithoutResponse"]       = self.contains(.writeWithoutResponse)
+        d["Write"]                      = self.contains(.write)
+        d["Notify"]                     = self.contains(.notify)
+        d["Indicate"]                   = self.contains(.indicate)
+        d["AuthenticatedSignedWrites"]  = self.contains(.authenticatedSignedWrites)
+        d["ExtendedProperties"]         = self.contains(.extendedProperties)
+        d["NotifyEncryptionRequired"]   = self.contains(.notifyEncryptionRequired)
         d["IndicateEncryptionRequired"] = self.contains(.indicateEncryptionRequired)
         return "\(d.filter{$1}.keys)"
     }
@@ -160,6 +160,11 @@ class Device {
         peripheral?.readValue(for: characteristics[uuid.rawValue]!)
         if main.settings.debugLevel > 0 { main.log("\(name): requested value for \(uuid)") }
     }
+
+
+    func parseManufacturerData(_ data: Data) {
+        main.log("Bluetooth: \(name)'s advertised manufacturer data: \(data.hex)" )
+    }
     
 }
 
@@ -259,17 +264,8 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             app.transmitter.name = name
         }
 
-        if let manifacturerData = advertisement["kCBAdvDataManufacturerData"] as? Data {
-            if app.transmitter.type == .transmitter(.bubble) {
-                let transmitterData = Data(manifacturerData.suffix(4))
-                let firmware = "\(Int(transmitterData[0])).\(Int(transmitterData[1]))"
-                let hardware = "\(Int(transmitterData[2])).\(Int(transmitterData[3]))"
-                let macAddress = Data(manifacturerData[2...7])
-                log("Bluetooth: \(Bubble.name)'s advertised manufacturer data: firmware: \(firmware), hardware: \(hardware), MAC address: \(macAddress.hexAddress)" )
-                app.transmitter.macAddress = macAddress
-            } else {
-                log("Bluetooth: \(name)'s advertised manufacturer data: \(manifacturerData.hex)" )
-            }
+        if let manufacturerData = advertisement["kCBAdvDataManufacturerData"] as? Data {
+            app.transmitter.parseManufacturerData(manufacturerData)
         }
 
         main.info("\n\n\(app.transmitter.name)")
@@ -340,7 +336,6 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                 // } else if let uuid = OtherDevice.UUID(rawValue: uuid) {
                 //    msg += " (\(uuid))"
             }
-
 
             app.transmitter.characteristics[uuid] = characteristic
 

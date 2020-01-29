@@ -67,10 +67,22 @@ class Bubble: Transmitter {
         }
     }
 
+
     override func readCommand(interval: Int = 5) -> [UInt8] {
         return [0x00, 0x00, UInt8(interval)]
     }
 
+
+    override func parseManufacturerData(_ data: Data) {
+        let transmitterData = Data(data.suffix(4))
+        let firmware = "\(Int(transmitterData[0])).\(Int(transmitterData[1]))"
+        let hardware = "\(Int(transmitterData[2])).\(Int(transmitterData[3]))"
+        let macAddress = Data(data[2...7])
+        main.log("\(Self.name): advertised manufacturer data: firmware: \(firmware), hardware: \(hardware), MAC address: \(macAddress.hexAddress)" )
+        self.macAddress = macAddress
+    }
+
+    
     override func read(_ data: Data, for uuid: String) {
 
         // https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/Models/Bubble.java
