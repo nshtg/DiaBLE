@@ -105,6 +105,14 @@ struct Monitor: View {
                     .font(.footnote)
                     .padding(.vertical, 5)
 
+                if app.info.hasPrefix("Scanning") {
+                    Button(action: {
+                        self.app.main.centralManager.stopScan()
+                        self.app.main.info("\n\nStopped scanning")
+                    }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
+                    }.foregroundColor(.red)
+                }
+
                 Spacer()
 
                 if app.calibration.offsetOffset != 0.0 {
