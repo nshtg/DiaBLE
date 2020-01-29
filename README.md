@@ -5,7 +5,7 @@ Experimenting with the Bluetooth BLE devices I bought for the Abbott FreeStyle L
 * a universal **SwiftUI** application for iPhone, iPad and Mac Catalyst;
 * scanning the Libre directly via **NFC**;
 * using online servers for calibrating just like **Abbott’s algorithm**;
-* varying the **reading interval** (Bubble allows to set it from 1 to 15 minutes and the MiaoMiao to reduce it to 1 or 3 minutes);
+* varying the **reading interval** (the Bubble firmware allows to set it from 1 to 15 minutes while the MiaoMiao one to reduce it to 1 or 3 minutes);
 * a detailed **log** to check the traffic from/to the BLE devices and remote servers.
 
 <p align ="center"><img src="https://drive.google.com/uc?export=view&id=1qYQa7PXcXI34FuCf7lF9MFnGvXU8hSsH" width="25%" />&nbsp;&nbsp;<img src="https://drive.google.com/uc?export=view&id=1APov1uxAI2P8m3UwPb47dkgi1Cus9wxU" width="25%" /></p>
