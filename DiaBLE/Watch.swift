@@ -116,7 +116,7 @@ class Watlaa: Watch {
             main.log("\(name): slope: \(slope), intercept: \(intercept)")
 
         case .glucoseUnit:
-            if let unit = GlucoseUnit(rawValue: Int(data[0])) {
+            if let unit = GlucoseUnit(rawValue: GlucoseUnit.allCases[Int(data[0])].rawValue) {
                 main.log("\(name): glucose unit: \(unit)")
                 self.unit = unit
             }

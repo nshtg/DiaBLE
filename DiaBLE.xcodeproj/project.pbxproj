@@ -36,6 +36,7 @@
 		C5A5797223A2CF2C00945F72 /* LibreOOP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5797123A2CF2C00945F72 /* LibreOOP.swift */; };
 		C5C20E4523C77FD800475327 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4423C77FD800475327 /* DataView.swift */; };
 		C5C20E4723C780FB00475327 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4623C780FB00475327 /* Monitor.swift */; };
+		C5C7187B23E2FB5000D04EA7 /* Glucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C7187A23E2FB5000D04EA7 /* Glucose.swift */; };
 		C5C937E423CBA0AE00A87BAB /* HealthKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C937E323CBA0AE00A87BAB /* HealthKit.swift */; };
 		C5DB1CFB23DB6208009F5C68 /* Legacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DB1CFA23DB6208009F5C68 /* Legacy.swift */; };
 		C5DF10F423C783140023E0E2 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DF10F323C783140023E0E2 /* LogView.swift */; };
@@ -143,6 +144,7 @@
 		C5A5797123A2CF2C00945F72 /* LibreOOP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreOOP.swift; sourceTree = "<group>"; };
 		C5C20E4423C77FD800475327 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 		C5C20E4623C780FB00475327 /* Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitor.swift; sourceTree = "<group>"; };
+		C5C7187A23E2FB5000D04EA7 /* Glucose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glucose.swift; sourceTree = "<group>"; };
 		C5C80BCA23A27EFA00ACFDE9 /* DiaBLE.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiaBLE.entitlements; sourceTree = "<group>"; };
 		C5C937E323CBA0AE00A87BAB /* HealthKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKit.swift; sourceTree = "<group>"; };
 		C5DB1CFA23DB6208009F5C68 /* Legacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legacy.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				C5521C8123BB5D5A00826CFB /* Observables.swift */,
 				C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */,
 				C5FB2EF223A2794D0046F4F9 /* MainDelegate.swift */,
+				C5C7187A23E2FB5000D04EA7 /* Glucose.swift */,
 				C5A5796F23A2CF0700945F72 /* Sensor.swift */,
 				C5A5796D23A2CEE800945F72 /* Transmitter.swift */,
 				C5C937E323CBA0AE00A87BAB /* HealthKit.swift */,
@@ -569,6 +572,7 @@
 				C5C20E4523C77FD800475327 /* DataView.swift in Sources */,
 				C53C76ED23D9AFD700B59A98 /* Nightscout.swift in Sources */,
 				C5FB2EF323A2794D0046F4F9 /* MainDelegate.swift in Sources */,
+				C5C7187B23E2FB5000D04EA7 /* Glucose.swift in Sources */,
 				C5A5797223A2CF2C00945F72 /* LibreOOP.swift in Sources */,
 				C5DB1CFB23DB6208009F5C68 /* Legacy.swift in Sources */,
 				C5E1013C23A2774C00678DF6 /* SceneDelegate.swift in Sources */,
