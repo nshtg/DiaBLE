@@ -119,6 +119,7 @@ class Device {
     var battery: Int = -1
     var firmware: String = ""
     var hardware: String = ""
+    var serial: String = ""
     var macAddress: Data = Data()
 
     var buffer = Data()
@@ -431,16 +432,18 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
             case .batteryLevel:
                 app.transmitter.battery = Int(data[0])
-            case .model:
-                app.transmitter.hardware += "\n\(data.string)"
             case .firmware:
                 app.transmitter.firmware = data.string
+            case .serial:
+                app.transmitter.serial = data.string
+            case .manufacturer:
+                app.transmitter.hardware += data.string
+            case .model:
+                app.transmitter.hardware += "\n\(data.string)"
             case .hardware:
                 app.transmitter.hardware += " \(data.string)"
-            case .manufacturer:
-                app.transmitter.hardware = data.string
 
-            case .serial, .software:
+            case .software:
                 break
 
             default:
