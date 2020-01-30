@@ -212,12 +212,13 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         var found = false
 
         if name.matches("wat") { // Found a watch: hopefully people don't rename their watch device name...
-            for watchType in WatchType.allCases {
+            for var watchType in WatchType.allCases {
                 if name.matches(watchType.id) {
                     found = true // found a watch different than the Apple Watch
                 }
                 if settings.preferredWatch == .none || settings.preferredWatch == .appleWatch {
                     found = true // it is an Apple Watch and the user didn't choose another one
+                    watchType = .appleWatch
                 }
                 if settings.preferredWatch != .none && watchType != settings.preferredWatch {
                     found = false
