@@ -31,9 +31,6 @@ class Transmitter: Device {
 class Bubble: Transmitter {
     override class var type: DeviceType { DeviceType.transmitter(.bubble) }
     override class var name: String { "Bubble" }
-    override class var dataServiceUUID: String             { "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" }
-    override class var dataWriteCharacteristicUUID: String { "6E400002-B5A3-F393-E0A9-E50E24DCCA9E" }
-    override class var dataReadCharacteristicUUID: String  { "6E400003-B5A3-F393-E0A9-E50E24DCCA9E" }
 
     enum UUID: String, CustomStringConvertible, CaseIterable {
         case data      = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
@@ -48,6 +45,10 @@ class Bubble: Transmitter {
             }
         }
     }
+
+    override class var dataServiceUUID: String             { UUID.data.rawValue }
+    override class var dataWriteCharacteristicUUID: String { UUID.dataWrite.rawValue }
+    override class var dataReadCharacteristicUUID: String  { UUID.dataRead.rawValue }
 
     enum ResponseType: UInt8, CustomStringConvertible {
         case dataInfo =     0x80
@@ -133,9 +134,6 @@ class Bubble: Transmitter {
 class MiaoMiao: Transmitter {
     override class var type: DeviceType { DeviceType.transmitter(.miaomiao) }
     override class var name: String { "MiaoMiao" }
-    override class var dataServiceUUID: String             { "6E400001-B5A3-F393-E0A9-E50E24DCCA9E" }
-    override class var dataWriteCharacteristicUUID: String { "6E400002-B5A3-F393-E0A9-E50E24DCCA9E" }
-    override class var dataReadCharacteristicUUID: String  { "6E400003-B5A3-F393-E0A9-E50E24DCCA9E" }
 
     enum UUID: String, CustomStringConvertible, CaseIterable {
         case data      = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
@@ -150,6 +148,10 @@ class MiaoMiao: Transmitter {
             }
         }
     }
+
+    override class var dataServiceUUID: String             { UUID.data.rawValue }
+    override class var dataWriteCharacteristicUUID: String { UUID.dataWrite.rawValue }
+    override class var dataReadCharacteristicUUID: String  { UUID.dataRead.rawValue }
 
     enum ResponseType: UInt8, CustomStringConvertible {
         case dataPacket = 0x28

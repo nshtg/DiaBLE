@@ -4,6 +4,7 @@ FIXME
 * Mac Catalyst:
    - stops receiving data from the Bubble read characteristic
    - AVAudioSession error: "Cannot activate session when app is in background" in MainDelegate init
+* running the CBCentralManager delegate and log() in the main queue makes the tabs irresponsive when scanning for a device and the Mac is continuosly detected
 * when the sensor is not detected the last reading time is updated anyway
 *  the log ScrollView doesn't remember the position when switching tabs, nor allows scrolling to the top when reversed
 
