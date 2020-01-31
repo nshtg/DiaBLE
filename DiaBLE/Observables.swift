@@ -96,6 +96,7 @@ class Settings: ObservableObject {
         "preferredWatch": WatchType.none.id,
         "preferredDevicePattern": BLE.knownDevicesIds.joined(separator: " "),
         "readingInterval": 5,
+        "glucoseUnit": GlucoseUnit.mgdl.rawValue,
 
         "targetLow": 80.0,
         "targetHigh": 170.0,
@@ -159,6 +160,10 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.readingInterval, forKey: "readingInterval") }
     }
 
+    @Published var glucoseUnit: GlucoseUnit = GlucoseUnit(rawValue: UserDefaults.standard.string(forKey: "glucoseUnit")!)!  {
+        didSet { UserDefaults.standard.set(self.glucoseUnit.rawValue, forKey: "glucoseUnit") }
+    }
+
     @Published var targetLow: Double = UserDefaults.standard.double(forKey: "targetLow") {
         didSet { UserDefaults.standard.set(self.targetLow, forKey: "targetLow") }
     }
@@ -209,6 +214,7 @@ class Settings: ObservableObject {
         preferredDevicePattern: String = UserDefaults.standard.string(forKey: "preferredDevicePattern")!,
 
         readingInterval: Int = UserDefaults.standard.integer(forKey: "readingInterval"),
+        glucoseUnit: GlucoseUnit = GlucoseUnit(rawValue: UserDefaults.standard.string(forKey: "glucoseUnit")!)!,
 
         targetLow:  Double = UserDefaults.standard.double(forKey: "targetLow"),
         targetHigh: Double = UserDefaults.standard.double(forKey: "targetHigh"),
@@ -232,6 +238,7 @@ class Settings: ObservableObject {
         self.preferredWatch = preferredWatch
         self.preferredDevicePattern = preferredDevicePattern
         self.readingInterval = readingInterval
+        self.glucoseUnit = glucoseUnit 
 
         self.targetLow = targetLow
         self.targetHigh = targetHigh
