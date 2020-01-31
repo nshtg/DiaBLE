@@ -57,7 +57,7 @@ struct OOPCalibrationResponse: Codable {
 }
 
 
-func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, completion: @escaping (Data?, URLResponse?, Error?, [String:String]) -> Void) {
     let site = server.siteURL + (patchInfo == nil ? server.calibrationEndpoint : server.historyEndpoint)
     let date = Int64((date.timeIntervalSince1970 * 1000.0).rounded())
     var parameters = ["content": "\(bytes.hex)"]
@@ -76,7 +76,7 @@ func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date()
     URLSession.shared.dataTask(with: request as URLRequest) {
         data, response, error in
         DispatchQueue.main.async {
-            completion(data, response, error)
+            completion(data, response, error, parameters)
         }
     }.resume()
 }

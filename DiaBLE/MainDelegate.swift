@@ -116,7 +116,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         sensor.currentGlucose = -history.rawTrend[0].value
 
         log("Sending sensor data to \(settings.oopServer.siteURL)\(settings.oopServer.calibrationEndpoint)...")
-        postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error in
+        postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, parameters in
+            if self.settings.debugLevel > 0 { self.log("LibreOOP: query parameters: \(parameters)") }
             if let data = data {
                 let json = data.string
                 self.log("LibreOOP server calibration response: \(json))")
@@ -159,7 +160,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         if sensor.patchInfo.count > 0 {
             log("Sending sensor data to \(settings.oopServer.siteURL)\(settings.oopServer.historyEndpoint)...")
 
-            postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate, patchUid: sensor.uid, patchInfo: sensor.patchInfo) { data, response, error in
+            postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate, patchUid: sensor.uid, patchInfo: sensor.patchInfo) { data, response, error, parameters in
+                if self.settings.debugLevel > 0 { self.log("LibreOOP: query parameters: \(parameters)") }
                 if let data = data {
                     let json = data.string
                     self.log("LibreOOP server history response: \(json)")
