@@ -31,10 +31,14 @@
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>DiaBLE uses Bluetooth to receive glucose data and alarms from several transmitters and Libre 2 sensors.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>DiaBLE creates events to be displayed in Apple Watch complications</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>DiaBLE reads blood glucose and insulin delivery data</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>DiaBLE tracks your blood glucose and saves the insulin delivery data</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>DiaBLE reminds to check the glucose level at scheduled times</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
