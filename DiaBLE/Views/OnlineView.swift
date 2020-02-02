@@ -47,7 +47,7 @@ struct OnlineView: View {
                 }.foregroundColor(.accentColor)
                     .padding(.bottom, 4)
 
-                WebView(site: settings.nightscoutSite)
+                WebView(site: settings.nightscoutSite, query: "token=\(settings.nightscoutToken)")
 
                 // Spacer().frame(maxHeight: .infinity)
             }

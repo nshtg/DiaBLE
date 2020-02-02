@@ -76,9 +76,9 @@ struct LogView: View {
                     Button(action: {
                         self.app.main.centralManager.stopScan()
                         self.app.main.info("\n\nStopped scanning")
-                        self.app.main.log("Stopped scanning")
+                        self.app.main.log("Bluetooth: stopped scanning")
                     }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
-                    }.foregroundColor(.red)
+                    }.foregroundColor(.blue)   
                 }
 
                 Spacer()

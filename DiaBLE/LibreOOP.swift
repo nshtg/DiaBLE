@@ -9,7 +9,7 @@ struct OOPServer {
     var calibrationEndpoint: String
     var historyEndpoint: String
 
-    static let `default`: OOPServer = OOPServer(siteURL: "https://www.glucose.space/",
+    static let `default`: OOPServer = OOPServer(siteURL: "https://www.glucose.space",
                                                 token: "bubble-201907",
                                                 calibrationEndpoint: "calibrateSensor",
                                                 historyEndpoint: "libreoop2")
@@ -58,7 +58,7 @@ struct OOPCalibrationResponse: Codable {
 
 
 func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, completion: @escaping (Data?, URLResponse?, Error?, [String:String]) -> Void) {
-    let site = server.siteURL + (patchInfo == nil ? server.calibrationEndpoint : server.historyEndpoint)
+    let url = server.siteURL + "/" + (patchInfo == nil ? server.calibrationEndpoint : server.historyEndpoint)
     let date = Int64((date.timeIntervalSince1970 * 1000.0).rounded())
     var parameters = ["content": "\(bytes.hex)"]
     if let patchInfo = patchInfo {
@@ -69,7 +69,7 @@ func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date()
         parameters["token"] = server.token
         parameters["timestamp"] = "\(date)"
     }
-    let request = NSMutableURLRequest(url: URL(string: site)!)
+    let request = NSMutableURLRequest(url: URL(string: url)!)
     request.httpMethod = "POST"
     request.httpBody = parameters.map { "\($0.0)=\($0.1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)" }.joined(separator: "&").data(using: .utf8)
     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
