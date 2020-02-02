@@ -67,6 +67,8 @@ struct Calibration: Codable {
         case offsetOffset = "offset_offset"
         case offsetSlope  = "offset_slope"
 
+        // Pay attention to the inversions:
+        // enums are intended to be read as "term + subfix", therefore .slopeOffset = "slope of the offset" => "Offset slope"
         var description: String {
             switch self {
             case .slopeSlope:   return "Slope slope"

@@ -1,6 +1,6 @@
 <p align ="center"><img src="./DiaBLE//Assets.xcassets/AppIcon.appiconset/Icon.png" width="25%" /></p>
 
-Experimenting with the Bluetooth BLE devices I bought for the Abbott FreeStyle Libre sensor (mainly  the Bubble and MiaoMiao transmitters, the M5Stack and the Watlaa watch) and trying something new compared to the traditional apps:
+Experimenting with the Bluetooth BLE devices I bought for the Abbott FreeStyle Libre sensor (mainly  the Bubble and MiaoMiao transmitters and the Watlaa watch) and trying something new compared to the traditional apps:
 
 * a universal **SwiftUI** application for iPhone, iPad and Mac Catalyst;
 * scanning the Libre directly via **NFC**;

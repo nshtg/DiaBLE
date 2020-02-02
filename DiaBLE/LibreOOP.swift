@@ -82,8 +82,6 @@ func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date()
 }
 
 
-// FALLING_QUICKLY | FALLING | STABLE | RISING | RISING_QUICKLY | NOT_DETERMINED
-
 public func trendSymbol(for oopAlarm: String) -> String {
     switch oopAlarm {
     case "RISING_QUICKLY":  return "↑"
@@ -91,6 +89,6 @@ public func trendSymbol(for oopAlarm: String) -> String {
     case "STABLE":          return "→"
     case "FALLING":         return "↘︎"
     case "FALLING_QUICKLY": return "↓"
-    default: return "---"
+    default:                return "---" // NOT_DETERMINED
     }
 }

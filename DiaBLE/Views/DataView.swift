@@ -68,28 +68,31 @@ struct DataView: View {
                             }.foregroundColor(.purple)
                         }
 
-                        if history.calibratedTrend.count > 0 {
-                            VStack {
-                                Text("Calibrated trend")
-                                ScrollView {
-                                    ForEach(history.calibratedTrend) { glucose in
-                                        Text("\(String(glucose.id)) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
-                                            .frame(maxWidth: .infinity, alignment: .topLeading)
-                                    }
-                                }
-                            }.foregroundColor(.purple)
-                        }
+                        VStack {
 
-                        if history.rawTrend.count > 0 && history.calibratedTrend.count == 0 {
-                            VStack {
-                                Text("Raw trend")
-                                ScrollView {
-                                    ForEach(history.rawTrend) { glucose in
-                                        Text("\(String(glucose.id)) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
-                                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                            if history.rawTrend.count > 0 {
+                                VStack {
+                                    Text("Raw trend")
+                                    ScrollView {
+                                        ForEach(history.rawTrend) { glucose in
+                                            Text("\(String(glucose.id)) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
+                                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                                        }
                                     }
-                                }
-                            }.foregroundColor(.purple)
+                                }.foregroundColor(.yellow)
+                            }
+
+                            if history.calibratedTrend.count > 0 {
+                                VStack {
+                                    Text("Calibrated trend")
+                                    ScrollView {
+                                        ForEach(history.calibratedTrend) { glucose in
+                                            Text("\(String(glucose.id)) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
+                                                .frame(maxWidth: .infinity, alignment: .topLeading)
+                                        }
+                                    }
+                                }.foregroundColor(.purple)
+                            }
                         }
                     }
 
