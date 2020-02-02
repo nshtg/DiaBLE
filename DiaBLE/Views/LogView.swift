@@ -71,6 +71,16 @@ struct LogView: View {
                     }.font(Font.caption.monospacedDigit()).foregroundColor(.orange)
                 }
 
+                // Same as in Monitor
+                if app.info.hasPrefix("Scanning") {
+                    Button(action: {
+                        self.app.main.centralManager.stopScan()
+                        self.app.main.info("\n\nStopped scanning")
+                        self.app.main.log("Stopped scanning")
+                    }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
+                    }.foregroundColor(.red)
+                }
+
                 Spacer()
 
                 Button(action: {
