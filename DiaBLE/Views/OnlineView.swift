@@ -50,9 +50,11 @@ struct OnlineView: View {
                     .padding(.bottom, 4)
 
                 WebView(site: settings.nightscoutSite, query: "token=\(settings.nightscoutToken)")
+                    .frame(height: UIScreen.main.bounds.size.height * 0.60)
 
                 if history.nightscoutValues.count > 0 {
                     VStack(spacing: 0) {
+                        Text("Nightscout data:")
                         List() {
                             ForEach(history.nightscoutValues) { glucose in
                                 Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
@@ -61,7 +63,7 @@ struct OnlineView: View {
                             .frame(maxWidth: .infinity, alignment: .topLeading)
                         }
                     }.font(.system(.caption, design: .monospaced)).foregroundColor(.blue)
-                        .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
+                        .onAppear { if let nightscout = self.app.main.nightscout { nightscout.read() } }
                 }
             }
             .navigationBarTitle("TODO:  Online", displayMode: .inline)
