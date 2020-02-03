@@ -71,7 +71,7 @@ class HealthKit {
     }
 
 
-    func read(handler: (([Glucose]) -> ())? = nil) {
+    func read(handler: (([Glucose]) -> Void)? = nil) {
         guard let glucoseType = HKQuantityType.quantityType(forIdentifier: .bloodGlucose) else {
             let msg = "HealthKit error: unable to create glucose quantity type"
             main.log(msg)

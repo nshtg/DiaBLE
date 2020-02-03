@@ -32,9 +32,9 @@ struct OOPHistoryData: Codable {
     var trendArrow: String
 
     func glucoseData(sensorAge: Int, readingDate: Date) -> [Glucose] {
-        // let current = Glucose(raw: realTimeGlucose.value * 10, id: realTimeGlucose.id, date: readingDate)
         var array = [Glucose]()
         let startDate = readingDate - Double(sensorAge) * 60
+        // let current = Glucose(realTimeGlucose.value, id: realTimeGlucose.id, date: startDate + Double(realTimeGlucose.id * 60))
         var history = historicGlucose
         if (history.first?.id ?? 0) < (history.last?.id ?? 0) {
             history = history.reversed()
