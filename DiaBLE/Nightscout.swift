@@ -17,7 +17,8 @@ class Nightscout {
     init(_ server: NightscoutServer) {
         self.server = server
     }
-    
+
+    // TODO: query parameters
     func requestValues(handler: @escaping (Data?, URLResponse?, Error?, [Glucose]) -> Void) {
         var request = URLRequest(url: URL(string: "https://\(server.siteURL)/api/v1/entries/sgv.json?token=\(server.token)")!)
         main?.log("Nightscout: URL request: \(request.url!.absoluteString)")
@@ -50,7 +51,7 @@ class Nightscout {
             if values.count > 0 {
                 DispatchQueue.main.async {
                     self.main.history.nightscoutValues = values
-                    self.main.log("Nightscout: last values: \(self.main.history.nightscoutValues.map{String($0.value)})")
+                    if self.main.settings.debugLevel > 0 { self.main.log("Nightscout: last values: \(self.main.history.nightscoutValues.map{String($0.value)})") }
                     handler?(values)
                 }
             }

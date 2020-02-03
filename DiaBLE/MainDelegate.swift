@@ -234,7 +234,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         UIApplication.shared.applicationIconBadgeNumber = currentGlucose
 
         if history.values.count > 0 {
-            nightscout?.post(Glucose(currentGlucose, date: sensor.lastReadingDate))
+            nightscout?.post(Glucose(currentGlucose, date: sensor.lastReadingDate)) { data, response, error in
+                self.nightscout?.read()
+            }
             // TODO: post all history values
         }
     }
