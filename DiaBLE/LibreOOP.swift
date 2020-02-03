@@ -57,7 +57,7 @@ struct OOPCalibrationResponse: Codable {
 }
 
 
-func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, completion: @escaping (Data?, URLResponse?, Error?, [String:String]) -> Void) {
+func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, handler: @escaping (Data?, URLResponse?, Error?, [String: String]) -> Void) {
     let url = server.siteURL + "/" + (patchInfo == nil ? server.calibrationEndpoint : server.historyEndpoint)
     let date = Int64((date.timeIntervalSince1970 * 1000.0).rounded())
     var parameters = ["content": "\(bytes.hex)"]
@@ -73,10 +73,9 @@ func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date()
     request.httpMethod = "POST"
     request.httpBody = parameters.map { "\($0.0)=\($0.1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)" }.joined(separator: "&").data(using: .utf8)
     request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-    URLSession.shared.dataTask(with: request as URLRequest) {
-        data, response, error in
+    URLSession.shared.dataTask(with: request as URLRequest) { data, response, error in
         DispatchQueue.main.async {
-            completion(data, response, error, parameters)
+            handler(data, response, error, parameters)
         }
     }.resume()
 }

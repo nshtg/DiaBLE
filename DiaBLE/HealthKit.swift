@@ -21,14 +21,14 @@ class HealthKit {
         }
     }
 
-    func authorize(_ result: @escaping (Bool) -> Void) {
+    func authorize(_ handler: @escaping (Bool) -> Void) {
         guard let glucoseQuantity = HKQuantityType.quantityType(forIdentifier: .bloodGlucose),
             let insulingDelivery = HKQuantityType.quantityType(forIdentifier: .insulinDelivery) else {
-                result(false)
+                handler(false)
                 return
         }
-        store?.requestAuthorization(toShare: [glucoseQuantity, insulingDelivery], read: [glucoseQuantity, insulingDelivery], completion: {(success,error) in
-            result(success)
+        store?.requestAuthorization(toShare: [glucoseQuantity, insulingDelivery], read: [glucoseQuantity, insulingDelivery], completion: {(success, error) in
+            handler(success)
         })
     }
 
@@ -39,16 +39,16 @@ class HealthKit {
         return store?.authorizationStatus(for: glucoseType) == .sharingAuthorized
     }
 
-    func getAuthorizationState(_ complete: @escaping (Bool) -> Void) {
+    func getAuthorizationState(_ handler: @escaping (Bool) -> Void) {
         guard let glucoseType = HKQuantityType.quantityType(forIdentifier: .bloodGlucose), let insulingDelivery = HKQuantityType.quantityType(forIdentifier: .insulinDelivery) else {
-            complete(false)
+            handler(false)
             return
         }
         store?.getRequestStatusForAuthorization(toShare: [glucoseType, insulingDelivery], read: [glucoseType, insulingDelivery]) { (status, err) in
             if let _ = err {
-                complete(false)
+                handler(false)
             } else {
-                complete(status == .unnecessary)
+                handler(status == .unnecessary)
             }
         }
     }
@@ -71,7 +71,7 @@ class HealthKit {
     }
 
 
-    func read(completion: (([Glucose]) -> ())? = nil) {
+    func read(handler: (([Glucose]) -> ())? = nil) {
         guard let glucoseType = HKQuantityType.quantityType(forIdentifier: .bloodGlucose) else {
             let msg = "HealthKit error: unable to create glucose quantity type"
             main.log(msg)
@@ -95,7 +95,7 @@ class HealthKit {
                 let values = results.enumerated().map { Glucose(Int($0.1.quantity.doubleValue(for: self.glucoseUnit)), id: $0.0, date: $0.1.endDate, source: $0.1.sourceRevision.source.name + " " + $0.1.sourceRevision.source.bundleIdentifier) }
                 DispatchQueue.main.async {
                     self.main.history.storedValues = values
-                    completion?(values)
+                    handler?(values)
                 }
             }
         }

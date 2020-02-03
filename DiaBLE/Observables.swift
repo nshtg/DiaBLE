@@ -71,13 +71,16 @@ class History: ObservableObject {
     @Published var calibratedValues: [Glucose]
     @Published var calibratedTrend:  [Glucose]
     @Published var storedValues: [Glucose]
+    @Published var nightscoutValues: [Glucose]
+
 
     init(values:    [Glucose] = [],
          rawValues: [Glucose] = [],
          rawTrend:  [Glucose] = [],
          calibratedValues: [Glucose] = [],
          calibratedTrend:  [Glucose] = [],
-         storedValues: [Glucose] = []
+         storedValues: [Glucose] = [],
+         nightscoutValues: [Glucose] = []
     ) {
         self.values    = values
         self.rawValues = rawValues
@@ -85,6 +88,7 @@ class History: ObservableObject {
         self.calibratedValues = calibratedValues
         self.calibratedTrend  = calibratedTrend
         self.storedValues  = storedValues
+        self.nightscoutValues  = nightscoutValues
     }
 }
 
@@ -287,7 +291,8 @@ extension History {
             rawTrend: [241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 241, 242, 243, 244, 245].enumerated().map { Glucose($0.1, id: 5000 - $0.0, date: Date() - Double($0.1) * 60) },
             calibratedValues: [231, 242, 243, 244, 255, 216, 197, 138, 159, 120, 101, 102, 143, 154, 165, 186, 187, 168, 139, 130, 131, 142, 143, 144, 155, 166, 177, 188, 169, 150, 141, 132].enumerated().map { Glucose($0.1, id: 5000 - $0.0 * 15, date: Date() - Double($0.1) * 15 * 60) },
             calibratedTrend: [231, 232, 233, 234, 235, 236, 237, 238, 239, 230, 231, 232, 233, 234, 235].enumerated().map { Glucose($0.1, id: 5000 - $0.0, date: Date() - Double($0.1) * 60) },
-            storedValues: [231, 252, 253, 254, 245, 196, 177, 128, 149, 150, 101, 122, 133, 144, 155, 166, 177, 178, 149, 140, 141, 142, 143, 144, 155, 166, 177, 178, 169, 150, 141, 132].enumerated().map { Glucose($0.1, id: $0.0, date: Date() - Double($0.1) * 15 * 60, source: "SourceApp com.example.sourceapp") }
+            storedValues: [231, 252, 253, 254, 245, 196, 177, 128, 149, 150, 101, 122, 133, 144, 155, 166, 177, 178, 149, 140, 141, 142, 143, 144, 155, 166, 177, 178, 169, 150, 141, 132].enumerated().map { Glucose($0.1, id: $0.0, date: Date() - Double($0.1) * 15 * 60, source: "SourceApp com.example.sourceapp") },
+            nightscoutValues: [231, 252, 253, 254, 245, 196, 177, 128, 149, 150, 101, 122, 133, 144, 155, 166, 177, 178, 149, 140, 141, 142, 143, 144, 155, 166, 177, 178, 169, 150, 141, 132].enumerated().map { Glucose($0.1, id: $0.0, date: Date() - Double($0.1) * 15 * 60, source: "Device") }
         )
     }
 }

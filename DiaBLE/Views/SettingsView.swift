@@ -75,7 +75,9 @@ struct SettingsView: View {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)
                         self.app.main.info("\n\nScanning...")
                     }
-                    if let healthKit = self.app.main.healthKit { healthKit.read() }
+                    if let healthKit = self.app.main.healthKit { healthKit.read()
+                    if let nightscout = self.app.main?.nightscout { nightscout.read() }
+                    }
                 }
                 ) { Text(" Rescan ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
 

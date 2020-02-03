@@ -54,6 +54,7 @@ struct LogView: View {
                             self.app.main.info("\n\nScanning...")
                         }
                         if let healthKit = self.app.main.healthKit { healthKit.read() }
+                        if let nightscout = self.app.main?.nightscout { nightscout.read() }
                     }
                     ) { VStack { Image("Bluetooth").resizable().frame(width: 32, height: 32)
                         Text("Scan")
@@ -78,7 +79,7 @@ struct LogView: View {
                         self.app.main.info("\n\nStopped scanning")
                         self.app.main.log("Bluetooth: stopped scanning")
                     }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
-                    }.foregroundColor(.blue)   
+                    }.foregroundColor(.blue)
                 }
 
                 Spacer()

@@ -151,7 +151,9 @@ struct Monitor: View {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)
                         self.app.main.info("\n\nScanning...")
                     }
-                    if let healthKit = self.app.main.healthKit { healthKit.read() }
+                    if let healthKit = self.app.main.healthKit { healthKit.read()
+                    if let nightscout = self.app.main?.nightscout { nightscout.read() }
+                    }
                 }
                 ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32).padding(.bottom, 8
                 ).foregroundColor(.accentColor) }

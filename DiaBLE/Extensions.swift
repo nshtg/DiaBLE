@@ -26,12 +26,12 @@ extension Date {
     }
     var shortDateTime: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM-d HH:mm"
+        formatter.dateFormat = "MMM-dd HH:mm"
         return formatter.string(from: self)
     }
     var dateTime: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM-d HH:mm:ss"
+        formatter.dateFormat = "MMM-dd HH:mm:ss"
         return formatter.string(from: self)
     }
     var local: String {

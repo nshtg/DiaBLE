@@ -15,6 +15,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
     var nfcReader: NFCReader
     var audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "alarm_high", ofType: "mp3")!), fileTypeHint: "mp3")
     var healthKit: HealthKit?
+    var nightscout: Nightscout?
 
 
     override init() {
@@ -48,6 +49,10 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             }
         }
 
+        nightscout = Nightscout(NightscoutServer(siteURL: settings.nightscoutSite, token: settings.nightscoutToken))
+        nightscout!.main = self
+        nightscout!.read()
+
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _,_ in }
 
@@ -62,7 +67,6 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         let numberFormatter = NumberFormatter()
         numberFormatter.minimumFractionDigits = 8
         settings.numberFormatter = numberFormatter
-
     }
 
 
