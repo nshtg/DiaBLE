@@ -77,17 +77,18 @@ class Nightscout {
         request.setValue("application/json", forHTTPHeaderField:"Accept")
         request.setValue(server.token.sha1,  forHTTPHeaderField:"api-secret")
         URLSession.shared.uploadTask(with: request, from: json) { data, response, error in
-            if self.main.settings.debugLevel > 0 {
-                if let data = data {
-                    self.main?.log("Nightscout: successfully posted the value: \(data.string)")
-                } else {
-                    if let response = response as? HTTPURLResponse {
-                        self.main?.log("Nightscout: response: \(response.statusCode)")
-                    }
-                }
-            }
             if let error = error {
                 self.main?.log("Nightscout: error: \(error.localizedDescription)")
+            } else {
+                if let response = response as? HTTPURLResponse {
+                    let status = response.statusCode
+                    if self.main.settings.debugLevel > 0 {
+                        if let data = data {
+                            self.main?.log("Nightscout: post \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
+
+                        }
+                    }
+                }
             }
             DispatchQueue.main.async {
                 handler?(data, response, error)
