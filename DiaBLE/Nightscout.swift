@@ -25,8 +25,8 @@ class Nightscout {
         request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let data = data { self.main?.debugLog("Nightscout: response data: \(data.string)") }
-            if let jsondata = data {
-                if let json = try? JSONSerialization.jsonObject(with: jsondata) {
+            if let jsonData = data {
+                if let json = try? JSONSerialization.jsonObject(with: jsonData) {
                     if let array = json as? [Any] {
                         var values = [Glucose]()
                         for item in array {
@@ -51,7 +51,6 @@ class Nightscout {
             if values.count > 0 {
                 DispatchQueue.main.async {
                     self.main.history.nightscoutValues = values
-                    self.main.debugLog("Nightscout: last values: \(self.main.history.nightscoutValues.map{String($0.value)})")
                     handler?(values)
                 }
             }
@@ -60,18 +59,9 @@ class Nightscout {
 
 
     // TODO:
-    func post(_ glucose: Glucose, handler: (((Data?, URLResponse?, Error?) -> Void))? = nil) {
-
-        let dict: [String: Any] = [
-            "type": "sgv",
-            "sgv": glucose.value,
-            "device": "DiaBLE", // TODO
-            "date": Int64((glucose.date.timeIntervalSince1970 * 1000.0).rounded()),
-            // "direction": "NOT COMPUTABLE", // TODO
-        ]
-
-        let json = try! JSONSerialization.data(withJSONObject: dict, options: [])
-        var request = URLRequest(url: URL(string: "https://\(server.siteURL)/api/v1/entries?token=\(server.token)")!)
+    func post(_ jsonObject: Any, endpoint: String = "", handler: (((Data?, URLResponse?, Error?) -> Void))? = nil) {
+        let json = try! JSONSerialization.data(withJSONObject: jsonObject, options: [])
+        var request = URLRequest(url: URL(string: "https://\(server.siteURL)/\(endpoint)?token=\(server.token)")!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField:"Content-Type")
         request.setValue("application/json", forHTTPHeaderField:"Accept")
@@ -95,15 +85,33 @@ class Nightscout {
     }
 
 
+    func post(entries: [Glucose], handler: (((Data?, URLResponse?, Error?) -> Void))? = nil) {
+
+        let dictionaryArray = entries.map { [
+            "type": "sgv",
+            "sgv": $0.value,
+            "device": "DiaBLE", // TODO
+            "date": Int64(($0.date.timeIntervalSince1970 * 1000.0).rounded()),
+            // "direction": "NOT COMPUTABLE", // TODO
+            ]
+        }
+        post(dictionaryArray, endpoint: "api/v1/entries") { data, response, error in
+            DispatchQueue.main.async {
+                handler?(data, response, error)
+            }
+        }
+    }
+
+
     // TODO:
-    func test(_ handler: @escaping (Data?, URLResponse?, Error?) -> Void) {
+    func test(handler: (((Data?, URLResponse?, Error?) -> Void))? = nil) {
         var request = URLRequest(url: URL(string: "https://\(server.siteURL)/api/v1/entries/sgv.json?token=\(server.token)")!)
         request.setValue("application/json", forHTTPHeaderField:"Content-Type")
         request.setValue("application/json", forHTTPHeaderField:"Accept")
         request.setValue(server.token.sha1, forHTTPHeaderField:"api-secret")
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
-                handler(data, response, error)
+                handler?(data, response, error)
             }
         }.resume()
     }
