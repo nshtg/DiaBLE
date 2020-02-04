@@ -50,14 +50,12 @@ struct OnlineView: View {
                         ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)
                             .foregroundColor(.accentColor) }
 
-                        if app.transmitterState == "Connected" {
-                            Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
-                                "\(readingCountdown) s" : "")
+                            Text(app.transmitterState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
+                                "\(readingCountdown) s" : "...")
                                 .fixedSize()
                                 .onReceive(timer) { _ in
                                     self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
                             }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
-                        }
                     }
                 }.foregroundColor(.accentColor)
                     .padding(.bottom, 4)
