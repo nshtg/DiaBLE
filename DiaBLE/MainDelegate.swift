@@ -242,7 +242,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         UIApplication.shared.applicationIconBadgeNumber = currentGlucose
 
         if history.values.count > 0 {
-            nightscout?.post(entries: history.values.filter{ $0.value != 0 } + [Glucose(currentGlucose, date: sensor.lastReadingDate)]) { data, response, error in
+            nightscout?.post(entries: history.values.filter{ $0.value > 0 } + [Glucose(currentGlucose, date: sensor.lastReadingDate)]) { data, response, error in
                 self.nightscout?.read()
             }
             // TODO: post only the newest history values

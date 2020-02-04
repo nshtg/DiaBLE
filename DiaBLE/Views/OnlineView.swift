@@ -30,12 +30,25 @@ struct OnlineView: View {
                     }
 
                     VStack(spacing: 0) {
+
+                        // TODO: reload web page
+                        // Same as Rescan
                         Button(action: {
-
-                            // TODO: reload
-
+                            let transmitter = self.app.transmitter
+                            let centralManager = self.app.main.centralManager
+                            if transmitter != nil {
+                                centralManager.cancelPeripheralConnection(transmitter!.peripheral!)
+                            }
+                            if centralManager.state == .poweredOn {
+                                centralManager.scanForPeripherals(withServices: nil, options: nil)
+                                self.app.main.info("\n\nScanning...")
+                            }
+                            if let healthKit = self.app.main.healthKit { healthKit.read()
+                                if let nightscout = self.app.main.nightscout { nightscout.read() }
+                            }
                         }
-                        ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32) }
+                        ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)
+                            .foregroundColor(.accentColor) }
 
                         if app.transmitterState == "Connected" {
                             Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
