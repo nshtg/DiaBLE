@@ -19,8 +19,13 @@ class Nightscout {
     }
 
     // TODO: query parameters
-    func requestValues(handler: @escaping (Data?, URLResponse?, Error?, [Glucose]) -> Void) {
-        var request = URLRequest(url: URL(string: "https://\(server.siteURL)/api/v1/entries/sgv.json?token=\(server.token)")!)
+    func request(endpoint: String = "", query: String = "", handler: @escaping (Data?, URLResponse?, Error?, [Any]) -> Void) {
+        var url = "https://\(server.siteURL)"
+
+        if !endpoint.isEmpty { url += ("/" + endpoint) }
+        if !query.isEmpty { url += ("?" + query) }
+
+        var request = URLRequest(url: URL(string: url)!)
         main?.log("Nightscout: URL request: \(request.url!.absoluteString)")
         request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         URLSession.shared.dataTask(with: request) { data, response, error in
@@ -28,16 +33,8 @@ class Nightscout {
             if let jsonData = data {
                 if let json = try? JSONSerialization.jsonObject(with: jsonData) {
                     if let array = json as? [Any] {
-                        var values = [Glucose]()
-                        for item in array {
-                            if let dict = item as? [String: Any] {
-                                if let value = dict["sgv"] as? Int, let id = dict["date"] as? Int, let device = dict["device"] as? String {
-                                    values.append(Glucose(value, id: id, date: Date(timeIntervalSince1970: Double(id)/1000), source: device))
-                                }
-                            }
-                        }
                         DispatchQueue.main.async {
-                            handler(data, response, error, values)
+                            handler(data, response, error, array)
                         }
                     }
                 }
@@ -47,7 +44,15 @@ class Nightscout {
 
     
     func read(handler: (([Glucose]) -> ())? = nil) {
-        requestValues { data, response, error, values in
+        request(endpoint: "api/v1/entries.json", query: "count=120") {data, response, error, array in
+            var values = [Glucose]()
+            for item in array {
+                if let dict = item as? [String: Any] {
+                    if let value = dict["sgv"] as? Int, let id = dict["date"] as? Int, let device = dict["device"] as? String {
+                        values.append(Glucose(value, id: id, date: Date(timeIntervalSince1970: Double(id)/1000), source: device))
+                    }
+                }
+            }
             if values.count > 0 {
                 DispatchQueue.main.async {
                     self.main.history.nightscoutValues = values
@@ -61,7 +66,7 @@ class Nightscout {
     // TODO:
     func post(_ jsonObject: Any, endpoint: String = "", handler: (((Data?, URLResponse?, Error?) -> Void))? = nil) {
         let json = try! JSONSerialization.data(withJSONObject: jsonObject, options: [])
-        var request = URLRequest(url: URL(string: "https://\(server.siteURL)/\(endpoint)?token=\(server.token)")!)
+        var request = URLRequest(url: URL(string: "https://\(server.siteURL)/\(endpoint)")!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField:"Content-Type")
         request.setValue("application/json", forHTTPHeaderField:"Accept")
@@ -74,7 +79,6 @@ class Nightscout {
                     let status = response.statusCode
                     if let data = data {
                         self.main?.debugLog("Nightscout: post \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
-
                     }
                 }
             }
@@ -105,7 +109,7 @@ class Nightscout {
 
     // TODO:
     func test(handler: (((Data?, URLResponse?, Error?) -> Void))? = nil) {
-        var request = URLRequest(url: URL(string: "https://\(server.siteURL)/api/v1/entries/sgv.json?token=\(server.token)")!)
+        var request = URLRequest(url: URL(string: "https://\(server.siteURL)/api/v1/entries.json?token=\(server.token)")!)
         request.setValue("application/json", forHTTPHeaderField:"Content-Type")
         request.setValue("application/json", forHTTPHeaderField:"Accept")
         request.setValue(server.token.sha1, forHTTPHeaderField:"api-secret")

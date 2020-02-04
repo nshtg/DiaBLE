@@ -103,7 +103,7 @@ struct DataView: View {
                                 }
                                 .frame(maxWidth: .infinity, alignment: .topLeading)
                             }.foregroundColor(.red)
-                            .onAppear { if let healthKit = self.app.main?.healthKit { healthKit.read() } }
+                                .onAppear { if let healthKit = self.app.main?.healthKit { healthKit.read() } }
                         }
 
                         if history.nightscoutValues.count > 0 {
@@ -123,7 +123,7 @@ struct DataView: View {
                 }
             }
             .font(.system(.caption, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
-            .navigationBarTitle("TODO:  Data", displayMode: .inline)
+            .navigationBarTitle("Data", displayMode: .inline)
 
         }.navigationViewStyle(StackNavigationViewStyle())
     }

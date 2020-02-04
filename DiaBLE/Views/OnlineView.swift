@@ -7,6 +7,7 @@ struct OnlineView: View {
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
+    @State private var showingNFCAlert = false
     @State private var readingCountdown: Int = 0
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -43,19 +44,19 @@ struct OnlineView: View {
                                 centralManager.scanForPeripherals(withServices: nil, options: nil)
                                 self.app.main.info("\n\nScanning...")
                             }
-                            if let healthKit = self.app.main.healthKit { healthKit.read()
-                                if let nightscout = self.app.main.nightscout { nightscout.read() }
-                            }
+                            if let healthKit = self.app.main.healthKit { healthKit.read() }
+                            if let nightscout = self.app.main.nightscout { nightscout.read() }
+
                         }
                         ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)
                             .foregroundColor(.accentColor) }
 
-                            Text(app.transmitterState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
-                                "\(readingCountdown) s" : "...")
-                                .fixedSize()
-                                .onReceive(timer) { _ in
-                                    self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                            }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
+                        Text(app.transmitterState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
+                            "\(readingCountdown) s" : "...")
+                            .fixedSize()
+                            .onReceive(timer) { _ in
+                                self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
+                        }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
                     }
                 }.foregroundColor(.accentColor)
                     .padding(.bottom, 4)
@@ -74,10 +75,30 @@ struct OnlineView: View {
                             .frame(maxWidth: .infinity, alignment: .topLeading)
                         }
                     }.font(.system(.caption, design: .monospaced)).foregroundColor(.blue)
-                        .onAppear { if let nightscout = self.app.main.nightscout { nightscout.read() } }
+                        .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
                 }
             }
-            .navigationBarTitle("TODO:  Online", displayMode: .inline)
+            .navigationBarTitle("Online", displayMode: .inline)
+            .navigationBarItems(trailing:
+                Button(action: {
+                    if self.app.main.nfcReader.isNFCAvailable {
+                        self.app.main.nfcReader.startSession()
+                        if let healthKit = self.app.main.healthKit { healthKit.read() }
+                        if let nightscout = self.app.main.nightscout { nightscout.read() }
+                    } else {
+                        self.showingNFCAlert = true
+                    }
+                }) { VStack {
+                    Image(systemName: "radiowaves.left")
+                        .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32).offset(y: 8)
+                    Text("NFC").font(.footnote).bold().offset(y: -8)
+                }
+                }.alert(isPresented: $showingNFCAlert) {
+                    Alert(
+                        title: Text("NFC not supported"),
+                        message: Text("This device doesn't allow scanning the Libre."))
+                }
+            )
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
