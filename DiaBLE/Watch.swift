@@ -69,7 +69,7 @@ class Watlaa: Watch {
 
     func readValue(for uuid: UUID) {
         peripheral?.readValue(for: characteristics[uuid.rawValue]!)
-        if main.settings.debugLevel > 0 { main.log("\(name): requested value for \(uuid)") }
+        main.debugLog("\(name): requested value for \(uuid)")
     }
 
 

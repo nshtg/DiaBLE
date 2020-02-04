@@ -24,7 +24,7 @@ class Nightscout {
         main?.log("Nightscout: URL request: \(request.url!.absoluteString)")
         request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         URLSession.shared.dataTask(with: request) { data, response, error in
-            if self.main.settings.debugLevel > 0 { if let data = data { self.main?.log("Nightscout: response data: \(data.string)") } }
+            if let data = data { self.main?.debugLog("Nightscout: response data: \(data.string)") }
             if let jsondata = data {
                 if let json = try? JSONSerialization.jsonObject(with: jsondata) {
                     if let array = json as? [Any] {
@@ -51,7 +51,7 @@ class Nightscout {
             if values.count > 0 {
                 DispatchQueue.main.async {
                     self.main.history.nightscoutValues = values
-                    if self.main.settings.debugLevel > 0 { self.main.log("Nightscout: last values: \(self.main.history.nightscoutValues.map{String($0.value)})") }
+                    self.main.debugLog("Nightscout: last values: \(self.main.history.nightscoutValues.map{String($0.value)})")
                     handler?(values)
                 }
             }
@@ -82,11 +82,9 @@ class Nightscout {
             } else {
                 if let response = response as? HTTPURLResponse {
                     let status = response.statusCode
-                    if self.main.settings.debugLevel > 0 {
-                        if let data = data {
-                            self.main?.log("Nightscout: post \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
+                    if let data = data {
+                        self.main?.debugLog("Nightscout: post \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
 
-                        }
                     }
                 }
             }

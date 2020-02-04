@@ -33,7 +33,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         log.text = "\(self.settings.logging ? "Log started" : "Log stopped") \(Date().local)\n"
         let userDefaults = UserDefaults.standard.dictionaryRepresentation()
-        if settings.debugLevel > 0 { log("User defaults: \(Settings.defaults.keys.map{ [$0, userDefaults[$0]!] }.sorted{($0[0] as! String) < ($1[0] as! String) })") }
+        debugLog("User defaults: \(Settings.defaults.keys.map{ [$0, userDefaults[$0]!] }.sorted{($0[0] as! String) < ($1[0] as! String) })")
 
         bluetoothDelegate.main = self
         centralManager.delegate = bluetoothDelegate
@@ -44,7 +44,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             healthKit.authorize() {
                 self.log("HealthKit: \( $0 ? "" : "not ")authorized")
                 if healthKit.isAuthorized {
-                    healthKit.read() { if self.settings.debugLevel > 0 { self.log("HealthKit last 12 stored values: \($0[..<12])") } }
+                    healthKit.read() { self.debugLog("HealthKit last 12 stored values: \($0[..<12])") }
                 }
             }
         }
@@ -82,6 +82,14 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         }
         print("\(text)")
     }
+
+
+    public func debugLog(_ text: String) {
+        if settings.debugLevel > 0 {
+            log(text)
+        }
+    }
+
 
     public func info(_ text: String) {
         DispatchQueue.main.async {
@@ -121,7 +129,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         log("Sending sensor data to \(settings.oopServer.siteURL)\(settings.oopServer.calibrationEndpoint)...")
         postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, parameters in
-            if self.settings.debugLevel > 0 { self.log("LibreOOP: query parameters: \(parameters)") }
+            self.debugLog("LibreOOP: query parameters: \(parameters)")
             if let data = data {
                 let json = data.string
                 self.log("LibreOOP server calibration response: \(json))")
@@ -165,7 +173,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             log("Sending sensor data to \(settings.oopServer.siteURL)\(settings.oopServer.historyEndpoint)...")
 
             postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate, patchUid: sensor.uid, patchInfo: sensor.patchInfo) { data, response, error, parameters in
-                if self.settings.debugLevel > 0 { self.log("LibreOOP: query parameters: \(parameters)") }
+                self.debugLog("LibreOOP: query parameters: \(parameters)")
                 if let data = data {
                     let json = data.string
                     self.log("LibreOOP server history response: \(json)")
@@ -188,7 +196,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             var oopHistory = oopData.glucoseData(sensorAge: sensor.age, readingDate: self.app.lastReadingDate)
                             if oopHistory[0].value == 0 && oopHistory[1].id == self.history.rawValues[0].id {
                                 oopHistory.removeFirst()
-                                if self.settings.debugLevel > 0 { self.log("DEBUG: dropped the first null OOP value newer than the corresponding raw one") }
+                                self.debugLog("DEBUG: dropped the first null OOP value newer than the corresponding raw one")
                             }
                             let oopHistoryCount = oopHistory.count
                             if oopHistoryCount > 0 {

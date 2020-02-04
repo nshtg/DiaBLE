@@ -159,7 +159,7 @@ class Device {
 
     func readValue(for uuid: BLE.UUID) {
         peripheral?.readValue(for: characteristics[uuid.rawValue]!)
-        if main.settings.debugLevel > 0 { main.log("\(name): requested value for \(uuid)") }
+        main.debugLog("\(name): requested value for \(uuid)")
     }
 
 
