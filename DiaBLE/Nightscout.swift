@@ -94,7 +94,7 @@ class Nightscout {
 
         let dictionaryArray = entries.map { [
             "type": "sgv",
-            "dateString": ($0.date.iso8601),
+            "dateString": ISO8601DateFormatter().string(from: $0.date),
             "date": Int64(($0.date.timeIntervalSince1970 * 1000.0).rounded()),
             "sgv": $0.value,
             "device": "DiaBLE" // TODO

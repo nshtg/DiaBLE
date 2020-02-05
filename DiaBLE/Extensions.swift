@@ -43,19 +43,4 @@ extension Date {
         formatter.timeZone = TimeZone.current
         return formatter.string(from: self)
     }
-    var iso8601: String {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(abbreviation: "GMT")
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssX"
-        return formatter.string(from: self)
-    }
-    var iso8601Date: String {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: Calendar.Identifier.iso8601)
-        formatter.timeZone = TimeZone(abbreviation: "GMT")
-        formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: self)
-    }
 }
