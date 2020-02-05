@@ -49,8 +49,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             }
         }
 
-        nightscout = Nightscout(NightscoutServer(siteURL: settings.nightscoutSite, token: settings.nightscoutToken))
-        nightscout!.main = self
+        nightscout = Nightscout(main: self)
         nightscout!.read()
 
         UNUserNotificationCenter.current().delegate = self

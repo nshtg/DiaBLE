@@ -1,39 +1,32 @@
 import Foundation
 
 
-struct NightscoutServer {
-    let siteURL: String
-    let token: String
-}
-
-
 class Nightscout {
 
-    var server: NightscoutServer
-    
     /// Main app delegate
-    var main: MainDelegate!
+    var main: MainDelegate
 
-    init(_ server: NightscoutServer) {
-        self.server = server
+    init(main: MainDelegate) {
+        self.main = main
     }
 
 
     // https://github.com/ps2/rileylink_ios/blob/master/NightscoutUploadKit/NightscoutUploader.swift
     // https://github.com/JohanDegraeve/xdripswift/blob/master/xdrip/Managers/NightScout/NightScoutUploadManager.swift
 
+
     // TODO: query parameters
     func request(endpoint: String = "", query: String = "", handler: @escaping (Data?, URLResponse?, Error?, [Any]) -> Void) {
-        var url = "https://\(server.siteURL)"
+        var url = "https://\(main.settings.nightscoutSite)"
 
         if !endpoint.isEmpty { url += ("/" + endpoint) }
         if !query.isEmpty    { url += ("?" + query) }
 
         var request = URLRequest(url: URL(string: url)!)
-        main?.debugLog("Nightscout: URL request: \(request.url!.absoluteString)")
+        main.debugLog("Nightscout: URL request: \(request.url!.absoluteString)")
         request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         URLSession.shared.dataTask(with: request) { data, response, error in
-            if let data = data { self.main?.debugLog("Nightscout: response data: \(data.string)")
+            if let data = data { self.main.debugLog("Nightscout: response data: \(data.string)")
                 if let json = try? JSONSerialization.jsonObject(with: data) {
                     if let array = json as? [Any] {
                         DispatchQueue.main.async {
@@ -68,22 +61,22 @@ class Nightscout {
 
     func post(_ jsonObject: Any, endpoint: String = "", handler: (((Data?, URLResponse?, Error?) -> Void))? = nil) {
         let json = try! JSONSerialization.data(withJSONObject: jsonObject, options: [])
-        var request = URLRequest(url: URL(string: "https://\(server.siteURL)/\(endpoint)")!)
+        var request = URLRequest(url: URL(string: "https://\(main.settings.nightscoutSite)/\(endpoint)")!)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField:"Content-Type")
         request.setValue("application/json", forHTTPHeaderField:"Accept")
-        request.setValue(server.token.sha1,  forHTTPHeaderField:"api-secret")
+        request.setValue(main.settings.nightscoutToken.sha1,  forHTTPHeaderField:"api-secret")
         URLSession.shared.uploadTask(with: request, from: json) { data, response, error in
             if let error = error {
-                self.main?.log("Nightscout: error: \(error.localizedDescription)")
+                self.main.log("Nightscout: error: \(error.localizedDescription)")
             }
             if let response = response as? HTTPURLResponse {
                 let status = response.statusCode
                 if status == 401 {
-                    self.main?.log("Nightscout: POST not authorized")
+                    self.main.log("Nightscout: POST not authorized")
                 }
                 if let data = data {
-                    self.main?.debugLog("Nightscout: post \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
+                    self.main.debugLog("Nightscout: post \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
                 }
             }
             DispatchQueue.main.async {
@@ -113,28 +106,28 @@ class Nightscout {
 
 
     func delete(endpoint: String = "api/v1/entries", query: String = "", handler: (((Data?, URLResponse?, Error?) -> Void))? = nil) {
-        var url = "https://\(server.siteURL)"
+        var url = "https://\(main.settings.nightscoutSite)"
 
         if !endpoint.isEmpty { url += ("/" + endpoint) }
         if !query.isEmpty    { url += ("?" + query) }
 
         var request = URLRequest(url: URL(string: url)!)
-        main?.debugLog("Nightscout: DELETE request: \(request.url!.absoluteString)")
+        main.debugLog("Nightscout: DELETE request: \(request.url!.absoluteString)")
         request.httpMethod = "DELETE"
         request.setValue("application/json", forHTTPHeaderField:"Content-Type")
         request.setValue("application/json", forHTTPHeaderField:"Accept")
-        request.setValue(server.token.sha1,  forHTTPHeaderField:"api-secret")
+        request.setValue(main.settings.nightscoutToken.sha1,  forHTTPHeaderField:"api-secret")
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                self.main?.log("Nightscout: error: \(error.localizedDescription)")
+                self.main.log("Nightscout: error: \(error.localizedDescription)")
             }
             if let response = response as? HTTPURLResponse {
                 let status = response.statusCode
                 if status == 401 {
-                    self.main?.log("Nightscout: DELETE not authorized")
+                    self.main.log("Nightscout: DELETE not authorized")
                 }
                 if let data = data {
-                    self.main?.debugLog("Nightscout: delete \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
+                    self.main.debugLog("Nightscout: delete \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
                 }
             }
             DispatchQueue.main.async {
@@ -146,21 +139,21 @@ class Nightscout {
 
     // TODO:
     func test(handler: (((Data?, URLResponse?, Error?) -> Void))? = nil) {
-        var request = URLRequest(url: URL(string: "https://\(server.siteURL)/api/v1/entries.json?token=\(server.token)")!)
+        var request = URLRequest(url: URL(string: "https://\(main.settings.nightscoutSite)/api/v1/entries.json?token=\(main.settings.nightscoutToken)")!)
         request.setValue("application/json", forHTTPHeaderField:"Content-Type")
         request.setValue("application/json", forHTTPHeaderField:"Accept")
-        request.setValue(server.token.sha1, forHTTPHeaderField:"api-secret")
+        request.setValue(main.settings.nightscoutToken.sha1, forHTTPHeaderField:"api-secret")
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                self.main?.log("Nightscout: authorization error: \(error.localizedDescription)")
+                self.main.log("Nightscout: authorization error: \(error.localizedDescription)")
             } else {
                 if let response = response as? HTTPURLResponse {
                     let status = response.statusCode
                     if status == 401 {
-                        self.main?.log("Nightscout: not authorized")
+                        self.main.log("Nightscout: not authorized")
                     }
                     if let data = data {
-                        self.main?.debugLog("Nightscout: authorization \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
+                        self.main.debugLog("Nightscout: authorization \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
                     }
                 }
             }
