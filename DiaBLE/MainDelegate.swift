@@ -242,10 +242,13 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         UIApplication.shared.applicationIconBadgeNumber = currentGlucose
 
         if history.values.count > 0 {
-            nightscout?.post(entries: history.values.filter{ $0.value > 0 } + [Glucose(currentGlucose, date: sensor.lastReadingDate)]) { data, response, error in
+            // TODO: delete the last 8 hours before posting the newest history values
+            nightscout?.delete(query: "find[device]=DiaBLE") { data, response, error in
+
+                self.nightscout?.post(entries: self.history.values.filter{ $0.value > 0 } + [Glucose(currentGlucose, date: sensor.lastReadingDate)]) { data, response, error in
                 self.nightscout?.read()
             }
-            // TODO: post only the newest history values
+            }
         }
     }
 }
