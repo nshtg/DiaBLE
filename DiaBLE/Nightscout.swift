@@ -79,6 +79,9 @@ class Nightscout {
             }
             if let response = response as? HTTPURLResponse {
                 let status = response.statusCode
+                if status == 401 {
+                    self.main?.log("Nightscout: POST not authorized")
+                }
                 if let data = data {
                     self.main?.debugLog("Nightscout: post \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
                 }
@@ -127,6 +130,9 @@ class Nightscout {
             }
             if let response = response as? HTTPURLResponse {
                 let status = response.statusCode
+                if status == 401 {
+                    self.main?.log("Nightscout: DELETE not authorized")
+                }
                 if let data = data {
                     self.main?.debugLog("Nightscout: delete \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
                 }

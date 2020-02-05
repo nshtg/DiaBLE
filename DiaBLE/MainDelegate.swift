@@ -244,10 +244,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         if history.values.count > 0 {
             // TODO: delete the last 8 hours before posting the newest history values
             nightscout?.delete(query: "find[device]=LibreOOP&count=32") { data, response, error in
-
                 self.nightscout?.post(entries: self.history.values.filter{ $0.value > 0 } + [Glucose(currentGlucose, date: sensor.lastReadingDate, source: "DiaBLE")]) { data, response, error in
-                self.nightscout?.read()
-            }
+                    self.nightscout?.read()
+                }
             }
         }
     }
