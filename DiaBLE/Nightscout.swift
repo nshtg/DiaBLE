@@ -97,7 +97,7 @@ class Nightscout {
             "dateString": ISO8601DateFormatter().string(from: $0.date),
             "date": Int64(($0.date.timeIntervalSince1970 * 1000.0).rounded()),
             "sgv": $0.value,
-            "device": "DiaBLE" // TODO
+            "device": $0.source // TODO
             // "direction": "NOT COMPUTABLE", // TODO
             ]
         }

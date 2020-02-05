@@ -40,7 +40,7 @@ struct OOPHistoryData: Codable {
             history = history.reversed()
         }
         for g in history {
-            let glucose = Glucose(g.value, id: g.id, date: startDate + Double(g.id * 60))
+            let glucose = Glucose(g.value, id: g.id, date: startDate + Double(g.id * 60), source: "LibreOOP" )
             array.append(glucose)
         }
         return array
