@@ -8,7 +8,7 @@ struct NightscoutServer {
 
 
 class Nightscout {
-    
+
     var server: NightscoutServer
     
     /// Main app delegate
@@ -17,6 +17,10 @@ class Nightscout {
     init(_ server: NightscoutServer) {
         self.server = server
     }
+
+
+    // https://github.com/ps2/rileylink_ios/blob/master/NightscoutUploadKit/NightscoutUploader.swift
+    // https://github.com/JohanDegraeve/xdripswift/blob/master/xdrip/Managers/NightScout/NightScoutUploadManager.swift
 
     // TODO: query parameters
     func request(endpoint: String = "", query: String = "", handler: @escaping (Data?, URLResponse?, Error?, [Any]) -> Void) {
@@ -90,9 +94,10 @@ class Nightscout {
 
         let dictionaryArray = entries.map { [
             "type": "sgv",
-            "sgv": $0.value,
-            "device": "DiaBLE", // TODO
+            "dateString": ($0.date.iso8601),
             "date": Int64(($0.date.timeIntervalSince1970 * 1000.0).rounded()),
+            "sgv": $0.value,
+            "device": "DiaBLE" // TODO
             // "direction": "NOT COMPUTABLE", // TODO
             ]
         }
