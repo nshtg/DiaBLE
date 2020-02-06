@@ -223,18 +223,19 @@ class EventKit {
             }
 
             var title = String(self.main.app.currentGlucose)
-            title += " \(self.main.settings.glucoseUnit)"
+            title += "  \(self.main.settings.glucoseUnit)"
 
             if !title.isEmpty {
-                title += " " + trendSymbol(for: self.main.app.oopTrend)
+                title += "  " + trendSymbol(for: self.main.app.oopTrend)
                 // TODO: delta
 
                 let event = EKEvent(eventStore: self.store)
                 event.title = title
                 event.notes = "Created by DiaBLE"
                 event.startDate = Date()
-                event.endDate = Date(timeIntervalSinceNow: 60 * 10)
+                event.endDate = Date(timeIntervalSinceNow: TimeInterval(60 * self.main.settings.readingInterval))
                 event.calendar = calendar
+                // TODO: alarm
 
                 do {
                     try self.store.save(event, span: .thisEvent)
