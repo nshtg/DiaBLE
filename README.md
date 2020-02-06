@@ -11,8 +11,8 @@ Experimenting with the Bluetooth BLE devices I bought for the Abbott FreeStyle L
 Still too early to decide the final design (but I really like already the evil logo 😈), here there are the first rough screenshots:
 
 
-<p align ="center"><img src="https://pbs.twimg.com/media/EQFqFP8UYAEAMI-?format=jpg" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EQFstP8XkAADIA5?format=jpg" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EQFtdz3XUAEZTI3?format=jpg" width="25%" /></p>
-<p align ="center"><img src="https://pbs.twimg.com/media/EQFuZUIXUAEJeil?format=jpg" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EQFv4aFXsAAYmW4?format=jpg&name=4096x4096" width="25%" /></p>
+<p align ="center"><img src="https://pbs.twimg.com/media/EQFqFP8UYAEAMI-?format=png" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EQFstP8XkAADIA5?format=png" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EQFtdz3XUAEZTI3?format=png" width="25%" /></p>
+<p align ="center"><img src="https://pbs.twimg.com/media/EQFuZUIXUAEJeil?format=png" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EQFv4aFXsAAYmW4?format=png" width="25%" /></p>
 
 The project started as a single script for the iPad Swift Playgrounds and was quickly converted to an app by using a standard Xcode template (the Core Data layer and the Watch Extension are not actually implemented): it should compile finely without dependencies just after changing the _Bundle Identifier_ in the _General_ panel and the _Team_ in the _Signing and Capabilities_ tab of Xcode (Spike users know already very well what that means... ;) ).
 

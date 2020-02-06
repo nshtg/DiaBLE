@@ -2,7 +2,7 @@ import Foundation
 import WebKit
 
 
-class Nightscout: NSObject, WKNavigationDelegate {
+class Nightscout: NSObject, WKNavigationDelegate, WKUIDelegate {
 
     /// Main app delegate
     var main: MainDelegate
@@ -164,9 +164,33 @@ class Nightscout: NSObject, WKNavigationDelegate {
         }.resume()
     }
 
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        main.debugLog("Nightscout: decide policy for action: \(navigationAction)")
+        decisionHandler(.allow)
+    }
+
+    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        main.debugLog("Nightscout: decide policy for response: \(navigationResponse)")
+        decisionHandler(.allow)
+    }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         main.log("Nightscout: webView did fail: \(error.localizedDescription)")
+    }
+
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
+        main.log("Nightscout: TODO: create veb View")
+        return nil
+    }
+
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        main.log("Nightscout: TODO: JavaScript alert panel message: \(message)")
+        completionHandler()
+    }
+
+    func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
+        main.log("Nightscout: TODO: JavaScript confirm panel message: \(message)")
+        completionHandler(false)
     }
 
 }

@@ -8,11 +8,12 @@ struct WebView: UIViewRepresentable {
     var site: String
     var endpoint: String = ""
     var query: String = ""
-    var delegate: WKNavigationDelegate!
+    var delegate: (WKNavigationDelegate & WKUIDelegate)!
 
     func makeUIView(context: Context) -> WKWebView {
         let webView = WKWebView(frame: .zero)
         webView.navigationDelegate = delegate
+        webView.uiDelegate = delegate
         (delegate as? Nightscout)?.webView = webView
         return webView
     }
