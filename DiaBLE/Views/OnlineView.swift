@@ -31,7 +31,6 @@ struct OnlineView: View {
                     }
 
                     VStack(spacing: 0) {
-
                         // TODO: reload web page
                         // Same as Rescan
                         Button(action: {
@@ -46,7 +45,6 @@ struct OnlineView: View {
                             }
                             if let healthKit = self.app.main.healthKit { healthKit.read() }
                             if let nightscout = self.app.main.nightscout { nightscout.read() }
-
                         }
                         ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)
                             .foregroundColor(.accentColor) }
@@ -58,47 +56,45 @@ struct OnlineView: View {
                                 self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
                         }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
                     }
+
+                    Button(action: {
+                        if self.app.main.nfcReader.isNFCAvailable {
+                            self.app.main.nfcReader.startSession()
+                            if let healthKit = self.app.main.healthKit { healthKit.read() }
+                            if let nightscout = self.app.main.nightscout { nightscout.read() }
+                        } else {
+                            self.showingNFCAlert = true
+                        }
+                    }) { VStack {
+                        Image(systemName: "radiowaves.left")
+                            .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32)
+                        Text("NFC").font(.footnote).bold().offset(y: -16)
+                        }
+                    }.alert(isPresented: $showingNFCAlert) {
+                        Alert(
+                            title: Text("NFC not supported"),
+                            message: Text("This device doesn't allow scanning the Libre."))
+                    }
+
                 }.foregroundColor(.accentColor)
                     .padding(.bottom, 4)
+
 
                 WebView(site: settings.nightscoutSite, query: "token=\(settings.nightscoutToken)")
                     .frame(height: UIScreen.main.bounds.size.height * 0.60)
 
                 if history.nightscoutValues.count > 0 {
-                    VStack(spacing: 0) {
-                        Text("Nightscout data:")
-                        List() {
-                            ForEach(history.nightscoutValues) { glucose in
-                                Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
-                                    .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets())
-                            }
-                            .frame(maxWidth: .infinity, alignment: .topLeading)
+                    List() {
+                        ForEach(history.nightscoutValues) { glucose in
+                            Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
+                                .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets())
                         }
+                        .frame(maxWidth: .infinity, alignment: .topLeading)
                     }.font(.system(.caption, design: .monospaced)).foregroundColor(.blue)
                         .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
                 }
             }
             .navigationBarTitle("Online", displayMode: .inline)
-            .navigationBarItems(trailing:
-                Button(action: {
-                    if self.app.main.nfcReader.isNFCAvailable {
-                        self.app.main.nfcReader.startSession()
-                        if let healthKit = self.app.main.healthKit { healthKit.read() }
-                        if let nightscout = self.app.main.nightscout { nightscout.read() }
-                    } else {
-                        self.showingNFCAlert = true
-                    }
-                }) { VStack {
-                    Image(systemName: "radiowaves.left")
-                        .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32).offset(y: 8)
-                    Text("NFC").font(.footnote).bold().offset(y: -8)
-                }
-                }.alert(isPresented: $showingNFCAlert) {
-                    Alert(
-                        title: Text("NFC not supported"),
-                        message: Text("This device doesn't allow scanning the Libre."))
-                }
-            )
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }

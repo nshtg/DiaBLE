@@ -146,15 +146,14 @@ class Nightscout {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 self.main.log("Nightscout: authorization error: \(error.localizedDescription)")
-            } else {
-                if let response = response as? HTTPURLResponse {
-                    let status = response.statusCode
-                    if status == 401 {
-                        self.main.log("Nightscout: not authorized")
-                    }
-                    if let data = data {
-                        self.main.debugLog("Nightscout: authorization \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
-                    }
+            }
+            if let response = response as? HTTPURLResponse {
+                let status = response.statusCode
+                if status == 401 {
+                    self.main.log("Nightscout: not authorized")
+                }
+                if let data = data {
+                    self.main.debugLog("Nightscout: authorization \((200..<300).contains(status) ? "success" : "error") (\(status)): \(data.string)")
                 }
             }
             DispatchQueue.main.async {
