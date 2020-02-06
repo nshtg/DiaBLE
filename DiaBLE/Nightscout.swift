@@ -179,7 +179,7 @@ class Nightscout: NSObject, WKNavigationDelegate, WKUIDelegate {
     }
 
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        main.log("Nightscout: TODO: create veb View")
+        main.log("Nightscout: TODO: create veb view for action: \(navigationAction)")
         return nil
     }
 
