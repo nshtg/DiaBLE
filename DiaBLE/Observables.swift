@@ -109,7 +109,7 @@ class Settings: ObservableObject {
         "mutedAudio": false,
 
         "createCalendarEvents": false,
-        "calendarId": "",
+        "calendarTitle": "",
 
         "logging": true,
         "reversedLog": true,
@@ -192,8 +192,8 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.createCalendarEvents, forKey: "createCalendarEvents") }
     }
 
-    @Published var calendarId: String = UserDefaults.standard.string(forKey: "calendarId")! {
-        didSet { UserDefaults.standard.set(self.calendarId, forKey: "calendarId") }
+    @Published var calendarTitle: String = UserDefaults.standard.string(forKey: "calendarTitle")! {
+        didSet { UserDefaults.standard.set(self.calendarTitle, forKey: "calendarTitle") }
     }
 
     @Published var logging: Bool = UserDefaults.standard.bool(forKey: "logging") {
@@ -238,7 +238,7 @@ class Settings: ObservableObject {
         mutedAudio: Bool = UserDefaults.standard.bool(forKey: "mutedAudio"),
 
         createCalendarEvents: Bool = UserDefaults.standard.bool(forKey: "createCalendarEvents"),
-        calendarId: String = UserDefaults.standard.string(forKey: "calendarId")!,
+        calendarTitle: String = UserDefaults.standard.string(forKey: "calendarTitle")!,
 
         logging: Bool = UserDefaults.standard.bool(forKey: "logging"),
         reversedLog: Bool = UserDefaults.standard.bool(forKey: "reversedLog"),
@@ -264,7 +264,7 @@ class Settings: ObservableObject {
         self.mutedAudio = mutedAudio
 
         self.createCalendarEvents = createCalendarEvents
-        self.calendarId = calendarId
+        self.calendarTitle = calendarTitle
 
         self.logging = logging
         self.reversedLog = reversedLog

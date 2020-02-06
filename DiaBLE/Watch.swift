@@ -199,7 +199,7 @@ class EventKit {
 
             var calendar: EKCalendar?
             for storeCalendar in self.store.calendars(for: .event) {
-                if storeCalendar.title == self.main.settings.calendarId {
+                if storeCalendar.title == self.main.settings.calendarTitle {
                     calendar = storeCalendar
                     break
                 }
