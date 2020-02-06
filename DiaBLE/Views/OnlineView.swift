@@ -83,16 +83,14 @@ struct OnlineView: View {
                 WebView(site: settings.nightscoutSite, query: "token=\(settings.nightscoutToken)", delegate: app.main?.nightscout )
                     .frame(height: UIScreen.main.bounds.size.height * 0.60)
 
-                if history.nightscoutValues.count > 0 {
-                    List() {
-                        ForEach(history.nightscoutValues) { glucose in
-                            Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
-                                .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets())
-                        }
-                        .frame(maxWidth: .infinity, alignment: .topLeading)
-                    }.font(.system(.caption, design: .monospaced)).foregroundColor(.blue)
-                        .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
-                }
+                List() {
+                    ForEach(history.nightscoutValues) { glucose in
+                        Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
+                            .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets())
+                    }
+                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                }.font(.system(.caption, design: .monospaced)).foregroundColor(.blue)
+                    .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
             }
             .navigationBarTitle("Online", displayMode: .inline)
         }.navigationViewStyle(StackNavigationViewStyle())

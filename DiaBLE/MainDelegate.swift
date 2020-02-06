@@ -16,6 +16,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
     var audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "alarm_high", ofType: "mp3")!), fileTypeHint: "mp3")
     var healthKit: HealthKit?
     var nightscout: Nightscout?
+    var eventKit: EventKit?
+
 
 
     override init() {
@@ -51,6 +53,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         nightscout = Nightscout(main: self)
         nightscout!.read()
+        eventKit = EventKit(main: self)
+
 
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _,_ in }
@@ -240,8 +244,10 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         UIApplication.shared.applicationIconBadgeNumber = currentGlucose
 
+        // TODO: store calibrated values even if LibreOOP is offline
+
         if history.values.count > 0 {
-            // TODO: delete the last 8 hours before posting the newest history values
+            eventKit?.sync()
             nightscout?.delete(query: "find[device]=LibreOOP&count=32") { data, response, error in
                 self.nightscout?.post(entries: self.history.values.filter{ $0.value > 0 } + [Glucose(currentGlucose, date: sensor.lastReadingDate, source: "DiaBLE")]) { data, response, error in
                     self.nightscout?.read()

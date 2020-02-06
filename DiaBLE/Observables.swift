@@ -108,6 +108,9 @@ class Settings: ObservableObject {
         "alarmHigh": 200.0,
         "mutedAudio": false,
 
+        "createCalendarEvents": false,
+        "calendarId": "",
+
         "logging": true,
         "reversedLog": true,
         "debugLevel": 0,
@@ -185,6 +188,14 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.mutedAudio, forKey: "mutedAudio") }
     }
 
+    @Published var createCalendarEvents: Bool = UserDefaults.standard.bool(forKey: "createCalendarEvents") {
+        didSet { UserDefaults.standard.set(self.createCalendarEvents, forKey: "createCalendarEvents") }
+    }
+
+    @Published var calendarId: String = UserDefaults.standard.string(forKey: "calendarId")! {
+        didSet { UserDefaults.standard.set(self.calendarId, forKey: "calendarId") }
+    }
+
     @Published var logging: Bool = UserDefaults.standard.bool(forKey: "logging") {
         didSet { UserDefaults.standard.set(self.logging, forKey: "logging") }
     }
@@ -224,8 +235,10 @@ class Settings: ObservableObject {
         targetHigh: Double = UserDefaults.standard.double(forKey: "targetHigh"),
         alarmLow:   Double = UserDefaults.standard.double(forKey: "alarmLow"),
         alarmHigh:  Double = UserDefaults.standard.double(forKey: "alarmHigh"),
-
         mutedAudio: Bool = UserDefaults.standard.bool(forKey: "mutedAudio"),
+
+        createCalendarEvents: Bool = UserDefaults.standard.bool(forKey: "createCalendarEvents"),
+        calendarId: String = UserDefaults.standard.string(forKey: "calendarId")!,
 
         logging: Bool = UserDefaults.standard.bool(forKey: "logging"),
         reversedLog: Bool = UserDefaults.standard.bool(forKey: "reversedLog"),
@@ -249,6 +262,9 @@ class Settings: ObservableObject {
         self.alarmLow = alarmLow
         self.alarmHigh = alarmHigh
         self.mutedAudio = mutedAudio
+
+        self.createCalendarEvents = createCalendarEvents
+        self.calendarId = calendarId
 
         self.logging = logging
         self.reversedLog = reversedLog

@@ -109,12 +109,11 @@ struct SettingsView: View {
                         Image(systemName: settings.mutedAudio ? "speaker.slash.fill" : "speaker.2.fill").resizable().frame(width: 24, height: 24).foregroundColor(.accentColor)
                     }
 
-                    // TODO: calendar events
-                    // Button(action: {
-                    //     self.settings.mutedAudio.toggle()
-                    // }) {
-                    //     Image(systemName: settings.mutedAudio ? "calendar.circle" : "calendar.circle.fill").resizable().frame(width: 24, height: 24).foregroundColor(.accentColor)
-                    // }
+                    Button(action: {
+                        self.settings.createCalendarEvents.toggle()
+                    }) {
+                        Image(systemName: settings.createCalendarEvents ? "calendar.circle.fill" : "calendar.circle").resizable().frame(width: 32, height: 32).foregroundColor(.accentColor)
+                    }
                 }
 
                 Spacer()

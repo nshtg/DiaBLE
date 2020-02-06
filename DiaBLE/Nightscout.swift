@@ -17,7 +17,7 @@ class Nightscout: NSObject, WKNavigationDelegate, WKUIDelegate {
     // https://github.com/JohanDegraeve/xdripswift/blob/master/xdrip/Managers/NightScout/NightScoutUploadManager.swift
 
 
-    // TODO: query parameters
+    // TODO: use URLQueryItems paramaters
     func request(endpoint: String = "", query: String = "", handler: @escaping (Data?, URLResponse?, Error?, [Any]) -> Void) {
         var url = "https://\(main.settings.nightscoutSite)"
 

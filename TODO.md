@@ -13,8 +13,8 @@ TODO
 ----
 
 * notification center delegate methods
+* calling "Details..." allows to setup a specific device (for example the watch alarms and calibration)
 * save measurements by using HealthKit
-* create calendar events to be displayed in Apple Watch complications
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file
 * popup sliders to change the calibration parameters and update interactively the third purple curve
 * save the OOP calibration parameters for offline reuse
