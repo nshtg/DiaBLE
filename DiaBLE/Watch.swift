@@ -222,7 +222,11 @@ class EventKit {
                 }
             }
 
-            var title = String(self.main.app.currentGlucose)
+            var title = self.main.app.currentGlucose > 0 ?
+                "\(self.main.app.currentGlucose)" :
+                (self.main.app.currentGlucose < 0 ?
+                    "(\(-self.main.app.currentGlucose))" : "---")
+
             title += "  \(self.main.settings.glucoseUnit)"
 
             if !title.isEmpty {

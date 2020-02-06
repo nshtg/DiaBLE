@@ -246,8 +246,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         // TODO: store calibrated values even if LibreOOP is offline
 
+        eventKit?.sync()
+
         if history.values.count > 0 {
-            eventKit?.sync()
             nightscout?.delete(query: "find[device]=LibreOOP&count=32") { data, response, error in
                 self.nightscout?.post(entries: self.history.values.filter{ $0.value > 0 } + [Glucose(currentGlucose, date: sensor.lastReadingDate, source: "DiaBLE")]) { data, response, error in
                     self.nightscout?.read()
