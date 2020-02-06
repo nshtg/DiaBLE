@@ -1,10 +1,12 @@
 import Foundation
+import WebKit
 
 
-class Nightscout {
+class Nightscout: NSObject, WKNavigationDelegate {
 
     /// Main app delegate
     var main: MainDelegate
+    var webView: WKWebView?
 
     init(main: MainDelegate) {
         self.main = main
@@ -161,4 +163,10 @@ class Nightscout {
             }
         }.resume()
     }
+
+
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        main.log("Nightscout: webView did fail: \(error.localizedDescription)")
+    }
+
 }

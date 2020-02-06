@@ -5,12 +5,16 @@ import WebKit
 
 struct WebView: UIViewRepresentable {
 
-    let site: String
+    var site: String
     var endpoint: String = ""
     var query: String = ""
+    var delegate: WKNavigationDelegate!
 
     func makeUIView(context: Context) -> WKWebView {
-        return WKWebView(frame: .zero)
+        let webView = WKWebView(frame: .zero)
+        webView.navigationDelegate = delegate
+        (delegate as? Nightscout)?.webView = webView
+        return webView
     }
 
     func updateUIView(_ view: WKWebView, context: Context) {

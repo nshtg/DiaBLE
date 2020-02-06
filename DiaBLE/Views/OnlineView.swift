@@ -80,7 +80,7 @@ struct OnlineView: View {
                     .padding(.bottom, 4)
 
 
-                WebView(site: settings.nightscoutSite, query: "token=\(settings.nightscoutToken)")
+                WebView(site: settings.nightscoutSite, query: "token=\(settings.nightscoutToken)", delegate: app.main?.nightscout )
                     .frame(height: UIScreen.main.bounds.size.height * 0.60)
 
                 if history.nightscoutValues.count > 0 {
