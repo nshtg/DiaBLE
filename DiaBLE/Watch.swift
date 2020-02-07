@@ -188,6 +188,7 @@ class EventKit {
                     return
             }
 
+            // TODO: a picker to select a name from Settings
             self.calendarTitles = self.store.calendars(for: .event)
                 .filter { $0.allowsContentModifications }
                 .map { $0.title }
@@ -210,7 +211,7 @@ class EventKit {
                 calendar = self.store.defaultCalendarForNewEvents
             }
 
-            let predicate = self.store.predicateForEvents(withStart: Date(timeIntervalSinceNow: -24 * 3600), end: Date(), calendars: [calendar!])
+            let predicate = self.store.predicateForEvents(withStart: Date.distantPast, end: Date(), calendars: [calendar!])
             for event in self.store.events(matching: predicate) {
                 if let notes = event.notes {
                     if notes.contains("Created by DiaBLE") {
