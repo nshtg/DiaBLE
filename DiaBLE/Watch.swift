@@ -179,6 +179,8 @@ class EventKit {
 
     func sync() {
 
+        guard self.main.settings.createCalendarEvents else { return }
+
         store.requestAccess(to: .event) { granted, error  in
             guard granted
                 else {
@@ -190,7 +192,6 @@ class EventKit {
                 .filter { $0.allowsContentModifications }
                 .map { $0.title }
 
-            guard self.main.settings.createCalendarEvents else { return }
             guard EKEventStore.authorizationStatus(for: .event) == .authorized
                 else {
                     self.main.log("EventKit: access to calendar events not authorized")
@@ -222,10 +223,11 @@ class EventKit {
                 }
             }
 
-            var title = self.main.app.currentGlucose > 0 ?
-                "\(self.main.app.currentGlucose)" :
-                (self.main.app.currentGlucose < 0 ?
-                    "(\(-self.main.app.currentGlucose))" : "---")
+            var currentGlucose = self.main.app.currentGlucose
+            var title = currentGlucose > 0 ?
+                "\(currentGlucose)" :
+                (currentGlucose < 0 ?
+                    "(\(-currentGlucose))" : "---")
 
             title += "  \(self.main.settings.glucoseUnit)"
 
@@ -239,7 +241,12 @@ class EventKit {
                 event.startDate = Date()
                 event.endDate = Date(timeIntervalSinceNow: TimeInterval(60 * self.main.settings.readingInterval))
                 event.calendar = calendar
-                // TODO: alarm
+
+                currentGlucose = abs(currentGlucose)
+                if currentGlucose > 0 && (currentGlucose > Int(self.main.settings.alarmHigh) || currentGlucose < Int(self.main.settings.alarmLow)) {
+                    let alarm = EKAlarm(relativeOffset: 1)
+                    event.addAlarm(alarm)
+                }
 
                 do {
                     try self.store.save(event, span: .thisEvent)
