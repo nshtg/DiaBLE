@@ -104,13 +104,13 @@ struct SettingsView: View {
 
                 HStack(spacing: 20) {
                     Button(action: {
-                        self.settings.mutedAudio.toggle()
+                        self.settings.mutedAudio = !self.settings.mutedAudio // workaround for iOS 13.4 beta, otherwise toggle()
                     }) {
                         Image(systemName: settings.mutedAudio ? "speaker.slash.fill" : "speaker.2.fill").resizable().frame(width: 24, height: 24).foregroundColor(.accentColor)
                     }
 
                     Button(action: {
-                        self.settings.createCalendarEvents.toggle()
+                        self.settings.createCalendarEvents = !self.settings.createCalendarEvents // workaround for iOS 13.4 beta, otherwise toggle()
                     }) {
                         Image(systemName: settings.createCalendarEvents ? "calendar.circle.fill" : "calendar.circle").resizable().frame(width: 32, height: 32).foregroundColor(.accentColor)
                     }

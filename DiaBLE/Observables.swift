@@ -204,19 +204,19 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.logging, forKey: "logging") }
     }
 
-    @Published var reversedLog: Bool =  UserDefaults.standard.bool(forKey: "reversedLog") {
+    @Published var reversedLog: Bool = UserDefaults.standard.bool(forKey: "reversedLog") {
         didSet { UserDefaults.standard.set(self.reversedLog, forKey: "reversedLog") }
     }
 
-    @Published var debugLevel: Int =  UserDefaults.standard.integer(forKey: "debugLevel") {
+    @Published var debugLevel: Int = UserDefaults.standard.integer(forKey: "debugLevel") {
         didSet { UserDefaults.standard.set(self.debugLevel, forKey: "debugLevel") }
     }
 
-    @Published var nightscoutSite: String =  UserDefaults.standard.string(forKey: "nightscoutSite")! {
+    @Published var nightscoutSite: String = UserDefaults.standard.string(forKey: "nightscoutSite")! {
         didSet { UserDefaults.standard.set(self.nightscoutSite, forKey: "nightscoutSite") }
     }
 
-    @Published var nightscoutToken: String =  UserDefaults.standard.string(forKey: "nightscoutToken")! {
+    @Published var nightscoutToken: String = UserDefaults.standard.string(forKey: "nightscoutToken")! {
         didSet { UserDefaults.standard.set(self.nightscoutToken, forKey: "nightscoutToken") }
     }
 

@@ -230,10 +230,11 @@ class EventKit {
                 (currentGlucose < 0 ?
                     "(\(-currentGlucose))" : "---")
 
-            title += "  \(self.main.settings.glucoseUnit)"
+            currentGlucose = abs(currentGlucose)
+            if currentGlucose != 0 {
+                title += "  \(self.main.settings.glucoseUnit)"
+                title += "  \(OOP.alarmDescription(for: self.main.app.oopAlarm))  \(OOP.trendSymbol(for: self.main.app.oopTrend))"
 
-            if !title.isEmpty {
-                title += "  " + trendSymbol(for: self.main.app.oopTrend)
                 // TODO: delta
 
                 let event = EKEvent(eventStore: self.store)
@@ -243,7 +244,6 @@ class EventKit {
                 event.endDate = Date(timeIntervalSinceNow: TimeInterval(60 * self.main.settings.readingInterval))
                 event.calendar = calendar
 
-                currentGlucose = abs(currentGlucose)
                 if currentGlucose > 0 && (currentGlucose > Int(self.main.settings.alarmHigh) || currentGlucose < Int(self.main.settings.alarmLow)) {
                     let alarm = EKAlarm(relativeOffset: 1)
                     event.addAlarm(alarm)
