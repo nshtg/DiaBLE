@@ -177,7 +177,7 @@ class EventKit {
     }
 
 
-    func sync() {
+    func sync(handler: ((EKCalendar?) -> ())? = nil) {
 
         guard self.main.settings.createCalendarEvents else { return }
 
@@ -254,6 +254,7 @@ class EventKit {
                 } catch {
                     self.main.log("EventKit: error while saving event: \(error.localizedDescription)")
                 }
+                handler?(calendar)
             }
         }
     }

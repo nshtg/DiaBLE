@@ -20,6 +20,10 @@ class App: ObservableObject {
 
     @Published var calibration: Calibration
 
+    @Published var showingJavaScriptConfirmAlert = false
+    @Published var JavaScriptConfirmAlertMessage = ""
+    @Published var JavaScriptAlertReturn = ""
+
     init(
         transmitter: Transmitter! = nil,
         sensor: Sensor! = nil,

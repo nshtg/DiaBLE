@@ -167,11 +167,15 @@ class Nightscout: NSObject, WKNavigationDelegate, WKUIDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         main.debugLog("Nightscout: decide policy for action: \(navigationAction)")
         decisionHandler(.allow)
+        main.debugLog("Nightscout: allowed action: \(navigationAction)")
+
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         main.debugLog("Nightscout: decide policy for response: \(navigationResponse)")
         decisionHandler(.allow)
+        main.debugLog("Nightscout: allowed response: \(navigationResponse)")
+
     }
 
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -179,18 +183,27 @@ class Nightscout: NSObject, WKNavigationDelegate, WKUIDelegate {
     }
 
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        main.log("Nightscout: TODO: create veb view for action: \(navigationAction)")
+        main.log("Nightscout: create veb view for action: \(navigationAction)")
+        //        if navigationAction.targetFrame == nil {
+        webView.load(navigationAction.request)
+        //        }
         return nil
     }
 
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        main.log("Nightscout: TODO: JavaScript alert panel message: \(message)")
+        main.log("Nightscout: JavaScript alert panel message: \(message)")
+        main.app.JavaScriptConfirmAlertMessage = message
+        main.app.showingJavaScriptConfirmAlert = true
+        // TODO: block web page updates
         completionHandler()
     }
 
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
         main.log("Nightscout: TODO: JavaScript confirm panel message: \(message)")
-        completionHandler(false)
+        main.app.JavaScriptConfirmAlertMessage = message
+        main.app.showingJavaScriptConfirmAlert = true
+        // TODO: block web page updates
+        completionHandler(true)
     }
 
 }

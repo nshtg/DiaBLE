@@ -82,6 +82,15 @@ struct OnlineView: View {
 
                 WebView(site: settings.nightscoutSite, query: "token=\(settings.nightscoutToken)", delegate: app.main?.nightscout )
                     .frame(height: UIScreen.main.bounds.size.height * 0.60)
+                    .alert(isPresented: $app.showingJavaScriptConfirmAlert) {
+                        Alert(title: Text("JavaScript"),
+                              message: Text(self.app.JavaScriptConfirmAlertMessage),
+                              primaryButton: .default(Text("OK")) {
+                                self.app.main.log("JavaScript alert: selected OK") },
+                              secondaryButton: .cancel(Text("Cancel")) {
+                                self.app.main.log("JavaScript alert: selected Cancel") }
+                        )
+                }
 
                 List() {
                     ForEach(history.nightscoutValues) { glucose in
