@@ -114,6 +114,8 @@ class Settings: ObservableObject {
 
         "createCalendarEvents": false,
         "calendarTitle": "",
+        "calendarEventsAlarmIsOn": false,
+
 
         "logging": true,
         "reversedLog": true,
@@ -200,6 +202,10 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.calendarTitle, forKey: "calendarTitle") }
     }
 
+    @Published var calendarEventsAlarmIsOn: Bool = UserDefaults.standard.bool(forKey: "calendarEventsAlarmIsOn") {
+        didSet { UserDefaults.standard.set(self.calendarEventsAlarmIsOn, forKey: "calendarEventsAlarmIsOn") }
+    }
+
     @Published var logging: Bool = UserDefaults.standard.bool(forKey: "logging") {
         didSet { UserDefaults.standard.set(self.logging, forKey: "logging") }
     }
@@ -243,6 +249,7 @@ class Settings: ObservableObject {
 
         createCalendarEvents: Bool = UserDefaults.standard.bool(forKey: "createCalendarEvents"),
         calendarTitle: String = UserDefaults.standard.string(forKey: "calendarTitle")!,
+        calendarEventsAlarmIsOn: Bool = UserDefaults.standard.bool(forKey: "calendarEventsAlarmIsOn"),
 
         logging: Bool = UserDefaults.standard.bool(forKey: "logging"),
         reversedLog: Bool = UserDefaults.standard.bool(forKey: "reversedLog"),
@@ -269,6 +276,7 @@ class Settings: ObservableObject {
 
         self.createCalendarEvents = createCalendarEvents
         self.calendarTitle = calendarTitle
+        self.calendarEventsAlarmIsOn = calendarEventsAlarmIsOn
 
         self.logging = logging
         self.reversedLog = reversedLog

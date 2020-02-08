@@ -6,6 +6,9 @@ struct SettingsView: View {
     @EnvironmentObject var app: App
     @EnvironmentObject var settings: Settings
 
+    @State private var showingCalendarList = false
+
+
     var body: some View {
 
         NavigationView {
@@ -102,7 +105,7 @@ struct SettingsView: View {
                     }.accentColor(.red)
                 }.padding(.horizontal, 40)
 
-                HStack(spacing: 20) {
+                HStack(spacing: 24) {
                     Button(action: {
                         self.settings.mutedAudio = !self.settings.mutedAudio // workaround for iOS 13.4 beta, otherwise toggle()
                     }) {
@@ -110,9 +113,16 @@ struct SettingsView: View {
                     }
 
                     Button(action: {
+                        self.showingCalendarList.toggle()
                         self.settings.createCalendarEvents = !self.settings.createCalendarEvents // workaround for iOS 13.4 beta, otherwise toggle()
                     }) {
                         Image(systemName: settings.createCalendarEvents ? "calendar.circle.fill" : "calendar.circle").resizable().frame(width: 32, height: 32).foregroundColor(.accentColor)
+                    }
+                    .popover(isPresented: $showingCalendarList) {
+                        List(self.app.main.eventKit?.calendarTitles ?? [""], id: \.self) { title in
+                            Text(title)
+                        }
+                        Toggle("Alarm", isOn: self.$settings.calendarEventsAlarmIsOn)
                     }
                 }
 

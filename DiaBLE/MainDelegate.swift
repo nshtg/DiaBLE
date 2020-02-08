@@ -54,6 +54,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         nightscout = Nightscout(main: self)
         nightscout!.read()
         eventKit = EventKit(main: self)
+        eventKit?.sync()
 
 
         UNUserNotificationCenter.current().delegate = self

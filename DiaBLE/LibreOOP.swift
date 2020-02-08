@@ -95,7 +95,7 @@ struct OOP {
     static func alarmDescription(for alarm: String) -> String {
         switch alarm {
         case "PROJECTED_HIGH_GLUCOSE": return "VERY HIGH"
-        case "HIGH_GLUCOSE":          return "HIGH"
+        case "HIGH_GLUCOSE":           return "HIGH"
         case "GLUCOSE_OK":             return "OK"
         case "LOW_GLUCOSE":            return "LOW"
         case "PROJECTED_LOW_GLUCOSE":  return "VERY LOW"

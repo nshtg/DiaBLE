@@ -244,9 +244,11 @@ class EventKit {
                 event.endDate = Date(timeIntervalSinceNow: TimeInterval(60 * self.main.settings.readingInterval))
                 event.calendar = calendar
 
-                if currentGlucose > 0 && (currentGlucose > Int(self.main.settings.alarmHigh) || currentGlucose < Int(self.main.settings.alarmLow)) {
-                    let alarm = EKAlarm(relativeOffset: 1)
-                    event.addAlarm(alarm)
+                if self.main.settings.calendarEventsAlarmIsOn {
+                    if currentGlucose > 0 && (currentGlucose > Int(self.main.settings.alarmHigh) || currentGlucose < Int(self.main.settings.alarmLow)) {
+                        let alarm = EKAlarm(relativeOffset: 1)
+                        event.addAlarm(alarm)
+                    }
                 }
 
                 do {
