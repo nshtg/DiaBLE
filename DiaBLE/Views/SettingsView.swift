@@ -137,7 +137,7 @@ struct SettingsView: View {
 
                         }.padding(60)
                     }
-                }
+                }.padding(.top, 16)
 
                 Spacer()
 

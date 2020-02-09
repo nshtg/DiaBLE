@@ -47,7 +47,7 @@ class Watlaa: Watch {
         case calibration    = "00001014-1212-EFDE-0137-875F45AC0113"
         case glucoseUnit    = "00001015-1212-EFDE-0137-875F45AC0113"
         case alerts         = "00001016-1212-EFDE-0137-875F45AC0113"
-        case unknown        = "00001017-1212-EFDE-0137-875F45AC0113"
+        case unknown1       = "00001017-1212-EFDE-0137-875F45AC0113"
         case unknown2       = "00001018-1212-EFDE-0137-875F45AC0113"
 
         var description: String {
@@ -62,8 +62,8 @@ class Watlaa: Watch {
             case .calibration:    return "calibration"
             case .glucoseUnit:    return "glucose unit"
             case .alerts:         return "alerts settings"
-            case .unknown,
-                 .unknown2:       return "unknown"
+            case .unknown1:       return "unknown 1"
+            case .unknown2:       return "unknown 2 (sensor serial)"
             }
         }
     }

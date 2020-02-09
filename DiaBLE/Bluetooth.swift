@@ -334,6 +334,15 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
             } else if let uuid = Watlaa.UUID(rawValue: uuid) {
                 msg += " (\(uuid))"
+                if uuid.description.contains("unknown") {
+                    if characteristic.properties.contains(.notify) {
+                        app.transmitter.peripheral?.setNotifyValue(true, for: characteristic)
+                    }
+                    if characteristic.properties.contains(.read) {
+                        app.transmitter.peripheral?.readValue(for: characteristic)
+                        msg += "; reading it"
+                    }
+                }
 
                 // } else if let uuid = OtherDevice.UUID(rawValue: uuid) {
                 //    msg += " (\(uuid))"
