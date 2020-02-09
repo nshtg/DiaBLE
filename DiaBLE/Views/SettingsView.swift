@@ -129,6 +129,7 @@ struct SettingsView: View {
                             Section {
                                 Toggle("Alarm", isOn: self.$settings.calendarAlarmIsOn)
                                 Button(action: {
+                                    self.app.main.eventKit?.sync()
                                     self.showingCalendarPicker = false
                                 }
                                 ) { Text(" Set ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }

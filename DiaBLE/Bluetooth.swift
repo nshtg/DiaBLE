@@ -328,7 +328,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                 app.transmitter.peripheral?.setNotifyValue(true, for: app.transmitter.readCharacteristic!)
                 msg += " (data read)"
 
-            } else if uuid == Bubble.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID {
+            } else if uuid == Bubble.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID || uuid == Watlaa.dataWriteCharacteristicUUID {
                 msg += " (data write)"
                 app.transmitter.writeCharacteristic = characteristic
 
@@ -360,10 +360,10 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             // log("Bubble: writing reset and send data every 5 minutes command 0x000105")
         }
 
-        if app.transmitter.type == .transmitter(.miaomiao) && serviceUUID == MiaoMiao.dataServiceUUID {
+        if (app.transmitter.type == .transmitter(.miaomiao) || app.transmitter.type == .watch(.watlaa)) && (serviceUUID == MiaoMiao.dataServiceUUID || serviceUUID == Watlaa.dataServiceUUID) {
             let readCommand = app.transmitter.readCommand(interval: settings.readingInterval)
             app.transmitter.write(readCommand)
-            log("MiaoMiao: writing start reading command 0x\(Data(readCommand).hex)")
+            log("\(app.transmitter.name): writing start reading command 0x\(Data(readCommand).hex)")
             // app.transmitter.write([0xD3, 0x01]); log("MiaoMiao writing start new sensor command D301")
         }
 
