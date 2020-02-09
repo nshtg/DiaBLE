@@ -88,7 +88,7 @@ struct SettingsView: View {
                 VStack {
                     VStack(spacing: 0) {
                         Image(systemName: "hand.thumbsup.fill").foregroundColor(.green).padding(4)
-                        Text("\(String(format: "%3d", Int(settings.targetLow))) - \(Int(settings.targetHigh))").foregroundColor(.green)
+                        Text("\(Int(settings.targetLow), specifier: "%3d") - \(Int(settings.targetHigh))").foregroundColor(.green)
                         HStack {
                             Slider(value: $settings.targetLow,  in: 40 ... 99, step: 1)
                             Slider(value: $settings.targetHigh, in: 140 ... 299, step: 1)
@@ -97,7 +97,7 @@ struct SettingsView: View {
 
                     VStack(spacing: 0) {
                         Image(systemName: "bell.fill").foregroundColor(.red).padding(4)
-                        Text("<\(String(format: "%3d", Int(settings.alarmLow)))   > \(Int(settings.alarmHigh))").foregroundColor(.red)
+                        Text("<\(Int(settings.alarmLow), specifier: "%3d")   > \(Int(settings.alarmHigh))").foregroundColor(.red)
                         HStack {
                             Slider(value: $settings.alarmLow,  in: 40 ... 99, step: 1)
                             Slider(value: $settings.alarmHigh, in: 140 ... 299, step: 1)

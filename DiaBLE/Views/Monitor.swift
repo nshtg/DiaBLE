@@ -22,7 +22,7 @@ struct Monitor: View {
                         VStack {
 
                             Text("\(app.lastReadingDate.shortTime)")
-                            Text("\(String(Int(Date().timeIntervalSince(app.lastReadingDate)/60))) min ago").font(.footnote)
+                            Text("\(Int(Date().timeIntervalSince(app.lastReadingDate)/60)) min ago").font(.footnote)
 
                         }.frame(maxWidth: .infinity, alignment: .trailing ).padding(.trailing, 12).foregroundColor(Color.init(UIColor.lightGray))
 
@@ -77,7 +77,7 @@ struct Monitor: View {
                             }
 
                             if app.sensor.age > 0 {
-                                Text("\(String(format: "%.1f", Double( app.sensor.age)/60/24)) days")
+                                Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days")
                             }
                         }
                     }

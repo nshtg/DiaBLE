@@ -94,7 +94,7 @@ struct OnlineView: View {
 
                 List() {
                     ForEach(history.nightscoutValues) { glucose in
-                        Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(String(format: "%3d", Int(glucose.value)))")
+                        Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(Int(glucose.value), specifier: "%3d")")
                             .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets())
                     }
                     .frame(maxWidth: .infinity, alignment: .topLeading)
