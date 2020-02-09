@@ -179,8 +179,6 @@ class EventKit {
 
     func sync(handler: ((EKCalendar?) -> ())? = nil) {
 
-        guard self.main.settings.createCalendarEvents else { return }
-
         store.requestAccess(to: .event) { granted, error  in
             guard granted
                 else {
@@ -188,16 +186,17 @@ class EventKit {
                     return
             }
 
-            // TODO: a picker to select a name from Settings
-            self.calendarTitles = self.store.calendars(for: .event)
-                .filter { $0.allowsContentModifications }
-                .map { $0.title }
-
             guard EKEventStore.authorizationStatus(for: .event) == .authorized
                 else {
                     self.main.log("EventKit: access to calendar events not authorized")
                     return
             }
+
+            self.calendarTitles = self.store.calendars(for: .event)
+                .filter { $0.allowsContentModifications }
+                .map { $0.title }
+
+            guard self.main.settings.calendarTitle != "" else { return }
 
             var calendar: EKCalendar?
             for storeCalendar in self.store.calendars(for: .event) {
@@ -244,7 +243,7 @@ class EventKit {
                 event.endDate = Date(timeIntervalSinceNow: TimeInterval(60 * self.main.settings.readingInterval))
                 event.calendar = calendar
 
-                if self.main.settings.calendarEventsAlarmIsOn {
+                if self.main.settings.calendarAlarmIsOn {
                     if currentGlucose > 0 && (currentGlucose > Int(self.main.settings.alarmHigh) || currentGlucose < Int(self.main.settings.alarmLow)) {
                         let alarm = EKAlarm(relativeOffset: 1)
                         event.addAlarm(alarm)

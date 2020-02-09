@@ -112,9 +112,8 @@ class Settings: ObservableObject {
         "alarmHigh": 200.0,
         "mutedAudio": false,
 
-        "createCalendarEvents": false,
         "calendarTitle": "",
-        "calendarEventsAlarmIsOn": false,
+        "calendarAlarmIsOn": false,
 
 
         "logging": true,
@@ -194,16 +193,12 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.mutedAudio, forKey: "mutedAudio") }
     }
 
-    @Published var createCalendarEvents: Bool = UserDefaults.standard.bool(forKey: "createCalendarEvents") {
-        didSet { UserDefaults.standard.set(self.createCalendarEvents, forKey: "createCalendarEvents") }
-    }
-
     @Published var calendarTitle: String = UserDefaults.standard.string(forKey: "calendarTitle")! {
         didSet { UserDefaults.standard.set(self.calendarTitle, forKey: "calendarTitle") }
     }
 
-    @Published var calendarEventsAlarmIsOn: Bool = UserDefaults.standard.bool(forKey: "calendarEventsAlarmIsOn") {
-        didSet { UserDefaults.standard.set(self.calendarEventsAlarmIsOn, forKey: "calendarEventsAlarmIsOn") }
+    @Published var calendarAlarmIsOn: Bool = UserDefaults.standard.bool(forKey: "calendarAlarmIsOn") {
+        didSet { UserDefaults.standard.set(self.calendarAlarmIsOn, forKey: "calendarAlarmIsOn") }
     }
 
     @Published var logging: Bool = UserDefaults.standard.bool(forKey: "logging") {
@@ -247,9 +242,8 @@ class Settings: ObservableObject {
         alarmHigh:  Double = UserDefaults.standard.double(forKey: "alarmHigh"),
         mutedAudio: Bool = UserDefaults.standard.bool(forKey: "mutedAudio"),
 
-        createCalendarEvents: Bool = UserDefaults.standard.bool(forKey: "createCalendarEvents"),
         calendarTitle: String = UserDefaults.standard.string(forKey: "calendarTitle")!,
-        calendarEventsAlarmIsOn: Bool = UserDefaults.standard.bool(forKey: "calendarEventsAlarmIsOn"),
+        calendarAlarmIsOn: Bool = UserDefaults.standard.bool(forKey: "calendarAlarmIsOn"),
 
         logging: Bool = UserDefaults.standard.bool(forKey: "logging"),
         reversedLog: Bool = UserDefaults.standard.bool(forKey: "reversedLog"),
@@ -274,9 +268,8 @@ class Settings: ObservableObject {
         self.alarmHigh = alarmHigh
         self.mutedAudio = mutedAudio
 
-        self.createCalendarEvents = createCalendarEvents
         self.calendarTitle = calendarTitle
-        self.calendarEventsAlarmIsOn = calendarEventsAlarmIsOn
+        self.calendarAlarmIsOn = calendarAlarmIsOn
 
         self.logging = logging
         self.reversedLog = reversedLog

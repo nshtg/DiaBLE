@@ -6,7 +6,7 @@ struct SettingsView: View {
     @EnvironmentObject var app: App
     @EnvironmentObject var settings: Settings
 
-    @State private var showingCalendarList = false
+    @State private var showingCalendarPicker = false
 
 
     var body: some View {
@@ -113,16 +113,28 @@ struct SettingsView: View {
                     }
 
                     Button(action: {
-                        self.showingCalendarList.toggle()
-                        self.settings.createCalendarEvents = !self.settings.createCalendarEvents // workaround for iOS 13.4 beta, otherwise toggle()
+                        self.showingCalendarPicker = true
                     }) {
-                        Image(systemName: settings.createCalendarEvents ? "calendar.circle.fill" : "calendar.circle").resizable().frame(width: 32, height: 32).foregroundColor(.accentColor)
+                        Image(systemName: settings.calendarTitle != "" ? "calendar.circle.fill" : "calendar.circle").resizable().frame(width: 32, height: 32).foregroundColor(.accentColor)
                     }
-                    .popover(isPresented: $showingCalendarList) {
-                        List(self.app.main.eventKit?.calendarTitles ?? [""], id: \.self) { title in
-                            Text(title)
-                        }
-                        Toggle("Alarm", isOn: self.$settings.calendarEventsAlarmIsOn)
+                    .popover(isPresented: $showingCalendarPicker, arrowEdge: .bottom) {
+                        VStack {
+                            Section {
+                                Picker(selection: self.$settings.calendarTitle, label: Text("Calendar")) {
+                                    ForEach([""] + (self.app.main.eventKit?.calendarTitles ?? [""]), id: \.self) { title in
+                                        Text(title != "" ? title : "None")
+                                    }
+                                }
+                            }
+                            Section {
+                                Toggle("Alarm", isOn: self.$settings.calendarAlarmIsOn)
+                                Button(action: {
+                                    self.showingCalendarPicker = false
+                                }
+                                ) { Text(" Set ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                            }.padding(.top, 40)
+
+                        }.padding(60)
                     }
                 }
 
