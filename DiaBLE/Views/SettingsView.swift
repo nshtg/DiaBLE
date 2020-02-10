@@ -120,6 +120,15 @@ struct SettingsView: View {
                     .popover(isPresented: $showingCalendarPicker, arrowEdge: .bottom) {
                         VStack {
                             Section {
+                                Button(action: {
+                                    self.settings.calendarTitle = ""
+                                    self.showingCalendarPicker = false
+                                    self.app.main.eventKit?.sync()
+                                }
+                                ) { Text(" None ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                                    .disabled(self.settings.calendarTitle == "")
+                            }
+                            Section {
                                 Picker(selection: self.$settings.calendarTitle, label: Text("Calendar")) {
                                     ForEach([""] + (self.app.main.eventKit?.calendarTitles ?? [""]), id: \.self) { title in
                                         Text(title != "" ? title : "None")
@@ -128,13 +137,16 @@ struct SettingsView: View {
                             }
                             Section {
                                 Toggle("Alarm", isOn: self.$settings.calendarAlarmIsOn)
+                                    .disabled(self.settings.calendarTitle == "")
+
+                            }
+                            Section {
                                 Button(action: {
                                     self.app.main.eventKit?.sync()
                                     self.showingCalendarPicker = false
                                 }
                                 ) { Text(" Set ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
                             }.padding(.top, 40)
-
                         }.padding(60)
                     }
                 }.padding(.top, 16)
