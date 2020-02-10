@@ -242,6 +242,10 @@ class Watlaa: Watch {
 
             main.log("\(name): alerts: high: \(high), low: \(low), bridge connection: \(bridgeConnection) minutes, low snooze: \(lowSnooze) minutes, high snooze: \(highSnooze) minutes, sensor lost vibration: \(sensorLostVibration), glucose vibration: \(glucoseVibration)")
 
+        case .unknown2:
+            let sensorSerial = data.string
+            main.log("\(name): sensor serial number: \(sensorSerial)")
+
         default:
             break
         }
@@ -254,6 +258,7 @@ class Watlaa: Watch {
         readValue(for: .lastGlucose)
         readValue(for: .bridgeStatus)
         readValue(for: .alerts)
+        readValue(for: .unknown2) // sensor serial
     }
 }
 

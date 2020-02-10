@@ -390,7 +390,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         app.transmitterState = "Disconnected"
         if error != nil {
             let errorCode = CBError.Code(rawValue: (error! as NSError).code)! // 6 = timed out when out of range
-            log("Bluetooth error type \(errorCode.rawValue): \(error!.localizedDescription)")
+            log("Bluetooth: error type \(errorCode.rawValue): \(error!.localizedDescription)")
             if app.transmitter != nil && (settings.preferredTransmitter == .none || settings.preferredTransmitter.id == app.transmitter.type.id) {
                 centralManager.connect(peripheral, options: nil)
             } else {
@@ -405,9 +405,9 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         let name = peripheral.name ?? "Unnamed peripheral"
         if error != nil {
-            log("Error while writing \(name) characteristic \(characteristic.uuid.uuidString) value: \(error!.localizedDescription)")
+            log("Bluetooth: error while writing \(name) characteristic \(characteristic.uuid.uuidString) value: \(error!.localizedDescription)")
         } else {
-            log("\(name) did write characteristic value for \(characteristic.uuid.uuidString)")
+            log("Bluetooth: \(name) did write characteristic value for \(characteristic.uuid.uuidString)")
         }
     }
 
@@ -430,9 +430,9 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
 
         guard let data = characteristic.value
-            else { log("\(name): missing updated value for \(characteristicString) characteristic"); return }
+            else { log("Bluetooth: \(name) missed updating value for \(characteristicString) characteristic"); return }
 
-        let msg = "\(name) did update value for \(characteristicString) characteristic (\(data.count) bytes received):"
+        let msg = "Bluetooth: \(name) did update value for \(characteristicString) characteristic (\(data.count) bytes received):"
 
         if let uuid = BLE.UUID(rawValue: characteristic.uuid.uuidString) {
 
