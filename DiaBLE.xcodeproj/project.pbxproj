@@ -14,6 +14,7 @@
 		C522C77123D4D363002021F7 /* Details.swift in Sources */ = {isa = PBXBuildFile; fileRef = C522C77023D4D363002021F7 /* Details.swift */; };
 		C53C76ED23D9AFD700B59A98 /* Nightscout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EC23D9AFD700B59A98 /* Nightscout.swift */; };
 		C53C76EF23D9B87A00B59A98 /* OnlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EE23D9B87A00B59A98 /* OnlineView.swift */; };
+		C549DD0023F198B700088A4C /* EventKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C549DCFF23F198B700088A4C /* EventKit.swift */; };
 		C5521C8223BB5D5A00826CFB /* Observables.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5521C8123BB5D5A00826CFB /* Observables.swift */; };
 		C566341323B14D55001EB5F3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566341223B14D55001EB5F3 /* Extensions.swift */; };
 		C585079F23C50BF20079539D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C585079D23C50BF20079539D /* Interface.storyboard */; };
@@ -119,6 +120,7 @@
 		C522C77023D4D363002021F7 /* Details.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Details.swift; sourceTree = "<group>"; };
 		C53C76EC23D9AFD700B59A98 /* Nightscout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nightscout.swift; sourceTree = "<group>"; };
 		C53C76EE23D9B87A00B59A98 /* OnlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineView.swift; sourceTree = "<group>"; };
+		C549DCFF23F198B700088A4C /* EventKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventKit.swift; sourceTree = "<group>"; };
 		C5521C8123BB5D5A00826CFB /* Observables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observables.swift; sourceTree = "<group>"; };
 		C566341223B14D55001EB5F3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C585079B23C50BF20079539D /* DiaBLE Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DiaBLE Watch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -300,6 +302,7 @@
 				C5C7187A23E2FB5000D04EA7 /* Glucose.swift */,
 				C5A5796F23A2CF0700945F72 /* Sensor.swift */,
 				C5A5796D23A2CEE800945F72 /* Transmitter.swift */,
+				C549DCFF23F198B700088A4C /* EventKit.swift */,
 				C5C937E323CBA0AE00A87BAB /* HealthKit.swift */,
 				C5A5797123A2CF2C00945F72 /* LibreOOP.swift */,
 				C597AF6A23AB9E3E0012926C /* NFC.swift */,
@@ -567,6 +570,7 @@
 				C5A5796E23A2CEE800945F72 /* Transmitter.swift in Sources */,
 				C5DF10F623C7838B0023E0E2 /* Graph.swift in Sources */,
 				C566341323B14D55001EB5F3 /* Extensions.swift in Sources */,
+				C549DD0023F198B700088A4C /* EventKit.swift in Sources */,
 				C5965CC323DCC13300B3C5D8 /* ViewRepresentables.swift in Sources */,
 				C5DF10F823C783F90023E0E2 /* SettingsView.swift in Sources */,
 				C5C20E4523C77FD800475327 /* DataView.swift in Sources */,
