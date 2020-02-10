@@ -44,7 +44,7 @@ struct SettingsView: View {
                         }.pickerStyle(SegmentedPickerStyle())
                     }
 
-                    NavigationLink(destination: Details(transmitter: app.transmitter)) {
+                    NavigationLink(destination: Details(device: app.transmitter)) {
                         Text(" Details... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
                     }.disabled(self.app.transmitter == nil || self.settings.preferredWatch == .none)
                 }
@@ -124,7 +124,7 @@ struct SettingsView: View {
                                     self.showingCalendarPicker = false
                                     self.app.main.eventKit?.sync()
                                 }
-                                ) { Text(" Nope ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                                ) { Text(" None ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
                                     .disabled(self.settings.calendarTitle == "")
                             }
                             Section {
@@ -135,7 +135,7 @@ struct SettingsView: View {
                                 }
                             }
                             Section {
-                                Toggle("Alarm", isOn: self.$settings.calendarAlarmIsOn)
+                                Toggle("High / Low  alarm ", isOn: self.$settings.calendarAlarmIsOn)
                                     .disabled(self.settings.calendarTitle == "")
 
                             }

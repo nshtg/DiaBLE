@@ -13,9 +13,10 @@ FIXME
 TODO
 ----
 
+* tapping "Details..." allows to setup a specific device (for example the watch alarms and calibration)
+* "Nested" transmitters: Watlaa (the "watchdog") and the bridge it connects to
 * BLE service 1805: current time
 * notification center delegate methods
-* tapping "Details..." allows to setup a specific device (for example the watch alarms and calibration)
 * save measurements by using HealthKit
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file
 * popup sliders to change the calibration parameters and update interactively the third purple curve

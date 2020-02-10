@@ -101,16 +101,22 @@ struct Monitor: View {
 
                 }.font(.footnote).foregroundColor(.yellow)
 
-                Text(app.info)
-                    .font(.footnote)
-                    .padding(.vertical, 5)
+                VStack {
+                    Text(app.info)
+                        .font(.footnote)
+                        .padding(.vertical, 5)
 
-                if app.info.hasPrefix("Scanning") {
-                    Button(action: {
-                        self.app.main.centralManager.stopScan()
-                        self.app.main.info("\n\nStopped scanning")
-                    }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
-                    }.foregroundColor(.red)
+                    if app.info.hasPrefix("Scanning") {
+                        Button(action: {
+                            self.app.main.centralManager.stopScan()
+                            self.app.main.info("\n\nStopped scanning")
+                        }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
+                        }.foregroundColor(.red)
+                    }
+
+                    NavigationLink(destination: Details(device: app.transmitter)) {
+                        Text(" Details... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
+                    }.disabled(self.app.transmitter == nil || self.settings.preferredWatch == .none)
                 }
 
                 Spacer()
@@ -159,7 +165,7 @@ struct Monitor: View {
 
             }
             .multilineTextAlignment(.center)
-            .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String)", displayMode: .inline)
+            .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String)  -  Monitor", displayMode: .inline)
             .navigationBarItems(trailing:
                 Button(action: {
                     if self.app.main.nfcReader.isNFCAvailable {

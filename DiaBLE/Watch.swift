@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 
 enum WatchType: String, CaseIterable, Hashable, Codable, Identifiable {
@@ -261,5 +262,19 @@ class Watlaa: Watch {
         readValue(for: .bridgeStatus)
         readValue(for: .alerts)
         readValue(for: .unknown2) // sensor serial
+    }
+}
+
+
+struct WatlaaDetailsView: View {
+
+    var device: Device
+
+    var body: some View {
+        VStack {
+            Text("Glucose unit: \((device as! Watlaa).unit.description)")
+            Text("Calibration intercept: \((device as! Watlaa).intercept)")
+            Text("Calibration slope: \((device as! Watlaa).slope)")
+        }
     }
 }

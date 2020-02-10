@@ -7,11 +7,21 @@ struct Details: View {
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
     
-    var transmitter: Transmitter?
+    var device: Device?
     
     var body: some View {
         VStack {
-            Text("TODO: \(transmitter?.name ?? "Details")")
+            Spacer()
+
+            Text("TODO: \(device?.name ?? "Details")")
+
+            Spacer()
+
+            if device?.name == Watlaa.name {
+                WatlaaDetailsView(device: device!)
+            }
+
+            Spacer()
         }
         .navigationBarTitle(Text("Details"), displayMode: .inline)
     }
