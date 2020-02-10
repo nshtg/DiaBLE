@@ -115,8 +115,8 @@ struct Monitor: View {
                     }
 
                     NavigationLink(destination: Details(device: app.transmitter)) {
-                        Text(" Details... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
-                    }.disabled(self.app.transmitter == nil || self.settings.preferredWatch == .none)
+                        Text(" Device... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
+                    }.disabled(self.app.transmitter == nil && self.settings.preferredWatch == .none)
                 }
 
                 Spacer()

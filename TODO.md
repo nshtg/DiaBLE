@@ -13,7 +13,7 @@ FIXME
 TODO
 ----
 
-* tapping "Details..." allows to setup a specific device (for example the watch alarms and calibration)
+* tapping "Device..." allows to setup a specific device (for example the watch alarms and calibration)
 * "Nested" transmitters: Watlaa (the "watchdog") and the bridge it connects to
 * BLE service 1805: current time
 * notification center delegate methods
