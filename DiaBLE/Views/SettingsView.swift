@@ -124,7 +124,7 @@ struct SettingsView: View {
                                     self.showingCalendarPicker = false
                                     self.app.main.eventKit?.sync()
                                 }
-                                ) { Text(" None ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                                ) { Text(" Nope ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
                                     .disabled(self.settings.calendarTitle == "")
                             }
                             Section {
@@ -144,7 +144,7 @@ struct SettingsView: View {
                                     self.app.main.eventKit?.sync()
                                     self.showingCalendarPicker = false
                                 }
-                                ) { Text(" Set ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                                ) { Text(" Remind ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
                             }.padding(.top, 40)
                         }.padding(60)
                     }

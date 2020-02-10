@@ -14,6 +14,8 @@ class EventKit {
     }
 
 
+    // https://github.com/JohanDegraeve/xdripswift/blob/master/xdrip/Managers/Watch/WatchManager.swift
+
     func sync(handler: ((EKCalendar?) -> ())? = nil) {
 
         store.requestAccess(to: .event) { granted, error  in
