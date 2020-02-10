@@ -66,7 +66,6 @@ struct SettingsView: View {
 
                 Spacer()
 
-                // Same as Rescan
                 Button(action: {
                     let transmitter = self.app.transmitter
                     self.app.selectedTab = (self.settings.preferredTransmitter != .none || self.settings.preferredWatch != .none) ? .monitor : .log

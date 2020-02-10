@@ -13,6 +13,7 @@ FIXME
 TODO
 ----
 
+* BLE service 1805: current time
 * notification center delegate methods
 * tapping "Details..." allows to setup a specific device (for example the watch alarms and calibration)
 * save measurements by using HealthKit

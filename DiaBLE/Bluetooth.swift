@@ -320,6 +320,8 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         for characteristic in characteristics {
             let uuid = characteristic.uuid.uuidString
+            app.transmitter.characteristics[uuid] = characteristic
+
             var msg = "Bluetooth: discovered \(app.transmitter.name) \(serviceDescription) service's characteristic \(uuid)"
             msg += (", properties: \(characteristic.properties)")
 
@@ -344,11 +346,18 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                     }
                 }
 
+            } else if let uuid = BLE.UUID(rawValue: uuid) {
+                if uuid == .batteryLevel {
+                    app.transmitter.peripheral?.setNotifyValue(true, for: characteristic)
+                }
+                app.transmitter.peripheral?.readValue(for: characteristic)
+                msg += " (\(uuid)); reading it"
+
                 // } else if let uuid = OtherDevice.UUID(rawValue: uuid) {
                 //    msg += " (\(uuid))"
 
-            }  else {
-                msg += " (\(uuid))"
+            } else {
+                msg += " (unknown)"
                 if characteristic.properties.contains(.notify) {
                     peripheral.setNotifyValue(true, for: characteristic)
                 }
@@ -356,16 +365,6 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                     peripheral.readValue(for: characteristic)
                     msg += "; reading it"
                 }
-            }
-
-            app.transmitter.characteristics[uuid] = characteristic
-
-            if let uuid = BLE.UUID(rawValue: uuid) {
-                if uuid == .batteryLevel {
-                    app.transmitter.peripheral?.setNotifyValue(true, for: characteristic)
-                }
-                app.transmitter.peripheral?.readValue(for: characteristic)
-                msg += " (\(uuid)); reading it"
             }
 
             log(msg)
