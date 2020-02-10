@@ -346,6 +346,16 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
                 // } else if let uuid = OtherDevice.UUID(rawValue: uuid) {
                 //    msg += " (\(uuid))"
+
+            }  else {
+                msg += " (\(uuid))"
+                if characteristic.properties.contains(.notify) {
+                    peripheral.setNotifyValue(true, for: characteristic)
+                }
+                if characteristic.properties.contains(.read) {
+                    peripheral.readValue(for: characteristic)
+                    msg += "; reading it"
+                }
             }
 
             app.transmitter.characteristics[uuid] = characteristic

@@ -91,6 +91,8 @@ class Watlaa: Watch {
         }
     }
 
+    var transmitter: Transmitter?
+    
     var slope: Float = 0.0
     var intercept: Float = 0.0
     var lastGlucose: Int = 0
@@ -123,7 +125,7 @@ class Watlaa: Watch {
         switch UUID(rawValue: uuid) {
 
 
-        // MiaoMiao protocol
+        // Same as MiaoMiao
         case .dataRead:
 
             let response = ResponseType(rawValue: data[0])
