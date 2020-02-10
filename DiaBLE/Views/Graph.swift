@@ -6,6 +6,17 @@ struct Graph: View {
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
+
+    func yMax() -> Double {
+        Double([
+            self.history.rawValues.map{$0.value}.max() ?? 0,
+            self.history.values.map{$0.value}.max() ?? 0,
+            self.history.calibratedValues.map{$0.value}.max() ?? 0,
+            Int(self.settings.targetHigh - 20)
+            ].max()!)
+    }
+
+
     var body: some View {
         ZStack {
 
@@ -14,7 +25,7 @@ struct Graph: View {
                 Path() { path in
                     let width  = Double(geometry.size.width) - 60.0
                     let height = Double(geometry.size.height)
-                    let yScale = (height - 30.0) / (self.history.rawValues.count > 0 ? [Double(self.history.rawValues.map{$0.value}.max()!), self.settings.targetHigh - 20].max()! : 250.0)
+                    let yScale = (height - 30.0) / [self.yMax(), 250.0].max()!
                     path.addRect(CGRect(x: 1.0 + 30.0, y: height - self.settings.targetHigh * yScale + 1.0, width: width - 2.0, height: (self.settings.targetHigh - self.settings.targetLow) * yScale - 1.0))
                 }.fill(Color.green).opacity(0.15)
             }
@@ -23,9 +34,9 @@ struct Graph: View {
             GeometryReader { geometry in
                 ZStack {
                     Text("\(Int(self.settings.targetHigh))")
-                        .position(x: CGFloat(Double(geometry.size.width) - 15.0), y: CGFloat(Double(geometry.size.height) - (Double(geometry.size.height) - 30.0) / (self.history.rawValues.count > 0 ? [Double(self.history.rawValues.map{$0.value}.max()!), self.settings.targetHigh - 20].max()! : 250.0) * self.settings.targetHigh))
+                        .position(x: CGFloat(Double(geometry.size.width) - 15.0), y: CGFloat(Double(geometry.size.height) - (Double(geometry.size.height) - 30.0) / [self.yMax(), 250.0].max()! * self.settings.targetHigh))
                     Text("\(Int(self.settings.targetLow))")
-                        .position(x: CGFloat(Double(geometry.size.width) - 15.0), y: CGFloat(Double(geometry.size.height) - (Double(geometry.size.height) - 30.0) / (self.history.rawValues.count > 0 ? [Double(self.history.rawValues.map{$0.value}.max()!), self.settings.targetHigh - 20].max()! : 250.0) * self.settings.targetLow))
+                        .position(x: CGFloat(Double(geometry.size.width) - 15.0), y: CGFloat(Double(geometry.size.height) - (Double(geometry.size.height) - 30.0) / [self.yMax(), 250.0].max()! * self.settings.targetLow))
                 }.font(.footnote).foregroundColor(.gray)
             }
 
@@ -37,8 +48,7 @@ struct Graph: View {
                     let count = self.history.rawValues.count
                     if count > 0 {
                         let v = self.history.rawValues.map{$0.value}
-                        let max = [self.history.rawValues.map{$0.value}.max()!, self.history.values.map{$0.value}.max() ?? 0, self.history.calibratedValues.map{$0.value}.max() ?? 0, Int(self.settings.targetHigh - 20)].max()!
-                        let yScale = (height - 30.0) / Double(max)
+                        let yScale = (height - 30.0) / self.yMax()
                         let xScale = width / Double(count - 1)
                         var startingVoid = v[count - 1] < 1 ? true : false
                         if startingVoid == false { path.move(to: .init(x: 0.0 + 30.0, y: height - Double(v[count - 1]) * yScale)) }
@@ -66,8 +76,7 @@ struct Graph: View {
                     let count = self.history.calibratedValues.count
                     if count > 0 {
                         let v = self.history.calibratedValues.map{$0.value}
-                        let max = [self.history.rawValues.map{$0.value}.max()!, self.history.values.map{$0.value}.max() ?? 0, self.history.calibratedValues.map{$0.value}.max()!, Int(self.settings.targetHigh - 20)].max()!
-                        let yScale = (height - 30.0) / Double(max)
+                        let yScale = (height - 30.0) / self.yMax()
                         let xScale = width / Double(count - 1)
                         var startingVoid = v[count - 1] < 1 ? true : false
                         if startingVoid == false { path.move(to: .init(x: 0.0 + 30.0, y: height - Double(v[count - 1]) * yScale)) }
@@ -96,8 +105,7 @@ struct Graph: View {
                     let count = self.history.values.count
                     if count > 0 {
                         let v = self.history.values.map{$0.value}
-                        let max = [self.history.rawValues.map{$0.value}.max()!, self.history.values.map{$0.value}.max()!, self.history.calibratedValues.map{$0.value}.max() ?? 0, Int(self.settings.targetHigh - 20)].max()!
-                        let yScale = (height - 30.0) / Double(max)
+                        let yScale = (height - 30.0) / self.yMax()
                         let xScale = width / Double(count - 1)
                         var startingVoid = v[count - 1] < 1 ? true : false
                         if startingVoid == false { path.move(to: .init(x: 0.0 + 30.0, y: height - Double(v[count - 1]) * yScale)) }
