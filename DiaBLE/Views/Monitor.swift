@@ -90,8 +90,8 @@ struct Monitor: View {
                             if app.transmitter.firmware.count > 0 {
                                 Text("Firmware: \(app.transmitter.firmware)")
                             }
-                            if app.transmitter.hardware.count > 0  {
-                                Text("Hardware: \(app.transmitter.hardware)")
+                            if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
+                                Text("Hardware: \(app.transmitter.manufacturer)\n\(app.transmitter.model) \(app.transmitter.hardware)")
                             }
                             if app.transmitter.macAddress.count > 0  {
                                 Text("\(app.transmitter.macAddress.hexAddress)")

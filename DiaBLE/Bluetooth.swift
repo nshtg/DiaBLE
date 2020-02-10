@@ -9,36 +9,38 @@ class BLE {
 
     enum UUID: String, CustomStringConvertible, CaseIterable {
         
-        case device       = "180A"
-        case model        = "2A24"
-        case serial       = "2A25"
-        case firmware     = "2A26"
-        case hardware     = "2A27"
-        case software     = "2A28"
-        case manufacturer = "2A29"
+        case device        = "180A"
+        case model         = "2A24"
+        case serial        = "2A25"
+        case firmware      = "2A26"
+        case hardware      = "2A27"
+        case software      = "2A28"
+        case manufacturer  = "2A29"
 
-        case battery      = "180F"
-        case batteryLevel = "2A19"
+        case battery       = "180F"
+        case batteryLevel  = "2A19"
 
-        case time         = "1805"
-        case currentTime  = "2A2B"
+        case time          = "1805"
+        case currentTime   = "2A2B"
+        case localTimeInfo = "2A0F"
 
-        case dfu          = "FE59"
+        case dfu           = "FE59"
 
         var description: String {
             switch self {
-            case .device:       return "device information"
-            case .model:        return "model number"
-            case .serial:       return "serial number"
-            case .firmware:     return "firmware version"
-            case .hardware:     return "hardware version"
-            case .software:     return "software version"
-            case .manufacturer: return "manufacturer"
-            case .battery:      return "battery"
-            case .batteryLevel: return "battery level"
-            case .time:         return "time"
-            case .currentTime:  return "current time"
-            case .dfu:          return "device firmware update"
+            case .device:        return "device information"
+            case .model:         return "model number"
+            case .serial:        return "serial number"
+            case .firmware:      return "firmware version"
+            case .hardware:      return "hardware version"
+            case .software:      return "software version"
+            case .manufacturer:  return "manufacturer"
+            case .battery:       return "battery"
+            case .batteryLevel:  return "battery level"
+            case .time:          return "time"
+            case .currentTime:   return "current time"
+            case .localTimeInfo: return "local timne information"
+            case .dfu:           return "device firmware update"
             }
         }
     }
@@ -117,9 +119,12 @@ class Device {
     var writeCharacteristic: CBCharacteristic?
 
     var battery: Int = -1
+    var model: String = ""
+    var serial: String = ""
     var firmware: String = ""
     var hardware: String = ""
-    var serial: String = ""
+    var software: String = ""
+    var manufacturer: String = ""
     var macAddress: Data = Data()
 
     var buffer = Data()
@@ -451,19 +456,18 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
             case .batteryLevel:
                 app.transmitter.battery = Int(data[0])
-            case .firmware:
-                app.transmitter.firmware = data.string
+            case .model:
+                app.transmitter.model = data.string
             case .serial:
                 app.transmitter.serial = data.string
-            case .manufacturer:
-                app.transmitter.hardware += data.string
-            case .model:
-                app.transmitter.hardware += "\n\(data.string)"
+            case .firmware:
+                app.transmitter.firmware = data.string
             case .hardware:
-                app.transmitter.hardware += " \(data.string)"
-
+                app.transmitter.hardware += data.string
             case .software:
-                break
+                app.transmitter.software = data.string
+            case .manufacturer:
+                app.transmitter.manufacturer = data.string
 
             default:
                 break
