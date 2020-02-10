@@ -25,7 +25,7 @@ struct Graph: View {
                     Text("\(Int(self.settings.targetHigh))")
                         .position(x: CGFloat(Double(geometry.size.width) - 15.0), y: CGFloat(Double(geometry.size.height) - (Double(geometry.size.height) - 30.0) / (self.history.rawValues.count > 0 ? [Double(self.history.rawValues.map{$0.value}.max()!), self.settings.targetHigh - 20].max()! : 250.0) * self.settings.targetHigh))
                     Text("\(Int(self.settings.targetLow))")
-                        .position(x: CGFloat(Double(geometry.size.width) - 15.0), y: CGFloat(Double(geometry.size.height) - (Double(geometry.size.height) - 30.0) / (self.history.rawValues.count > 0 ? [Double(self.history.rawValues.map{$0.value}.max()!), self.settings.targetHigh].max()! : 250.0) * self.settings.targetLow))
+                        .position(x: CGFloat(Double(geometry.size.width) - 15.0), y: CGFloat(Double(geometry.size.height) - (Double(geometry.size.height) - 30.0) / (self.history.rawValues.count > 0 ? [Double(self.history.rawValues.map{$0.value}.max()!), self.settings.targetHigh - 20].max()! : 250.0) * self.settings.targetLow))
                 }.font(.footnote).foregroundColor(.gray)
             }
 
@@ -96,7 +96,7 @@ struct Graph: View {
                     let count = self.history.values.count
                     if count > 0 {
                         let v = self.history.values.map{$0.value}
-                        let max = [self.history.rawValues.map{$0.value}.max()!, self.history.values.map{$0.value}.max()!, self.history.calibratedValues.map{$0.value}.max() ?? 0, Int(self.settings.targetHigh)].max()!
+                        let max = [self.history.rawValues.map{$0.value}.max()!, self.history.values.map{$0.value}.max()!, self.history.calibratedValues.map{$0.value}.max() ?? 0, Int(self.settings.targetHigh - 20)].max()!
                         let yScale = (height - 30.0) / Double(max)
                         let xScale = width / Double(count - 1)
                         var startingVoid = v[count - 1] < 1 ? true : false
