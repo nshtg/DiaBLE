@@ -17,31 +17,31 @@ struct ContentView: View {
     var body: some View {
 
         TabView(selection: $app.selectedTab) {
-            Monitor().environmentObject(app).environmentObject(history).environmentObject(settings)
+            Monitor()
                 .tabItem {
                     Image(systemName: "gauge")
                     Text("Monitor")
             }.tag(Tab.monitor)
 
-            OnlineView().environmentObject(app).environmentObject(history).environmentObject(settings)
+            OnlineView()
                 .tabItem {
                     Image(systemName: "globe")
                     Text("Online")
             }.tag(Tab.online)
 
-            DataView().environmentObject(app).environmentObject(history).environmentObject(settings)
+            DataView()
                 .tabItem {
                     Image(systemName: "tray.full.fill")
                     Text("Data")
             }.tag(Tab.data)
 
-            LogView().environmentObject(app).environmentObject(log).environmentObject(settings)
+            LogView()
                 .tabItem {
                     Image(systemName: "doc.plaintext")
                     Text("Log")
             }.tag(Tab.log)
 
-            SettingsView().environmentObject(app).environmentObject(settings)
+            SettingsView()
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Settings")
