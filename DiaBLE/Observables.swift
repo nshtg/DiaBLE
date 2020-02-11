@@ -117,7 +117,7 @@ class Settings: ObservableObject {
         "calendarAlarmIsOn": false,
 
 
-        "logging": true,
+        "logging": false,
         "reversedLog": true,
         "debugLevel": 0,
 
