@@ -116,7 +116,16 @@ class Watlaa: Watch {
     var lastGlucoseAge: Int = 0
     var unit: GlucoseUnit = .mgdl
 
+    var alarmHigh: Float = 0.0
+    var alarmLow: Float = 0.0
+    var connectionCheckInterval: Int = 0
+    var snoozeLow: Int = 0
+    var snoozeHigh: Int = 0
+    var sensorLostVibration: Bool = true
+    var glucoseVibration: Bool = true
+
     var lastReadingDate: Date = Date()
+
 
     func readValue(for uuid: UUID) {
         peripheral?.readValue(for: characteristics[uuid.rawValue]!)
@@ -251,16 +260,16 @@ class Watlaa: Watch {
             main.log("\(name): transmitter status: \(bridgeStatus.description)")
 
         case .alerts:
-            let high: Float = Data(data[0...3]).withUnsafeBytes { $0.load(as: Float.self) }
-            let low:  Float = Data(data[4...7]).withUnsafeBytes { $0.load(as: Float.self) }
-            let bridgeConnection: Int = Int(data[9]) << 8 + Int(data[8])
-            let lowSnooze: Int  = Int(data[11]) << 8 + Int(data[10])
-            let highSnooze: Int = Int(data[13]) << 8 + Int(data[12])
+            alarmHigh = Data(data[0...3]).withUnsafeBytes { $0.load(as: Float.self) }
+            alarmLow  = Data(data[4...7]).withUnsafeBytes { $0.load(as: Float.self) }
+            connectionCheckInterval = Int(data[ 9]) << 8 + Int(data[ 8])
+            snoozeLow               = Int(data[11]) << 8 + Int(data[10])
+            snoozeHigh              = Int(data[13]) << 8 + Int(data[12])
             let signals: UInt8 = data[14]
-            let sensorLostVibration: Bool = (signals >> 3) & 1 == 1
-            let glucoseVibration: Bool    = (signals >> 1) & 1 == 1
+            sensorLostVibration = (signals >> 3) & 1 == 1
+            glucoseVibration    = (signals >> 1) & 1 == 1
 
-            main.log("\(name): alerts: high: \(high), low: \(low), bridge connection: \(bridgeConnection) minutes, low snooze: \(lowSnooze) minutes, high snooze: \(highSnooze) minutes, sensor lost vibration: \(sensorLostVibration), glucose vibration: \(glucoseVibration)")
+            main.log("\(name): alerts: high: \(alarmHigh), low: \(alarmLow), bridge connection check: \(connectionCheckInterval) minutes, snooze low: \(snoozeLow) minutes, snooze high: \(snoozeHigh) minutes, sensor lost vibration: \(sensorLostVibration), glucose vibration: \(glucoseVibration)")
 
         case .unknown2:
             var sensorSerial = data.string
@@ -292,16 +301,19 @@ struct WatlaaDetailsView: View {
     var device: Device
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Transmitter status: \((device as! Watlaa).bridgeStatus.description)")
+        VStack(alignment: .leading, spacing: 12) {
             Text("Serial number: \(device.serial)")
-            Text("Glucose unit: \((device as! Watlaa).unit.description)")
-            Text("Calibration intercept: \((device as! Watlaa).intercept)")
-            Text("Calibration slope: \((device as! Watlaa).slope)")
 
+            Text("Transmitter status: \((device as! Watlaa).bridgeStatus.description)")
             Text("Sensor serial: \((device as! Watlaa).transmitter!.serial)")
 
+            Text("Glucose unit: \((device as! Watlaa).unit.description)")
+            Text("Intercept: \((device as! Watlaa).intercept)  Slope: \((device as! Watlaa).slope)")
 
+            Text("Alarm: glucose high: \(Int((device as! Watlaa).alarmHigh))  low: \(Int((device as! Watlaa).alarmLow))")
+            Text("Bridge connection check interval: \((device as! Watlaa).connectionCheckInterval)")
+            Text("Snooze high: \((device as! Watlaa).snoozeHigh)  low: \((device as! Watlaa).snoozeLow)")
+            Text("Vibrations: sensor lost: \((device as! Watlaa).sensorLostVibration == true ? "yes" : "no")  glucose: \((device as! Watlaa).glucoseVibration == true ? "yes" : "no")")
         }
     }
 }

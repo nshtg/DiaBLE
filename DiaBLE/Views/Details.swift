@@ -28,7 +28,12 @@ struct Details: View {
                     Text("Device name: \(device!.name)")
                     Text("Firmware: \(device!.firmware)")
                     Text("Hardware: \(device!.manufacturer) \(device!.model) \(device!.hardware)")
-                    Text("MAC Address: \(device!.macAddress.hexAddress)")
+                    if !device!.software.isEmpty {
+                        Text("Software: \(device!.software)")
+                    }
+                    if (device!.macAddress.count > 0) {
+                        Text("MAC Address: \(device!.macAddress.hexAddress)")
+                    }
                 }.font(.footnote).foregroundColor(.yellow)
 
                 Text("Battery: \(device!.battery)%")
@@ -40,7 +45,7 @@ struct Details: View {
                 if device?.type == Watlaa.type {
                     WatlaaDetailsView(device: device!)
                 }
-            }.foregroundColor(.blue)
+            }.font(.callout).foregroundColor(.blue)
             Spacer()
 
             VStack(spacing: 0) {
