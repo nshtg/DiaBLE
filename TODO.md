@@ -18,7 +18,6 @@ TODO
 * Derive a Watch from Device and associate a Transmitter
 * BLE service 1805: current time
 * notification center delegate methods
-* save measurements by using HealthKit
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file
 * popup sliders to change the calibration parameters and update interactively the third purple curve
 * save the OOP calibration parameters for offline reuse
