@@ -292,7 +292,7 @@ struct WatlaaDetailsView: View {
     var device: Device
 
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             Text("Transmitter status: \((device as! Watlaa).bridgeStatus.description)")
             Text("Serial number: \(device.serial)")
             Text("Glucose unit: \((device as! Watlaa).unit.description)")
@@ -305,3 +305,12 @@ struct WatlaaDetailsView: View {
         }
     }
 }
+
+
+// TODO
+
+//struct Watch_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Text("TODO")
+//    }
+//}

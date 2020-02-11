@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 
+
 struct Details: View {
     @EnvironmentObject var app: App
     @EnvironmentObject var log: Log
@@ -14,6 +15,7 @@ struct Details: View {
     var device: Device?
     
     var body: some View {
+
         VStack {
             Spacer()
 
@@ -21,10 +23,24 @@ struct Details: View {
 
             Spacer()
 
-            if device?.type == Watlaa.type {
-                WatlaaDetailsView(device: device!)
+            VStack(spacing: 32) {
+                VStack {
+                    Text("Device name: \(device!.name)")
+                    Text("Firmware: \(device!.firmware)")
+                    Text("Hardware: \(device!.manufacturer) \(device!.model) \(device!.hardware)")
+                    Text("MAC Address: \(device!.macAddress.hexAddress)")
+                }.font(.footnote).foregroundColor(.yellow)
+
+                Text("Battery: \(device!.battery)%")
+                    .foregroundColor(.green)
             }
 
+            Spacer()
+            VStack {
+                if device?.type == Watlaa.type {
+                    WatlaaDetailsView(device: device!)
+                }
+            }.foregroundColor(.blue)
             Spacer()
 
             VStack(spacing: 0) {
