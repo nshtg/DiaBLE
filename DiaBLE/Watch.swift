@@ -92,8 +92,25 @@ class Watlaa: Watch {
         }
     }
 
+    enum BridgeStatus: UInt8, CustomStringConvertible {
+        case notConnetced = 0x00
+        case connectedInactiveSensor
+        case connectedActiveSensor
+        case unknown
+
+        var description: String {
+            switch self {
+            case .notConnetced:            return "not connected"
+            case .connectedInactiveSensor: return "connected, inactive sensor"
+            case .connectedActiveSensor:   return "connected, active sensor"
+            case .unknown:                 return "unknown"
+            }
+        }
+    }
+
     var transmitter: Transmitter?
-    
+
+    var bridgeStatus: BridgeStatus = .unknown
     var slope: Float = 0.0
     var intercept: Float = 0.0
     var lastGlucose: Int = 0
@@ -223,15 +240,8 @@ class Watlaa: Watch {
             }
 
         case .bridgeStatus:
-            let status = Int(data[0])
-            var description = "N/A"
-            switch status {
-            case 0: description = "no connection"
-            case 1: description = "bridge connected, sensor inactive"
-            case 2: description = "bridge connected, sensor active"
-            default: break
-            }
-            main.log("\(name): transmitter connection status: \(description)")
+            bridgeStatus = data[0] < BridgeStatus.unknown.rawValue ? BridgeStatus(rawValue: data[0])! : .unknown
+            main.log("\(name): transmitter status: \(bridgeStatus.description)")
 
         case .alerts:
             let high: Float = Data(data[0...3]).withUnsafeBytes { $0.load(as: Float.self) }
@@ -272,6 +282,7 @@ struct WatlaaDetailsView: View {
 
     var body: some View {
         VStack {
+            Text("Transmitter status: \((device as! Watlaa).bridgeStatus.description)")
             Text("Serial number: \(device.serial)")
             Text("Glucose unit: \((device as! Watlaa).unit.description)")
             Text("Calibration intercept: \((device as! Watlaa).intercept)")
