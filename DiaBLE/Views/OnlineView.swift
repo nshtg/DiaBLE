@@ -34,10 +34,10 @@ struct OnlineView: View {
                         // TODO: reload web page
                         // Same as Rescan
                         Button(action: {
-                            let transmitter = self.app.transmitter
+                            let device = self.app.device
                             let centralManager = self.app.main.centralManager
-                            if transmitter != nil {
-                                centralManager.cancelPeripheralConnection(transmitter!.peripheral!)
+                            if device != nil {
+                                centralManager.cancelPeripheralConnection(device!.peripheral!)
                             }
                             if centralManager.state == .poweredOn {
                                 centralManager.scanForPeripherals(withServices: nil, options: nil)
@@ -49,7 +49,7 @@ struct OnlineView: View {
                         ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)
                             .foregroundColor(.accentColor) }
 
-                        Text(app.transmitterState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
+                        Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
                             "\(readingCountdown) s" : "...")
                             .fixedSize()
                             .onReceive(timer) { _ in

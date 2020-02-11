@@ -45,11 +45,11 @@ struct Monitor: View {
                         .foregroundColor(.blue)
 
                     HStack {
-                        Text(app.transmitterState)
-                            .foregroundColor(app.transmitterState == "Connected" ? .green : .red)
+                        Text(app.deviceState)
+                            .foregroundColor(app.deviceState == "Connected" ? .green : .red)
                             .fixedSize()
 
-                        if app.transmitterState == "Connected" {
+                        if app.deviceState == "Connected" {
 
                             Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
                                 "\(readingCountdown) s" : "")
@@ -67,7 +67,7 @@ struct Monitor: View {
 
                 HStack(spacing: 12) {
 
-                    if app.sensor != nil && app.sensor.state != .unknown {
+                    if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
                         VStack {
                             Text(app.sensor.state.description)
                                 .foregroundColor(app.sensor.state == .ready ? .green : .red)
@@ -82,8 +82,9 @@ struct Monitor: View {
                         }
                     }
 
-                    if app.transmitter != nil {
+                    if app.device?.name != app.transmitter?.name && app.transmitter.battery > -1 {
                         VStack {
+                            Text(app.transmitter!.name)
                             if app.transmitter.battery > -1 {
                                 Text("Battery: \(app.transmitter.battery)%")
                             }
@@ -95,6 +96,23 @@ struct Monitor: View {
                             }
                             if app.transmitter.macAddress.count > 0  {
                                 Text("\(app.transmitter.macAddress.hexAddress)")
+                            }
+                        }
+                    }
+
+                    if app.device != nil {
+                        VStack {
+                            if app.device.battery > -1 {
+                                Text("Battery: \(app.device.battery)%")
+                            }
+                            if app.device.firmware.count > 0 {
+                                Text("Firmware: \(app.device.firmware)")
+                            }
+                            if app.device.manufacturer.count + app.device.hardware.count > 0  {
+                                Text("Hardware: \(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)")
+                            }
+                            if app.device.macAddress.count > 0  {
+                                Text("\(app.device.macAddress.hexAddress)")
                             }
                         }
                     }
@@ -112,11 +130,14 @@ struct Monitor: View {
                             self.app.main.info("\n\nStopped scanning")
                         }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
                         }.foregroundColor(.red)
+
                     }
 
-                    NavigationLink(destination: Details(device: app.transmitter)) {
-                        Text(" Device... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
-                    }.disabled(self.app.transmitter == nil && self.settings.preferredWatch == .none)
+                    if !app.info.contains("canning") {
+                        NavigationLink(destination: Details(device: app.device)) {
+                            Text(" Device... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
+                        }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
+                    }
                 }
 
                 Spacer()
@@ -148,10 +169,10 @@ struct Monitor: View {
 
                 // Same as Rescan
                 Button(action: {
-                    let transmitter = self.app.transmitter
+                    let device = self.app.device
                     let centralManager = self.app.main.centralManager
-                    if transmitter != nil {
-                        centralManager.cancelPeripheralConnection(transmitter!.peripheral!)
+                    if device != nil {
+                        centralManager.cancelPeripheralConnection(device!.peripheral!)
                     }
                     if centralManager.state == .poweredOn {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)

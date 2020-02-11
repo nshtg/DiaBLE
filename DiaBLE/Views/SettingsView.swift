@@ -44,9 +44,9 @@ struct SettingsView: View {
                         }.pickerStyle(SegmentedPickerStyle())
                     }
 
-                    NavigationLink(destination: Details(device: app.transmitter)) {
+                    NavigationLink(destination: Details(device: app.device)) {
                         Text(" Device... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
-                    }.disabled(self.app.transmitter == nil && self.settings.preferredWatch == .none)
+                    }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
                 }
 
                 Spacer()
@@ -67,11 +67,11 @@ struct SettingsView: View {
                 Spacer()
 
                 Button(action: {
-                    let transmitter = self.app.transmitter
+                    let device = self.app.device
                     self.app.selectedTab = (self.settings.preferredTransmitter != .none || self.settings.preferredWatch != .none) ? .monitor : .log
                     let centralManager = self.app.main.centralManager
-                    if transmitter != nil {
-                        centralManager.cancelPeripheralConnection(transmitter!.peripheral!)
+                    if device != nil {
+                        centralManager.cancelPeripheralConnection(device!.peripheral!)
                     }
                     if centralManager.state == .poweredOn {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)

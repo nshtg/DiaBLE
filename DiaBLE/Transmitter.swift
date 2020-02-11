@@ -24,7 +24,6 @@ enum TransmitterType: String, CaseIterable, Hashable, Codable, Identifiable {
 
 class Transmitter: Device {
     var sensor: Sensor?
-    func readCommand(interval: Int = 5) -> [UInt8] { [] }
 }
 
 

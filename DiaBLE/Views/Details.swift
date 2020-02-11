@@ -21,7 +21,7 @@ struct Details: View {
 
             Spacer()
 
-            if device?.name == Watlaa.name {
+            if device?.type == Watlaa.type {
                 WatlaaDetailsView(device: device!)
             }
 
@@ -31,10 +31,10 @@ struct Details: View {
                 // Same as Rescan
                 // FIXME: updates only every 3-4 seconds
                 Button(action: {
-                    let transmitter = self.app.transmitter
+                    let device = self.app.device
                     let centralManager = self.app.main.centralManager
-                    if transmitter != nil {
-                        centralManager.cancelPeripheralConnection(transmitter!.peripheral!)
+                    if device != nil {
+                        centralManager.cancelPeripheralConnection(device!.peripheral!)
                     }
                     if centralManager.state == .poweredOn {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)
@@ -46,7 +46,7 @@ struct Details: View {
                 ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)
                     .foregroundColor(.accentColor) }
 
-                Text(app.transmitterState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
+                Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
                     "\(readingCountdown) s" : "...")
                     .fixedSize()
                     .onReceive(timer) { _ in

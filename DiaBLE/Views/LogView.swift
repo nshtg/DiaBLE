@@ -44,10 +44,10 @@ struct LogView: View {
 
                     // Same as Rescan
                     Button(action: {
-                        let transmitter = self.app.transmitter
+                        let device = self.app.device
                         let centralManager = self.app.main.centralManager
-                        if transmitter != nil {
-                            centralManager.cancelPeripheralConnection(transmitter!.peripheral!)
+                        if device != nil {
+                            centralManager.cancelPeripheralConnection(device!.peripheral!)
                         }
                         if centralManager.state == .poweredOn {
                             centralManager.scanForPeripherals(withServices: nil, options: nil)
@@ -62,7 +62,7 @@ struct LogView: View {
                     }
                 }.foregroundColor(.accentColor)
 
-                if app.transmitterState == "Connected" {
+                if app.deviceState == "Connected" {
 
                     Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
                         "\(readingCountdown) s" : "")

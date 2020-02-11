@@ -19,7 +19,7 @@ struct DataView: View {
                 Text("\(Date().dateTime)")
                     .foregroundColor(.white)
 
-                if app.transmitterState == "Connected" {
+                if app.deviceState == "Connected" {
                     Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
                         "\(readingCountdown) s" : "")
                         .fixedSize()

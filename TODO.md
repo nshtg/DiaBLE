@@ -13,9 +13,6 @@ FIXME
 TODO
 ----
 
-* use app.device instead of an app.transmitter in Monitor
-* tapping "Device..." allows to setup a specific device (for example the watch alarms and calibration)
-* Derive a Watch from Device and associate a Transmitter
 * BLE 1805 2A2B: current time
 * notification center delegate methods
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file

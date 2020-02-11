@@ -2,9 +2,10 @@ import Foundation
 
 class App: ObservableObject {
 
+    @Published var device: Device!
     @Published var transmitter: Transmitter!
     @Published var sensor: Sensor!
-    @Published var watch: Transmitter!
+    @Published var watch: Watch!
 
     var main: MainDelegate!
 
@@ -15,7 +16,7 @@ class App: ObservableObject {
     @Published var oopAlarm: String
     @Published var oopTrend: String
 
-    @Published var transmitterState: String
+    @Published var deviceState: String
     @Published var info: String
 
     @Published var calibration: Calibration
@@ -36,7 +37,7 @@ class App: ObservableObject {
         oopAlarm: String = "",
         oopTrend: String = "",
 
-        transmitterState: String = "",
+        deviceState: String = "",
         info: String = "Welcome to DiaBLE!",
 
 
@@ -52,7 +53,7 @@ class App: ObservableObject {
         self.oopAlarm = oopAlarm
         self.oopTrend = oopTrend
 
-        self.transmitterState = transmitterState
+        self.deviceState = deviceState
         self.info = info
 
         self.calibration = calibration
@@ -296,7 +297,7 @@ extension App {
             currentGlucose: 234,
             oopAlarm: "HIGH_GLUCOSE",
             oopTrend: "FALLING",
-            transmitterState: "Connected",
+            deviceState: "Connected",
             info: "Sensor + Transmitter\nError about connection\nError about sensor",
             calibration: Calibration(slopeSlope: 0.123456, slopeOffset: 0.123456, offsetOffset: -15.123456, offsetSlope: 0.123456)
         )

@@ -167,6 +167,8 @@ class Device {
         main.debugLog("\(name): requested value for \(uuid)")
     }
 
+    /// varying ireading interval
+    func readCommand(interval: Int = 5) -> [UInt8] { [] }
 
     func parseManufacturerData(_ data: Data) {
         main.log("Bluetooth: \(name)'s advertised manufacturer data: \(data.hex)" )
@@ -192,11 +194,11 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         switch manager.state {
         case .poweredOff:
             log("Bluetooth state: Powered off")
-            if app.transmitter != nil {
-                centralManager.cancelPeripheralConnection(app.transmitter.peripheral!)
-                app.transmitter.state = .disconnected
+            if app.device != nil {
+                centralManager.cancelPeripheralConnection(app.device.peripheral!)
+                app.device.state = .disconnected
             }
-            app.transmitterState = "Disconnected"
+            app.deviceState = "Disconnected"
         case .poweredOn:
             log("Bluetooth state: Powered on")
             centralManager.scanForPeripherals(withServices: nil, options: nil)
@@ -248,7 +250,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         if (found && !settings.preferredDevicePattern.isEmpty && !name.matches(settings.preferredDevicePattern))
             || !found && (settings.preferredTransmitter != .none || settings.preferredWatch != .none || (!settings.preferredDevicePattern.isEmpty && !name.matches(settings.preferredDevicePattern))) {
             log("Bluetooth: skipping \"\(name)\" service")
-            main.info("\n\nScanning...\nSkipping \(name)...")
+            main.info("\n\nScanning for '\(settings.preferredDevicePattern)'...\nSkipping \(name)...")
             return
         }
 
@@ -257,36 +259,42 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         if name == "Bubble" {
             app.transmitter = Bubble(peripheral: peripheral, main: main)
+            app.device = app.transmitter
         } else if name.matches("miaomiao") {
             app.transmitter = MiaoMiao(peripheral: peripheral, main: main)
+            app.device = app.transmitter
         } else if name.matches("wat") {
             if name.hasPrefix("Watlaa") {
                 app.watch = Watlaa(peripheral: peripheral, main: main)
             } else {
                 app.watch = AppleWatch(peripheral: peripheral, main: main)
             }
-            app.transmitter = app.watch
+            app.device = app.watch
+            app.device.name = peripheral.name!
+            app.transmitter = app.watch.transmitter
+            app.transmitter.name = "bridge"
+
         } else {
-            app.transmitter = Transmitter(peripheral: peripheral, main: main)
-            app.transmitter.name = name
+            app.device = Device(peripheral: peripheral, main: main)
+            app.device.name = name
         }
 
         if let manufacturerData = advertisement["kCBAdvDataManufacturerData"] as? Data {
-            app.transmitter.parseManufacturerData(manufacturerData)
+            app.device.parseManufacturerData(manufacturerData)
         }
 
-        main.info("\n\n\(app.transmitter.name)")
-        app.transmitter.peripheral?.delegate = self
-        centralManager.connect(app.transmitter.peripheral!, options: nil)
+        main.info("\n\n\(app.device.name)")
+        app.device.peripheral?.delegate = self
+        centralManager.connect(app.device.peripheral!, options: nil)
     }
 
 
     public func centralManager(_ manager: CBCentralManager, didConnect peripheral: CBPeripheral) {
         let name = peripheral.name ?? "An unnamed peripheral"
         var msg = "Bluetooth: \(name) has connected"
-        if app.transmitter.state == .disconnected {
-            app.transmitter.state = peripheral.state
-            app.transmitterState = "Connected"
+        if app.device.state == .disconnected {
+            app.device.state = peripheral.state
+            app.deviceState = "Connected"
             msg += ("; discovering services")
             peripheral.discoverServices(nil)
         }
@@ -296,12 +304,12 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         let name = peripheral.name ?? "Unnamed peripheral"
-        app.transmitter.state = peripheral.state
+        app.device.state = peripheral.state
         if let services = peripheral.services {
             for service in services {
                 let serviceUUID = service.uuid.uuidString
                 var description = "unknown service"
-                if serviceUUID == type(of:app.transmitter).dataServiceUUID {
+                if serviceUUID == type(of:app.device).dataServiceUUID {
                     description = "data service"
                 }
                 if let uuid = BLE.UUID(rawValue: serviceUUID) {
@@ -319,43 +327,43 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         let serviceUUID = service.uuid.uuidString
         var serviceDescription = serviceUUID
-        if serviceUUID == type(of:app.transmitter).dataServiceUUID {
+        if serviceUUID == type(of:app.device).dataServiceUUID {
             serviceDescription = "data"
         }
 
         for characteristic in characteristics {
             let uuid = characteristic.uuid.uuidString
-            app.transmitter.characteristics[uuid] = characteristic
+            app.device.characteristics[uuid] = characteristic
 
-            var msg = "Bluetooth: discovered \(app.transmitter.name) \(serviceDescription) service's characteristic \(uuid)"
+            var msg = "Bluetooth: discovered \(app.device.name) \(serviceDescription) service's characteristic \(uuid)"
             msg += (", properties: \(characteristic.properties)")
 
             if uuid == Bubble.dataReadCharacteristicUUID || uuid == MiaoMiao.dataReadCharacteristicUUID || uuid == Watlaa.dataReadCharacteristicUUID {
-                app.transmitter.readCharacteristic = characteristic
-                app.transmitter.peripheral?.setNotifyValue(true, for: app.transmitter.readCharacteristic!)
+                app.device.readCharacteristic = characteristic
+                app.device.peripheral?.setNotifyValue(true, for: app.device.readCharacteristic!)
                 msg += " (data read)"
 
             } else if uuid == Bubble.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID || uuid == Watlaa.dataWriteCharacteristicUUID {
                 msg += " (data write)"
-                app.transmitter.writeCharacteristic = characteristic
+                app.device.writeCharacteristic = characteristic
 
             } else if let uuid = Watlaa.UUID(rawValue: uuid) {
                 msg += " (\(uuid))"
                 if uuid.description.contains("unknown") {
                     if characteristic.properties.contains(.notify) {
-                        app.transmitter.peripheral?.setNotifyValue(true, for: characteristic)
+                        app.device.peripheral?.setNotifyValue(true, for: characteristic)
                     }
                     if characteristic.properties.contains(.read) {
-                        app.transmitter.peripheral?.readValue(for: characteristic)
+                        app.device.peripheral?.readValue(for: characteristic)
                         msg += "; reading it"
                     }
                 }
 
             } else if let uuid = BLE.UUID(rawValue: uuid) {
                 if uuid == .batteryLevel {
-                    app.transmitter.peripheral?.setNotifyValue(true, for: characteristic)
+                    app.device.peripheral?.setNotifyValue(true, for: characteristic)
                 }
-                app.transmitter.peripheral?.readValue(for: characteristic)
+                app.device.peripheral?.readValue(for: characteristic)
                 msg += " (\(uuid)); reading it"
 
                 // } else if let uuid = OtherDevice.UUID(rawValue: uuid) {
@@ -375,42 +383,44 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             log(msg)
         }
 
-        if app.transmitter.type == .transmitter(.bubble) && serviceUUID == Bubble.dataServiceUUID {
+        if app.device.type == .transmitter(.bubble) && serviceUUID == Bubble.dataServiceUUID {
             let readCommand = app.transmitter.readCommand(interval: settings.readingInterval)
-            app.transmitter.write(readCommand)
+            app.device.write(readCommand)
             log("Bubble: writing start reading command 0x\(Data(readCommand).hex)")
             // bubble!.write([0x00, 0x01, 0x05])
             // log("Bubble: writing reset and send data every 5 minutes command 0x000105")
         }
 
-        if (app.transmitter.type == .transmitter(.miaomiao) || app.transmitter.type == .watch(.watlaa)) && (serviceUUID == MiaoMiao.dataServiceUUID || serviceUUID == Watlaa.dataServiceUUID) {
-            let readCommand = app.transmitter.readCommand(interval: settings.readingInterval)
-            app.transmitter.write(readCommand)
-            log("\(app.transmitter.name): writing start reading command 0x\(Data(readCommand).hex)")
+        if (app.device.type == .transmitter(.miaomiao) || app.device.type == .watch(.watlaa)) && (serviceUUID == MiaoMiao.dataServiceUUID || serviceUUID == Watlaa.dataServiceUUID) {
+            let readCommand = app.device.readCommand(interval: settings.readingInterval)
+            app.device.write(readCommand)
+            log("\(app.device.name): writing start reading command 0x\(Data(readCommand).hex)")
             // app.transmitter.write([0xD3, 0x01]); log("MiaoMiao writing start new sensor command D301")
         }
 
-        if app.transmitter.type == .watch(.watlaa) && serviceUUID == Watlaa.dataServiceUUID {
-            (app.transmitter as! Watlaa).readSetup()
-            log("Watlaa: reading data")
+        if app.device.type == .watch(.watlaa) && serviceUUID == Watlaa.dataServiceUUID {
+            (app.device as! Watlaa).readSetup()
+            log("Watlaa: reading configuration")
         }
     }
 
 
     public func centralManager(_ manager: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         let name = peripheral.name ?? "Unnamed peripheral"
-        app.transmitter.state = peripheral.state
+        app.device.state = peripheral.state
         log("\(name) has disconnected.")
-        app.transmitterState = "Disconnected"
+        app.deviceState = "Disconnected"
         if error != nil {
             let errorCode = CBError.Code(rawValue: (error! as NSError).code)! // 6 = timed out when out of range
             log("Bluetooth: error type \(errorCode.rawValue): \(error!.localizedDescription)")
             if app.transmitter != nil && (settings.preferredTransmitter == .none || settings.preferredTransmitter.id == app.transmitter.type.id) {
                 centralManager.connect(peripheral, options: nil)
             } else {
+                app.device = nil
                 app.transmitter = nil
             }
         } else {
+            app.device = nil
             app.transmitter = nil
         }
     }
@@ -455,19 +465,19 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             switch uuid {
 
             case .batteryLevel:
-                app.transmitter.battery = Int(data[0])
+                app.device.battery = Int(data[0])
             case .model:
-                app.transmitter.model = data.string
+                app.device.model = data.string
             case .serial:
-                app.transmitter.serial = data.string
+                app.device.serial = data.string
             case .firmware:
-                app.transmitter.firmware = data.string
+                app.device.firmware = data.string
             case .hardware:
-                app.transmitter.hardware += data.string
+                app.device.hardware += data.string
             case .software:
-                app.transmitter.software = data.string
+                app.device.software = data.string
             case .manufacturer:
-                app.transmitter.manufacturer = data.string
+                app.device.manufacturer = data.string
 
             default:
                 break
@@ -478,9 +488,9 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
             app.lastReadingDate = Date()
 
-            app.transmitter.read(data, for: characteristic.uuid.uuidString)
+            app.device.read(data, for: characteristic.uuid.uuidString)
 
-            if app.transmitter.type == .transmitter(.bubble) || app.transmitter.type == .transmitter(.miaomiao) || app.transmitter.type == .watch(.watlaa) {
+            if app.device.type == .transmitter(.bubble) || app.device.type == .transmitter(.miaomiao) || app.device.type == .watch(.watlaa) {
                 if let sensor = app.transmitter.sensor, sensor.fram.count > 0, app.transmitter.buffer.count >=  sensor.fram.count  {
                     main.parseSensorData(sensor)
                     app.transmitter.buffer = Data()

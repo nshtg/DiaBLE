@@ -22,8 +22,9 @@ enum WatchType: String, CaseIterable, Hashable, Codable, Identifiable {
 }
 
 
-class Watch: Transmitter {
+class Watch: Device {
     override class var type: DeviceType { DeviceType.watch(.none) }
+    var transmitter: Transmitter? = Transmitter()
 }
 
 
@@ -108,8 +109,6 @@ class Watlaa: Watch {
         }
     }
 
-    var transmitter: Transmitter?
-
     var bridgeStatus: BridgeStatus = .unknown
     var slope: Float = 0.0
     var intercept: Float = 0.0
@@ -145,79 +144,87 @@ class Watlaa: Watch {
 
         // Same as MiaoMiao
         case .dataRead:
+            let bridge = transmitter!
+            let bridgeName = "\(transmitter!.name) + \(name)"
 
             let response = ResponseType(rawValue: data[0])
-            if buffer.count == 0 {
-                main.log("\(name) response: \(response?.description ?? "unknown") (0x\(data[0...0].hex))")
+            if bridge.buffer.count == 0 {
+                main.log("\(bridgeName) response: \(response?.description ?? "unknown") (0x\(data[0...0].hex))")
             }
             if data.count == 1 {
                 if response == .noSensor {
-                    main.info("\n\n\(name): no sensor")
+                    main.info("\n\n\(bridgeName): no sensor")
                 }
                 // TODO: prompt the user and allow writing the command 0xD301 to change sensor
                 if response == .newSensor {
-                    main.info("\n\n\(name): detected a new sensor")
+                    main.info("\n\n\(bridgeName): detected a new sensor")
                 }
             } else if data.count == 2 {
                 if response == .frequencyChange {
                     if data[1] == 0x01 {
-                        main.log("\(name): success changing frequency")
+                        main.log("\(bridgeName): success changing frequency")
                     } else {
-                        main.log("\(name): failed to change frequency")
+                        main.log("\(bridgeName): failed to change frequency")
                     }
                 }
             } else {
-                if sensor == nil {
-                    sensor = Sensor(transmitter: self)
-                    main.app.sensor = sensor
+                if bridge.sensor == nil {
+                    bridge.sensor = Sensor(transmitter: bridge)
+                    main.app.sensor = bridge.sensor
                 }
-                if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
-                buffer.append(data)
-                main.log("\(name): partial buffer count: \(buffer.count)")
-                if buffer.count >= 363 {
-                    main.log("\(name): data count: \(Int(buffer[1]) << 8 + Int(buffer[2]))")
+                if bridge.buffer.count == 0 { bridge.sensor!.lastReadingDate = main.app.lastReadingDate }
+                bridge.buffer.append(data)
+                main.log("\(bridgeName): partial buffer count: \(bridge.buffer.count)")
+                if bridge.buffer.count >= 363 {
+                    main.log("\(bridgeName): data count: \(Int(bridge.buffer[1]) << 8 + Int(bridge.buffer[2]))")
 
-                    battery = Int(buffer[13])
-                    firmware = buffer[14...15].hex
-                    hardware = buffer[16...17].hex
-                    main.log("\(name): battery: \(battery), firmware: \(firmware), hardware: \(hardware)")
+                    bridge.battery  = Int(bridge.buffer[13])
+                    bridge.firmware = bridge.buffer[14...15].hex
+                    bridge.hardware = bridge.buffer[16...17].hex
+                    main.log("\(bridgeName): battery: \(battery), firmware: \(firmware), hardware: \(hardware)")
 
-                    sensor!.age = Int(buffer[3]) << 8 + Int(buffer[4])
-                    sensor!.uid = Data(buffer[5...12])
-                    main.log("\(name): sensor age: \(sensor!.age) minutes (\(String(format: "%.1f", Double(sensor!.age)/60/24)) days), patch uid: \(sensor!.uid.hex), serial number: \(sensor!.serial)")
+                    bridge.sensor!.age = Int(bridge.buffer[3]) << 8 + Int(bridge.buffer[4])
+                    bridge.sensor!.uid = Data(bridge.buffer[5...12])
+                    main.log("\(bridgeName): sensor age: \(bridge.sensor!.age) minutes (\(String(format: "%.1f", Double(bridge.sensor!.age)/60/24)) days), patch uid: \(bridge.sensor!.uid.hex), serial number: \(bridge.sensor!.serial)")
 
-                    if buffer.count > 363 {
-                        sensor!.patchInfo = Data(buffer[363...368])
-                        main.log("\(name): patch info: \(sensor!.patchInfo.hex)")
+                    if bridge.buffer.count > 363 {
+                        bridge.sensor!.patchInfo = Data(bridge.buffer[363...368])
+                        main.log("\(bridgeName): patch info: \(bridge.sensor!.patchInfo.hex)")
                     } else {
-                        sensor!.patchInfo = Data([0xDF, 0x00, 0x00, 0x01, 0x01, 0x02])
+                        bridge.sensor!.patchInfo = Data([0xDF, 0x00, 0x00, 0x01, 0x01, 0x02])
                     }
-                    sensor!.fram = Data(buffer[18 ..< 362])
-                    main.info("\n\n\(sensor!.type)  +  \(name)")
+                    bridge.sensor!.fram = Data(bridge.buffer[18 ..< 362])
+                    readSetup()
+                    main.info("\n\n\(bridge.sensor!.type)  +  \(bridgeName)")
                 }
             }
 
 
         case .legacyDataRead:
-            if sensor == nil {
+
+            let bridge = transmitter!
+            let bridgeName = "\(transmitter!.name) + \(name)"
+
+            if bridge.sensor == nil {
                 if main.app.sensor != nil {
-                    sensor = main.app.sensor
+                    bridge.sensor = main.app.sensor
                 } else {
-                    sensor = Sensor(transmitter: self)
-                    main.app.sensor = sensor
+                    bridge.sensor = Sensor(transmitter: bridge)
+                    main.app.sensor = bridge.sensor
                 }
             }
-            if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
+            if bridge.buffer.count == 0 { bridge.sensor!.lastReadingDate = main.app.lastReadingDate }
             lastReadingDate = main.app.lastReadingDate
-            buffer.append(data)
-            main.log("\(name): partial buffer count: \(buffer.count)")
+            bridge.buffer.append(data)
+            main.log("\(bridgeName): partial buffer count: \(bridge.buffer.count)")
 
-            if buffer.count == 344 {
-                let fram = buffer[..<344]
-                sensor!.fram = Data(fram)
+            if bridge.buffer.count == 344 {
+                let fram = bridge.buffer[..<344]
+                bridge.sensor!.fram = Data(fram)
                 readSetup()
-                main.info("\n\n\(sensor!.type)  +  \(name)")
+                main.info("\n\n\(bridge.sensor!.type)  +  \(bridgeName)")
             }
+
 
         case .lastGlucose:
             let value = Int(data[1]) << 8 + Int(data[0])
@@ -256,7 +263,11 @@ class Watlaa: Watch {
             main.log("\(name): alerts: high: \(high), low: \(low), bridge connection: \(bridgeConnection) minutes, low snooze: \(lowSnooze) minutes, high snooze: \(highSnooze) minutes, sensor lost vibration: \(sensorLostVibration), glucose vibration: \(glucoseVibration)")
 
         case .unknown2:
-            let sensorSerial = data.string
+            var sensorSerial = data.string
+            if data[0] == 0 {
+                sensorSerial = data.hex
+            }
+            transmitter?.serial = sensorSerial
             main.log("\(name): sensor serial number: \(sensorSerial)")
 
         default:
@@ -287,6 +298,10 @@ struct WatlaaDetailsView: View {
             Text("Glucose unit: \((device as! Watlaa).unit.description)")
             Text("Calibration intercept: \((device as! Watlaa).intercept)")
             Text("Calibration slope: \((device as! Watlaa).slope)")
+
+            Text("Sensor serial: \((device as! Watlaa).transmitter!.serial)")
+
+
         }
     }
 }
