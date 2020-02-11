@@ -26,8 +26,12 @@ struct Details: View {
             VStack(spacing: 32) {
                 VStack {
                     Text("Device name: \(device!.name)")
-                    Text("Firmware: \(device!.firmware)")
-                    Text("Hardware: \(device!.manufacturer) \(device!.model) \(device!.hardware)")
+                    if !device!.firmware.isEmpty {
+                        Text("Firmware: \(device!.firmware)")
+                    }
+                    if device!.manufacturer.count + device!.model.count + device!.hardware.count > 0 {
+                        Text("Hardware: \(device!.manufacturer) \(device!.model) \(device!.hardware)")
+                    }
                     if !device!.software.isEmpty {
                         Text("Software: \(device!.software)")
                     }
@@ -36,8 +40,10 @@ struct Details: View {
                     }
                 }.font(.footnote).foregroundColor(.yellow)
 
-                Text("Battery: \(device!.battery)%")
-                    .foregroundColor(.green)
+                if device!.battery > -1 {
+                    Text("Battery: \(device!.battery)%")
+                        .foregroundColor(.green)
+                }
             }
 
             Spacer()
