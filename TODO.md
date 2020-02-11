@@ -15,7 +15,7 @@ TODO
 
 * use app.device instead of an app.transmitter in Monitor
 * tapping "Device..." allows to setup a specific device (for example the watch alarms and calibration)
-* Derive a Watch from Device and associatre a Transmitter
+* Derive a Watch from Device and associate a Transmitter
 * BLE service 1805: current time
 * notification center delegate methods
 * save measurements by using HealthKit

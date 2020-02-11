@@ -6,6 +6,10 @@ struct Details: View {
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
+
+    @State private var readingCountdown: Int = 0
+
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     var device: Device?
     
@@ -22,6 +26,33 @@ struct Details: View {
             }
 
             Spacer()
+
+            VStack(spacing: 0) {
+                // Same as Rescan
+                // FIXME: updates only every 3-4 seconds
+                Button(action: {
+                    let transmitter = self.app.transmitter
+                    let centralManager = self.app.main.centralManager
+                    if transmitter != nil {
+                        centralManager.cancelPeripheralConnection(transmitter!.peripheral!)
+                    }
+                    if centralManager.state == .poweredOn {
+                        centralManager.scanForPeripherals(withServices: nil, options: nil)
+                        self.app.main.info("\n\nScanning...")
+                    }
+                    if let healthKit = self.app.main.healthKit { healthKit.read() }
+                    if let nightscout = self.app.main.nightscout { nightscout.read() }
+                }
+                ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)
+                    .foregroundColor(.accentColor) }
+
+                Text(app.transmitterState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
+                    "\(readingCountdown) s" : "...")
+                    .fixedSize()
+                    .onReceive(timer) { _ in
+                        self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
+                }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
+            }
         }
         .navigationBarTitle(Text("Details"), displayMode: .inline)
     }

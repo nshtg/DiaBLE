@@ -272,6 +272,7 @@ struct WatlaaDetailsView: View {
 
     var body: some View {
         VStack {
+            Text("Serial number: \(device.serial)")
             Text("Glucose unit: \((device as! Watlaa).unit.description)")
             Text("Calibration intercept: \((device as! Watlaa).intercept)")
             Text("Calibration slope: \((device as! Watlaa).slope)")
