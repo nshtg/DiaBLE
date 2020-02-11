@@ -250,8 +250,13 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         eventKit?.sync()
 
         if history.values.count > 0 {
+            let entries = self.history.values.filter{ $0.value > 0 } + [Glucose(currentGlucose, date: sensor.lastReadingDate, source: "DiaBLE")]
+
+            // TODO
+            healthKit?.write(entries.filter{$0.date > healthKit?.lastDate ?? Calendar.current.date(byAdding: .hour, value: -8, to : Date())!})
+
             nightscout?.delete(query: "find[device]=LibreOOP&count=32") { data, response, error in
-                self.nightscout?.post(entries: self.history.values.filter{ $0.value > 0 } + [Glucose(currentGlucose, date: sensor.lastReadingDate, source: "DiaBLE")]) { data, response, error in
+                self.nightscout?.post(entries: entries) { data, response, error in
                     self.nightscout?.read()
                 }
             }

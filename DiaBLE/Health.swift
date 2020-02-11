@@ -66,6 +66,9 @@ class HealthKit {
                              metadata: nil)
         }
         store?.save(samples) { (success, error) in
+            if let error = error {
+                self.main.log("HealthKit: error while saving: \(error.localizedDescription)")
+            }
             self.lastDate = samples.last?.endDate
         }
     }
@@ -82,7 +85,7 @@ class HealthKit {
         let query = HKSampleQuery(sampleType: glucoseType, predicate: nil, limit: 12 * 8, sortDescriptors: [sortDescriptor]) { (query, results, error) in
             guard let results = results as? [HKQuantitySample] else {
                 if let error = error {
-                    self.main.log("HealthKit error: \(error)")
+                    self.main.log("HealthKit error: \(error.localizedDescription)")
                 } else {
                     self.main.log("HealthKit: no records")
                 }
