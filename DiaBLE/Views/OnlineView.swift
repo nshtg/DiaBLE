@@ -65,10 +65,10 @@ struct OnlineView: View {
                         } else {
                             self.showingNFCAlert = true
                         }
-                    }) { VStack {
+                    }) { VStack(spacing: 0) {
                         Image(systemName: "radiowaves.left")
                             .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32)
-                        Text("NFC").font(.footnote).bold().offset(y: -16)
+                        Text("NFC").font(.footnote).bold().offset(y: -8)
                         }
                     }.alert(isPresented: $showingNFCAlert) {
                         Alert(

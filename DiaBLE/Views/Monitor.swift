@@ -181,8 +181,7 @@ struct Monitor: View {
                     if let healthKit = self.app.main.healthKit { healthKit.read() }
                     if let nightscout = self.app.main.nightscout { nightscout.read() }
                 }
-                ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32).padding(.bottom, 8
-                ).foregroundColor(.accentColor) }
+                ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32).padding(.bottom, 8).foregroundColor(.accentColor) }
 
             }
             .multilineTextAlignment(.center)
@@ -194,11 +193,11 @@ struct Monitor: View {
                     } else {
                         self.showingNFCAlert = true
                     }
-                }) { VStack {
+                }) { VStack(spacing: 0) {
                     Image(systemName: "radiowaves.left")
                         .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32).offset(y: 8)
-                    Text("NFC").font(.footnote).bold().offset(y: -8)
-                    Text("  Scan  ").font(.footnote).offset(y: -12)
+                    Text("NFC").font(.footnote).bold()
+                    Text("  Scan  ").font(.footnote).offset(y: -4)
                     }
                 }.alert(isPresented: $showingNFCAlert) {
                     Alert(

@@ -79,7 +79,7 @@ struct Details: View {
                     .onReceive(timer) { _ in
                         self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
                 }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
-            }
+            }.padding(.bottom, 8)
             .navigationBarTitle(Text("Details"), displayMode: .inline)
         }
     }
