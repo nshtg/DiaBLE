@@ -249,8 +249,12 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         if (found && !settings.preferredDevicePattern.isEmpty && !name.matches(settings.preferredDevicePattern))
             || !found && (settings.preferredTransmitter != .none || settings.preferredWatch != .none || (!settings.preferredDevicePattern.isEmpty && !name.matches(settings.preferredDevicePattern))) {
-            log("Bluetooth: skipping \"\(name)\" service")
-            main.info("\n\nScanning for '\(settings.preferredDevicePattern)'...\nSkipping \(name)...")
+            var scanningFor = "Scanning"
+            if !settings.preferredDevicePattern.isEmpty {
+                scanningFor += " for '\(settings.preferredDevicePattern)'"
+            }
+            main.info("\n\n\(scanningFor)...\nSkipping \(name)...")
+            log("Bluetooth: \(scanningFor.lowercased()), skipping \"\(name)\" service")
             return
         }
 

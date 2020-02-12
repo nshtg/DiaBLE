@@ -15,6 +15,7 @@ TODO
 ----
 
 * BLE 1805 2A2B: current time
+* selection of glucose units
 * notification center delegate methods
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file
 * popup sliders to change the calibration parameters and update interactively the third purple curve
