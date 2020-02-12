@@ -4,8 +4,6 @@ import SwiftUI
 
 struct Details: View {
     @EnvironmentObject var app: App
-    @EnvironmentObject var log: Log
-    @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
     @State private var readingCountdown: Int = 0
@@ -15,43 +13,45 @@ struct Details: View {
     var device: Device?
     
     var body: some View {
-
         VStack {
+
             Spacer()
 
             Text("TODO: \(device?.name ?? "Details")")
 
             Spacer()
 
-            VStack(spacing: 32) {
-                VStack {
-                    Text("Device name: \(device!.name)")
-                    if !device!.firmware.isEmpty {
-                        Text("Firmware: \(device!.firmware)")
-                    }
-                    if device!.manufacturer.count + device!.model.count + device!.hardware.count > 0 {
-                        Text("Hardware: \(device!.manufacturer) \(device!.model) \(device!.hardware)")
-                    }
-                    if !device!.software.isEmpty {
-                        Text("Software: \(device!.software)")
-                    }
-                    if (device!.macAddress.count > 0) {
-                        Text("MAC Address: \(device!.macAddress.hexAddress)")
-                    }
-                }.font(.footnote).foregroundColor(.yellow)
-
-                if device!.battery > -1 {
-                    Text("Battery: \(device!.battery)%")
-                        .foregroundColor(.green)
+            VStack {
+                Text("Device name: \(device!.name)")
+                if !device!.firmware.isEmpty {
+                    Text("Firmware: \(device!.firmware)")
                 }
+                if device!.manufacturer.count + device!.model.count + device!.hardware.count > 0 {
+                    Text("Hardware: \(device!.manufacturer) \(device!.model) \(device!.hardware)")
+                }
+                if !device!.software.isEmpty {
+                    Text("Software: \(device!.software)")
+                }
+                if (device!.macAddress.count > 0) {
+                    Text("MAC Address: \(device!.macAddress.hexAddress)")
+                }
+            }.font(.footnote).foregroundColor(.yellow)
+
+            Spacer()
+
+            if device!.battery > -1 {
+                Text("Battery: \(device!.battery)%")
+                    .foregroundColor(.green)
             }
 
             Spacer()
+
             VStack {
                 if device?.type == Watlaa.type {
                     WatlaaDetailsView(device: device!)
                 }
             }.font(.callout).foregroundColor(.blue)
+
             Spacer()
 
             VStack(spacing: 0) {
@@ -80,22 +80,19 @@ struct Details: View {
                         self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
                 }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
             }
+            .navigationBarTitle(Text("Details"), displayMode: .inline)
         }
-        .navigationBarTitle(Text("Details"), displayMode: .inline)
     }
 }
 
+
 struct Details_Preview: PreviewProvider {
     @EnvironmentObject var app: App
-    @EnvironmentObject var log: Log
-    @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
-            ContentView()
-                .environmentObject(App.test(tab: .settings))
-                .environmentObject(Log())
-                .environmentObject(History.test)
+            Details(device: Watlaa())
+                .environmentObject(App.test(tab: .monitor))
                 .environmentObject(Settings())
                 .environment(\.colorScheme, .dark)
         }

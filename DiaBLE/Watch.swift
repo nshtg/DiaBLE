@@ -301,28 +301,34 @@ struct WatlaaDetailsView: View {
     var device: Device
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack {
             Text("Serial number: \(device.serial)")
 
             Text("Transmitter status: \((device as! Watlaa).bridgeStatus.description)")
             Text("Sensor serial: \((device as! Watlaa).transmitter!.serial)")
+            Form {
+                Text("Glucose unit: \((device as! Watlaa).unit.description)")
+                Text("Intercept: \((device as! Watlaa).intercept)  Slope: \((device as! Watlaa).slope)")
 
-            Text("Glucose unit: \((device as! Watlaa).unit.description)")
-            Text("Intercept: \((device as! Watlaa).intercept)  Slope: \((device as! Watlaa).slope)")
-
-            Text("Alarm: glucose high: \(Int((device as! Watlaa).alarmHigh))  low: \(Int((device as! Watlaa).alarmLow))")
-            Text("Bridge connection check interval: \((device as! Watlaa).connectionCheckInterval)")
-            Text("Snooze high: \((device as! Watlaa).snoozeHigh)  low: \((device as! Watlaa).snoozeLow)")
-            Text("Vibrations: sensor lost: \((device as! Watlaa).sensorLostVibration == true ? "yes" : "no")  glucose: \((device as! Watlaa).glucoseVibration == true ? "yes" : "no")")
+                Text("Alarm: glucose high: \(Int((device as! Watlaa).alarmHigh))  low: \(Int((device as! Watlaa).alarmLow))")
+                Text("Bridge connection check interval: \((device as! Watlaa).connectionCheckInterval)")
+                Text("Snooze high: \((device as! Watlaa).snoozeHigh)  low: \((device as! Watlaa).snoozeLow)")
+                Text("Vibrations: sensor lost: \((device as! Watlaa).sensorLostVibration == true ? "yes" : "no")  glucose: \((device as! Watlaa).glucoseVibration == true ? "yes" : "no")")
+            }
         }
     }
 }
 
 
-// TODO
-
-//struct Watch_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Text("TODO")
-//    }
-//}
+struct Watch_Previews: PreviewProvider {
+    @EnvironmentObject var app: App
+    @EnvironmentObject var settings: Settings
+    static var previews: some View {
+        Group {
+            WatlaaDetailsView(device: Watlaa())
+                .environmentObject(App.test(tab: .monitor))
+                .environmentObject(Settings())
+                .environment(\.colorScheme, .dark)
+        }
+    }
+}
