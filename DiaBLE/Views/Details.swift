@@ -48,9 +48,9 @@ struct Details: View {
 
             VStack {
                 if device?.type == Watlaa.type {
-                    WatlaaDetailsView(device: device!)
+                    WatlaaDetailsView(device: device as! Watlaa)
                 }
-            }.font(.callout).foregroundColor(.blue)
+            }.font(.callout).foregroundColor(Color.init(UIColor.lightGray))
 
             Spacer()
 

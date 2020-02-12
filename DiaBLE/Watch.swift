@@ -298,22 +298,21 @@ class Watlaa: Watch {
 
 struct WatlaaDetailsView: View {
 
-    var device: Device
+    var device: Watlaa
 
     var body: some View {
         VStack {
             Text("Serial number: \(device.serial)")
-
-            Text("Transmitter status: \((device as! Watlaa).bridgeStatus.description)")
-            Text("Sensor serial: \((device as! Watlaa).transmitter!.serial)")
+            Text("Transmitter status: \(device.bridgeStatus.description)")
+            Text("Sensor serial: \(device.transmitter!.serial)")
             Form {
-                Text("Glucose unit: \((device as! Watlaa).unit.description)")
-                Text("Intercept: \((device as! Watlaa).intercept)  Slope: \((device as! Watlaa).slope)")
+                Text("Glucose unit: \(device.unit.description)")
+                Text("Intercept: \(device.intercept)  Slope: \(device.slope)")
 
-                Text("Alarm: glucose high: \(Int((device as! Watlaa).alarmHigh))  low: \(Int((device as! Watlaa).alarmLow))")
-                Text("Bridge connection check interval: \((device as! Watlaa).connectionCheckInterval)")
-                Text("Snooze high: \((device as! Watlaa).snoozeHigh)  low: \((device as! Watlaa).snoozeLow)")
-                Text("Vibrations: sensor lost: \((device as! Watlaa).sensorLostVibration == true ? "yes" : "no")  glucose: \((device as! Watlaa).glucoseVibration == true ? "yes" : "no")")
+                Text("Alarm: glucose high: \(Int(device.alarmHigh))  low: \(Int(device.alarmLow))")
+                Text("Bridge connection check interval: \(device.connectionCheckInterval)")
+                Text("Snooze high: \(device.snoozeHigh)  low: \(device.snoozeLow)")
+                Text("Vibrations: sensor lost: \(device.sensorLostVibration == true ? "yes" : "no")  glucose: \(device.glucoseVibration == true ? "yes" : "no")")
             }
         }
     }
