@@ -198,11 +198,13 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             // FALLING_QUICKLY | FALLING | STABLE | RISING | RISING_QUICKLY | NOT_DETERMINED
                             self.app.oopTrend = oopData.trendArrow
                             var oopHistory = oopData.glucoseData(sensorAge: sensor.age, readingDate: self.app.lastReadingDate)
-                            if oopHistory[0].value == 0 && oopHistory[1].id == self.history.rawValues[0].id {
-                                oopHistory.removeFirst()
-                                self.debugLog("DEBUG: dropped the first null OOP value newer than the corresponding raw one")
-                            }
                             let oopHistoryCount = oopHistory.count
+                            if oopHistoryCount > 1 {
+                                if oopHistory[0].value == 0 && oopHistory[1].id == self.history.rawValues[0].id {
+                                    oopHistory.removeFirst()
+                                    self.debugLog("DEBUG: dropped the first null OOP value newer than the corresponding raw one")
+                                }
+                            }
                             if oopHistoryCount > 0 {
                                 if oopHistoryCount < 32 { // new sensor
                                     oopHistory.append(contentsOf: [Glucose](repeating: Glucose(-1), count: 32 - oopHistoryCount))
