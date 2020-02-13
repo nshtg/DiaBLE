@@ -1,8 +1,9 @@
 import Foundation
 
 
-enum GlucoseUnit: String, CustomStringConvertible, CaseIterable {
+enum GlucoseUnit: String, CustomStringConvertible, CaseIterable, Identifiable {
     case mgdl, mmoll
+    var id: String { rawValue}
 
     var description: String {
         switch self {

@@ -114,7 +114,12 @@ class Watlaa: Watch {
     var intercept: Float = 0.0
     var lastGlucose: Int = 0
     var lastGlucoseAge: Int = 0
-    var unit: GlucoseUnit = .mgdl
+    
+    @Published var unit: GlucoseUnit = .mgdl {
+        didSet {
+            write([UInt8(GlucoseUnit.allCases.firstIndex(of: unit)!)], for: .glucoseUnit)
+        }
+    }
 
     var alarmHigh: Float = 0.0
     var alarmLow: Float = 0.0
@@ -127,9 +132,15 @@ class Watlaa: Watch {
     var lastReadingDate: Date = Date()
 
 
+    // TODO: implements in Device class
     func readValue(for uuid: UUID) {
         peripheral?.readValue(for: characteristics[uuid.rawValue]!)
         main.debugLog("\(name): requested value for \(uuid)")
+    }
+
+    func write(_ bytes: [UInt8], for uuid: UUID) {
+        peripheral?.writeValue(Data(bytes), for: characteristics[uuid.rawValue]!, type: .withResponse)
+        main.debugLog("\(name): written value 0x\(Data(bytes).hex) for \(uuid)")
     }
 
 
@@ -298,7 +309,7 @@ class Watlaa: Watch {
 
 struct WatlaaDetailsView: View {
 
-    var device: Watlaa
+    @State var device: Watlaa
 
     var body: some View {
         VStack {
@@ -306,8 +317,15 @@ struct WatlaaDetailsView: View {
             Text("Transmitter status: \(device.bridgeStatus.description)")
             Text("Sensor serial: \(device.transmitter!.serial)")
             Form {
-                Text("Glucose unit: \(device.unit.description)")
-                Text("Intercept: \(device.intercept)  Slope: \(device.slope)")
+                Picker(selection: $device.unit, label: Text("Unit")) {
+                    ForEach(GlucoseUnit.allCases) { unit in
+                        Text(unit.description).tag(unit)
+                    }
+                }.pickerStyle(SegmentedPickerStyle())
+                HStack {
+                    Text("Intercept: \(device.intercept)")
+                    Text("Slope: \(device.slope)")
+                }
 
                 Text("Alarm: glucose high: \(Int(device.alarmHigh))  low: \(Int(device.alarmLow))")
                 Text("Bridge connection check interval: \(device.connectionCheckInterval)")

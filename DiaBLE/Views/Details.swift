@@ -80,7 +80,7 @@ struct Details: View {
                         self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
                 }.foregroundColor(.orange).font(Font.caption.monospacedDigit())
             }.padding(.bottom, 8)
-            .navigationBarTitle(Text("Details"), displayMode: .inline)
+                .navigationBarTitle(Text("Details"), displayMode: .inline)
         }
     }
 }
@@ -91,10 +91,12 @@ struct Details_Preview: PreviewProvider {
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
-            Details(device: Watlaa())
-                .environmentObject(App.test(tab: .monitor))
-                .environmentObject(Settings())
-                .environment(\.colorScheme, .dark)
+            NavigationView {
+                Details(device: Watlaa())
+                    .environmentObject(App.test(tab: .monitor))
+                    .environmentObject(Settings())
+                    .environment(\.colorScheme, .dark)
+            }
         }
     }
 }

@@ -93,7 +93,7 @@ enum DeviceType: CaseIterable, Hashable, Identifiable {
 }
 
 
-class Device {
+class Device: ObservableObject {
 
     class var type: DeviceType { DeviceType.none }
     class var name: String { "Unknown" }
