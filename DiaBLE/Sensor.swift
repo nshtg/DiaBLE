@@ -62,7 +62,13 @@ class Sensor {
 
     var fram: Data = Data() {
         willSet(fram) {
-            state = SensorState(rawValue: fram[4])!
+            guard let sensorState = SensorState(rawValue: fram[4])
+                else {
+                    // TODO:
+                    return
+            }
+
+            state = sensorState
             age = Int(fram[317]) << 8 + Int(fram[316])
             let startDate = lastReadingDate - Double(age) * 60
 
