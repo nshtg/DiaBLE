@@ -122,7 +122,10 @@ class Settings: ObservableObject {
         "debugLevel": 0,
 
         "nightscoutSite": "dashboard.heroku.com/apps",
-        "nightscoutToken": ""
+        "nightscoutToken": "",
+
+        "patchUid": Data(),
+        "patchInfo": Data()
     ]
 
 
@@ -222,6 +225,14 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.nightscoutToken, forKey: "nightscoutToken") }
     }
 
+    @Published var patchUid: Data = UserDefaults.standard.data(forKey: "patchUid")! {
+        didSet { UserDefaults.standard.set(self.patchUid, forKey: "patchUid") }
+    }
+
+    @Published var patchInfo: Data = UserDefaults.standard.data(forKey: "patchInfo")! {
+        didSet { UserDefaults.standard.set(self.patchInfo, forKey: "patchInfo") }
+    }
+
 
     @Published var numberFormatter: NumberFormatter
 
@@ -236,6 +247,9 @@ class Settings: ObservableObject {
 
         readingInterval: Int = UserDefaults.standard.integer(forKey: "readingInterval"),
         glucoseUnit: GlucoseUnit = GlucoseUnit(rawValue: UserDefaults.standard.string(forKey: "glucoseUnit")!)!,
+
+        patchUid: Data = UserDefaults.standard.data(forKey: "patchUid")!,
+        patchInfo: Data = UserDefaults.standard.data(forKey: "patchInfo")!,
 
         targetLow:  Double = UserDefaults.standard.double(forKey: "targetLow"),
         targetHigh: Double = UserDefaults.standard.double(forKey: "targetHigh"),
@@ -261,7 +275,10 @@ class Settings: ObservableObject {
         self.preferredWatch = preferredWatch
         self.preferredDevicePattern = preferredDevicePattern
         self.readingInterval = readingInterval
-        self.glucoseUnit = glucoseUnit 
+        self.glucoseUnit = glucoseUnit
+
+        self.patchUid = patchUid
+        self.patchInfo = patchInfo
 
         self.targetLow = targetLow
         self.targetHigh = targetHigh
