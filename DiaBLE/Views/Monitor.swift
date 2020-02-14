@@ -82,7 +82,7 @@ struct Monitor: View {
                         }
                     }
 
-                    if app.device?.name != app.transmitter?.name && app.transmitter.battery > -1 {
+                    if app.device?.name != app.transmitter?.name && app.transmitter?.battery ?? -1 > -1 {
                         VStack {
                             Text(app.transmitter!.name)
                             if app.transmitter.battery > -1 {

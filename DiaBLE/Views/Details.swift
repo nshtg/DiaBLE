@@ -17,10 +17,6 @@ struct Details: View {
 
             Spacer()
 
-            Text("TODO: \(device?.name ?? "Details")")
-
-            Spacer()
-
             VStack {
                 Text("Device name: \(device!.name)")
                 if !device!.firmware.isEmpty {
