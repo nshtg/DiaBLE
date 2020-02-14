@@ -98,6 +98,7 @@ class Device: ObservableObject {
     class var type: DeviceType { DeviceType.none }
     class var name: String { "Unknown" }
 
+    class var knownUUIDs: [String] { [] }
     class var dataServiceUUID: String { "" }
     class var dataReadCharacteristicUUID: String { "" }
     class var dataWriteCharacteristicUUID: String { "" }
@@ -173,7 +174,7 @@ class Device: ObservableObject {
     func parseManufacturerData(_ data: Data) {
         main.log("Bluetooth: \(name)'s advertised manufacturer data: \(data.hex)" )
     }
-    
+
 }
 
 

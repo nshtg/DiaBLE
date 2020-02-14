@@ -70,6 +70,8 @@ class Watlaa: Watch {
         }
     }
 
+    override class var knownUUIDs: [String] { UUID.allCases.map{$0.rawValue} }
+
     override class var dataServiceUUID: String             { UUID.data.rawValue }
     override class var dataWriteCharacteristicUUID: String { UUID.dataWrite.rawValue }
     override class var dataReadCharacteristicUUID: String  { UUID.dataRead.rawValue }
@@ -101,9 +103,9 @@ class Watlaa: Watch {
 
         var description: String {
             switch self {
-            case .notConnetced:            return "not connected"
-            case .connectedInactiveSensor: return "connected, inactive sensor"
-            case .connectedActiveSensor:   return "connected, active sensor"
+            case .notConnetced:            return "Not connected"
+            case .connectedInactiveSensor: return "Connected: inactive sensor"
+            case .connectedActiveSensor:   return "Connected: active sensor"
             case .unknown:                 return "unknown"
             }
         }
@@ -312,10 +314,13 @@ struct WatlaaDetailsView: View {
     @State var device: Watlaa
 
     var body: some View {
-        VStack {
-            Text("Serial number: \(device.serial)")
-            Text("Transmitter status: \(device.bridgeStatus.description)")
-            Text("Sensor serial: \(device.transmitter!.serial)")
+        VStack(spacing: 10) {
+            Text("\(device.bridgeStatus.description)")
+                .foregroundColor(device.bridgeStatus == .connectedActiveSensor ? .green : .red)
+            VStack {
+                Text("Serial number: \(device.serial)")
+                Text("Sensor serial: \(device.transmitter!.serial)")
+            }
 
             Form {
                 Section(header: Text("Unit")) {
@@ -327,10 +332,8 @@ struct WatlaaDetailsView: View {
                 }
 
                 Section(header: Text("Calibration")) {
-                    HStack {
-                        Text("Intercept: \(device.intercept)")
-                        Text("Slope: \(device.slope)")
-                    }
+                    Text("Intercept: \(device.intercept)")
+                    Text("Slope: \(device.slope)")
                 }
 
                 Section(header: Text("Alarms")) {
@@ -338,6 +341,7 @@ struct WatlaaDetailsView: View {
                         Image(systemName: "bell.fill").foregroundColor(.red)
                         Text("> \(Int(device.alarmHigh))")
                         Text("< \(Int(device.alarmLow))")
+                        // FIXME: doesn't update when changing unit
                         Text("\(device.unit.description)")
                     }.foregroundColor(.red)
                     HStack {
@@ -354,6 +358,7 @@ struct WatlaaDetailsView: View {
         }
     }
 }
+
 
 struct Watch_Previews: PreviewProvider {
     @EnvironmentObject var app: App
