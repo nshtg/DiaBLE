@@ -316,26 +316,44 @@ struct WatlaaDetailsView: View {
             Text("Serial number: \(device.serial)")
             Text("Transmitter status: \(device.bridgeStatus.description)")
             Text("Sensor serial: \(device.transmitter!.serial)")
+
             Form {
-                Picker(selection: $device.unit, label: Text("Unit")) {
-                    ForEach(GlucoseUnit.allCases) { unit in
-                        Text(unit.description).tag(unit)
-                    }
-                }.pickerStyle(SegmentedPickerStyle())
-                HStack {
-                    Text("Intercept: \(device.intercept)")
-                    Text("Slope: \(device.slope)")
+                Section(header: Text("Unit")) {
+                    Picker(selection: $device.unit, label: Text("Unit")) {
+                        ForEach(GlucoseUnit.allCases) { unit in
+                            Text(unit.description).tag(unit)
+                        }
+                    }.pickerStyle(SegmentedPickerStyle())
                 }
 
-                Text("Alarm: glucose high: \(Int(device.alarmHigh))  low: \(Int(device.alarmLow))")
+                Section(header: Text("Calibration")) {
+                    HStack {
+                        Text("Intercept: \(device.intercept)")
+                        Text("Slope: \(device.slope)")
+                    }
+                }
+
+                Section(header: Text("Alarms")) {
+                    HStack {
+                        Image(systemName: "bell.fill").foregroundColor(.red)
+                        Text("> \(Int(device.alarmHigh))")
+                        Text("< \(Int(device.alarmLow))")
+                        Text("\(device.unit.description)")
+                    }.foregroundColor(.red)
+                    HStack {
+                        Image(systemName: "speaker.zzz.fill").foregroundColor(.yellow)
+                        Text("High: \(device.snoozeHigh)")
+                        Text("Low: \(device.snoozeLow)")
+                        Text("minutes")
+                    }
+                    Text("Vibrations: sensor lost: \(device.sensorLostVibration == true ? "yes" : "no")  glucose: \(device.glucoseVibration == true ? "yes" : "no")")
+                }
+
                 Text("Bridge connection check interval: \(device.connectionCheckInterval)")
-                Text("Snooze high: \(device.snoozeHigh)  low: \(device.snoozeLow)")
-                Text("Vibrations: sensor lost: \(device.sensorLostVibration == true ? "yes" : "no")  glucose: \(device.glucoseVibration == true ? "yes" : "no")")
             }
         }
     }
 }
-
 
 struct Watch_Previews: PreviewProvider {
     @EnvironmentObject var app: App

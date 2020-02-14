@@ -50,7 +50,7 @@ struct Details: View {
                 if device?.type == Watlaa.type {
                     WatlaaDetailsView(device: device as! Watlaa)
                 }
-            }.font(.callout).foregroundColor(Color.init(UIColor.lightGray))
+            }.font(.callout)
 
             Spacer()
 
