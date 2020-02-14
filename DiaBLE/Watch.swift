@@ -118,8 +118,10 @@ class Watlaa: Watch {
     var lastGlucoseAge: Int = 0
     
     @Published var unit: GlucoseUnit = .mgdl {
-        didSet {
-            write([UInt8(GlucoseUnit.allCases.firstIndex(of: unit)!)], for: .glucoseUnit)
+        willSet(unit) {
+            if unit != self.unit {
+                write([UInt8(GlucoseUnit.allCases.firstIndex(of: unit)!)], for: .glucoseUnit)
+            }
         }
     }
 
@@ -206,8 +208,13 @@ class Watlaa: Watch {
                     main.log("\(bridgeName): battery: \(battery), firmware: \(firmware), hardware: \(hardware)")
 
                     bridge.sensor!.age = Int(bridge.buffer[3]) << 8 + Int(bridge.buffer[4])
-                    bridge.sensor!.uid = Data(bridge.buffer[5...12])
-                    main.log("\(bridgeName): sensor age: \(bridge.sensor!.age) minutes (\(String(format: "%.1f", Double(bridge.sensor!.age)/60/24)) days), patch uid: \(bridge.sensor!.uid.hex), serial number: \(bridge.sensor!.serial)")
+                    let uid = Data(bridge.buffer[5...12])
+                    if uid[5] != 0 {
+                        bridge.sensor!.uid = uid
+                    } else {
+                        bridge.sensor!.uid = Data()
+                    }
+                    main.log("\(bridgeName): sensor age: \(bridge.sensor!.age) minutes (\(String(format: "%.1f", Double(bridge.sensor!.age)/60/24)) days), patch uid: \(uid.hex), serial number: \(bridge.sensor!.serial)")
 
                     if bridge.buffer.count > 363 {
                         bridge.sensor!.patchInfo = Data(bridge.buffer[363...368])
@@ -286,10 +293,11 @@ class Watlaa: Watch {
 
         case .unknown2:
             var sensorSerial = data.string
-            if data[0] == 0 {
-                sensorSerial = data.hex
+            if sensorSerial.prefix(2) != "00" {
+                transmitter?.sensor?.serial = sensorSerial
+            } else {
+                sensorSerial = "N/A"
             }
-            transmitter?.serial = sensorSerial
             main.log("\(name): sensor serial number: \(sensorSerial)")
 
         default:
@@ -321,7 +329,9 @@ struct WatlaaDetailsView: View {
                 .foregroundColor(device.bridgeStatus == .connectedActiveSensor ? .green : .red)
             VStack {
                 Text("Serial: \(device.serial)")
-                Text("Sensor serial: \(device.transmitter!.serial)")
+                if !(device.transmitter?.sensor?.serial.isEmpty ?? true) {
+                    Text("Sensor serial: \(device.transmitter!.sensor!.serial)")
+                }
             }
 
             Form {
@@ -362,9 +372,8 @@ struct WatlaaDetailsView: View {
                     }.foregroundColor(.red)
                     HStack {
                         Image(systemName: "speaker.zzz.fill").foregroundColor(.yellow)
-                        Text("High: \(device.snoozeHigh)")
-                        Text("Low: \(device.snoozeLow)")
-                        Text("minutes")
+                        Text("High: \(device.snoozeHigh) min")
+                        Text("Low: \(device.snoozeLow) min")
                     }
                     Text("Vibrations: sensor lost: \(device.sensorLostVibration == true ? "yes" : "no")  glucose: \(device.glucoseVibration == true ? "yes" : "no")")
                 }

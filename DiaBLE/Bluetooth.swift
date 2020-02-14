@@ -489,7 +489,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             }
 
         } else {
-            log("\(msg) string: \"\(data.string)\", hex: \(data.hex)")
+            log("\(msg) hex: \(data.hex), string: \"\(data.string)")
 
             app.lastReadingDate = Date()
 

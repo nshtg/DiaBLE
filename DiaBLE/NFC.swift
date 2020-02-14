@@ -125,6 +125,9 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 self.main.log("NFC: patch info: \(patchInfo.hex)")
                                 self.main.log("NFC: Libre type: \(sensor.type.rawValue)")
 
+                                self.main.settings.patchUid = sensor.uid
+                                self.main.settings.patchInfo = sensor.patchInfo
+
                                 sensor.fram = Data(fram)
                                 self.main.info("\n\n\(sensor.type) + NFC")
                                 self.main.parseSensorData(sensor)

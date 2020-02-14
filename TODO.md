@@ -8,13 +8,12 @@ FIXME
 * running the CBCentralManager delegate and log() in the main queue makes the tabs irresponsive when scanning for a device and the Mac is continuosly detected
 * when the sensor is not detected the last reading time is updated anyway
 *  the log ScrollView doesn't remember the position when switching tabs, nor allows scrolling to the top when reversed
-* the Watlaa doesn't send the patchInfo and the patchUid (only the SN with MiaoMiao) (workaround: save them)
-
 
 TODO
 ----
 
 * BLE 1805 2A2B: current time
+* Watlaa iBeacon
 * selection of glucose units
 * notification center delegate methods
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file

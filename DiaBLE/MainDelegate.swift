@@ -173,6 +173,21 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             return
         }
 
+        if sensor.uid.count > 0 && sensor.patchInfo.count > 0 {
+            self.settings.patchUid = sensor.uid
+            self.settings.patchInfo = sensor.patchInfo
+        }
+
+        if sensor.uid.count == 0 || self.settings.patchUid.count > 0 {
+            if sensor.uid.count == 0 {
+                sensor.uid = self.settings.patchUid
+            }
+
+            if sensor.uid == self.settings.patchUid {
+                sensor.patchInfo = self.settings.patchInfo
+            }
+        }
+
         if sensor.patchInfo.count > 0 {
             log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.historyEndpoint)...")
 
