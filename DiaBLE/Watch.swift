@@ -310,6 +310,8 @@ class Watlaa: Watch {
 
 
 struct WatlaaDetailsView: View {
+    @EnvironmentObject var app: App
+    @EnvironmentObject var settings: Settings
 
     @State var device: Watlaa
 
@@ -336,8 +338,18 @@ struct WatlaaDetailsView: View {
                 }
 
                 Section(header: Text("Calibration")) {
-                    Text("Intercept: \(device.intercept)")
-                    Text("Slope: \(device.slope)")
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Intercept:")
+                            TextField("Intercept", value: $device.intercept, formatter: settings.numberFormatter)
+                                .foregroundColor(.purple)
+                        }
+                        HStack {
+                            Text("Slope:")
+                            TextField("Slope", value: $device.slope, formatter: settings.numberFormatter)
+                                .foregroundColor(.purple)
+                        }
+                    }.keyboardType(.numbersAndPunctuation)
                 }
 
                 Section(header: Text("Alarms")) {

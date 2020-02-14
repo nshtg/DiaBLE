@@ -31,7 +31,7 @@ struct Details: View {
                 if (device!.macAddress.count > 0) {
                     Text("MAC Address: \(device!.macAddress.hexAddress)")
                 }
-            }.font(.footnote).foregroundColor(.yellow)
+            }.font(.callout).foregroundColor(.yellow)
 
             Spacer()
 
