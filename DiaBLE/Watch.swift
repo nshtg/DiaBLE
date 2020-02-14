@@ -318,17 +318,21 @@ struct WatlaaDetailsView: View {
             Text("\(device.bridgeStatus.description)")
                 .foregroundColor(device.bridgeStatus == .connectedActiveSensor ? .green : .red)
             VStack {
-                Text("Serial number: \(device.serial)")
+                Text("Serial: \(device.serial)")
                 Text("Sensor serial: \(device.transmitter!.serial)")
             }
 
             Form {
-                Section(header: Text("Unit")) {
-                    Picker(selection: $device.unit, label: Text("Unit")) {
-                        ForEach(GlucoseUnit.allCases) { unit in
-                            Text(unit.description).tag(unit)
-                        }
-                    }.pickerStyle(SegmentedPickerStyle())
+                Section {
+                    HStack {
+                        Text("Unit:")
+                        Spacer().frame(maxWidth: .infinity)
+                        Picker(selection: $device.unit, label: Text("Unit")) {
+                            ForEach(GlucoseUnit.allCases) { unit in
+                                Text(unit.description).tag(unit)
+                            }
+                        }.pickerStyle(SegmentedPickerStyle())
+                    }
                 }
 
                 Section(header: Text("Calibration")) {
