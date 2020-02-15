@@ -67,8 +67,8 @@ struct OnlineView: View {
                         }
                     }) { VStack(spacing: 0) {
                         Image(systemName: "radiowaves.left")
-                            .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32)
-                        Text("NFC").font(.footnote).bold().offset(y: -8)
+                            .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32).offset(y: -4)
+                        Text("NFC").font(.footnote).bold().offset(y: -12)
                         }
                     }.alert(isPresented: $showingNFCAlert) {
                         Alert(
