@@ -18,20 +18,29 @@ struct Details: View {
             Spacer()
 
             VStack {
-                Text("Device name: \(device!.name)")
+                Text("Device name: ") +
+                    Text("\(device!.name)").foregroundColor(.yellow)
+                if !device!.serial.isEmpty {
+                    Text("Serial: ") +
+                        Text("\(device!.serial)").foregroundColor(.yellow)
+                }
                 if !device!.firmware.isEmpty {
-                    Text("Firmware: \(device!.firmware)")
+                    Text("Firmware: ") +
+                        Text("\(device!.firmware)").foregroundColor(.yellow)
                 }
                 if device!.manufacturer.count + device!.model.count + device!.hardware.count > 0 {
-                    Text("Hardware: \(device!.manufacturer) \(device!.model) \(device!.hardware)")
+                    Text("Hardware: ") +
+                        Text("\(device!.manufacturer) \(device!.model) \(device!.hardware)").foregroundColor(.yellow)
                 }
                 if !device!.software.isEmpty {
-                    Text("Software: \(device!.software)")
+                    Text("Software: ") +
+                        Text("\(device!.software)").foregroundColor(.yellow)
                 }
                 if (device!.macAddress.count > 0) {
-                    Text("MAC Address: \(device!.macAddress.hexAddress)")
+                    Text("MAC Address: ") +
+                        Text("\(device!.macAddress.hexAddress)").foregroundColor(.yellow)
                 }
-            }.font(.callout).foregroundColor(.yellow)
+            }.font(.callout)
 
             Spacer()
 
@@ -40,6 +49,31 @@ struct Details: View {
                     .foregroundColor(.green)
             }
 
+            Spacer()
+
+            // Same as Monitor
+            if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
+                VStack {
+                    Text("Sensor type: ") +
+                        Text("\(app.sensor.type.description)").foregroundColor(.yellow)
+
+                    Text("\(app.sensor.state.description)")
+                        .foregroundColor(app.sensor.state == .ready ? .green : .red)
+
+                    if app.sensor.serial != "" {
+                        Text("Serial: ") +
+                            Text("\(app.sensor.serial)").foregroundColor(.yellow)
+                    }
+
+                    if app.sensor.age > 0 {
+                        Text("Age: ") +
+                            Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days").foregroundColor(.yellow)
+                        Text("Started on: ") +
+                            Text("\((app.lastReadingDate - Double(app.sensor.age) * 60).shortDateTime)").foregroundColor(.yellow)
+                    }
+                }
+            }
+            
             Spacer()
 
             VStack {
@@ -78,6 +112,7 @@ struct Details: View {
             }.padding(.bottom, 8)
                 .navigationBarTitle(Text("Details"), displayMode: .inline)
         }
+        .foregroundColor(Color.init(UIColor.lightGray))
     }
 }
 

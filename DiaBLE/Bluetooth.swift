@@ -500,7 +500,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                 if app.device.type == .transmitter(.miaomiao) || (app.device.type == .watch(.watlaa) && characteristic.uuid.uuidString == MiaoMiao.dataReadCharacteristicUUID) {
                     headerLength = 18 + 1
                 }
-                if let sensor = app.transmitter.sensor, sensor.fram.count > 0, app.transmitter.buffer.count >=  (sensor.fram.count + headerLength) {
+                if let sensor = app.transmitter.sensor, sensor.fram.count > 0, app.transmitter.buffer.count >= (sensor.fram.count + headerLength) {
                     main.parseSensorData(sensor)
                     app.transmitter.buffer = Data()
                 }

@@ -328,7 +328,6 @@ struct WatlaaDetailsView: View {
             Text("\(device.bridgeStatus.description)")
                 .foregroundColor(device.bridgeStatus == .connectedActiveSensor ? .green : .red)
             VStack {
-                Text("Serial: \(device.serial)")
                 if !(device.transmitter?.sensor?.serial.isEmpty ?? true) {
                     Text("Sensor serial: \(device.transmitter!.sensor!.serial)")
                 }
