@@ -103,13 +103,16 @@ struct Monitor: View {
                     if app.device != nil {
                         VStack {
                             if app.device.battery > -1 {
-                                Text("Battery: \(app.device.battery)%")
+                                Text("Battery:").foregroundColor(Color.init(UIColor.lightGray)) +
+                                    Text("\(app.device.battery)%")
                             }
                             if app.device.firmware.count > 0 {
-                                Text("Firmware: \(app.device.firmware)")
+                                Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                    Text("\(app.device.firmware)")
                             }
                             if app.device.manufacturer.count + app.device.hardware.count > 0  {
-                                Text("Hardware: \(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)")
+                                Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                    Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)")
                             }
                             if app.device.macAddress.count > 0  {
                                 Text("\(app.device.macAddress.hexAddress)")
