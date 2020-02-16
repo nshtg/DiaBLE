@@ -19,7 +19,14 @@ class App: ObservableObject {
     @Published var deviceState: String
     @Published var info: String
 
-    @Published var calibration: Calibration
+    @Published var calibration: Calibration {
+        didSet(value) {
+            if editingCalibration {
+                main.applyCalibration(sensor: sensor)
+            }
+        }
+    }
+    @Published var editingCalibration: Bool
 
     @Published var showingJavaScriptConfirmAlert = false
     @Published var JavaScriptConfirmAlertMessage = ""
@@ -40,8 +47,9 @@ class App: ObservableObject {
         deviceState: String = "",
         info: String = "Welcome to DiaBLE!",
 
+        calibration: Calibration = Calibration(),
+        editingCalibration: Bool = true) {
 
-        calibration: Calibration = Calibration()) {
 
         self.transmitter = transmitter
         self.sensor = sensor
@@ -57,6 +65,7 @@ class App: ObservableObject {
         self.info = info
 
         self.calibration = calibration
+        self.editingCalibration = editingCalibration
     }
 }
 

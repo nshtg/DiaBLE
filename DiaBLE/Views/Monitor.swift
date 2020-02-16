@@ -156,34 +156,98 @@ struct Monitor: View {
 
                 }
 
-                if app.calibration.offsetOffset != 0.0 {
-                    VStack(spacing: 8) {
+                if history.calibratedValues.count > 0 {
+                    VStack(spacing: 6) {
                         HStack {
-                            Text("Slope slope:")
-                            TextField("Slope slope", value: $app.calibration.slopeSlope, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
-                                .foregroundColor(.purple)
-                                .onTapGesture {
-                                    self.editingCalibration = true
+                            VStack(spacing: 0) {
+                                HStack {
+                                    Text("Slope slope:")
+                                    TextField("Slope slope", value: $app.calibration.slopeSlope, formatter: settings.numberFormatter, onEditingChanged: { changed in
+                                                if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
+                                                }
+                                    },
+                                              onCommit: {
+                                                self.editingCalibration = false
+                                                self.app.main.applyCalibration(sensor: self.app.sensor)
+                                    })
+                                        .foregroundColor(.purple)
+                                        .onTapGesture {
+                                            self.editingCalibration = true
+                                    }
+                                }
+                                if self.editingCalibration {
+                                    Slider(value: $app.calibration.slopeSlope, in: 0.00001 ... 0.00002, step: 0.00000005)
+                                        .accentColor(.purple)
+                                }
                             }
-                            Text("Slope offset:")
-                            TextField("Slope offset", value: $app.calibration.offsetSlope, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
-                                .foregroundColor(.purple)
-                                .onTapGesture {
-                                    self.editingCalibration = true
+
+                            VStack(spacing: 0) {
+                                HStack {
+                                    Text("Slope offset:")
+                                    TextField("Slope offset", value: $app.calibration.offsetSlope, formatter: settings.numberFormatter, onEditingChanged: { changed in
+                                                if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
+                                                }
+                                    },
+                                              onCommit: {
+                                                self.editingCalibration = false
+                                                self.app.main.applyCalibration(sensor: self.app.sensor)
+                                    })
+                                        .foregroundColor(.purple)
+                                        .onTapGesture {
+                                            self.editingCalibration = true
+                                    }
+                                }
+                                if self.editingCalibration {
+                                    Slider(value: $app.calibration.offsetSlope,  in: -0.01 ... 0.01, step: 0.0005)
+                                        .accentColor(.purple)
+                                }
                             }
                         }
+
                         HStack {
-                            Text("Offset slope:")
-                            TextField("Offset slope", value: $app.calibration.slopeOffset, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
-                                .foregroundColor(.purple)
-                                .onTapGesture {
-                                    self.editingCalibration = true
+                            VStack(spacing: 0) {
+                                HStack {
+                                    Text("Offset slope:")
+                                    TextField("Offset slope", value: $app.calibration.slopeOffset, formatter: settings.numberFormatter, onEditingChanged: { changed in
+                                                if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
+                                                }
+                                    },
+                                              onCommit: {
+                                                self.editingCalibration = false
+                                                self.app.main.applyCalibration(sensor: self.app.sensor)
+                                    })
+                                        .foregroundColor(.purple)
+                                        .onTapGesture {
+                                            self.editingCalibration = true
+                                    }
+                                }
+                                if self.editingCalibration {
+                                    Slider(value: $app.calibration.slopeOffset,  in: -0.01 ... 0.01, step: 0.0005)
+                                        .accentColor(.purple)
+                                }
                             }
-                            Text("Offset offset:")
-                            TextField("Offset offset", value: $app.calibration.offsetOffset, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
-                                .foregroundColor(.purple)
-                                .onTapGesture {
-                                    self.editingCalibration = true
+
+                            VStack(spacing: 0) {
+                                HStack {
+                                    Text("Offset offset:")
+                                    TextField("Offset offset", value: $app.calibration.offsetOffset, formatter: settings.numberFormatter,
+                                              onEditingChanged: { changed in
+                                                if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
+                                                }
+                                    },
+                                              onCommit: {
+                                                self.editingCalibration = false
+                                                self.app.main.applyCalibration(sensor: self.app.sensor)
+                                    })
+                                        .foregroundColor(.purple)
+                                        .onTapGesture {
+                                            self.editingCalibration = true
+                                    }
+                                }
+                                if self.editingCalibration {
+                                    Slider(value: $app.calibration.offsetOffset,  in: -100 ... 100, step: 0.5)
+                                        .accentColor(.purple)
+                                }
                             }
                         }
                     }

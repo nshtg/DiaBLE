@@ -148,24 +148,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             }
 
             // Reapply the current calibration even when the connection fails
-
-            if self.app.calibration.offsetOffset != 0.0 {
-
-                var calibratedTrend = sensor.trend
-                for i in 0 ..< calibratedTrend.count {
-                    calibratedTrend[i].calibration = self.app.calibration
-                }
-
-                var calibratedHistory = sensor.history
-                for i in 0 ..< calibratedHistory.count {
-                    calibratedHistory[i].calibration = self.app.calibration
-                }
-
-                self.history.calibratedTrend = calibratedTrend
-                self.history.calibratedValues = calibratedHistory
-                sensor.currentGlucose = -self.history.calibratedTrend[0].value
-            }
-
+            self.applyCalibration(sensor: sensor)
 
             if sensor.patchInfo.count == 0 {
                 self.didParseSensor(sensor)
@@ -245,6 +228,25 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
+
+    func applyCalibration(sensor: Sensor) {
+        if self.app.calibration.offsetOffset != 0.0 {
+
+            var calibratedTrend = sensor.trend
+            for i in 0 ..< calibratedTrend.count {
+                calibratedTrend[i].calibration = self.app.calibration
+            }
+
+            var calibratedHistory = sensor.history
+            for i in 0 ..< calibratedHistory.count {
+                calibratedHistory[i].calibration = self.app.calibration
+            }
+
+            self.history.calibratedTrend = calibratedTrend
+            self.history.calibratedValues = calibratedHistory
+            sensor.currentGlucose = -self.history.calibratedTrend[0].value
+        }
+    }
 
     /// currentGlucose is negative when set to the last trend raw value (no online connection)
     func didParseSensor(_ sensor: Sensor) {
