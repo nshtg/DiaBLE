@@ -222,7 +222,7 @@ struct Monitor: View {
                                     }
                                 }
                                 if self.editingCalibration {
-                                    Slider(value: $app.calibration.slopeOffset,  in: -0.01 ... 0.01, step: 0.0005)
+                                    Slider(value: $app.calibration.slopeOffset,  in: -0.01 ... 0.01, step: 0.00005)
                                         .accentColor(.purple)
                                 }
                             }
