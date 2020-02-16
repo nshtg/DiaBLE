@@ -148,7 +148,8 @@ struct Monitor: View {
                         if !app.info.contains("canning") {
                             NavigationLink(destination: Details(device: app.device)) {
                                 Text("Details").font(.footnote).bold().fixedSize()
-                                    .padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))                        }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
+                                    .padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
+                            }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
                         }
                     }
 
@@ -163,8 +164,8 @@ struct Monitor: View {
                                 HStack {
                                     Text("Slope slope:")
                                     TextField("Slope slope", value: $app.calibration.slopeSlope, formatter: settings.numberFormatter, onEditingChanged: { changed in
-                                                if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
-                                                }
+                                        if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
+                                        }
                                     },
                                               onCommit: {
                                                 self.editingCalibration = false
@@ -185,8 +186,8 @@ struct Monitor: View {
                                 HStack {
                                     Text("Slope offset:")
                                     TextField("Slope offset", value: $app.calibration.offsetSlope, formatter: settings.numberFormatter, onEditingChanged: { changed in
-                                                if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
-                                                }
+                                        if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
+                                        }
                                     },
                                               onCommit: {
                                                 self.editingCalibration = false
@@ -198,7 +199,7 @@ struct Monitor: View {
                                     }
                                 }
                                 if self.editingCalibration {
-                                    Slider(value: $app.calibration.offsetSlope,  in: -0.02 ... 0.02, step: 0.0001)
+                                    Slider(value: $app.calibration.offsetSlope, in: -0.02 ... 0.02, step: 0.0001)
                                         .accentColor(.purple)
                                 }
                             }
@@ -209,8 +210,8 @@ struct Monitor: View {
                                 HStack {
                                     Text("Offset slope:")
                                     TextField("Offset slope", value: $app.calibration.slopeOffset, formatter: settings.numberFormatter, onEditingChanged: { changed in
-                                                if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
-                                                }
+                                        if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
+                                        }
                                     },
                                               onCommit: {
                                                 self.editingCalibration = false
@@ -222,7 +223,7 @@ struct Monitor: View {
                                     }
                                 }
                                 if self.editingCalibration {
-                                    Slider(value: $app.calibration.slopeOffset,  in: -0.01 ... 0.01, step: 0.00005)
+                                    Slider(value: $app.calibration.slopeOffset, in: -0.01 ... 0.01, step: 0.00005)
                                         .accentColor(.purple)
                                 }
                             }
@@ -245,10 +246,18 @@ struct Monitor: View {
                                     }
                                 }
                                 if self.editingCalibration {
-                                    Slider(value: $app.calibration.offsetOffset,  in: -100 ... 100, step: 0.5)
+                                    Slider(value: $app.calibration.offsetOffset, in: -100 ... 100, step: 0.5)
                                         .accentColor(.purple)
                                 }
                             }
+                        }
+                        if self.editingCalibration {
+                            Spacer()
+                            Button(action: {
+                                self.editingCalibration = false
+                            }
+                            ) { Text("Close").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)).accentColor(.purple) }
+                            Spacer()
                         }
                     }
                     .font(.footnote)
