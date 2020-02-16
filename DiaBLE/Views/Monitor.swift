@@ -64,67 +64,67 @@ struct Monitor: View {
 
                 Graph().frame(width: 31 * 7 + 60, height: 150)
 
-
-                HStack(spacing: 12) {
-
-                    if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
-                        VStack {
-                            Text(app.sensor.state.description)
-                                .foregroundColor(app.sensor.state == .ready ? .green : .red)
-
-                            if app.sensor.serial != "" {
-                                Text("\(app.sensor.serial)")
-                            }
-
-                            if app.sensor.age > 0 {
-                                Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days")
-                            }
-                        }
-                    }
-
-                    if app.device?.name != app.transmitter?.name && app.transmitter?.battery ?? -1 > -1 {
-                        VStack {
-                            if app.transmitter.battery > -1 {
-                                Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                    Text("\(app.transmitter.battery)%")
-                            }
-                            if app.transmitter.firmware.count > 0 {
-                                Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                    Text("\(app.transmitter.firmware)")
-                            }
-                            if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
-                                Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                    Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)")
-                            }
-                            if app.transmitter.macAddress.count > 0  {
-                                Text("\(app.transmitter.macAddress.hexAddress)")
-                            }
-                        }
-                    }
-
-                    if app.device != nil {
-                        VStack {
-                            if app.device.battery > -1 {
-                                Text("Battery:").foregroundColor(Color.init(UIColor.lightGray)) +
-                                    Text("\(app.device.battery)%")
-                            }
-                            if app.device.firmware.count > 0 {
-                                Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                    Text("\(app.device.firmware)")
-                            }
-                            if app.device.manufacturer.count + app.device.hardware.count > 0  {
-                                Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                    Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)")
-                            }
-                            if app.device.macAddress.count > 0  {
-                                Text("\(app.device.macAddress.hexAddress)")
-                            }
-                        }
-                    }
-
-                }.font(.footnote).foregroundColor(.yellow)
-
                 VStack {
+
+                    HStack(spacing: 12) {
+
+                        if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
+                            VStack {
+                                Text(app.sensor.state.description)
+                                    .foregroundColor(app.sensor.state == .ready ? .green : .red)
+
+                                if app.sensor.serial != "" {
+                                    Text("\(app.sensor.serial)")
+                                }
+
+                                if app.sensor.age > 0 {
+                                    Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days")
+                                }
+                            }
+                        }
+
+                        if app.device?.name != app.transmitter?.name && app.transmitter?.battery ?? -1 > -1 {
+                            VStack {
+                                if app.transmitter.battery > -1 {
+                                    Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("\(app.transmitter.battery)%")
+                                }
+                                if app.transmitter.firmware.count > 0 {
+                                    Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("\(app.transmitter.firmware)")
+                                }
+                                if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
+                                    Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)")
+                                }
+                                if app.transmitter.macAddress.count > 0  {
+                                    Text("\(app.transmitter.macAddress.hexAddress)")
+                                }
+                            }
+                        }
+
+                        if app.device != nil {
+                            VStack {
+                                if app.device.battery > -1 {
+                                    Text("Battery:").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("\(app.device.battery)%")
+                                }
+                                if app.device.firmware.count > 0 {
+                                    Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("\(app.device.firmware)")
+                                }
+                                if app.device.manufacturer.count + app.device.hardware.count > 0  {
+                                    Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)")
+                                }
+                                if app.device.macAddress.count > 0  {
+                                    Text("\(app.device.macAddress.hexAddress)")
+                                }
+                            }
+                        }
+
+                    }.font(.footnote).foregroundColor(.yellow)
+
                     Text(app.info)
                         .font(.footnote)
                         .padding(.vertical, 5)
