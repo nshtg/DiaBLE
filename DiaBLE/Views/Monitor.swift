@@ -7,6 +7,7 @@ struct Monitor: View {
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
+    @State private var editingCalibration = false
     @State private var showingNFCAlert = false
     @State private var readingCountdown: Int = 0
 
@@ -16,7 +17,10 @@ struct Monitor: View {
         NavigationView {
 
             VStack {
-                Spacer()
+                if !editingCalibration {
+                    Spacer()
+                }
+                
                 VStack {
                     HStack {
                         VStack {
@@ -65,110 +69,117 @@ struct Monitor: View {
                 Graph().frame(width: 31 * 7 + 60, height: 150)
 
 
-                VStack {
+                if !editingCalibration {
 
-                    HStack(spacing: 12) {
+                    VStack {
 
-                        if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
-                            VStack {
-                                Text(app.sensor.state.description)
-                                    .foregroundColor(app.sensor.state == .ready ? .green : .red)
+                        HStack(spacing: 12) {
 
-                                if app.sensor.serial != "" {
-                                    Text("\(app.sensor.serial)")
-                                }
+                            if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
+                                VStack {
+                                    Text(app.sensor.state.description)
+                                        .foregroundColor(app.sensor.state == .ready ? .green : .red)
 
-                                if app.sensor.age > 0 {
-                                    Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days")
-                                }
-                            }
-                        }
+                                    if app.sensor.serial != "" {
+                                        Text("\(app.sensor.serial)")
+                                    }
 
-                        if app.device?.name != app.transmitter?.name && app.transmitter?.battery ?? -1 > -1 {
-                            VStack {
-                                if app.transmitter.battery > -1 {
-                                    Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                        Text("\(app.transmitter.battery)%")
-                                }
-                                if app.transmitter.firmware.count > 0 {
-                                    Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                        Text("\(app.transmitter.firmware)")
-                                }
-                                if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
-                                    Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                        Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)")
-                                }
-                                if app.transmitter.macAddress.count > 0  {
-                                    Text("\(app.transmitter.macAddress.hexAddress)")
+                                    if app.sensor.age > 0 {
+                                        Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days")
+                                    }
                                 }
                             }
-                        }
 
-                        if app.device != nil {
-                            VStack {
-                                if app.device.battery > -1 {
-                                    Text("Battery:").foregroundColor(Color.init(UIColor.lightGray)) +
-                                        Text("\(app.device.battery)%")
-                                }
-                                if app.device.firmware.count > 0 {
-                                    Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                        Text("\(app.device.firmware)")
-                                }
-                                if app.device.manufacturer.count + app.device.hardware.count > 0  {
-                                    Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                        Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)")
-                                }
-                                if app.device.macAddress.count > 0  {
-                                    Text("\(app.device.macAddress.hexAddress)")
+                            if app.device?.name != app.transmitter?.name && app.transmitter?.battery ?? -1 > -1 {
+                                VStack {
+                                    if app.transmitter.battery > -1 {
+                                        Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                            Text("\(app.transmitter.battery)%")
+                                    }
+                                    if app.transmitter.firmware.count > 0 {
+                                        Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                            Text("\(app.transmitter.firmware)")
+                                    }
+                                    if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
+                                        Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                            Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)")
+                                    }
+                                    if app.transmitter.macAddress.count > 0  {
+                                        Text("\(app.transmitter.macAddress.hexAddress)")
+                                    }
                                 }
                             }
+
+                            if app.device != nil {
+                                VStack {
+                                    if app.device.battery > -1 {
+                                        Text("Battery:").foregroundColor(Color.init(UIColor.lightGray)) +
+                                            Text("\(app.device.battery)%")
+                                    }
+                                    if app.device.firmware.count > 0 {
+                                        Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                            Text("\(app.device.firmware)")
+                                    }
+                                    if app.device.manufacturer.count + app.device.hardware.count > 0  {
+                                        Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                            Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)")
+                                    }
+                                    if app.device.macAddress.count > 0  {
+                                        Text("\(app.device.macAddress.hexAddress)")
+                                    }
+                                }
+                            }
+
+                        }.font(.footnote).foregroundColor(.yellow)
+
+                        Text(app.info)
+                            .font(.footnote)
+                            .padding(.vertical, 5)
+
+                        if app.info.hasPrefix("Scanning") {
+                            Button(action: {
+                                self.app.main.centralManager.stopScan()
+                                self.app.main.info("\n\nStopped scanning")
+                            }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
+                            }.foregroundColor(.red)
+
                         }
 
-                    }.font(.footnote).foregroundColor(.yellow)
-
-                    Text(app.info)
-                        .font(.footnote)
-                        .padding(.vertical, 5)
-
-                    if app.info.hasPrefix("Scanning") {
-                        Button(action: {
-                            self.app.main.centralManager.stopScan()
-                            self.app.main.info("\n\nStopped scanning")
-                        }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
-                        }.foregroundColor(.red)
-
+                        if !app.info.contains("canning") {
+                            NavigationLink(destination: Details(device: app.device)) {
+                                Text("Details").font(.footnote).bold().fixedSize()
+                                    .padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))                        }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
+                        }
                     }
 
-                    if !app.info.contains("canning") {
-                        NavigationLink(destination: Details(device: app.device)) {
-                            Text("Details").font(.footnote).bold().fixedSize()
-                                .padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))                        }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
-                    }
+                    Spacer()
+
                 }
-
-                Spacer()
 
                 if app.calibration.offsetOffset != 0.0 {
                     VStack(spacing: 8) {
                         HStack {
                             Text("Slope slope:")
-                            TextField("Slope slope", value: $app.calibration.slopeSlope, formatter: settings.numberFormatter)
+                            TextField("Slope slope", value: $app.calibration.slopeSlope, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
                                 .foregroundColor(.purple)
                             Text("Slope offset:")
-                            TextField("Slope offset", value: $app.calibration.offsetSlope, formatter: settings.numberFormatter)
+                            TextField("Slope offset", value: $app.calibration.offsetSlope, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
                                 .foregroundColor(.purple)
                         }
                         HStack {
                             Text("Offset slope:")
-                            TextField("Offset slope", value: $app.calibration.slopeOffset, formatter: settings.numberFormatter)
+                            TextField("Offset slope", value: $app.calibration.slopeOffset, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
                                 .foregroundColor(.purple)
                             Text("Offset offset:")
-                            TextField("Offset offset", value: $app.calibration.offsetOffset, formatter: settings.numberFormatter)
+                            TextField("Offset offset", value: $app.calibration.offsetOffset, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
                                 .foregroundColor(.purple)
                         }
                     }
                     .font(.footnote)
                     .keyboardType(.numbersAndPunctuation)
+                    .onTapGesture {
+                        self.editingCalibration = true
+                    }
                 }
 
                 Spacer()
