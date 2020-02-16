@@ -163,15 +163,10 @@ struct Monitor: View {
                             VStack(spacing: 0) {
                                 HStack {
                                     Text("Slope slope:")
-                                    TextField("Slope slope", value: $app.calibration.slopeSlope, formatter: settings.numberFormatter, onEditingChanged: { changed in
-                                        if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
-                                        }
-                                    },
-                                              onCommit: {
-                                                self.editingCalibration = false
+                                    TextField("Slope slope", value: $app.calibration.slopeSlope, formatter: settings.numberFormatter,
+                                              onEditingChanged: { changed in
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
-                                    })
-                                        .foregroundColor(.purple)
+                                    }).foregroundColor(.purple)
                                         .onTapGesture {
                                             self.editingCalibration = true
                                     }
@@ -185,15 +180,10 @@ struct Monitor: View {
                             VStack(spacing: 0) {
                                 HStack {
                                     Text("Slope offset:")
-                                    TextField("Slope offset", value: $app.calibration.offsetSlope, formatter: settings.numberFormatter, onEditingChanged: { changed in
-                                        if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
-                                        }
-                                    },
-                                              onCommit: {
-                                                self.editingCalibration = false
+                                    TextField("Slope offset", value: $app.calibration.offsetSlope, formatter: settings.numberFormatter,
+                                              onEditingChanged: { changed in
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
-                                    })
-                                        .foregroundColor(.purple)
+                                    }).foregroundColor(.purple)
                                         .onTapGesture {
                                             self.editingCalibration = true
                                     }
@@ -209,15 +199,10 @@ struct Monitor: View {
                             VStack(spacing: 0) {
                                 HStack {
                                     Text("Offset slope:")
-                                    TextField("Offset slope", value: $app.calibration.slopeOffset, formatter: settings.numberFormatter, onEditingChanged: { changed in
-                                        if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
-                                        }
-                                    },
-                                              onCommit: {
-                                                self.editingCalibration = false
+                                    TextField("Offset slope", value: $app.calibration.slopeOffset, formatter: settings.numberFormatter,
+                                              onEditingChanged: { changed in
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
-                                    })
-                                        .foregroundColor(.purple)
+                                    }).foregroundColor(.purple)
                                         .onTapGesture {
                                             self.editingCalibration = true
                                     }
@@ -233,14 +218,8 @@ struct Monitor: View {
                                     Text("Offset offset:")
                                     TextField("Offset offset", value: $app.calibration.offsetOffset, formatter: settings.numberFormatter,
                                               onEditingChanged: { changed in
-                                                if changed {self.app.main.applyCalibration(sensor: self.app.sensor)
-                                                }
-                                    },
-                                              onCommit: {
-                                                self.editingCalibration = false
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
-                                    })
-                                        .foregroundColor(.purple)
+                                    }).foregroundColor(.purple)
                                         .onTapGesture {
                                             self.editingCalibration = true
                                     }
@@ -256,7 +235,7 @@ struct Monitor: View {
                             Button(action: {
                                 self.editingCalibration = false
                             }
-                            ) { Text("Close").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)).accentColor(.purple) }
+                            ) { Text("End").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)).accentColor(.purple) }
                             Spacer()
                         }
                     }
