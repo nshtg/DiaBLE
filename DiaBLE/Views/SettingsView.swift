@@ -45,7 +45,7 @@ struct SettingsView: View {
                     }
 
                     NavigationLink(destination: Details(device: app.device)) {
-                        Text(" Details ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
+                        Text("Details").font(.footnote).bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
                     }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
                 }
 
@@ -80,7 +80,7 @@ struct SettingsView: View {
                     if let healthKit = self.app.main.healthKit { healthKit.read() }
                     if let nightscout = self.app.main.nightscout { nightscout.read() }
                 }
-                ) { Text(" Rescan ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                ) { Text("Rescan").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
 
                 Spacer()
 
@@ -124,7 +124,7 @@ struct SettingsView: View {
                                     self.showingCalendarPicker = false
                                     self.app.main.eventKit?.sync()
                                 }
-                                ) { Text(" None ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                                ) { Text("None").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
                                     .disabled(self.settings.calendarTitle == "")
                             }
                             Section {
@@ -135,7 +135,7 @@ struct SettingsView: View {
                                 }
                             }
                             Section {
-                                Toggle("High / Low  alarm ", isOn: self.$settings.calendarAlarmIsOn)
+                                Toggle("High / Low  alarm", isOn: self.$settings.calendarAlarmIsOn)
                                     .disabled(self.settings.calendarTitle == "")
 
                             }
@@ -144,7 +144,7 @@ struct SettingsView: View {
                                     self.app.main.eventKit?.sync()
                                     self.showingCalendarPicker = false
                                 }
-                                ) { Text(" Remind ").bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                                ) { Text("Remind").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
                             }.padding(.top, 40)
                         }.padding(60)
                     }
