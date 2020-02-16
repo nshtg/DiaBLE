@@ -84,15 +84,17 @@ struct Monitor: View {
 
                     if app.device?.name != app.transmitter?.name && app.transmitter?.battery ?? -1 > -1 {
                         VStack {
-                            Text(app.transmitter!.name)
                             if app.transmitter.battery > -1 {
-                                Text("Battery: \(app.transmitter.battery)%")
+                                Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                    Text("\(app.transmitter.battery)%")
                             }
                             if app.transmitter.firmware.count > 0 {
-                                Text("Firmware: \(app.transmitter.firmware)")
+                                Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                    Text("\(app.transmitter.firmware)")
                             }
                             if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
-                                Text("Hardware: \(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)")
+                                Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                    Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)")
                             }
                             if app.transmitter.macAddress.count > 0  {
                                 Text("\(app.transmitter.macAddress.hexAddress)")
