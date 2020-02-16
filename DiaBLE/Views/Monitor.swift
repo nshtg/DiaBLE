@@ -162,24 +162,33 @@ struct Monitor: View {
                             Text("Slope slope:")
                             TextField("Slope slope", value: $app.calibration.slopeSlope, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
                                 .foregroundColor(.purple)
+                                .onTapGesture {
+                                    self.editingCalibration = true
+                            }
                             Text("Slope offset:")
                             TextField("Slope offset", value: $app.calibration.offsetSlope, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
                                 .foregroundColor(.purple)
+                                .onTapGesture {
+                                    self.editingCalibration = true
+                            }
                         }
                         HStack {
                             Text("Offset slope:")
                             TextField("Offset slope", value: $app.calibration.slopeOffset, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
                                 .foregroundColor(.purple)
+                                .onTapGesture {
+                                    self.editingCalibration = true
+                            }
                             Text("Offset offset:")
                             TextField("Offset offset", value: $app.calibration.offsetOffset, formatter: settings.numberFormatter, onCommit: { self.editingCalibration = false })
                                 .foregroundColor(.purple)
+                                .onTapGesture {
+                                    self.editingCalibration = true
+                            }
                         }
                     }
                     .font(.footnote)
                     .keyboardType(.numbersAndPunctuation)
-                    .onTapGesture {
-                        self.editingCalibration = true
-                    }
                 }
 
                 Spacer()
