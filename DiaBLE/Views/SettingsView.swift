@@ -45,7 +45,7 @@ struct SettingsView: View {
                     }
 
                     NavigationLink(destination: Details(device: app.device)) {
-                        Text(" Device... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
+                        Text(" Details ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
                     }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
                 }
 

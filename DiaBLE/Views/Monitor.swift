@@ -64,6 +64,7 @@ struct Monitor: View {
 
                 Graph().frame(width: 31 * 7 + 60, height: 150)
 
+
                 VStack {
 
                     HStack(spacing: 12) {
@@ -140,7 +141,7 @@ struct Monitor: View {
 
                     if !app.info.contains("canning") {
                         NavigationLink(destination: Details(device: app.device)) {
-                            Text(" Device... ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
+                            Text(" Details ").font(.footnote).bold().padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
                         }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
                     }
                 }
