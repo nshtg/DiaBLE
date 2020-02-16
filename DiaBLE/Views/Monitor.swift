@@ -198,7 +198,7 @@ struct Monitor: View {
                                     }
                                 }
                                 if self.editingCalibration {
-                                    Slider(value: $app.calibration.offsetSlope,  in: -0.01 ... 0.01, step: 0.0005)
+                                    Slider(value: $app.calibration.offsetSlope,  in: -0.02 ... 0.02, step: 0.0001)
                                         .accentColor(.purple)
                                 }
                             }

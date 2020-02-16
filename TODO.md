@@ -17,7 +17,6 @@ TODO
 * selection of glucose units
 * notification center delegate methods
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file
-* popup sliders to change the calibration parameters and update interactively the third purple curve
 * save the OOP calibration parameters for offline reuse
 * let the user input their BG and manage slope/offset parameters independent from the temperatures
 * a single slider for setting the target glucose range and the alarms
