@@ -136,7 +136,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             self.debugLog("LibreOOP: query parameters: \(parameters)")
             if let data = data {
                 let json = data.string
-                self.log("LibreOOP server calibration response: \(json))")
+                self.log("LibreOOP: server calibration response: \(json))")
                 let decoder = JSONDecoder.init()
                 if let oopCalibration = try? decoder.decode(OOPCalibrationResponse.self, from: data) {
                     self.app.calibration = oopCalibration.parameters
@@ -178,7 +178,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                 self.debugLog("LibreOOP: query parameters: \(parameters)")
                 if let data = data {
                     let json = data.string
-                    self.log("LibreOOP server history response: \(json)")
+                    self.log("LibreOOP: server history response: \(json)")
                     if json.contains("errcode") {
                         self.info("\n\(json)")
                         self.log("LibreOOP: failed getting history")
@@ -200,7 +200,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             if oopHistoryCount > 1 {
                                 if oopHistory[0].value == 0 && oopHistory[1].id == self.history.rawValues[0].id {
                                     oopHistory.removeFirst()
-                                    self.debugLog("DEBUG: dropped the first null OOP value newer than the corresponding raw one")
+                                    self.debugLog("LibreOOP: dropped the first null OOP value newer than the corresponding raw one")
                                 }
                             }
                             if oopHistoryCount > 0 {
@@ -211,15 +211,18 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             } else {
                                 self.history.values = []
                             }
-                            self.log("OOP history: \(oopHistory.map{ $0.value })")
+                            self.log("LibreOOP: history values: \(oopHistory.map{ $0.value })")
                         } else {
-                            self.log("Missing LibreOOP data")
+                            self.log("LibreOOP: error decoding JSON data")
                             self.info("\nMissing LibreOOP data")
+                            if let response = response {
+                                self.info("\nLibreOOP server error: \(response.description)")
+                            }
                         }
                     }
                 } else {
                     self.history.values = []
-                    self.log("LibreOOP connection failed")
+                    self.log("LibreOOP: connection failed")
                     self.info("\nLibreOOP connection failed")
                 }
                 self.didParseSensor(sensor)
