@@ -17,39 +17,43 @@ struct Details: View {
 
             Spacer()
 
-            VStack {
-                Text("Device name: ") +
-                    Text("\(device!.name)").foregroundColor(.yellow)
-                if !device!.serial.isEmpty {
-                    Text("Serial: ") +
-                        Text("\(device!.serial)").foregroundColor(.yellow)
-                }
-                if !device!.firmware.isEmpty {
-                    Text("Firmware: ") +
-                        Text("\(device!.firmware)").foregroundColor(.yellow)
-                }
-                if device!.manufacturer.count + device!.model.count + device!.hardware.count > 0 {
-                    Text("Hardware: ") +
-                        Text("\(device!.manufacturer) \(device!.model) \(device!.hardware)").foregroundColor(.yellow)
-                }
-                if !device!.software.isEmpty {
-                    Text("Software: ") +
-                        Text("\(device!.software)").foregroundColor(.yellow)
-                }
-                if (device!.macAddress.count > 0) {
-                    Text("MAC Address: ") +
-                        Text("\(device!.macAddress.hexAddress)").foregroundColor(.yellow)
-                }
-            }.font(.callout)
+            if device != nil {
+                VStack {
+                    Text("Device name: ") +
+                        Text("\(device!.name)").foregroundColor(.yellow)
+                    if !device!.serial.isEmpty {
+                        Text("Serial: ") +
+                            Text("\(device!.serial)").foregroundColor(.yellow)
+                    }
+                    if !device!.firmware.isEmpty {
+                        Text("Firmware: ") +
+                            Text("\(device!.firmware)").foregroundColor(.yellow)
+                    }
+                    if device!.manufacturer.count + device!.model.count + device!.hardware.count > 0 {
+                        Text("Hardware: ") +
+                            Text("\(device!.manufacturer) \(device!.model) \(device!.hardware)").foregroundColor(.yellow)
+                    }
+                    if !device!.software.isEmpty {
+                        Text("Software: ") +
+                            Text("\(device!.software)").foregroundColor(.yellow)
+                    }
+                    if (device!.macAddress.count > 0) {
+                        Text("MAC Address: ") +
+                            Text("\(device!.macAddress.hexAddress)").foregroundColor(.yellow)
+                    }
+                }.font(.callout)
 
-            Spacer()
+                Spacer()
 
-            if device!.battery > -1 {
-                Text("Battery: \(device!.battery)%")
-                    .foregroundColor(.green)
             }
 
-            Spacer()
+            if device != nil {
+                if device!.battery > -1 {
+                    Text("Battery: \(device!.battery)%")
+                        .foregroundColor(.green)
+                }
+                Spacer()
+            }
 
             // Same as Monitor
             if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
@@ -88,10 +92,9 @@ struct Details: View {
                 // Same as Rescan
                 // FIXME: updates only every 3-4 seconds
                 Button(action: {
-                    let device = self.app.device
                     let centralManager = self.app.main.centralManager
-                    if device != nil {
-                        centralManager.cancelPeripheralConnection(device!.peripheral!)
+                    if self.device != nil {
+                        centralManager.cancelPeripheralConnection(self.device!.peripheral!)
                     }
                     if centralManager.state == .poweredOn {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)
