@@ -105,7 +105,7 @@ struct Graph: View {
                     let count = self.history.values.count
                     if count > 0 {
                         let v = self.history.values.map{$0.value}
-                        let yScale = (height - 10.0) / self.yMax()
+                        let yScale = (height - 20.0) / self.yMax()
                         let xScale = width / Double(count - 1)
                         var startingVoid = v[count - 1] < 1 ? true : false
                         if startingVoid == false { path.move(to: .init(x: 0.0 + 30.0, y: height - Double(v[count - 1]) * yScale)) }
