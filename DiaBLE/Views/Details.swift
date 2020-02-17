@@ -42,10 +42,9 @@ struct Details: View {
                             Text("\(device!.macAddress.hexAddress)").foregroundColor(.yellow)
                     }
                 }.font(.callout)
-
                 Spacer()
-
             }
+
 
             if device != nil {
                 if device!.battery > -1 {
@@ -54,6 +53,7 @@ struct Details: View {
                 }
                 Spacer()
             }
+
 
             // Same as Monitor
             if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
@@ -76,17 +76,17 @@ struct Details: View {
                             Text("\((app.lastReadingDate - Double(app.sensor.age) * 60).shortDateTime)").foregroundColor(.yellow)
                     }
                 }
+                Spacer()
             }
-            
-            Spacer()
 
-            VStack {
-                if device?.type == Watlaa.type {
+
+            if device?.type == Watlaa.type {
+                VStack {
                     WatlaaDetailsView(device: device as! Watlaa)
-                }
-            }.font(.callout)
+                }.font(.callout)
+                Spacer()
+            }
 
-            Spacer()
 
             VStack(spacing: 0) {
                 // Same as Rescan
