@@ -106,7 +106,7 @@ class Watlaa: Watch {
             case .notConnetced:            return "Not connected"
             case .connectedInactiveSensor: return "Connected: inactive sensor"
             case .connectedActiveSensor:   return "Connected: active sensor"
-            case .unknown:                 return "unknown"
+            case .unknown:                 return "Unknown"
             }
         }
     }
@@ -324,60 +324,71 @@ struct WatlaaDetailsView: View {
     @State var device: Watlaa
 
     var body: some View {
-        VStack(spacing: 10) {
-            Text("\(device.bridgeStatus.description)")
-                .foregroundColor(device.bridgeStatus == .connectedActiveSensor ? .green : .red)
-            VStack {
+        Group {
+            Section {
+                HStack {
+                    Text("Bridge status")
+                    Spacer()
+                    Text("\(device.bridgeStatus.description)")
+                        .foregroundColor(device.bridgeStatus == .connectedActiveSensor ? .green : .red)
+                }
                 if !(device.transmitter?.sensor?.serial.isEmpty ?? true) {
-                    Text("Sensor serial: \(device.transmitter!.sensor!.serial)")
+                    HStack {
+                        Text("Sensor serial")
+                        Spacer()
+                        Text("\(device.transmitter!.sensor!.serial)").foregroundColor(.yellow)
+                    }
                 }
             }
 
-            Form {
-                Section {
+            Section(header: Text("SETUP").font(.headline)) {
+                HStack {
+                    Text("Unit:")
+                    Spacer().frame(maxWidth: .infinity)
+                    Picker(selection: $device.unit, label: Text("Unit")) {
+                        ForEach(GlucoseUnit.allCases) { unit in
+                            Text(unit.description).tag(unit)
+                        }
+                    }.pickerStyle(SegmentedPickerStyle())
+                }
+            }
+
+            Section(header: Text("Calibration")) {
+                Group {
                     HStack {
-                        Text("Unit:")
+                        Text("Intercept")
                         Spacer().frame(maxWidth: .infinity)
-                        Picker(selection: $device.unit, label: Text("Unit")) {
-                            ForEach(GlucoseUnit.allCases) { unit in
-                                Text(unit.description).tag(unit)
-                            }
-                        }.pickerStyle(SegmentedPickerStyle())
+                        TextField("Intercept", value: $device.intercept, formatter: settings.numberFormatter)
+                            .foregroundColor(.purple)
                     }
-                }
-
-                Section(header: Text("Calibration")) {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text("Intercept:")
-                            TextField("Intercept", value: $device.intercept, formatter: settings.numberFormatter)
-                                .foregroundColor(.purple)
-                        }
-                        HStack {
-                            Text("Slope:")
-                            TextField("Slope", value: $device.slope, formatter: settings.numberFormatter)
-                                .foregroundColor(.purple)
-                        }
-                    }.keyboardType(.numbersAndPunctuation)
-                }
-
-                Section(header: Text("Alarms")) {
                     HStack {
-                        Image(systemName: "bell.fill").foregroundColor(.red)
-                        Text("> \(Int(device.alarmHigh))")
-                        Text("< \(Int(device.alarmLow))")
-                        // FIXME: doesn't update when changing unit
-                        Text("\(device.unit.description)")
-                    }.foregroundColor(.red)
-                    HStack {
-                        Image(systemName: "speaker.zzz.fill").foregroundColor(.yellow)
-                        Text("High: \(device.snoozeHigh) min")
-                        Text("Low: \(device.snoozeLow) min")
+                        Text("Slope")
+                        Spacer().frame(maxWidth: .infinity)
+                        TextField("Slope", value: $device.slope, formatter: settings.numberFormatter)
+                            .foregroundColor(.purple)
                     }
-                    Text("Vibrations: sensor lost: \(device.sensorLostVibration == true ? "yes" : "no")  glucose: \(device.glucoseVibration == true ? "yes" : "no")")
-                }
+                }.keyboardType(.numbersAndPunctuation)
+            }
 
-                Text("Bridge connection check interval: \(device.connectionCheckInterval)")
+            Section(header: Text("Alarms")) {
+                HStack {
+                    Image(systemName: "bell.fill").foregroundColor(.red)
+                    Text("> \(Int(device.alarmHigh))")
+                    Text("< \(Int(device.alarmLow))")
+                    // FIXME: doesn't update when changing unit
+                    Text("\(device.unit.description)")
+                }.foregroundColor(.red)
+                HStack {
+                    Image(systemName: "speaker.zzz.fill").foregroundColor(.yellow)
+                    Text("High: \(device.snoozeHigh) min")
+                    Text("Low: \(device.snoozeLow) min")
+                }
+                Text("Vibrations: sensor lost: \(device.sensorLostVibration == true ? "yes" : "no")  glucose: \(device.glucoseVibration == true ? "yes" : "no")")
+            }
+            HStack {
+                Text("Bridge connection check interval")
+                Spacer()
+                Text("\(device.connectionCheckInterval)")
             }
         }
     }

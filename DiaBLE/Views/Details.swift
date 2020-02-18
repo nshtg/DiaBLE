@@ -16,76 +16,106 @@ struct Details: View {
 
             Spacer()
 
-            if device != nil {
-                VStack {
-                    Text("Device name: ") +
-                        Text("\(device!.name)").foregroundColor(.yellow)
-                    if !device!.serial.isEmpty {
-                        Text("Serial: ") +
-                            Text("\(device!.serial)").foregroundColor(.yellow)
-                    }
-                    if !device!.firmware.isEmpty {
-                        Text("Firmware: ") +
-                            Text("\(device!.firmware)").foregroundColor(.yellow)
-                    }
-                    if device!.manufacturer.count + device!.model.count + device!.hardware.count > 0 {
-                        Text("Hardware: ") +
-                            Text("\(device!.manufacturer) \(device!.model) \(device!.hardware)").foregroundColor(.yellow)
-                    }
-                    if !device!.software.isEmpty {
-                        Text("Software: ") +
-                            Text("\(device!.software)").foregroundColor(.yellow)
-                    }
-                    if (device!.macAddress.count > 0) {
-                        Text("MAC Address: ") +
-                            Text("\(device!.macAddress.hexAddress)").foregroundColor(.yellow)
-                    }
-                }.font(.callout)
-                Spacer()
-            }
+            Form {
+                if device != nil {
+                    Section(header: Text("Device").font(.headline)) {
+                        HStack {
+                            Text("Name")
+                            Spacer()
+                            Text("\(device!.name)").foregroundColor(.yellow)
+                        }
+                        if !device!.serial.isEmpty {
+                            HStack {
+                                Text("Serial")
+                                Spacer()
+                                Text("\(device!.serial)").foregroundColor(.yellow)
+                            }
+                        }
+                        if !device!.firmware.isEmpty {
+                            HStack {
+                                Text("Firmware")
+                                Spacer()
+                                Text("\(device!.firmware)").foregroundColor(.yellow)
+                            }
+                        }
+                        if device!.manufacturer.count + device!.model.count + device!.hardware.count > 0 {
+                            HStack {
+                                Text("Hardware")
+                                Spacer()
+                                Text("\(device!.manufacturer) \(device!.model) \(device!.hardware)").foregroundColor(.yellow)
+                            }
+                        }
+                        if !device!.software.isEmpty {
+                            HStack {
+                                Text("Software")
+                                Spacer()
+                                Text("\(device!.software)").foregroundColor(.yellow)
+                            }
+                        }
+                        if (device!.macAddress.count > 0) {
+                            HStack {
+                                Text("MAC Address")
+                                Spacer()
+                                Text("\(device!.macAddress.hexAddress)").foregroundColor(.yellow)
+                            }
+                        }
+                        if device!.battery > -1 {
+                            HStack {
+                                Text("Battery")
+                                Spacer()
+                                Text("\(device!.battery)%")
+                                    .foregroundColor(.green)
+                            }
+                        }
+                    }.font(.callout)
 
-
-            if device != nil {
-                if device!.battery > -1 {
-                    Text("Battery: \(device!.battery)%")
-                        .foregroundColor(.green)
                 }
-                Spacer()
-            }
 
 
-            // Same as Monitor
-            if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
-                VStack {
-                    Text("Sensor type: ") +
-                        Text("\(app.sensor.type.description)").foregroundColor(.yellow)
-
-                    Text("\(app.sensor.state.description)")
-                        .foregroundColor(app.sensor.state == .ready ? .green : .red)
-
-                    if app.sensor.serial != "" {
-                        Text("Serial: ") +
-                            Text("\(app.sensor.serial)").foregroundColor(.yellow)
-                    }
-
-                    if app.sensor.age > 0 {
-                        Text("Age: ") +
-                            Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days").foregroundColor(.yellow)
-                        Text("Started on: ") +
-                            Text("\((app.lastReadingDate - Double(app.sensor.age) * 60).shortDateTime)").foregroundColor(.yellow)
+                if app.sensor != nil {
+                    Section(header: Text("Sensor").font(.headline)) {
+                        HStack {
+                            Text("Status")
+                            Spacer()
+                            Text("\(app.sensor.state.description)")
+                                .foregroundColor(app.sensor.state == .ready ? .green : .red)
+                        }
+                        HStack {
+                            Text("Type")
+                            Spacer()
+                            Text("\(app.sensor.type.description)").foregroundColor(.yellow)
+                        }
+                        if app.sensor.serial != "" {
+                            HStack {
+                                Text("Serial")
+                                Spacer()
+                                Text("\(app.sensor.serial)").foregroundColor(.yellow)
+                            }
+                        }
+                        if app.sensor.age > 0 {
+                            HStack {
+                                Text("Age")
+                                Spacer()
+                                Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days").foregroundColor(.yellow)
+                            }
+                            HStack {
+                                Text("Started on")
+                                Spacer()
+                                Text("\((app.lastReadingDate - Double(app.sensor.age) * 60).shortDateTime)").foregroundColor(.yellow)
+                            }
+                        }
                     }
                 }
-                Spacer()
-            }
 
 
-            if device?.type == Watlaa.type {
-                VStack {
+                if device?.type == Watlaa.type {
                     WatlaaDetailsView(device: device as! Watlaa)
-                }.font(.callout)
-                Spacer()
+                        .font(.callout)
+                }
             }
 
+
+            Spacer()
 
             VStack(spacing: 0) {
                 // Same as Rescan
