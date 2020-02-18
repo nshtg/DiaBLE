@@ -33,9 +33,10 @@ class App: ObservableObject {
     @Published var JavaScriptAlertReturn = ""
 
     init(
+        device: Device! = nil,
         transmitter: Transmitter! = nil,
         sensor: Sensor! = nil,
-        watch: Transmitter! = nil,
+        watch: Watch! = nil,
 
         selectedTab: Tab = .monitor,
 
@@ -51,8 +52,10 @@ class App: ObservableObject {
         editingCalibration: Bool = true) {
 
 
+        self.device = device
         self.transmitter = transmitter
         self.sensor = sensor
+        self.watch = watch
         
         self.selectedTab = selectedTab
 
