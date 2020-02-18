@@ -54,21 +54,21 @@ struct Details: View {
                         }
                         if !device!.hardware.isEmpty {
                             HStack {
-                                Text("Hardware Revision")
+                                Text("Hardware")
                                 Spacer()
                                 Text("\(device!.hardware)").foregroundColor(.yellow)
                             }
                         }
                         if !device!.software.isEmpty {
                             HStack {
-                                Text("Software Revision")
+                                Text("Software")
                                 Spacer()
                                 Text("\(device!.software)").foregroundColor(.yellow)
                             }
                         }
                         if device!.macAddress.count > 0 {
                             HStack {
-                                Text("MAC Address")
+                                Text("MAC address")
                                 Spacer()
                                 Text("\(device!.macAddress.hexAddress)").foregroundColor(.yellow)
                             }
@@ -78,7 +78,7 @@ struct Details: View {
                                 Text("Battery")
                                 Spacer()
                                 Text("\(device!.battery)%")
-                                    .foregroundColor(.green)
+                                    .foregroundColor(app.device.battery > 10 ? .green : .red)
                             }
                         }
                     }.font(.callout)
