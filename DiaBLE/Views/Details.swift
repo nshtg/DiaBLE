@@ -6,12 +6,11 @@ struct Details: View {
     @EnvironmentObject var app: App
     @EnvironmentObject var settings: Settings
 
+    @State var device: Device?
     @State private var readingCountdown: Int = 0
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
-    var device: Device?
-    
+
     var body: some View {
         VStack {
 

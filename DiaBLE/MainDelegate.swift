@@ -177,8 +177,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate, patchUid: sensor.uid, patchInfo: sensor.patchInfo) { data, response, error, parameters in
                 self.debugLog("LibreOOP: query parameters: \(parameters)")
                 if let data = data {
+                    self.log("LibreOOP: server history response: \(data.string)")
                     let json = data.string
-                    self.log("LibreOOP: server history response: \(json)")
                     if json.contains("errcode") {
                         self.info("\n\(json)")
                         self.log("LibreOOP: failed getting history")
@@ -214,10 +214,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             self.log("LibreOOP: history values: \(oopHistory.map{ $0.value })")
                         } else {
                             self.log("LibreOOP: error decoding JSON data")
-                            self.info("\nMissing LibreOOP data")
-                            if let response = response {
-                                self.info("\nLibreOOP server error: \(response.description)")
-                            }
+                            self.info("\nLibreOOP server error: \(data.string)")
                         }
                     }
                 } else {
