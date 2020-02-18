@@ -125,12 +125,10 @@ struct Details_Preview: PreviewProvider {
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
-            NavigationView {
-                Details(device: Watlaa())
-                    .environmentObject(App.test(tab: .monitor))
-                    .environmentObject(Settings())
-                    .environment(\.colorScheme, .dark)
-            }
+            Details(device: Watlaa())
+                .environmentObject(App.test(tab: .monitor))
+                .environmentObject(Settings())
+                .environment(\.colorScheme, .dark)
         }
     }
 }
