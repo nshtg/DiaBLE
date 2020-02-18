@@ -52,7 +52,7 @@ struct Details: View {
                                 Text("\(device!.software)").foregroundColor(.yellow)
                             }
                         }
-                        if (device!.macAddress.count > 0) {
+                        if device!.macAddress.count > 0 {
                             HStack {
                                 Text("MAC Address")
                                 Spacer()

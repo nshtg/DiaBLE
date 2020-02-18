@@ -505,7 +505,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                     main.parseSensorData(sensor)
                     app.transmitter.buffer = Data()
                 }
-            } else if app.transmitter.sensor != nil {
+            } else if app.transmitter?.sensor != nil {
                 main.didParseSensor(app.transmitter.sensor!)
             }
         }
