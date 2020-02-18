@@ -94,7 +94,7 @@ struct Monitor: View {
                                 VStack {
                                     if app.transmitter.battery > -1 {
                                         Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                            Text("\(app.transmitter.battery)%").foregroundColor(app.device.battery > 10 ? .green : .red)
+                                            Text("\(app.transmitter.battery)%").foregroundColor(app.transmitter.battery > 10 ? .green : .red)
                                     }
                                     if app.transmitter.firmware.count > 0 {
                                         Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +

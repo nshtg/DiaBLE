@@ -78,7 +78,7 @@ struct Details: View {
                                 Text("Battery")
                                 Spacer()
                                 Text("\(device!.battery)%")
-                                    .foregroundColor(app.device.battery > 10 ? .green : .red)
+                                    .foregroundColor(device!.battery > 10 ? .green : .red)
                             }
                         }
                     }.font(.callout)
