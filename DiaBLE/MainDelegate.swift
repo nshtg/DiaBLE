@@ -135,8 +135,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, parameters in
             self.debugLog("LibreOOP: query parameters: \(parameters)")
             if let data = data {
-                let json = data.string
-                self.log("LibreOOP: server calibration response: \(json))")
+                self.log("LibreOOP: server calibration response: \(data.string))")
                 let decoder = JSONDecoder.init()
                 if let oopCalibration = try? decoder.decode(OOPCalibrationResponse.self, from: data) {
                     self.app.calibration = oopCalibration.parameters
@@ -178,11 +177,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                 self.debugLog("LibreOOP: query parameters: \(parameters)")
                 if let data = data {
                     self.log("LibreOOP: server history response: \(data.string)")
-                    let json = data.string
-                    if json.contains("errcode") {
-                        self.info("\n\(json)")
-                        self.log("LibreOOP: failed getting history")
-                        self.info("\nLibreOOP: failed getting historic data")
+                    if data.string.contains("errcode") {
+                        self.info("\n\(data.string)")
                         self.history.values = []
                     } else {
                         let decoder = JSONDecoder.init()
