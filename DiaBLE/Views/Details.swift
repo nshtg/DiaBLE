@@ -38,16 +38,30 @@ struct Details: View {
                                 Text("\(device!.firmware)").foregroundColor(.yellow)
                             }
                         }
-                        if device!.manufacturer.count + device!.model.count + device!.hardware.count > 0 {
+                        if !device!.manufacturer.isEmpty {
                             HStack {
-                                Text("Hardware")
+                                Text("Manufacturer")
                                 Spacer()
-                                Text("\(device!.manufacturer) \(device!.model) \(device!.hardware)").foregroundColor(.yellow)
+                                Text("\(device!.manufacturer)").foregroundColor(.yellow)
+                            }
+                        }
+                        if !device!.model.isEmpty {
+                            HStack {
+                                Text("Model")
+                                Spacer()
+                                Text("\(device!.model)").foregroundColor(.yellow)
+                            }
+                        }
+                        if !device!.hardware.isEmpty {
+                            HStack {
+                                Text("Hardware Revision")
+                                Spacer()
+                                Text("\(device!.hardware)").foregroundColor(.yellow)
                             }
                         }
                         if !device!.software.isEmpty {
                             HStack {
-                                Text("Software")
+                                Text("Software Revision")
                                 Spacer()
                                 Text("\(device!.software)").foregroundColor(.yellow)
                             }
