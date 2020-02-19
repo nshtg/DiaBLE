@@ -2,6 +2,7 @@ FIXME
 -----
 
 * iOS 13.4 beta: didset is not called when a @Published Bool is toggled in SettingsView (current workaround: use logical !)
+* Crash when rescanning from Details
 * Mac Catalyst:
    - stops receiving data from the Bubble read characteristic
    - AVAudioSession error: "Cannot activate session when app is in background" in MainDelegate init
@@ -12,6 +13,7 @@ FIXME
 TODO
 ----
 
+* Manage Nightscout JavaScript alerts synchronously
 * BLE 1805 2A2B: current time
 * Watlaa iBeacon
 * selection of glucose units
@@ -19,8 +21,7 @@ TODO
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file
 * save the OOP calibration parameters for offline reuse
 * let the user input their BG and manage slope/offset parameters independent from the temperatures
-* a single slider for setting the target glucose range and the alarms
-* more modern Swift idioms: Combine, property wrappers, @dynamicCallable/MemberLookup
+* more modern Swift idioms: Combine, property wrappers, @dynamicCallable/MemberLookup, ViewModifiers
 
 
 PLANS / WISHES

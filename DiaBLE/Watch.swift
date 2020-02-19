@@ -24,7 +24,7 @@ enum WatchType: String, CaseIterable, Hashable, Codable, Identifiable {
 
 class Watch: Device {
     override class var type: DeviceType { DeviceType.watch(.none) }
-    var transmitter: Transmitter? = Transmitter()
+    @Published var transmitter: Transmitter? = Transmitter()
 }
 
 
@@ -111,11 +111,11 @@ class Watlaa: Watch {
         }
     }
 
-    var bridgeStatus: BridgeStatus = .unknown
-    var slope: Float = 0.0
-    var intercept: Float = 0.0
-    var lastGlucose: Int = 0
-    var lastGlucoseAge: Int = 0
+    @Published var bridgeStatus: BridgeStatus = .unknown
+    @Published var slope: Float = 0.0
+    @Published var intercept: Float = 0.0
+    @Published var lastGlucose: Int = 0
+    @Published var lastGlucoseAge: Int = 0
     
     @Published var unit: GlucoseUnit = .mgdl {
         willSet(unit) {
@@ -125,15 +125,15 @@ class Watlaa: Watch {
         }
     }
 
-    var alarmHigh: Float = 0.0
-    var alarmLow: Float = 0.0
-    var connectionCheckInterval: Int = 0
-    var snoozeLow: Int = 0
-    var snoozeHigh: Int = 0
-    var sensorLostVibration: Bool = true
-    var glucoseVibration: Bool = true
+    @Published var alarmHigh: Float = 0.0
+    @Published var alarmLow: Float = 0.0
+    @Published var connectionCheckInterval: Int = 0
+    @Published var snoozeLow: Int = 0
+    @Published var snoozeHigh: Int = 0
+    @Published var sensorLostVibration: Bool = true
+    @Published var glucoseVibration: Bool = true
 
-    var lastReadingDate: Date = Date()
+    @Published var lastReadingDate: Date = Date()
 
 
     // TODO: implements in Device class
@@ -343,7 +343,7 @@ struct WatlaaDetailsView: View {
 
             Section(header: Text("SETUP").font(.headline)) {
                 HStack {
-                    Text("Unit:")
+                    Text("Unit")
                     Spacer().frame(maxWidth: .infinity)
                     Picker(selection: $device.unit, label: Text("Unit")) {
                         ForEach(GlucoseUnit.allCases) { unit in

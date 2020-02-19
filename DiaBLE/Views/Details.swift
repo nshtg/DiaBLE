@@ -134,6 +134,7 @@ struct Details: View {
             VStack(spacing: 0) {
                 // Same as Rescan
                 // FIXME: updates only every 3-4 seconds
+                // FIXME: crash
                 Button(action: {
                     let centralManager = self.app.main.centralManager
                     if self.device != nil {

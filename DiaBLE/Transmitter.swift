@@ -23,7 +23,7 @@ enum TransmitterType: String, CaseIterable, Hashable, Codable, Identifiable {
 
 
 class Transmitter: Device {
-    var sensor: Sensor?
+    @Published var sensor: Sensor?
 }
 
 

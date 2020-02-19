@@ -33,7 +33,7 @@ enum SensorState: UInt8, CustomStringConvertible {
 }
 
 
-class Sensor {
+class Sensor: ObservableObject {
 
     var type: SensorType = .libre1
     var state: SensorState = SensorState.unknown
