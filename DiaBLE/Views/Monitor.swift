@@ -240,12 +240,22 @@ struct Monitor: View {
                         }
                         if self.editingCalibration {
                             Spacer()
-                            Button(action: {
-                                withAnimation {
-                                    self.editingCalibration = false
+                            HStack(spacing: 20) {
+                                Button(action: {
+                                    withAnimation {
+                                        self.editingCalibration = false
+                                    }
                                 }
-                            }
-                            ) { Text("End").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)).accentColor(.purple) }
+                                ) { Text("Use").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+
+                                Button(action: {
+                                    withAnimation {
+                                        self.app.calibration = self.settings.oopCalibration
+                                        self.editingCalibration = false
+                                    }
+                                }
+                                ) { Text("Restore OOP").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                            }.accentColor(.purple)
                             Spacer()
                         }
                     }
