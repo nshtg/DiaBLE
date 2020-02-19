@@ -135,8 +135,11 @@ struct SettingsView: View {
                                 }
                             }
                             Section {
-                                Toggle("High / Low  alarm", isOn: self.$settings.calendarAlarmIsOn)
+                                HStack {
+                                    Image(systemName: "bell.fill").foregroundColor(.red).padding(8)
+                                Toggle("High / Low", isOn: self.$settings.calendarAlarmIsOn)
                                     .disabled(self.settings.calendarTitle == "")
+                                }
 
                             }
                             Section {
@@ -144,7 +147,8 @@ struct SettingsView: View {
                                     self.app.main.eventKit?.sync()
                                     self.showingCalendarPicker = false
                                 }
-                                ) { Text("Remind").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                                ) { Text(self.settings.calendarTitle == "" ? "Don't remind" : "Remind").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)).animation(.default) }
+
                             }.padding(.top, 40)
                         }.padding(60)
                     }
