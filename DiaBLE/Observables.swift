@@ -128,7 +128,6 @@ class Settings: ObservableObject {
         "calendarTitle": "",
         "calendarAlarmIsOn": false,
 
-
         "logging": false,
         "reversedLog": true,
         "debugLevel": 0,
@@ -137,7 +136,9 @@ class Settings: ObservableObject {
         "nightscoutToken": "",
 
         "patchUid": Data(),
-        "patchInfo": Data()
+        "patchInfo": Data(),
+
+        "oopCalibration": try! JSONEncoder().encode(Calibration())
     ]
 
 
@@ -245,6 +246,10 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.patchInfo, forKey: "patchInfo") }
     }
 
+    @Published var oopCalibration: Calibration = try! JSONDecoder().decode(Calibration.self, from: UserDefaults.standard.data(forKey: "oopCalibration")!) {
+         didSet { UserDefaults.standard.set(try! JSONEncoder().encode(self.oopCalibration), forKey: "oopCalibration") }
+     }
+
 
     @Published var numberFormatter: NumberFormatter
 
@@ -281,7 +286,9 @@ class Settings: ObservableObject {
         nightscoutSite: String = UserDefaults.standard.string(forKey: "nightscoutSite")!,
         nightscoutToken: String = UserDefaults.standard.string(forKey: "nightscoutToken")!,
 
-        oopServer: OOPServer = OOPServer.default
+        oopServer: OOPServer = OOPServer.default,
+        oopCalibration: Calibration = try! JSONDecoder().decode(Calibration.self, from: UserDefaults.standard.data(forKey: "oopCalibration")!)
+
     ) {
         self.preferredTransmitter = preferredTransmitter
         self.preferredWatch = preferredWatch
@@ -311,6 +318,7 @@ class Settings: ObservableObject {
         self.nightscoutSite = nightscoutSite
         self.nightscoutToken = nightscoutToken
         self.oopServer = oopServer
+        self.oopCalibration = oopCalibration
     }
 }
 

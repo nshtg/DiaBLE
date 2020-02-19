@@ -139,6 +139,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                 let decoder = JSONDecoder.init()
                 if let oopCalibration = try? decoder.decode(OOPCalibrationResponse.self, from: data) {
                     self.app.calibration = oopCalibration.parameters
+                    self.settings.oopCalibration = oopCalibration.parameters
                 }
 
             } else {
