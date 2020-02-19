@@ -137,10 +137,9 @@ struct SettingsView: View {
                             Section {
                                 HStack {
                                     Image(systemName: "bell.fill").foregroundColor(.red).padding(8)
-                                Toggle("High / Low", isOn: self.$settings.calendarAlarmIsOn)
-                                    .disabled(self.settings.calendarTitle == "")
+                                    Toggle("High / Low", isOn: self.$settings.calendarAlarmIsOn)
+                                        .disabled(self.settings.calendarTitle == "")
                                 }
-
                             }
                             Section {
                                 Button(action: {

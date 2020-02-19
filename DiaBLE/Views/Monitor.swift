@@ -168,7 +168,9 @@ struct Monitor: View {
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
                                     }).foregroundColor(.purple)
                                         .onTapGesture {
-                                            self.editingCalibration = true
+                                            withAnimation {
+                                                self.editingCalibration = true
+                                            }
                                     }
                                 }
                                 if self.editingCalibration {
@@ -185,7 +187,9 @@ struct Monitor: View {
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
                                     }).foregroundColor(.purple)
                                         .onTapGesture {
-                                            self.editingCalibration = true
+                                            withAnimation {
+                                                self.editingCalibration = true
+                                            }
                                     }
                                 }
                                 if self.editingCalibration {
@@ -204,7 +208,9 @@ struct Monitor: View {
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
                                     }).foregroundColor(.purple)
                                         .onTapGesture {
-                                            self.editingCalibration = true
+                                            withAnimation {
+                                                self.editingCalibration = true
+                                            }
                                     }
                                 }
                                 if self.editingCalibration {
@@ -221,7 +227,9 @@ struct Monitor: View {
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
                                     }).foregroundColor(.purple)
                                         .onTapGesture {
-                                            self.editingCalibration = true
+                                            withAnimation {
+                                                self.editingCalibration = true
+                                            }
                                     }
                                 }
                                 if self.editingCalibration {
@@ -233,7 +241,9 @@ struct Monitor: View {
                         if self.editingCalibration {
                             Spacer()
                             Button(action: {
-                                self.editingCalibration = false
+                                withAnimation {
+                                    self.editingCalibration = false
+                                }
                             }
                             ) { Text("End").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)).accentColor(.purple) }
                             Spacer()
