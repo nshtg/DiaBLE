@@ -112,11 +112,27 @@ class Watlaa: Watch {
     }
 
     @Published var bridgeStatus: BridgeStatus = .unknown
-    @Published var slope: Float = 0.0
-    @Published var intercept: Float = 0.0
+
+    // TODO: convert float array [slope, intercept] to UInt8 array
+    @Published var slope: Float = 0.0 {
+        willSet(slope) {
+            if slope != self.slope {
+                write([UInt8](), for: .calibration)
+            }
+        }
+    }
+    // TODO: convert float array [slope, intercept] to UInt8 array
+    @Published var intercept: Float = 0.0 {
+        willSet(intercept) {
+            if intercept != self.intercept {
+                write([UInt8](), for: .calibration)
+            }
+        }
+    }
+
     @Published var lastGlucose: Int = 0
     @Published var lastGlucoseAge: Int = 0
-    
+
     @Published var unit: GlucoseUnit = .mgdl {
         willSet(unit) {
             if unit != self.unit {

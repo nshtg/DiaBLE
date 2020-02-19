@@ -238,29 +238,34 @@ struct Monitor: View {
                                 }
                             }
                         }
-                        if self.editingCalibration {
-                            Spacer()
-                            HStack(spacing: 20) {
-                                Button(action: {
-                                    withAnimation {
-                                        self.editingCalibration = false
-                                    }
-                                }
-                                ) { Text("Use").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                    }.font(.footnote)
+                        .keyboardType(.numbersAndPunctuation)
+                }
 
-                                Button(action: {
-                                    withAnimation {
-                                        self.app.calibration = self.settings.oopCalibration
-                                        self.editingCalibration = false
-                                    }
+                if app.sensor != nil && (self.editingCalibration || history.calibratedValues.count == 0) {
+                    Spacer()
+                    HStack(spacing: 20) {
+                        if self.editingCalibration {
+                            Button(action: {
+                                withAnimation {
+                                    self.editingCalibration = false
                                 }
-                                ) { Text("Restore OOP").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
-                            }.accentColor(.purple)
-                            Spacer()
+                            }
+                            ) { Text("Use").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
                         }
-                    }
-                    .font(.footnote)
-                    .keyboardType(.numbersAndPunctuation)
+
+                        Button(action: {
+                            withAnimation {
+                                self.app.calibration = self.settings.oopCalibration
+                                if self.app.currentGlucose < 0 {
+                                    self.app.main.applyCalibration(sensor: self.app.sensor)
+                                    self.app.currentGlucose = -self.history.calibratedTrend[0].value
+                                }
+                                self.editingCalibration = false
+                            }
+                        }
+                        ) { Text("Restore OOP").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                    }.font(.footnote).accentColor(.purple)
                 }
 
                 Spacer()
