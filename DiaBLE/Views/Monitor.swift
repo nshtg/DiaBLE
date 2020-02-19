@@ -146,10 +146,10 @@ struct Monitor: View {
                         }
 
                         if !app.info.contains("canning") {
-                            NavigationLink(destination: Details(device: app.device)) {
+                            NavigationLink(destination: Details()) {
                                 Text("Details").font(.footnote).bold().fixedSize()
                                     .padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
-                            }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
+                            }
                         }
                     }
 

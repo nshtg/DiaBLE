@@ -44,9 +44,9 @@ struct SettingsView: View {
                         }.pickerStyle(SegmentedPickerStyle())
                     }
 
-                    NavigationLink(destination: Details(device: app.device)) {
+                    NavigationLink(destination: Details()) {
                         Text("Details").font(.footnote).bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
-                    }.disabled(self.app.device == nil && self.settings.preferredWatch == .none)
+                    }
                 }
 
                 Spacer()
@@ -143,8 +143,8 @@ struct SettingsView: View {
                             }
                             Section {
                                 Button(action: {
-                                    self.app.main.eventKit?.sync()
                                     self.showingCalendarPicker = false
+                                    self.app.main.eventKit?.sync()
                                 }
                                 ) { Text(self.settings.calendarTitle == "" ? "Don't remind" : "Remind").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)).animation(.default) }
 

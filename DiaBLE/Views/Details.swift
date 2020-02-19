@@ -6,7 +6,6 @@ struct Details: View {
     @EnvironmentObject var app: App
     @EnvironmentObject var settings: Settings
 
-    @State var device: Device?
     @State private var readingCountdown: Int = 0
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -17,72 +16,72 @@ struct Details: View {
             Spacer()
 
             Form {
-                if device != nil {
+
+                if app.device != nil {
                     Section(header: Text("Device").font(.headline)) {
                         HStack {
                             Text("Name")
                             Spacer()
-                            Text("\(device!.name)").foregroundColor(.yellow)
+                            Text("\(app.device.name)").foregroundColor(.yellow)
                         }
-                        if !device!.serial.isEmpty {
+                        if !app.device.serial.isEmpty {
                             HStack {
                                 Text("Serial")
                                 Spacer()
-                                Text("\(device!.serial)").foregroundColor(.yellow)
+                                Text("\(app.device.serial)").foregroundColor(.yellow)
                             }
                         }
-                        if !device!.firmware.isEmpty {
+                        if !app.device.firmware.isEmpty {
                             HStack {
                                 Text("Firmware")
                                 Spacer()
-                                Text("\(device!.firmware)").foregroundColor(.yellow)
+                                Text("\(app.device.firmware)").foregroundColor(.yellow)
                             }
                         }
-                        if !device!.manufacturer.isEmpty {
+                        if !app.device.manufacturer.isEmpty {
                             HStack {
                                 Text("Manufacturer")
                                 Spacer()
-                                Text("\(device!.manufacturer)").foregroundColor(.yellow)
+                                Text("\(app.device.manufacturer)").foregroundColor(.yellow)
                             }
                         }
-                        if !device!.model.isEmpty {
+                        if !app.device.model.isEmpty {
                             HStack {
                                 Text("Model")
                                 Spacer()
-                                Text("\(device!.model)").foregroundColor(.yellow)
+                                Text("\(app.device.model)").foregroundColor(.yellow)
                             }
                         }
-                        if !device!.hardware.isEmpty {
+                        if !app.device.hardware.isEmpty {
                             HStack {
                                 Text("Hardware")
                                 Spacer()
-                                Text("\(device!.hardware)").foregroundColor(.yellow)
+                                Text("\(app.device.hardware)").foregroundColor(.yellow)
                             }
                         }
-                        if !device!.software.isEmpty {
+                        if !app.device.software.isEmpty {
                             HStack {
                                 Text("Software")
                                 Spacer()
-                                Text("\(device!.software)").foregroundColor(.yellow)
+                                Text("\(app.device.software)").foregroundColor(.yellow)
                             }
                         }
-                        if device!.macAddress.count > 0 {
+                        if app.device.macAddress.count > 0 {
                             HStack {
                                 Text("MAC address")
                                 Spacer()
-                                Text("\(device!.macAddress.hexAddress)").foregroundColor(.yellow)
+                                Text("\(app.device.macAddress.hexAddress)").foregroundColor(.yellow)
                             }
                         }
-                        if device!.battery > -1 {
+                        if app.device.battery > -1 {
                             HStack {
                                 Text("Battery")
                                 Spacer()
-                                Text("\(device!.battery)%")
-                                    .foregroundColor(device!.battery > 10 ? .green : .red)
+                                Text("\(app.device.battery)%")
+                                    .foregroundColor(app.device.battery > 10 ? .green : .red)
                             }
                         }
                     }.font(.callout)
-
                 }
 
 
@@ -122,9 +121,17 @@ struct Details: View {
                 }
 
 
-                if device?.type == Watlaa.type {
-                    WatlaaDetailsView(device: device as! Watlaa)
+                if app.device?.type == Watlaa.type {
+                    WatlaaDetailsView(device: app.device as! Watlaa)
                         .font(.callout)
+                }
+
+                if app.device == nil && app.sensor == nil {
+                    HStack {
+                        Spacer()
+                        Text("No device connected").foregroundColor(.red)
+                        Spacer()
+                    }
                 }
             }
 
@@ -134,11 +141,10 @@ struct Details: View {
             VStack(spacing: 0) {
                 // Same as Rescan
                 // FIXME: updates only every 3-4 seconds
-                // FIXME: crash
                 Button(action: {
                     let centralManager = self.app.main.centralManager
-                    if self.device != nil {
-                        centralManager.cancelPeripheralConnection(self.device!.peripheral!)
+                    if self.app.device != nil {
+                        centralManager.cancelPeripheralConnection(self.app.device.peripheral!)
                     }
                     if centralManager.state == .poweredOn {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)
@@ -169,7 +175,7 @@ struct Details_Preview: PreviewProvider {
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
-            Details(device: Watlaa())
+            Details()
                 .environmentObject(App.test(tab: .monitor))
                 .environmentObject(Settings())
                 .environment(\.colorScheme, .dark)

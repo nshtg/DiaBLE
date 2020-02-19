@@ -321,7 +321,7 @@ struct WatlaaDetailsView: View {
     @EnvironmentObject var app: App
     @EnvironmentObject var settings: Settings
 
-    @State var device: Watlaa = Watlaa() // TODO
+    @ObservedObject var device: Watlaa
 
     var body: some View {
         Group {
