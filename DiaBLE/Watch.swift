@@ -113,21 +113,20 @@ class Watlaa: Watch {
 
     @Published var bridgeStatus: BridgeStatus = .unknown
 
-    // TODO: convert float array [slope, intercept] to UInt8 array
     @Published var slope: Float = 0.0 {
         willSet(slope) {
             var slopeVar = slope
             if slope != self.slope {
-                write([UInt8](withUnsafeBytes(of: &slopeVar) { Data($0) })  + [UInt8](withUnsafeBytes(of: &intercept) { Data($0) }), for: .calibration)
+                write([UInt8](withUnsafeBytes(of: &slopeVar) { Data($0) }) + [UInt8](withUnsafeBytes(of: &intercept) { Data($0) }), for: .calibration)
             }
         }
     }
-    // TODO: convert float array [slope, intercept] to UInt8 array
+
     @Published var intercept: Float = 0.0 {
         willSet(intercept) {
             var interceptVar = intercept
             if intercept != self.intercept {
-                write([UInt8](withUnsafeBytes(of: &slope) { Data($0) })  + [UInt8](withUnsafeBytes(of: &interceptVar) { Data($0) }), for: .calibration)
+                write([UInt8](withUnsafeBytes(of: &slope) { Data($0) }) + [UInt8](withUnsafeBytes(of: &interceptVar) { Data($0) }), for: .calibration)
             }
         }
     }
@@ -143,8 +142,23 @@ class Watlaa: Watch {
         }
     }
 
-    @Published var alarmHigh: Float = 0.0
-    @Published var alarmLow: Float = 0.0
+    @Published var alarmHigh: Float = 0.0 {
+        willSet(alarmHigh) {
+            if alarmHigh != self.alarmHigh {
+                var alarmHighVar = alarmHigh
+                write([UInt8](withUnsafeBytes(of: &alarmHighVar) { Data($0) }) + [UInt8](withUnsafeBytes(of: &alarmLow) { Data($0) }) + [UInt8(connectionCheckInterval & 0xFF)] + [UInt8((connectionCheckInterval >> 8) & 0xFF)] + [UInt8(snoozeLow) & 0xFF] + [UInt8((snoozeLow >> 8) & 0xFF)] + [UInt8(snoozeHigh & 0xFF)] + [UInt8((snoozeHigh >> 8) & 0xFF)] + [(UInt8(0) | (sensorLostVibration == true ? 8 : 0) | (glucoseVibration == true ? 2 : 0))], for: .alerts)
+            }
+        }
+    }
+
+    @Published var alarmLow: Float = 0.0 {
+        willSet(alarmLow) {
+            if alarmLow != self.alarmLow {
+                var alarmLowVar = alarmLow
+                write([UInt8](withUnsafeBytes(of: &alarmHigh) { Data($0) }) + [UInt8](withUnsafeBytes(of: &alarmLowVar) { Data($0) }) + [UInt8(connectionCheckInterval & 0xFF)] + [UInt8((connectionCheckInterval >> 8) & 0xFF)] + [UInt8(snoozeLow) & 0xFF] + [UInt8((snoozeLow >> 8) & 0xFF)] + [UInt8(snoozeHigh & 0xFF)] + [UInt8((snoozeHigh >> 8) & 0xFF)] + [(UInt8(0) | (sensorLostVibration == true ? 8 : 0) | (glucoseVibration == true ? 2 : 0))], for: .alerts)
+            }
+        }
+    }
     @Published var connectionCheckInterval: Int = 0
     @Published var snoozeLow: Int = 0
     @Published var snoozeHigh: Int = 0
@@ -390,11 +404,15 @@ struct WatlaaDetailsView: View {
 
             Section(header: Text("Alarms")) {
                 HStack {
-                    Image(systemName: "bell.fill").foregroundColor(.red)
-                    Text("> \(Int(device.alarmHigh))")
-                    Text("< \(Int(device.alarmLow))")
+                    Image(systemName: "bell.fill")
+                    Spacer().frame(maxWidth: .infinity)
+                    Text(" > ")
+                    TextField("High", value: $device.alarmHigh, formatter: NumberFormatter())
+                    Text("   < ")
+                    TextField("Low", value: $device.alarmLow, formatter: NumberFormatter())
                     // FIXME: doesn't update when changing unit
-                    Text("\(device.unit.description)")
+                    Text(" \(device.unit.description)")
+
                 }.foregroundColor(.red)
                 HStack {
                     Image(systemName: "speaker.zzz.fill").foregroundColor(.yellow)
