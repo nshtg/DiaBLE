@@ -275,7 +275,11 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             }
         }
 
-        UIApplication.shared.applicationIconBadgeNumber = currentGlucose
+        if !settings.disabledNotifications {
+            UIApplication.shared.applicationIconBadgeNumber = currentGlucose
+        } else {
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
 
         eventKit?.sync()
 
