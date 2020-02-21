@@ -124,6 +124,7 @@ class Settings: ObservableObject {
         "alarmLow": 70.0,
         "alarmHigh": 200.0,
         "mutedAudio": false,
+        "disabledNotifications": false,
 
         "calendarTitle": "",
         "calendarAlarmIsOn": false,
@@ -210,6 +211,10 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.mutedAudio, forKey: "mutedAudio") }
     }
 
+    @Published var disabledNotifications: Bool = UserDefaults.standard.bool(forKey: "disabledNotifications") {
+        didSet { UserDefaults.standard.set(self.disabledNotifications, forKey: "disabledNotifications") }
+    }
+
     @Published var calendarTitle: String = UserDefaults.standard.string(forKey: "calendarTitle")! {
         didSet { UserDefaults.standard.set(self.calendarTitle, forKey: "calendarTitle") }
     }
@@ -247,8 +252,8 @@ class Settings: ObservableObject {
     }
 
     @Published var oopCalibration: Calibration = try! JSONDecoder().decode(Calibration.self, from: UserDefaults.standard.data(forKey: "oopCalibration")!) {
-         didSet { UserDefaults.standard.set(try! JSONEncoder().encode(self.oopCalibration), forKey: "oopCalibration") }
-     }
+        didSet { UserDefaults.standard.set(try! JSONEncoder().encode(self.oopCalibration), forKey: "oopCalibration") }
+    }
 
 
     @Published var numberFormatter: NumberFormatter
@@ -273,6 +278,7 @@ class Settings: ObservableObject {
         alarmLow:   Double = UserDefaults.standard.double(forKey: "alarmLow"),
         alarmHigh:  Double = UserDefaults.standard.double(forKey: "alarmHigh"),
         mutedAudio: Bool = UserDefaults.standard.bool(forKey: "mutedAudio"),
+        disabledNotifications: Bool = UserDefaults.standard.bool(forKey: "disabledNotifications"),
 
         calendarTitle: String = UserDefaults.standard.string(forKey: "calendarTitle")!,
         calendarAlarmIsOn: Bool = UserDefaults.standard.bool(forKey: "calendarAlarmIsOn"),
@@ -304,6 +310,7 @@ class Settings: ObservableObject {
         self.alarmLow = alarmLow
         self.alarmHigh = alarmHigh
         self.mutedAudio = mutedAudio
+        self.disabledNotifications = disabledNotifications
 
         self.calendarTitle = calendarTitle
         self.calendarAlarmIsOn = calendarAlarmIsOn

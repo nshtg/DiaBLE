@@ -112,6 +112,12 @@ struct SettingsView: View {
                     }
 
                     Button(action: {
+                        self.settings.disabledNotifications = !self.settings.disabledNotifications // workaround for iOS 13.4 beta, otherwise toggle()
+                    }) {
+                        Image(systemName: settings.disabledNotifications ? "zzz" : "app.badge.fill").resizable().frame(width: 24, height: 24).foregroundColor(.accentColor)
+                    }
+
+                    Button(action: {
                         self.showingCalendarPicker = true
                     }) {
                         Image(systemName: settings.calendarTitle != "" ? "calendar.circle.fill" : "calendar.circle").resizable().frame(width: 32, height: 32).foregroundColor(.accentColor)
