@@ -79,7 +79,7 @@ class EventKit {
                 event.title = title
                 event.notes = "Created by DiaBLE"
                 event.startDate = Date()
-                event.endDate = Date(timeIntervalSinceNow: TimeInterval(60 * self.main.settings.readingInterval))
+                event.endDate = Date(timeIntervalSinceNow: TimeInterval(60 * self.main.settings.readingInterval + 5))
                 event.calendar = calendar
 
                 if self.main.settings.calendarAlarmIsOn {
