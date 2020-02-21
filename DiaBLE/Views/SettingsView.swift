@@ -113,6 +113,11 @@ struct SettingsView: View {
 
                     Button(action: {
                         self.settings.disabledNotifications = !self.settings.disabledNotifications // workaround for iOS 13.4 beta, otherwise toggle()
+                        if self.settings.disabledNotifications {
+                            UIApplication.shared.applicationIconBadgeNumber = 0
+                        } else {
+                            UIApplication.shared.applicationIconBadgeNumber = self.app.currentGlucose
+                        }
                     }) {
                         Image(systemName: settings.disabledNotifications ? "zzz" : "app.badge.fill").resizable().frame(width: 24, height: 24).foregroundColor(.accentColor)
                     }
