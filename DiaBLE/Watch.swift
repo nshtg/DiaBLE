@@ -116,16 +116,18 @@ class Watlaa: Watch {
     // TODO: convert float array [slope, intercept] to UInt8 array
     @Published var slope: Float = 0.0 {
         willSet(slope) {
+            var slopeVar = slope
             if slope != self.slope {
-                write([UInt8](), for: .calibration)
+                write([UInt8](withUnsafeBytes(of: &slopeVar) { Data($0) })  + [UInt8](withUnsafeBytes(of: &intercept) { Data($0) }), for: .calibration)
             }
         }
     }
     // TODO: convert float array [slope, intercept] to UInt8 array
     @Published var intercept: Float = 0.0 {
         willSet(intercept) {
+            var interceptVar = intercept
             if intercept != self.intercept {
-                write([UInt8](), for: .calibration)
+                write([UInt8](withUnsafeBytes(of: &slope) { Data($0) })  + [UInt8](withUnsafeBytes(of: &interceptVar) { Data($0) }), for: .calibration)
             }
         }
     }
