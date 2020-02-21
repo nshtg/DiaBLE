@@ -252,16 +252,30 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         app.currentGlucose = currentGlucose
 
+        var title = currentGlucose > 0 ?
+            "\(currentGlucose)" :
+            (currentGlucose < 0 ?
+                "(\(-currentGlucose))" : "---")
+
         currentGlucose = abs(currentGlucose)
 
         if currentGlucose > 0 && (currentGlucose > Int(settings.alarmHigh) || currentGlucose < Int(settings.alarmLow)) {
             log("ALARM: current glucose: \(currentGlucose) (settings: high: \(Int(settings.alarmHigh)), low: \(Int(settings.alarmLow)))")
             playAlarm()
+            if settings.calendarTitle == "" { // TODO: notifications settings
+                title += "  \(settings.glucoseUnit)"
+                title += "  \(OOP.alarmDescription(for: app.oopAlarm))  \(OOP.trendSymbol(for: app.oopTrend))"
+                let content = UNMutableNotificationContent()
+                content.title = title
+                content.subtitle = ""
+                content.sound = UNNotificationSound.default
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                let request = UNNotificationRequest(identifier: "DiaBLE", content: content, trigger: trigger)
+                UNUserNotificationCenter.current().add(request)
+            }
         }
 
         UIApplication.shared.applicationIconBadgeNumber = currentGlucose
-
-        // TODO: store calibrated values even if LibreOOP is offline
 
         eventKit?.sync()
 

@@ -328,6 +328,7 @@ class Settings: ObservableObject {
 extension App {
     static func test(tab: Tab) -> App {
         return App(
+            device: Watlaa(),
             transmitter: Transmitter(battery: 54, firmware: "4.56", manufacturer: "Acme Inc.", hardware: "2.3", macAddress: Data([0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF])),
             sensor: Sensor(state: .ready, serial: "0M0008B8CSR", age: 3407),
             selectedTab: tab,
