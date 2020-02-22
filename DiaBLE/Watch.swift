@@ -114,19 +114,17 @@ class Watlaa: Watch {
     @Published var bridgeStatus: BridgeStatus = .unknown
 
     @Published var slope: Float = 0.0 {
-        willSet(slope) {
-            var slopeVar = slope
-            if slope != self.slope {
-                write([UInt8](withUnsafeBytes(of: &slopeVar) { Data($0) }) + [UInt8](withUnsafeBytes(of: &intercept) { Data($0) }), for: .calibration)
+        didSet(slope) {
+            if slope != self.slope && slope != 0.0 {
+                writeAlertsSettings()
             }
         }
     }
 
     @Published var intercept: Float = 0.0 {
-        willSet(intercept) {
-            var interceptVar = intercept
-            if intercept != self.intercept {
-                write([UInt8](withUnsafeBytes(of: &slope) { Data($0) }) + [UInt8](withUnsafeBytes(of: &interceptVar) { Data($0) }), for: .calibration)
+        didSet(intercept) {
+            if intercept != self.intercept && intercept != 0.0 {
+                writeAlertsSettings()
             }
         }
     }
@@ -135,7 +133,7 @@ class Watlaa: Watch {
     @Published var lastGlucoseAge: Int = 0
 
     @Published var unit: GlucoseUnit = .mgdl {
-        willSet(unit) {
+        didSet(unit) {
             if unit != self.unit {
                 write([UInt8(GlucoseUnit.allCases.firstIndex(of: unit)!)], for: .glucoseUnit)
             }
@@ -143,29 +141,71 @@ class Watlaa: Watch {
     }
 
     @Published var alarmHigh: Float = 0.0 {
-        willSet(alarmHigh) {
-            if alarmHigh != self.alarmHigh {
-                var alarmHighVar = alarmHigh
-                write([UInt8](withUnsafeBytes(of: &alarmHighVar) { Data($0) }) + [UInt8](withUnsafeBytes(of: &alarmLow) { Data($0) }) + [UInt8(connectionCheckInterval & 0xFF)] + [UInt8((connectionCheckInterval >> 8) & 0xFF)] + [UInt8(snoozeLow) & 0xFF] + [UInt8((snoozeLow >> 8) & 0xFF)] + [UInt8(snoozeHigh & 0xFF)] + [UInt8((snoozeHigh >> 8) & 0xFF)] + [(UInt8(0) | (sensorLostVibration == true ? 8 : 0) | (glucoseVibration == true ? 2 : 0))], for: .alerts)
+        didSet(alarmHigh) {
+            if alarmHigh != self.alarmHigh && alarmHigh != 0.0 {
+                writeAlertsSettings()
             }
         }
     }
 
     @Published var alarmLow: Float = 0.0 {
-        willSet(alarmLow) {
-            if alarmLow != self.alarmLow {
-                var alarmLowVar = alarmLow
-                write([UInt8](withUnsafeBytes(of: &alarmHigh) { Data($0) }) + [UInt8](withUnsafeBytes(of: &alarmLowVar) { Data($0) }) + [UInt8(connectionCheckInterval & 0xFF)] + [UInt8((connectionCheckInterval >> 8) & 0xFF)] + [UInt8(snoozeLow) & 0xFF] + [UInt8((snoozeLow >> 8) & 0xFF)] + [UInt8(snoozeHigh & 0xFF)] + [UInt8((snoozeHigh >> 8) & 0xFF)] + [(UInt8(0) | (sensorLostVibration == true ? 8 : 0) | (glucoseVibration == true ? 2 : 0))], for: .alerts)
+        didSet(alarmLow) {
+            if alarmLow != self.alarmLow && alarmLow != 0.0 {
+                writeAlertsSettings()
             }
         }
     }
-    @Published var connectionCheckInterval: Int = 0
-    @Published var snoozeLow: Int = 0
-    @Published var snoozeHigh: Int = 0
-    @Published var sensorLostVibration: Bool = true
-    @Published var glucoseVibration: Bool = true
+    @Published var connectionCheckInterval: Int = 0 {
+        didSet(connectionCheckInterval) {
+            if connectionCheckInterval != self.connectionCheckInterval && connectionCheckInterval != 0 {
+                writeAlertsSettings()
+            }
+        }
+    }
+    @Published var snoozeLow: Int = 0 {
+        didSet(snoozeLow) {
+            if snoozeLow != self.snoozeLow && snoozeLow != 0 {
+                writeAlertsSettings()
+            }
+        }
+    }
+    @Published var snoozeHigh: Int = 0 {
+        didSet(snoozeHigh) {
+            if snoozeHigh != self.snoozeHigh && snoozeHigh != 0 {
+                writeAlertsSettings()
+            }
+        }
+    }
+    @Published var sensorLostVibration: Bool = true {
+        didSet(sensorLostVibration) {
+            if sensorLostVibration != self.sensorLostVibration {
+                writeAlertsSettings()
+            }
+        }
+    }
+    @Published var glucoseVibration: Bool = true {
+        didSet(glucoseVibration) {
+            if glucoseVibration != self.glucoseVibration {
+                writeAlertsSettings()
+            }
+        }
+    }
 
     @Published var lastReadingDate: Date = Date()
+
+
+    func writeAlertsSettings() {
+        write([UInt8](withUnsafeBytes(of: &alarmHigh) { Data($0) }) +
+            [UInt8](withUnsafeBytes(of: &alarmLow) { Data($0) }) +
+            [UInt8(connectionCheckInterval & 0xFF)] +
+            [UInt8((connectionCheckInterval >> 8) & 0xFF)] +
+            [UInt8(snoozeLow) & 0xFF] +
+            [UInt8((snoozeLow >> 8) & 0xFF)] +
+            [UInt8(snoozeHigh & 0xFF)] +
+            [UInt8((snoozeHigh >> 8) & 0xFF)] +
+            [(UInt8(0) | (sensorLostVibration == true ? 8 : 0) | (glucoseVibration == true ? 2 : 0))],
+              for: .alerts)
+    }
 
 
     // TODO: implements in Device class
@@ -412,13 +452,16 @@ struct WatlaaDetailsView: View {
                     TextField("Low", value: $device.alarmLow, formatter: NumberFormatter())
                     // FIXME: doesn't update when changing unit
                     Text(" \(device.unit.description)")
-
                 }.foregroundColor(.red)
                 HStack {
-                    Image(systemName: "speaker.zzz.fill").foregroundColor(.yellow)
-                    Text("High: \(device.snoozeHigh) min")
-                    Text("Low: \(device.snoozeLow) min")
-                }
+                    Image(systemName: "speaker.zzz.fill")
+                    Spacer().frame(maxWidth: .infinity)
+                    Text("High: ")
+                    TextField("High", value: $device.snoozeHigh, formatter: NumberFormatter())
+                    Text("Low: ")
+                    TextField("Low", value: $device.snoozeLow, formatter: NumberFormatter())
+                    Text(" min")
+                }.foregroundColor(.yellow)
                 Text("Vibrations: sensor lost: \(device.sensorLostVibration == true ? "yes" : "no")  glucose: \(device.glucoseVibration == true ? "yes" : "no")")
             }
             HStack {
