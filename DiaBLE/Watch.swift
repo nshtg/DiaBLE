@@ -462,13 +462,23 @@ struct WatlaaDetailsView: View {
                     TextField("Low", value: $device.snoozeLow, formatter: NumberFormatter())
                     Text(" min")
                 }.foregroundColor(.yellow)
-                Text("Vibrations: sensor lost: \(device.sensorLostVibration == true ? "yes" : "no")  glucose: \(device.glucoseVibration == true ? "yes" : "no")")
+            }
+            Section(header: Text("Vibrations")) {
+                HStack {
+                    Text("Sensor Lost")
+                    Toggle("Sensor lost", isOn: $device.sensorLostVibration).labelsHidden()
+                    Spacer()
+                    Text("Glucose")
+                    Toggle("Glucose", isOn: $device.glucoseVibration).labelsHidden()
+                }
             }
             HStack {
-                Text("Bridge connection check interval")
-                Spacer()
-                Text("\(device.connectionCheckInterval)")
+                Text("Bridge check interval").layoutPriority(1.0)
+                Spacer().frame(maxWidth: .infinity)
+                TextField("Interval", value: $device.connectionCheckInterval, formatter: NumberFormatter())
+                Text(" min")
             }
+            // TODO: spacer to allow editing
         }
     }
 }
