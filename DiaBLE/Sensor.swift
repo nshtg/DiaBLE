@@ -36,14 +36,14 @@ enum SensorState: UInt8, CustomStringConvertible {
 class Sensor: ObservableObject {
 
     var type: SensorType = .libre1
-    var state: SensorState = SensorState.unknown
-    var lastReadingDate = Date()
-    weak var transmitter: Transmitter?
+    @Published var state: SensorState = SensorState.unknown
+    @Published var lastReadingDate = Date()
+    @Published var transmitter: Transmitter?
 
-    var age: Int = 0
+    @Published var age: Int = 0
     var serial: String = ""
 
-    var currentGlucose: Int = 0
+    @Published var currentGlucose: Int = 0
 
     var patchInfo: Data = Data() {
         willSet(info) {

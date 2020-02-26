@@ -114,12 +114,12 @@ class Device: ObservableObject {
     var characteristics = [String: CBCharacteristic]()
 
     /// Updated when notified by the Bluetooth manager
-    var state: CBPeripheralState = .disconnected
+    @Published var state: CBPeripheralState = .disconnected
 
     var readCharacteristic: CBCharacteristic?
     var writeCharacteristic: CBCharacteristic?
 
-    var battery: Int = -1
+    @Published var battery: Int = -1
     var model: String = ""
     var serial: String = ""
     var firmware: String = ""
