@@ -135,7 +135,7 @@ class Watlaa: Watch {
     @Published var unit: GlucoseUnit = .mgdl {
         didSet(unit) {
             if unit != self.unit {
-                write([UInt8(GlucoseUnit.allCases.firstIndex(of: unit)!)], for: .glucoseUnit)
+                write([UInt8(GlucoseUnit.allCases.firstIndex(of: self.unit)!)], for: .glucoseUnit)
             }
         }
     }
@@ -465,7 +465,7 @@ struct WatlaaDetailsView: View {
             }
             Section(header: Text("Vibrations")) {
                 HStack {
-                    Text("Sensor Lost")
+                    Text("Sensor lost")
                     Toggle("Sensor lost", isOn: $device.sensorLostVibration).labelsHidden()
                     Spacer()
                     Text("Glucose")
