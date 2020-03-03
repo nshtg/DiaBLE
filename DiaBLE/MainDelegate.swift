@@ -122,12 +122,14 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         log(sensor.crcReport)
 
-        // TODO: test
         if sensor.crcReport.contains("FAILED") {
-            self.info("\nError while validating sensor data")
-            return
+            if history.rawValues.count > 0 { // bogus raw data
+                self.info("\nError while validating sensor data")
+                return
+            }
         }
 
+        // TODO: Libre 2
         log("Sensor state: \(sensor.state)")
         log("Sensor age: \(sensor.age) minutes (\(String(format: "%.2f", Double(sensor.age)/60/24)) days), started on: \((app.lastReadingDate - Double(sensor.age) * 60).shortDateTime)")
 
@@ -136,7 +138,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         history.rawValues = sensor.history
         log("Raw history: \(sensor.history.map{$0.value})")
 
-        sensor.currentGlucose = -history.rawTrend[0].value
+        if history.rawTrend.count > 0 {
+            sensor.currentGlucose = -history.rawTrend[0].value
+        }
 
         log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.calibrationEndpoint)...")
         postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, parameters in
@@ -201,7 +205,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             self.app.oopTrend = oopData.trendArrow
                             var oopHistory = oopData.glucoseData(sensorAge: sensor.age, readingDate: self.app.lastReadingDate)
                             let oopHistoryCount = oopHistory.count
-                            if oopHistoryCount > 1 {
+                            if oopHistoryCount > 1 && self.history.rawValues.count > 0 {
                                 if oopHistory[0].value == 0 && oopHistory[1].id == self.history.rawValues[0].id {
                                     oopHistory.removeFirst()
                                     self.debugLog("LibreOOP: dropped the first null OOP value newer than the corresponding raw one")
