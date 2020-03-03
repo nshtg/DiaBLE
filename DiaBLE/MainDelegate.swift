@@ -124,7 +124,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         // TODO: test
         if sensor.crcReport.contains("FAILED") {
-            self.info("\nError while scanning the sensor")
+            self.info("\nError while validating sensor data")
             return
         }
 
