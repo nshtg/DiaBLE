@@ -74,7 +74,7 @@ class Bubble: Transmitter {
 
 
     override func parseManufacturerData(_ data: Data) {
-        let transmitterData = Data(data.suffix(4))
+        let transmitterData = Data(data[8...11])
         let firmware = "\(Int(transmitterData[0])).\(Int(transmitterData[1]))"
         let hardware = "\(Int(transmitterData[2])).\(Int(transmitterData[3]))"
         let macAddress = Data(data[2...7])
