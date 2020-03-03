@@ -121,6 +121,13 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
     func parseSensorData(_ sensor: Sensor) {
 
         log(sensor.crcReport)
+
+        // TODO: test
+        if sensor.crcReport.contains("FAILED") {
+            self.info("\nError while scanning the sensor")
+            return
+        }
+
         log("Sensor state: \(sensor.state)")
         log("Sensor age: \(sensor.age) minutes (\(String(format: "%.2f", Double(sensor.age)/60/24)) days), started on: \((app.lastReadingDate - Double(sensor.age) * 60).shortDateTime)")
 
