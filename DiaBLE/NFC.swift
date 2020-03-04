@@ -40,10 +40,12 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
         session.alertMessage = "Scan complete"
 
-        let blocksCount = 43
-        let blockRequests = Int(ceil(Double(blocksCount) / 3))
-        let blocksToRead = blockRequests * 3
-        var dataArray = [Data](repeating: Data(), count: blocksToRead)
+        let blocks = 43
+        let requestBlocks = 3
+
+        let requests = Int(ceil(Double(blocks) / Double(requestBlocks)))
+        let remainder = blocks % requestBlocks
+        var dataArray = [Data](repeating: Data(), count: blocks)
 
         session.connect(to: firstTag) { error in
             if error != nil {
@@ -69,23 +71,23 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                         self.main.log("NFC: error while getting patch info: \(error!.localizedDescription)")
                     }
 
-                    for i in 0 ..< blockRequests {
+                    for i in 0 ..< requests {
 
-                        tag.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: NSRange(UInt8(i * 3)...UInt8(i * 3 + 2))) { (blockArray, error) in
+                        tag.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: NSRange(UInt8(i * requestBlocks)...UInt8(i * requestBlocks + (i == requests - 1 ? remainder - 1: requestBlocks - 1)))) { (blockArray, error) in
 
                             if error != nil {
-                                self.main.log("NFC: error while reading multiple blocks (#\(i*3) - #\((i+1)*3-1)) : \(error!.localizedDescription)")
+                                self.main.log("NFC: error while reading multiple blocks (#\(i * requestBlocks) - #\(i * requestBlocks + (i == requests - 1 ? remainder - 1: requestBlocks - 1))) : \(error!.localizedDescription)")
                                 session.invalidate(errorMessage: "Error while reading multiple blocks: \(error!.localizedDescription)")
-                                if i != blockRequests - 1 { return }
+                                if i != requests - 1 { return }
 
                             } else {
-                                dataArray[i * 3]     = blockArray[0]
-                                dataArray[i * 3 + 1] = blockArray[1]
-                                dataArray[i * 3 + 2] = blockArray[2]
+                                for j in 0 ..< blockArray.count {
+                                    dataArray[i * requestBlocks + j] = blockArray[j]
+                                }
                             }
 
 
-                            if i == blockRequests - 1 {
+                            if i == requests - 1 {
 
                                 session.invalidate()
 
@@ -103,7 +105,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 sensor.lastReadingDate = self.main.app.lastReadingDate
 
                                 var msg = ""
-                                for (n, data) in dataArray.enumerated().dropLast(blocksToRead - blocksCount) {
+                                for (n, data) in dataArray.enumerated() {
                                     if data.count > 0 {
                                         fram.append(data)
                                         msg += "NFC block #\(String(format:"%02d", n)): \(data.reduce("", { $0 + String(format: "%02X", $1) + " "}))\n"
