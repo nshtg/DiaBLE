@@ -1,6 +1,7 @@
 FIXME
 -----
 
+* Libre 2: NFC error when reading last multiple blocks 42-44
 * iOS 13.4 beta: didset is not called when a @Published Bool is toggled in SettingsView (current workaround: use logical !)
 * Mac Catalyst:
    - stops receiving data from the Bubble read characteristic

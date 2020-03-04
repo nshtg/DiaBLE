@@ -135,6 +135,7 @@ struct Monitor: View {
                         Text(app.info)
                             .font(.footnote)
                             .padding(.vertical, 5)
+                            .frame(maxWidth: .infinity)
 
                         if app.info.hasPrefix("Scanning") {
                             Button(action: {

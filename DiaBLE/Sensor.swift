@@ -5,7 +5,7 @@ enum SensorType: String, CustomStringConvertible {
     case libre2   = "Libre 2"
     case libreUS  = "Libre US"
     case librePro = "Libre Pro"
-    case unknown  = "Libre (?)"
+    case unknown  = "Libre"
 
     var description: String { self.rawValue }
 }
@@ -26,7 +26,7 @@ enum SensorState: UInt8, CustomStringConvertible {
         case .ready:         return "Ready"
         case .expired:       return "Expired"
         case .shutdown:      return "Shut down"
-        case .failure:       return "Failed"
+        case .failure:       return "Failure"
         default:             return "Unknown"
         }
     }
@@ -35,7 +35,7 @@ enum SensorState: UInt8, CustomStringConvertible {
 
 class Sensor: ObservableObject {
 
-    var type: SensorType = .libre1
+    var type: SensorType = .unknown
     @Published var state: SensorState = SensorState.unknown
     @Published var lastReadingDate = Date()
     @Published var transmitter: Transmitter?

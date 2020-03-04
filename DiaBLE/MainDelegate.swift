@@ -19,7 +19,6 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
     var eventKit: EventKit?
 
 
-
     override init() {
         app = App()
         log = Log()
@@ -94,7 +93,6 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
-
     public func info(_ text: String) {
         DispatchQueue.main.async {
             if text.prefix(2) == "\n\n" {
@@ -131,40 +129,43 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         // TODO: Libre 2
         log("Sensor state: \(sensor.state)")
-        log("Sensor age: \(sensor.age) minutes (\(String(format: "%.2f", Double(sensor.age)/60/24)) days), started on: \((app.lastReadingDate - Double(sensor.age) * 60).shortDateTime)")
 
-        history.rawTrend = sensor.trend
-        log("Raw trend: \(sensor.trend.map{$0.value})")
-        history.rawValues = sensor.history
-        log("Raw history: \(sensor.history.map{$0.value})")
+        if sensor.history.count > 0 {
+            log("Sensor age: \(sensor.age) minutes (\(String(format: "%.2f", Double(sensor.age)/60/24)) days), started on: \((app.lastReadingDate - Double(sensor.age) * 60).shortDateTime)")
 
-        if history.rawTrend.count > 0 {
-            sensor.currentGlucose = -history.rawTrend[0].value
-        }
+            history.rawTrend = sensor.trend
+            log("Raw trend: \(sensor.trend.map{$0.value})")
+            history.rawValues = sensor.history
+            log("Raw history: \(sensor.history.map{$0.value})")
 
-        log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.calibrationEndpoint)...")
-        postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, parameters in
-            self.debugLog("LibreOOP: query parameters: \(parameters)")
-            if let data = data {
-                self.log("LibreOOP: server calibration response: \(data.string))")
-                let decoder = JSONDecoder.init()
-                if let oopCalibration = try? decoder.decode(OOPCalibrationResponse.self, from: data) {
-                    self.app.calibration = oopCalibration.parameters
-                    self.settings.oopCalibration = oopCalibration.parameters
+            if history.rawTrend.count > 0 {
+                sensor.currentGlucose = -history.rawTrend[0].value
+            }
+
+            log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.calibrationEndpoint)...")
+            postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, parameters in
+                self.debugLog("LibreOOP: query parameters: \(parameters)")
+                if let data = data {
+                    self.log("LibreOOP: server calibration response: \(data.string))")
+                    let decoder = JSONDecoder.init()
+                    if let oopCalibration = try? decoder.decode(OOPCalibrationResponse.self, from: data) {
+                        self.app.calibration = oopCalibration.parameters
+                        self.settings.oopCalibration = oopCalibration.parameters
+                    }
+                    
+                } else {
+                    self.log("LibreOOP: failed calibration")
+                    self.info("\nLibreOOP calibration failed")
                 }
-
-            } else {
-                self.log("LibreOOP: failed calibration")
-                self.info("\nLibreOOP calibration failed")
+                
+                // Reapply the current calibration even when the connection fails
+                self.applyCalibration(sensor: sensor)
+                
+                if sensor.patchInfo.count == 0 {
+                    self.didParseSensor(sensor)
+                }
+                return
             }
-
-            // Reapply the current calibration even when the connection fails
-            self.applyCalibration(sensor: sensor)
-
-            if sensor.patchInfo.count == 0 {
-                self.didParseSensor(sensor)
-            }
-            return
         }
 
         if sensor.uid.count > 0 && sensor.patchInfo.count > 0 {
