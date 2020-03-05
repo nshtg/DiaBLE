@@ -8,6 +8,14 @@ enum SensorType: String, CustomStringConvertible {
     case unknown  = "Libre"
 
     var description: String { self.rawValue }
+
+    var serialPrefix: String {
+        switch self {
+        case .librePro: return "1"
+        case .libre2:   return "3"
+        default:        return "0"
+        }
+    }
 }
 
 enum SensorState: UInt8, CustomStringConvertible {
@@ -48,6 +56,9 @@ class Sensor: ObservableObject {
     var patchInfo: Data = Data() {
         willSet(info) {
             type = sensorType(patchInfo: info)
+            if serial != "" {
+                serial = type.serialPrefix + serial.dropFirst()
+            }
         }
     }
 
