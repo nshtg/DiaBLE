@@ -121,7 +121,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         log(sensor.crcReport)
 
         if sensor.crcReport.contains("FAILED") {
-            if history.rawValues.count > 0 { // bogus raw data
+            if history.rawValues.count > 0 && sensor.type != .libre2 { // bogus raw data with Libre 1
                 self.info("\nError while validating sensor data")
                 return
             }
