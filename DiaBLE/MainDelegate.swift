@@ -239,7 +239,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
 
     func applyCalibration(sensor: Sensor) {
-        if self.app.calibration.offsetOffset != 0.0 {
+        if self.app.calibration.offsetOffset != 0.0 && sensor.history.count > 0 {
 
             var calibratedTrend = sensor.trend
             for i in 0 ..< calibratedTrend.count {
