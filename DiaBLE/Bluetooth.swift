@@ -468,7 +468,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
 
         guard let data = characteristic.value
-            else { log("Bluetooth: \(name) missed updating value for \(characteristicString) characteristic"); return }
+            else { log("Bluetooth: \(name)'s error updating value for \(characteristicString) characteristic: \(error!.localizedDescription)"); return }
 
         var msg = "Bluetooth: \(name) did update value for \(characteristicString) characteristic (\(data.count) bytes received):"
         if data.count > 0 {

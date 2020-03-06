@@ -234,6 +234,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                 self.didParseSensor(sensor)
                 return
             }
+        } else {
+            self.info("\nPatch info not available")
+            return
         }
     }
 
