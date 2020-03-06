@@ -10,12 +10,17 @@ class BLE {
     enum UUID: String, CustomStringConvertible, CaseIterable {
         
         case device        = "180A"
+        case systemID      = "2A23"
         case model         = "2A24"
         case serial        = "2A25"
         case firmware      = "2A26"
         case hardware      = "2A27"
         case software      = "2A28"
         case manufacturer  = "2A29"
+
+        // Libre 2
+        case regulatoryCertificationDataList = "2A2A"
+        case pnpID         = "2050"
 
         case battery       = "180F"
         case batteryLevel  = "2A19"
@@ -29,12 +34,15 @@ class BLE {
         var description: String {
             switch self {
             case .device:        return "device information"
+            case .systemID:      return "system  id"
             case .model:         return "model number"
             case .serial:        return "serial number"
             case .firmware:      return "firmware version"
             case .hardware:      return "hardware revision"
             case .software:      return "software revision"
             case .manufacturer:  return "manufacturer"
+            case .regulatoryCertificationDataList: return "IEEE 11073-20601 regulatory certification data list"
+            case .pnpID:         return "pnp id"
             case .battery:       return "battery"
             case .batteryLevel:  return "battery level"
             case .time:          return "time"
@@ -462,11 +470,14 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         guard let data = characteristic.value
             else { log("Bluetooth: \(name) missed updating value for \(characteristicString) characteristic"); return }
 
-        let msg = "Bluetooth: \(name) did update value for \(characteristicString) characteristic (\(data.count) bytes received):"
+        var msg = "Bluetooth: \(name) did update value for \(characteristicString) characteristic (\(data.count) bytes received):"
+        if data.count > 0 {
+            msg += " hex: \(data.hex),"
+        }
 
         if let uuid = BLE.UUID(rawValue: characteristic.uuid.uuidString) {
 
-            log("\(msg) \(uuid): \(uuid != .batteryLevel ? data.string : String(Int(data[0]))) ")
+            log("\(msg) \(uuid): \(uuid != .batteryLevel ? "\"\(data.string)\"" : String(Int(data[0])))")
 
             switch uuid {
 
@@ -490,7 +501,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             }
 
         } else {
-            log("\(msg) hex: \(data.hex), string: \"\(data.string)")
+            log("\(msg) string: \"\(data.string)\"")
 
             app.lastReadingDate = Date()
 
