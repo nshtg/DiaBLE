@@ -20,7 +20,7 @@ class BLE {
 
         // Libre 2
         case regulatoryCertificationDataList = "2A2A"
-        case pnpID         = "2050"
+        case pnpID         = "2A50"
 
         case battery       = "180F"
         case batteryLevel  = "2A19"
