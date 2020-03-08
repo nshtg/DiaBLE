@@ -401,7 +401,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             let readCommand = app.transmitter.readCommand(interval: settings.readingInterval)
             app.device.write(readCommand)
             log("Bubble: writing start reading command 0x\(Data(readCommand).hex)")
-            // bubble!.write([0x00, 0x01, 0x05])
+            // app.device.write([0x00, 0x01, 0x05])
             // log("Bubble: writing reset and send data every 5 minutes command 0x000105")
         }
 
@@ -409,7 +409,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             let readCommand = app.device.readCommand(interval: settings.readingInterval)
             app.device.write(readCommand)
             log("\(app.device.name): writing start reading command 0x\(Data(readCommand).hex)")
-            // app.transmitter.write([0xD3, 0x01]); log("MiaoMiao writing start new sensor command D301")
+            // app.device.write([0xD3, 0x01]); log("MiaoMiao writing start new sensor command D301")
         }
 
         if app.device.type == .watch(.watlaa) && serviceUUID == Watlaa.dataServiceUUID {

@@ -45,6 +45,7 @@ class Sensor: ObservableObject {
 
     var type: SensorType = .unknown
     @Published var state: SensorState = SensorState.unknown
+    var crcReport: String = ""
     @Published var lastReadingDate = Date()
     @Published var transmitter: Transmitter?
 
@@ -72,14 +73,14 @@ class Sensor: ObservableObject {
     var history: [Glucose] = []
 
     var fram: Data = Data() {
-        willSet(fram) {
-            guard let sensorState = SensorState(rawValue: fram[4])
-                else {
-                    // TODO:
-                    return
-            }
+        didSet {
 
-            state = sensorState
+            updateCRCReport()
+            guard !crcReport.contains("FAILED") else { return }
+
+            if let sensorState = SensorState(rawValue: fram[4]) {
+                state = sensorState
+            }
             age = Int(fram[317]) << 8 + Int(fram[316])
             let startDate = lastReadingDate - Double(age) * 60
 
@@ -135,20 +136,24 @@ class Sensor: ObservableObject {
     }
 
 
-    var crcReport: String {
-        if fram.count != 344 { return "No FRAM read: can't verify CRC" }
-        let headerCRC = fram[0...1].hex
-        let bodyCRC   = fram[24...25].hex
-        let footerCRC = fram[320...321].hex
-        let computedHeaderCRC = String(format: "%04x", crc16(fram[2...23]))
-        let computedBodyCRC   = String(format: "%04x", crc16(fram[26...319]))
-        let computedFooterCRC = String(format: "%04x", crc16(fram[322...343]))
+    func updateCRCReport() {
+        if fram.count != 344 {
+            crcReport = "No FRAM read: can't verify CRC"
 
-        var report = "Sensor header CRC16: \(headerCRC), computed: \(computedHeaderCRC) -> \(headerCRC == computedHeaderCRC ? "OK" : "FAILED")"
-        report += "\nSensor body CRC16: \(bodyCRC), computed: \(computedBodyCRC) -> \(bodyCRC == computedBodyCRC ? "OK" : "FAILED")"
-        report += "\nSensor footer CRC16: \(footerCRC), computed: \(computedFooterCRC) -> \(footerCRC == computedFooterCRC ? "OK" : "FAILED")"
+        } else {
+            let headerCRC = fram[0...1].hex
+            let bodyCRC   = fram[24...25].hex
+            let footerCRC = fram[320...321].hex
+            let computedHeaderCRC = String(format: "%04x", crc16(fram[2...23]))
+            let computedBodyCRC   = String(format: "%04x", crc16(fram[26...319]))
+            let computedFooterCRC = String(format: "%04x", crc16(fram[322...343]))
 
-        return report
+            var report = "Sensor header CRC16: \(headerCRC), computed: \(computedHeaderCRC) -> \(headerCRC == computedHeaderCRC ? "OK" : "FAILED")"
+            report += "\nSensor body CRC16: \(bodyCRC), computed: \(computedBodyCRC) -> \(bodyCRC == computedBodyCRC ? "OK" : "FAILED")"
+            report += "\nSensor footer CRC16: \(footerCRC), computed: \(computedFooterCRC) -> \(footerCRC == computedFooterCRC ? "OK" : "FAILED")"
+
+            crcReport = report
+        }
     }
 }
 

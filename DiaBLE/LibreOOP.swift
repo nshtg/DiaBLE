@@ -33,6 +33,10 @@ struct OOPHistoryData: Codable {
 
     func glucoseData(sensorAge: Int, readingDate: Date) -> [Glucose] {
         var array = [Glucose]()
+        var sensorAge = sensorAge
+        if sensorAge == 0 { // encrpyted FRAM of the Libre 2
+            sensorAge = realTimeGlucose.id // FIXME: can differ from 1 minute from the real age
+        }
         let startDate = readingDate - Double(sensorAge) * 60
         // let current = Glucose(realTimeGlucose.value, id: realTimeGlucose.id, date: startDate + Double(realTimeGlucose.id * 60))
         var history = historicGlucose

@@ -232,6 +232,11 @@ class MiaoMiao: Transmitter {
                 if buffer.count > 363 {
                     sensor!.patchInfo = Data(buffer[363...368])
                     main.log("\(name): patch info: \(sensor!.patchInfo.hex)")
+                    // TODO: verify with newer firmwares
+                    if sensor!.type == .libre2 {
+                        sensor!.age = 0
+                        main.log("\(name): Libre 2 detected: sensor age reset to 0")
+                    }
                 } else {
                     // https://github.com/dabear/LibreOOPAlgorithm/blob/master/app/src/main/java/com/hg4/oopalgorithm/oopalgorithm/AlgorithmRunner.java
                     sensor!.patchInfo = Data([0xDF, 0x00, 0x00, 0x01, 0x01, 0x02])
