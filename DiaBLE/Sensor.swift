@@ -56,7 +56,11 @@ class Sensor: ObservableObject {
 
     var patchInfo: Data = Data() {
         willSet(info) {
-            type = sensorType(patchInfo: info)
+            if info.count > 0 {
+                type = sensorType(patchInfo: info)
+            } else {
+                type = .unknown
+            }
             if serial != "" {
                 serial = type.serialPrefix + serial.dropFirst()
             }

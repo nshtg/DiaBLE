@@ -132,9 +132,9 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 self.main.log("NFC: sensor uid: \(sensor.uid.hex)")
                                 self.main.log("NFC: sensor serial number: \(sensor.serial)")
 
+                                let patchInfo = customResponse
+                                sensor.patchInfo = Data(patchInfo)
                                 if customResponse.count > 0 {
-                                    let patchInfo = customResponse
-                                    sensor.patchInfo = Data(patchInfo)
                                     self.main.log("NFC: patch info: \(patchInfo.hex)")
                                     self.main.log("NFC: Libre type: \(sensor.type.rawValue)")
 

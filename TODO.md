@@ -12,7 +12,7 @@ FIXME
 TODO
 ----
 
-* Libre 2 CRC and raw values
+* Libre 2 patchInfo, CRC and raw values
 * Manage Nightscout JavaScript alerts synchronously
 * BLE 1805 2A2B: current time
 * Watlaa iBeacon
