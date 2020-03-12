@@ -168,6 +168,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             }
         }
 
+        debugLog("Sensor uid: \(sensor.uid.hex), saved uid:\(self.settings.patchUid.hex), patch info: \(sensor.patchInfo.hex), saved patch info: \(self.settings.patchInfo.hex)")
+
         if sensor.uid.count > 0 && sensor.patchInfo.count > 0 {
             self.settings.patchUid = sensor.uid
             self.settings.patchInfo = sensor.patchInfo
