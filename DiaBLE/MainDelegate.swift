@@ -279,7 +279,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         if currentGlucose > 0 && (currentGlucose > Int(settings.alarmHigh) || currentGlucose < Int(settings.alarmLow)) {
             log("ALARM: current glucose: \(currentGlucose) (settings: high: \(Int(settings.alarmHigh)), low: \(Int(settings.alarmLow)))")
             playAlarm()
-            if settings.calendarTitle == "" && !settings.disabledNotifications { // TODO: notifications settings
+            if (settings.calendarTitle == "" || !settings.calendarAlarmIsOn) && !settings.disabledNotifications { // TODO: notifications settings
                 title += "  \(settings.glucoseUnit)"
                 title += "  \(OOP.alarmDescription(for: app.oopAlarm))  \(OOP.trendSymbol(for: app.oopTrend))"
                 let content = UNMutableNotificationContent()
