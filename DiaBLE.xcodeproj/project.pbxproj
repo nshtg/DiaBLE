@@ -38,6 +38,7 @@
 		C5C20E4523C77FD800475327 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4423C77FD800475327 /* DataView.swift */; };
 		C5C20E4723C780FB00475327 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4623C780FB00475327 /* Monitor.swift */; };
 		C5C7187B23E2FB5000D04EA7 /* Glucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C7187A23E2FB5000D04EA7 /* Glucose.swift */; };
+		C5C84482241B884F009D3EAF /* alarm_low.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5C84481241B884F009D3EAF /* alarm_low.mp3 */; };
 		C5C937E423CBA0AE00A87BAB /* Health.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C937E323CBA0AE00A87BAB /* Health.swift */; };
 		C5DB1CFB23DB6208009F5C68 /* Legacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DB1CFA23DB6208009F5C68 /* Legacy.swift */; };
 		C5DF10F423C783140023E0E2 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DF10F323C783140023E0E2 /* LogView.swift */; };
@@ -148,6 +149,7 @@
 		C5C20E4623C780FB00475327 /* Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitor.swift; sourceTree = "<group>"; };
 		C5C7187A23E2FB5000D04EA7 /* Glucose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glucose.swift; sourceTree = "<group>"; };
 		C5C80BCA23A27EFA00ACFDE9 /* DiaBLE.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiaBLE.entitlements; sourceTree = "<group>"; };
+		C5C84481241B884F009D3EAF /* alarm_low.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm_low.mp3; sourceTree = "<group>"; };
 		C5C937E323CBA0AE00A87BAB /* Health.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Health.swift; sourceTree = "<group>"; };
 		C5DB1CFA23DB6208009F5C68 /* Legacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legacy.swift; sourceTree = "<group>"; };
 		C5DF10F323C783140023E0E2 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
@@ -312,6 +314,7 @@
 				C5E1013923A2774C00678DF6 /* AppDelegate.swift */,
 				C5E1013B23A2774C00678DF6 /* SceneDelegate.swift */,
 				C513933023B8EB7600CB245F /* alarm_high.mp3 */,
+				C5C84481241B884F009D3EAF /* alarm_low.mp3 */,
 				C5E1014223A2774D00678DF6 /* Assets.xcassets */,
 				C5E1014723A2774D00678DF6 /* LaunchScreen.storyboard */,
 				C5E1014A23A2774D00678DF6 /* Info.plist */,
@@ -515,6 +518,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5E1014923A2774D00678DF6 /* LaunchScreen.storyboard in Resources */,
+				C5C84482241B884F009D3EAF /* alarm_low.mp3 in Resources */,
 				C5E1014623A2774D00678DF6 /* Preview Assets.xcassets in Resources */,
 				C513933123B8EB7600CB245F /* alarm_high.mp3 in Resources */,
 				C51A2F4823AD4BA9003D6519 /* README.md in Resources */,
