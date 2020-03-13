@@ -105,12 +105,17 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
     public func playAlarm() {
         if !settings.mutedAudio {
-            audioPlayer.currentTime = 25.0
-            audioPlayer.play()
-        }
-        for s in 0...2 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + Double(s)) {
-                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+            let currentGlucose = abs(app.currentGlucose)
+            if currentGlucose > 0 {
+                let soundName = currentGlucose > Int(settings.alarmHigh) ? "alarm_high" : "alarm_low"
+                audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: soundName, ofType: "mp3")!), fileTypeHint: "mp3")
+                audioPlayer.play()
+                _ = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in self.audioPlayer.stop() }
+            }
+            for s in 0...2 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Double(s)) {
+                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+                }
             }
         }
     }
