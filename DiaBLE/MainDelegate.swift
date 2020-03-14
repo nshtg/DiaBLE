@@ -154,8 +154,16 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                     self.log("LibreOOP: server calibration response: \(data.string))")
                     let decoder = JSONDecoder.init()
                     if let oopCalibration = try? decoder.decode(OOPCalibrationResponse.self, from: data) {
-                        self.app.calibration = oopCalibration.parameters
-                        self.settings.oopCalibration = oopCalibration.parameters
+                        if oopCalibration.parameters.offsetOffset == -2.0 &&
+                            oopCalibration.parameters.slopeSlope  == 0.0 &&
+                            oopCalibration.parameters.slopeOffset == 0.0 &&
+                            oopCalibration.parameters.offsetSlope == 0.0 {
+                            self.log("LibreOOP: null calibration")
+                            self.info("\nLibreOOP calibration not valid")
+                        } else {
+                            self.app.calibration = oopCalibration.parameters
+                            self.settings.oopCalibration = oopCalibration.parameters
+                        }
                     }
                     
                 } else {
