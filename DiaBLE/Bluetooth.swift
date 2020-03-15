@@ -17,7 +17,6 @@ class BLE {
         case hardware      = "2A27"
         case software      = "2A28"
         case manufacturer  = "2A29"
-
         // Libre 2
         case regulatoryCertificationDataList = "2A2A"
         case pnpID         = "2A50"
@@ -30,6 +29,12 @@ class BLE {
         case localTimeInfo = "2A0F"
 
         case dfu           = "FE59"
+
+        // Mi Band
+        case immediateAlert    = "1802"
+        case alertNotification = "1811"
+        case heartRate         = "180D"
+
 
         var description: String {
             switch self {
@@ -49,6 +54,9 @@ class BLE {
             case .currentTime:   return "current time"
             case .localTimeInfo: return "local timne information"
             case .dfu:           return "device firmware update"
+            case .immediateAlert: return "immediate alert"
+            case .alertNotification: return "alert notification"
+            case .heartRate:     return "heart rate"
             }
         }
     }
