@@ -35,6 +35,7 @@
 		C5A5796E23A2CEE800945F72 /* Transmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5796D23A2CEE800945F72 /* Transmitter.swift */; };
 		C5A5797023A2CF0700945F72 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5796F23A2CF0700945F72 /* Sensor.swift */; };
 		C5A5797223A2CF2C00945F72 /* LibreOOP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5797123A2CF2C00945F72 /* LibreOOP.swift */; };
+		C5AF44D22422349E00522803 /* Watlaa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AF44D12422349E00522803 /* Watlaa.swift */; };
 		C5C20E4523C77FD800475327 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4423C77FD800475327 /* DataView.swift */; };
 		C5C20E4723C780FB00475327 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4623C780FB00475327 /* Monitor.swift */; };
 		C5C7187B23E2FB5000D04EA7 /* Glucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C7187A23E2FB5000D04EA7 /* Glucose.swift */; };
@@ -145,6 +146,7 @@
 		C5A5796D23A2CEE800945F72 /* Transmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transmitter.swift; sourceTree = "<group>"; };
 		C5A5796F23A2CF0700945F72 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		C5A5797123A2CF2C00945F72 /* LibreOOP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreOOP.swift; sourceTree = "<group>"; };
+		C5AF44D12422349E00522803 /* Watlaa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watlaa.swift; sourceTree = "<group>"; };
 		C5C20E4423C77FD800475327 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 		C5C20E4623C780FB00475327 /* Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitor.swift; sourceTree = "<group>"; };
 		C5C7187A23E2FB5000D04EA7 /* Glucose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glucose.swift; sourceTree = "<group>"; };
@@ -250,6 +252,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		C5AF44D02422344300522803 /* Watches */ = {
+			isa = PBXGroup;
+			children = (
+				C5AF44D12422349E00522803 /* Watlaa.swift */,
+			);
+			path = Watches;
+			sourceTree = "<group>";
+		};
 		C5C20E4323C77F7700475327 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +307,7 @@
 			isa = PBXGroup;
 			children = (
 				C5C20E4323C77F7700475327 /* Views */,
+				C5AF44D02422344300522803 /* Watches */,
 				C566341223B14D55001EB5F3 /* Extensions.swift */,
 				C5521C8123BB5D5A00826CFB /* Observables.swift */,
 				C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */,
@@ -578,6 +589,7 @@
 				C5965CC323DCC13300B3C5D8 /* ViewRepresentables.swift in Sources */,
 				C5DF10F823C783F90023E0E2 /* SettingsView.swift in Sources */,
 				C5C20E4523C77FD800475327 /* DataView.swift in Sources */,
+				C5AF44D22422349E00522803 /* Watlaa.swift in Sources */,
 				C53C76ED23D9AFD700B59A98 /* Nightscout.swift in Sources */,
 				C5FB2EF323A2794D0046F4F9 /* MainDelegate.swift in Sources */,
 				C5C7187B23E2FB5000D04EA7 /* Glucose.swift in Sources */,

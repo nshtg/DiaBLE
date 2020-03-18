@@ -54,9 +54,9 @@ class BLE {
             case .currentTime:   return "current time"
             case .localTimeInfo: return "local time information"
             case .dfu:           return "device firmware update"
-            case .immediateAlert: return "immediate alert"
+            case .immediateAlert:    return "immediate alert"
             case .alertNotification: return "alert notification"
-            case .heartRate:     return "heart rate"
+            case .heartRate:         return "heart rate"
             }
         }
     }
@@ -185,7 +185,7 @@ class Device: ObservableObject {
         main.debugLog("\(name): requested value for \(uuid)")
     }
 
-    /// varying ireading interval
+    /// varying reading interval
     func readCommand(interval: Int = 5) -> [UInt8] { [] }
 
     func parseManufacturerData(_ data: Data) {
@@ -349,7 +349,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         let serviceUUID = service.uuid.uuidString
         var serviceDescription = serviceUUID
-        if serviceUUID == type(of:app.device).dataServiceUUID {
+        if serviceUUID == type(of: app.device).dataServiceUUID {
             serviceDescription = "data"
         }
 
