@@ -52,7 +52,7 @@ class BLE {
             case .batteryLevel:  return "battery level"
             case .time:          return "time"
             case .currentTime:   return "current time"
-            case .localTimeInfo: return "local timne information"
+            case .localTimeInfo: return "local time information"
             case .dfu:           return "device firmware update"
             case .immediateAlert: return "immediate alert"
             case .alertNotification: return "alert notification"

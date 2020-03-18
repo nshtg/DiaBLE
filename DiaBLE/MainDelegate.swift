@@ -314,7 +314,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         eventKit?.sync()
 
         if history.values.count > 0 {
-            let entries = self.history.values.filter{ $0.value > 0 } + [Glucose(currentGlucose, date: sensor.lastReadingDate, source: "DiaBLE")]
+            let entries = (self.history.values + [Glucose(currentGlucose, date: sensor.lastReadingDate, source: "DiaBLE")]).filter{ $0.value > 0 }
 
             // TODO
             healthKit?.write(entries.filter{$0.date > healthKit?.lastDate ?? Calendar.current.date(byAdding: .hour, value: -8, to : Date())!})
