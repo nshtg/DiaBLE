@@ -252,12 +252,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		C5AF44D02422344300522803 /* Watches */ = {
+		C5AF44D02422344300522803 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
+				C5DB1CFA23DB6208009F5C68 /* Legacy.swift */,
 				C5AF44D12422349E00522803 /* Watlaa.swift */,
 			);
-			path = Watches;
+			path = Devices;
 			sourceTree = "<group>";
 		};
 		C5C20E4323C77F7700475327 /* Views */ = {
@@ -307,7 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				C5C20E4323C77F7700475327 /* Views */,
-				C5AF44D02422344300522803 /* Watches */,
+				C5AF44D02422344300522803 /* Devices */,
 				C566341223B14D55001EB5F3 /* Extensions.swift */,
 				C5521C8123BB5D5A00826CFB /* Observables.swift */,
 				C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */,
@@ -321,7 +322,6 @@
 				C5A5797123A2CF2C00945F72 /* LibreOOP.swift */,
 				C597AF6A23AB9E3E0012926C /* NFC.swift */,
 				C53C76EC23D9AFD700B59A98 /* Nightscout.swift */,
-				C5DB1CFA23DB6208009F5C68 /* Legacy.swift */,
 				C5E1013923A2774C00678DF6 /* AppDelegate.swift */,
 				C5E1013B23A2774C00678DF6 /* SceneDelegate.swift */,
 				C513933023B8EB7600CB245F /* alarm_high.mp3 */,
