@@ -85,6 +85,8 @@ class Sensor: ObservableObject {
             if let sensorState = SensorState(rawValue: fram[4]) {
                 state = sensorState
             }
+
+            guard fram.count > 317 else { return }
             age = Int(fram[317]) << 8 + Int(fram[316])
             let startDate = lastReadingDate - Double(age) * 60
 
@@ -100,7 +102,6 @@ class Sensor: ObservableObject {
                 let temperature = (Int(fram[32 + j * 6]) & 0x3F) << 8 + Int(fram[31 + j * 6])
                 let id = age - i
                 if id > 0 {
-
                     let date = startDate + Double(age - i) * 60
                     trend.append(Glucose(raw: raw, temperature: temperature, id: id, date: date))
                 }
