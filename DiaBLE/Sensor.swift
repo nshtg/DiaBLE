@@ -98,7 +98,12 @@ class Sensor: ObservableObject {
                 if j < 0 { j += 16 }
                 let raw = (Int(fram[29 + j * 6]) & 0x1F) << 8 + Int(fram[28 + j * 6])
                 let temperature = (Int(fram[32 + j * 6]) & 0x3F) << 8 + Int(fram[31 + j * 6])
-                trend.append(Glucose(raw: raw, temperature: temperature, id: age - i, date: startDate + Double(age - i) * 60))
+                let id = age - i
+                if id > 0 {
+
+                    let date = startDate + Double(age - i) * 60
+                    trend.append(Glucose(raw: raw, temperature: temperature, id: id, date: date))
+                }
             }
 
             // FRAM is updated with a 3 minutes delay:
@@ -118,7 +123,10 @@ class Sensor: ObservableObject {
                 if j < 0 { j += 32 }
                 let raw = (Int(fram[125 + j * 6]) & 0x1F) << 8 + Int(fram[124 + j * 6])
                 let temperature = (Int(fram[128 + j * 6]) & 0x3F) << 8 + Int(fram[127 + j * 6])
-                history.append(Glucose(raw: raw, temperature: temperature, id: age - delay - i * 15, date: readingDate - Double(i) * 15 * 60))
+                let id = age - delay - i * 15
+                if id > 0 {
+                    let date = readingDate - Double(i) * 15 * 60
+                    history.append(Glucose(raw: raw, temperature: temperature, id: id, date: date))}
             }
         }
     }
