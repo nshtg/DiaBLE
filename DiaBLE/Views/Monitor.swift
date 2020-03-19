@@ -260,7 +260,9 @@ struct Monitor: View {
                                 self.app.calibration = self.settings.oopCalibration
                                 if self.app.currentGlucose < 0 {
                                     self.app.main.applyCalibration(sensor: self.app.sensor)
-                                    self.app.currentGlucose = -self.history.calibratedTrend[0].value
+                                    if self.history.calibratedTrend.count > 0 {
+                                        self.app.currentGlucose = -self.history.calibratedTrend[0].value
+                                    }
                                 }
                                 self.editingCalibration = false
                             }
