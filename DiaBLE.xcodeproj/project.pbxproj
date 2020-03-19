@@ -307,8 +307,8 @@
 		C5E1013823A2774C00678DF6 /* DiaBLE */ = {
 			isa = PBXGroup;
 			children = (
-				C5C20E4323C77F7700475327 /* Views */,
 				C5AF44D02422344300522803 /* Devices */,
+				C5C20E4323C77F7700475327 /* Views */,
 				C566341223B14D55001EB5F3 /* Extensions.swift */,
 				C5521C8123BB5D5A00826CFB /* Observables.swift */,
 				C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */,
