@@ -29,6 +29,7 @@
 		C58507B923C50BF40079539D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C58507B823C50BF40079539D /* Assets.xcassets */; };
 		C58507BC23C50BF40079539D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C58507BB23C50BF40079539D /* Preview Assets.xcassets */; };
 		C58507C123C50BF40079539D /* DiaBLE Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C585079B23C50BF20079539D /* DiaBLE Watch.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C5908FB82428E6B600CF6C83 /* alarm_signal_loss.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */; };
 		C5965CC323DCC13300B3C5D8 /* ViewRepresentables.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5965CC223DCC13300B3C5D8 /* ViewRepresentables.swift */; };
 		C597AF6B23AB9E3E0012926C /* NFC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C597AF6A23AB9E3E0012926C /* NFC.swift */; };
 		C5A1B8B023C6410A00D60962 /* Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */; };
@@ -140,6 +141,7 @@
 		C58507BB23C50BF40079539D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C58507BD23C50BF40079539D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C58507BE23C50BF40079539D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm_signal_loss.mp3; sourceTree = "<group>"; };
 		C5965CC223DCC13300B3C5D8 /* ViewRepresentables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRepresentables.swift; sourceTree = "<group>"; };
 		C597AF6A23AB9E3E0012926C /* NFC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFC.swift; sourceTree = "<group>"; };
 		C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bluetooth.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 				C5E1013B23A2774C00678DF6 /* SceneDelegate.swift */,
 				C513933023B8EB7600CB245F /* alarm_high.mp3 */,
 				C5C84481241B884F009D3EAF /* alarm_low.mp3 */,
+				C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */,
 				C5E1014223A2774D00678DF6 /* Assets.xcassets */,
 				C5E1014723A2774D00678DF6 /* LaunchScreen.storyboard */,
 				C5E1014A23A2774D00678DF6 /* Info.plist */,
@@ -533,6 +536,7 @@
 				C5E1014623A2774D00678DF6 /* Preview Assets.xcassets in Resources */,
 				C513933123B8EB7600CB245F /* alarm_high.mp3 in Resources */,
 				C51A2F4823AD4BA9003D6519 /* README.md in Resources */,
+				C5908FB82428E6B600CF6C83 /* alarm_signal_loss.mp3 in Resources */,
 				C5E1014323A2774D00678DF6 /* Assets.xcassets in Resources */,
 				C5EA857723B28861004A4128 /* TODO.md in Resources */,
 			);
