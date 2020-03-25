@@ -35,6 +35,13 @@ class BLE {
         case alertNotification = "1811"
         case heartRate         = "180D"
 
+        // Apple
+        case nearby        = "9FA480E0-4967-4542-9390-D343DC5D04AE"
+        case nearby1       = "AF0BADB1-5B99-43CD-917A-A77BC549E3CC"
+
+        case continuity    = "D0611E78-BBB4-4591-A5F8-487910AE4366"
+        case continuity1   = "8667556C-9A37-4C91-84ED-54EE27D90049"
+
 
         var description: String {
             switch self {
@@ -57,6 +64,10 @@ class BLE {
             case .immediateAlert:    return "immediate alert"
             case .alertNotification: return "alert notification"
             case .heartRate:         return "heart rate"
+            case .nearby:        return "nearby"
+            case .nearby1:       return "nearby"
+            case .continuity:    return "continuity"
+            case .continuity1:   return "continnuity"
             }
         }
     }
