@@ -1,7 +1,7 @@
 FIXME
 -----
 
-* iOS 13.4: didSet is not called when a @Published Bool is toggled in SettingsView (current workaround: use logical !)
+* iOS 13.4: didSet is not called when a @Published Bool is toggled in SettingsView (current workaround: use logical !) [Stack Overflow](https://stackoverflow.com/questions/60130373/ios-13-4-didset-not-called-anymore-for-a-published-bool-when-using-toggle) 
 * Mac Catalyst:
    - stops receiving data from the Bubble read characteristic
    - AVAudioSession error: "Cannot activate session when app is in background" in MainDelegate init

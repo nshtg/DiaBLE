@@ -67,7 +67,7 @@ class BLE {
             case .nearby:        return "nearby"
             case .nearby1:       return "nearby"
             case .continuity:    return "continuity"
-            case .continuity1:   return "continnuity"
+            case .continuity1:   return "continuity"
             }
         }
     }
