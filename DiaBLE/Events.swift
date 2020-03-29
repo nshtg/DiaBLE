@@ -48,7 +48,7 @@ class EventKit {
             if calendar == nil {
                 calendar = self.store.defaultCalendarForNewEvents
             }
-            let predicate = self.store.predicateForEvents(withStart: Calendar.current.date(byAdding: .year, value: -1, to: Date())!, end: Date(), calendars: [calendar!])
+            let predicate = self.store.predicateForEvents(withStart: Calendar.current.date(byAdding: .year, value: -1, to: Date())!, end: Date(), calendars: [calendar!])  // Date.distantPast doesn't work
             for event in self.store.events(matching: predicate) {
                 if let notes = event.notes {
                     if notes.contains("Created by DiaBLE") {
