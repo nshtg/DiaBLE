@@ -44,7 +44,7 @@ struct SettingsView: View {
                         }.pickerStyle(SegmentedPickerStyle())
                     }
 
-                    NavigationLink(destination: Details()) {
+                    NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
                         Text("Details").font(.footnote).bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
                     }
                 }
