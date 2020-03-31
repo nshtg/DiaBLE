@@ -154,7 +154,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                 self.debugLog("LibreOOP: query parameters: \(parameters)")
                 if let data = data {
                     self.log("LibreOOP: server calibration response: \(data.string))")
-                    let decoder = JSONDecoder.init()
+                    let decoder = JSONDecoder()
                     if let oopCalibration = try? decoder.decode(OOPCalibrationResponse.self, from: data) {
                         if oopCalibration.parameters.offsetOffset == -2.0 &&
                             oopCalibration.parameters.slopeSlope  == 0.0 &&
@@ -165,6 +165,10 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                         } else {
                             self.app.calibration = oopCalibration.parameters
                             self.settings.oopCalibration = oopCalibration.parameters
+                        }
+                    } else {
+                        if data.string.contains("errcode") {
+                            self.info("\nLibreOOP calibration \(data.string)")
                         }
                     }
                     
