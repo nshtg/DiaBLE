@@ -153,7 +153,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, parameters in
                 self.debugLog("LibreOOP: query parameters: \(parameters)")
                 if let data = data {
-                    self.log("LibreOOP: server calibration response: \(data.string))")
+                    self.log("LibreOOP: server calibration response: \(data.string)")
                     let decoder = JSONDecoder()
                     if let oopCalibration = try? decoder.decode(OOPCalibrationResponse.self, from: data) {
                         if oopCalibration.parameters.offsetOffset == -2.0 &&
