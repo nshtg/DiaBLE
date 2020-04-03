@@ -24,20 +24,22 @@ class Nightscout: NSObject, WKNavigationDelegate, WKUIDelegate {
         if !endpoint.isEmpty { url += ("/" + endpoint) }
         if !query.isEmpty    { url += ("?" + query) }
 
-        var request = URLRequest(url: URL(string: url)!)
-        main.debugLog("Nightscout: URL request: \(request.url!.absoluteString)")
-        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let data = data { self.main.debugLog("Nightscout: response data: \(data.string)")
-                if let json = try? JSONSerialization.jsonObject(with: data) {
-                    if let array = json as? [Any] {
-                        DispatchQueue.main.async {
-                            handler(data, response, error, array)
+        if let url = URL(string: url) {
+            var request = URLRequest(url: url)
+            main.debugLog("Nightscout: URL request: \(request.url!.absoluteString)")
+            request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+            URLSession.shared.dataTask(with: request) { data, response, error in
+                if let data = data { self.main.debugLog("Nightscout: response data: \(data.string)")
+                    if let json = try? JSONSerialization.jsonObject(with: data) {
+                        if let array = json as? [Any] {
+                            DispatchQueue.main.async {
+                                handler(data, response, error, array)
+                            }
                         }
                     }
                 }
-            }
-        }.resume()
+            }.resume()
+        }
     }
 
 
