@@ -20,7 +20,7 @@ struct Monitor: View {
                 if !editingCalibration {
                     Spacer()
                 }
-                
+
                 VStack {
                     HStack {
                         VStack {
@@ -251,23 +251,50 @@ struct Monitor: View {
                                 withAnimation {
                                     self.editingCalibration = false
                                 }
+                                self.settings.calibration = Calibration()
                             }
                             ) { Text("Use").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+
+                            Button(action: {
+                                withAnimation {
+                                    self.editingCalibration = false
+                                }
+                                self.settings.calibration = self.app.calibration
+                            }
+                            ) { Text("Save").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
                         }
 
-                        Button(action: {
-                            withAnimation {
-                                self.app.calibration = self.settings.oopCalibration
+                        if self.settings.calibration != Calibration() {
+                            Button(action: {
+                                withAnimation {
+                                    self.editingCalibration = false
+                                }
+                                self.app.calibration = self.settings.calibration
                                 if self.app.currentGlucose < 0 {
                                     self.app.main.applyCalibration(sensor: self.app.sensor)
                                     if self.history.calibratedTrend.count > 0 {
                                         self.app.currentGlucose = -self.history.calibratedTrend[0].value
                                     }
                                 }
+                            }
+                            ) { Text("Load").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                        }
+
+                        Button(action: {
+                            withAnimation {
                                 self.editingCalibration = false
+                            }
+                            self.app.calibration = self.settings.oopCalibration
+                            self.settings.calibration = Calibration()
+                            if self.app.currentGlucose < 0 {
+                                self.app.main.applyCalibration(sensor: self.app.sensor)
+                                if self.history.calibratedTrend.count > 0 {
+                                    self.app.currentGlucose = -self.history.calibratedTrend[0].value
+                                }
                             }
                         }
                         ) { Text("Restore OOP").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+
                     }.font(.footnote).accentColor(.purple)
                 }
 

@@ -30,6 +30,7 @@ class Settings: ObservableObject {
         "patchUid": Data(),
         "patchInfo": Data(),
 
+        "calibration": try! JSONEncoder().encode(Calibration()),
         "oopCalibration": try! JSONEncoder().encode(Calibration())
     ]
 
@@ -142,6 +143,10 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.patchInfo, forKey: "patchInfo") }
     }
 
+    @Published var calibration: Calibration = try! JSONDecoder().decode(Calibration.self, from: UserDefaults.standard.data(forKey: "calibration")!) {
+        didSet { UserDefaults.standard.set(try! JSONEncoder().encode(self.calibration), forKey: "calibration") }
+    }
+
     @Published var oopCalibration: Calibration = try! JSONDecoder().decode(Calibration.self, from: UserDefaults.standard.data(forKey: "oopCalibration")!) {
         didSet { UserDefaults.standard.set(try! JSONEncoder().encode(self.oopCalibration), forKey: "oopCalibration") }
     }
@@ -182,6 +187,8 @@ class Settings: ObservableObject {
         nightscoutSite: String = UserDefaults.standard.string(forKey: "nightscoutSite")!,
         nightscoutToken: String = UserDefaults.standard.string(forKey: "nightscoutToken")!,
 
+        calibration: Calibration = try! JSONDecoder().decode(Calibration.self, from: UserDefaults.standard.data(forKey: "calibration")!),
+
         oopServer: OOPServer = OOPServer.default,
         oopCalibration: Calibration = try! JSONDecoder().decode(Calibration.self, from: UserDefaults.standard.data(forKey: "oopCalibration")!)
 
@@ -214,6 +221,9 @@ class Settings: ObservableObject {
 
         self.nightscoutSite = nightscoutSite
         self.nightscoutToken = nightscoutToken
+
+        self.calibration = calibration
+
         self.oopServer = oopServer
         self.oopCalibration = oopCalibration
     }

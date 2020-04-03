@@ -52,7 +52,7 @@ struct Glucose: Identifiable {
 }
 
 
-struct Calibration: Codable {
+struct Calibration: Codable, Equatable {
     var slope: Double = 0.0
     var offset: Double = 0.0
     var slopeSlope: Double = 0.0
