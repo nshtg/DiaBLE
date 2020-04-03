@@ -318,7 +318,7 @@ struct Monitor: View {
 
             }
             .multilineTextAlignment(.center)
-            .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String)  -  Monitor", displayMode: .inline)
+            .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)  -  Monitor", displayMode: .inline)
             .navigationBarItems(trailing:
                 Button(action: {
                     if self.app.main.nfcReader.isNFCAvailable {

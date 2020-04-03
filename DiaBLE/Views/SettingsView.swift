@@ -168,7 +168,7 @@ struct SettingsView: View {
 
             }
             .font(Font.body.monospacedDigit())
-            .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String)  -  Settings", displayMode: .inline)
+            .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)  -  Settings", displayMode: .inline)
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
