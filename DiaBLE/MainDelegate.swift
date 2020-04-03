@@ -164,7 +164,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             self.info("\nLibreOOP calibration not valid")
                         } else {
                             self.settings.oopCalibration = oopCalibration.parameters
-                            if self.app.calibration != self.settings.calibration {
+                            if self.app.calibration == Calibration() || (self.app.calibration != self.settings.calibration) {
                                 self.app.calibration = oopCalibration.parameters
                             }
                         }
