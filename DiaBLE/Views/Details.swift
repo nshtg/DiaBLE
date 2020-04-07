@@ -68,7 +68,7 @@ struct Details: View {
                         }
                         if app.device.macAddress.count > 0 {
                             HStack {
-                                Text("MAC address")
+                                Text("MAC Address")
                                 Spacer()
                                 Text("\(app.device.macAddress.hexAddress)").foregroundColor(.yellow)
                             }

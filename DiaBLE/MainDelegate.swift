@@ -144,6 +144,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             log("Raw trend: \(sensor.trend.map{$0.value})")
             history.rawValues = sensor.history
             log("Raw history: \(sensor.history.map{$0.value})")
+            debugLog("Raw temperatures: \(sensor.history.map{$0.temperature})")
+
 
             if history.rawTrend.count > 0 {
                 sensor.currentGlucose = -history.rawTrend[0].value
