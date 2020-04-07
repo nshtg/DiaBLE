@@ -112,7 +112,7 @@ class Bubble: Transmitter {
 
             } else if response == .patchInfo {
                 sensor!.patchInfo = Data(Double(firmware)! < 1.35 ? data[3...8] : data[5...10])
-                main.log("\(name): patch info: \(sensor!.patchInfo.hex)")
+                main.log("\(name): patch info: \(sensor!.patchInfo.hex) (sensor type: \(sensor!.type.rawValue))")
 
             } else if response == .dataPacket {
                 if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
@@ -231,7 +231,7 @@ class MiaoMiao: Transmitter {
 
                 if buffer.count > 363 {
                     sensor!.patchInfo = Data(buffer[363...368])
-                    main.log("\(name): patch info: \(sensor!.patchInfo.hex)")
+                    main.log("\(name): patch info: \(sensor!.patchInfo.hex) (sensor type: \(sensor!.type.rawValue))")
                     // TODO: verify with newer firmwares
                     if sensor!.type == .libre2 {
                         sensor!.age = 0

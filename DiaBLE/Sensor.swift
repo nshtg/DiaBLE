@@ -1,19 +1,19 @@
 import Foundation
 
 enum SensorType: String, CustomStringConvertible {
-    case libre1   = "Libre 1"
-    case libre2   = "Libre 2"
-    case libreUS  = "Libre US"
-    case librePro = "Libre Pro"
-    case unknown  = "Libre"
+    case libre1    = "Libre 1"
+    case libre2    = "Libre 2"
+    case libreUS   = "Libre US"
+    case libreProH = "Libre Pro/H"
+    case unknown   = "Libre"
 
     var description: String { self.rawValue }
 
     var serialPrefix: String {
         switch self {
-        case .librePro: return "1"
-        case .libre2:   return "3"
-        default:        return "0"
+        case .libreProH: return "1"
+        case .libre2:    return "3"
+        default:         return "0"
         }
     }
 }
@@ -168,25 +168,16 @@ class Sensor: ObservableObject {
 
 
 // https://github.com/keencave/LBridge/blob/master/LBridge_Arduino_V11/LBridge_Arduino_V1.1.02_190502_2120/LBridge_Arduino_V1.1.02_190502_2120.ino
+// https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/SensorData.swift
 
 func sensorType(patchInfo: Data) -> SensorType {
-
-    var type: SensorType
-
-    // Germany is DF 00 00 01, Canada is DF 00 00 04
-    if patchInfo[0] == 0xDF && patchInfo[1] == 0x00 && patchInfo[2] == 0x00 { //   && patchInfo[3] == 0x01
-        type = .libre1
-    } else if patchInfo[0] == 0x9D && patchInfo[1] == 0x08 && patchInfo[2] == 0x30 && patchInfo[3] == 0x01 {
-        type = .libre2
-    } else if patchInfo[0] == 0xE5 && patchInfo[1] == 0x00 && patchInfo[2] == 0x03 && patchInfo[3] == 0x02 {
-        type = .libreUS
-    } else if patchInfo[0] == 0x70 && patchInfo[1] == 0x00 && patchInfo[2] == 0x10 && patchInfo[3] == 0x00 {
-        type = .librePro
-    } else {
-        type = .unknown
+    switch patchInfo[0] {
+    case 0xDF: return .libre1
+    case 0x9D: return .libre2
+    case 0xE5: return .libreUS
+    case 0x70: return .libreProH
+    default:   return .unknown
     }
-
-    return type
 }
 
 
