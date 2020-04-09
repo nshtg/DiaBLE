@@ -1,6 +1,7 @@
 import Foundation
 
 // https://github.com/bubbledevteam/xdripswift/commit/07135da
+// https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/LibreOOPClient.swift
 
 
 struct OOPServer {
@@ -30,6 +31,8 @@ struct OOPHistoryData: Codable {
     var lsaDetected: Bool
     var realTimeGlucose: HistoricGlucose
     var trendArrow: String
+    var msg: String?
+    var errcode: String?
 
     func glucoseData(sensorAge: Int, readingDate: Date) -> [Glucose] {
         var array = [Glucose]()
@@ -61,27 +64,35 @@ struct OOPCalibrationResponse: Codable {
 }
 
 
-func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, handler: @escaping (Data?, URLResponse?, Error?, [String: String]) -> Void) {
-    let url = server.siteURL + "/" + (patchInfo == nil ? server.calibrationEndpoint : server.historyEndpoint)
+// TODO: use Combine Result
+
+func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, handler: @escaping (Data?, URLResponse?, Error?, [URLQueryItem]) -> Void) {
+    var urlComponents = URLComponents(string:  server.siteURL + "/" + (patchInfo == nil ? server.calibrationEndpoint : server.historyEndpoint))!
+    var queryItems = [URLQueryItem(name: "content", value: bytes.hex)]
     let date = Int64((date.timeIntervalSince1970 * 1000.0).rounded())
-    var parameters = ["content": "\(bytes.hex)"]
     if let patchInfo = patchInfo {
-        parameters["accesstoken"] = server.token
-        parameters["patchUid"] = patchUid!.hex
-        parameters["patchInfo"] = patchInfo.hex
+        queryItems.append(contentsOf: [
+            URLQueryItem(name: "accesstoken", value: server.token),
+            URLQueryItem(name: "patchUid", value: patchUid!.hex),
+            URLQueryItem(name: "patchInfo", value: patchInfo.hex)
+        ])
     } else {
-        parameters["token"] = server.token
-        parameters["timestamp"] = "\(date)"
+        queryItems.append(contentsOf: [
+            URLQueryItem(name: "token", value: server.token),
+            URLQueryItem(name: "timestamp", value: "\(date)")
+        ])
     }
-    let request = NSMutableURLRequest(url: URL(string: url)!)
-    request.httpMethod = "POST"
-    request.httpBody = parameters.map { "\($0.0)=\($0.1.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)" }.joined(separator: "&").data(using: .utf8)
-    request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-    URLSession.shared.dataTask(with: request as URLRequest) { data, response, error in
-        DispatchQueue.main.async {
-            handler(data, response, error, parameters)
-        }
-    }.resume()
+    urlComponents.queryItems = queryItems
+    if let url = urlComponents.url {
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        URLSession.shared.dataTask(with: request as URLRequest) { data, response, error in
+            DispatchQueue.main.async {
+                handler(data, response, error, queryItems)
+            }
+        }.resume()
+    }
 }
 
 

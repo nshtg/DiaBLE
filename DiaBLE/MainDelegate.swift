@@ -152,8 +152,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             }
 
             log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.calibrationEndpoint)...")
-            postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, parameters in
-                self.debugLog("LibreOOP: query parameters: \(parameters)")
+            postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, queryItems in
+                self.debugLog("LibreOOP: query parameters: \(queryItems)")
                 if let data = data {
                     self.log("LibreOOP: server calibration response: \(data.string)")
                     let decoder = JSONDecoder()
