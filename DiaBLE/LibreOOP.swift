@@ -1,6 +1,5 @@
 import Foundation
 
-// https://github.com/bubbledevteam/xdripswift/commit/07135da
 // https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/LibreOOPClient.swift
 
 
@@ -64,10 +63,34 @@ struct OOPCalibrationResponse: Codable {
 }
 
 
+// https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/LibreOOPResponse.swift
+
+// TODO: when adding URLQueryItem(name: "appName", value: "diabox")
+struct GetCalibrationStatusResult: Codable {
+    var status: String?
+    var slopeSlope: String?
+    var slopeOffset: String?
+    var offsetOffset: String?
+    var offsetSlope: String?
+    var uuid: String?
+    var isValidForFooterWithReverseCRCs: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case status
+        case slopeSlope = "slope_slope"
+        case slopeOffset = "slope_offset"
+        case offsetOffset = "offset_offset"
+        case offsetSlope = "offset_slope"
+        case uuid
+        case isValidForFooterWithReverseCRCs = "isValidForFooterWithReverseCRCs"
+    }
+}
+
+
 // TODO: use Combine Result
 
 func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, handler: @escaping (Data?, URLResponse?, Error?, [URLQueryItem]) -> Void) {
-    var urlComponents = URLComponents(string:  server.siteURL + "/" + (patchInfo == nil ? server.calibrationEndpoint : server.historyEndpoint))!
+    var urlComponents = URLComponents(string: server.siteURL + "/" + (patchInfo == nil ? server.calibrationEndpoint : server.historyEndpoint))!
     var queryItems = [URLQueryItem(name: "content", value: bytes.hex)]
     let date = Int64((date.timeIntervalSince1970 * 1000.0).rounded())
     if let patchInfo = patchInfo {
