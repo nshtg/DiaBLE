@@ -357,6 +357,8 @@ class Watlaa: Watch {
 }
 
 
+#if !os(watchOS)
+
 struct WatlaaDetailsView: View {
     @EnvironmentObject var app: App
     @EnvironmentObject var settings: Settings
@@ -465,3 +467,4 @@ struct Watch_Previews: PreviewProvider {
     }
 }
 
+#endif

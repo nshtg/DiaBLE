@@ -2,8 +2,8 @@ import SwiftUI
 import CoreBluetooth
 import AVFoundation
 
-
-public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
+//public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
+public class MainDelegate: NSObject {
 
     var app: App
     var log: Log
@@ -12,11 +12,11 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
     var centralManager: CBCentralManager
     var bluetoothDelegate: BluetoothDelegate
-    var nfcReader: NFCReader
+    //    var nfcReader: NFCReader
     var audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "alarm_high", ofType: "mp3")!), fileTypeHint: "mp3")
     var healthKit: HealthKit?
-    var nightscout: Nightscout?
-    var eventKit: EventKit?
+    //    var nightscout: Nightscout?
+    //    var eventKit: EventKit?
 
 
     override init() {
@@ -27,8 +27,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         centralManager = CBCentralManager(delegate: nil, queue: nil)
         bluetoothDelegate = BluetoothDelegate()
-        nfcReader = NFCReader()
-        healthKit = HealthKit()
+        //        nfcReader = NFCReader()
+        //        healthKit = HealthKit()
 
         super.init()
 
@@ -38,7 +38,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         bluetoothDelegate.main = self
         centralManager.delegate = bluetoothDelegate
-        nfcReader.main = self
+        //        nfcReader.main = self
 
         if let healthKit = healthKit {
             healthKit.main = self
@@ -50,22 +50,22 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             }
         }
 
-        nightscout = Nightscout(main: self)
-        nightscout!.read()
-        eventKit = EventKit(main: self)
-        eventKit?.sync()
+        //        nightscout = Nightscout(main: self)
+        //        nightscout!.read()
+        //        eventKit = EventKit(main: self)
+        //        eventKit?.sync()
 
 
-        UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _,_ in }
-
-        // FIXME: on Mac Catalyst: "Cannot activate session when app is in background."
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, options: [.duckOthers])
-            try AVAudioSession.sharedInstance().setActive(true)
-        } catch {
-            log("Audio Session error: \(error)")
-        }
+        //        UNUserNotificationCenter.current().delegate = self
+        //        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _,_ in }
+        //
+        //        // FIXME: on Mac Catalyst: "Cannot activate session when app is in background."
+        //        do {
+        //            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, options: [.duckOthers])
+        //            try AVAudioSession.sharedInstance().setActive(true)
+        //        } catch {
+        //            log("Audio Session error: \(error)")
+        //        }
 
         let numberFormatter = NumberFormatter()
         numberFormatter.minimumFractionDigits = 8
@@ -110,16 +110,16 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: soundName, ofType: "mp3")!), fileTypeHint: "mp3")
             audioPlayer.play()
         }
-        if !settings.disabledNotifications {
-            _ = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in self.audioPlayer.stop() }
-            let times = currentGlucose > Int(settings.alarmHigh) ? 3 : 4
-            let pause = times == 3 ? 1.0 : 5.0 / 6
-            for s in 0 ..< times {
-                DispatchQueue.main.asyncAfter(deadline: .now() + Double(s) * pause) {
-                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-                }
-            }
-        }
+        //        if !settings.disabledNotifications {
+        //            _ = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in self.audioPlayer.stop() }
+        //            let times = currentGlucose > Int(settings.alarmHigh) ? 3 : 4
+        //            let pause = times == 3 ? 1.0 : 5.0 / 6
+        //            for s in 0 ..< times {
+        //                DispatchQueue.main.asyncAfter(deadline: .now() + Double(s) * pause) {
+        //                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
+        //                }
+        //            }
+        //        }
     }
 
 
@@ -174,15 +174,15 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             self.info("\nLibreOOP calibration \(data.string)")
                         }
                     }
-                    
+
                 } else {
                     self.log("LibreOOP: failed calibration")
                     self.info("\nLibreOOP calibration failed")
                 }
-                
+
                 // Reapply the current calibration even when the connection fails
                 self.applyCalibration(sensor: sensor)
-                
+
                 if sensor.patchInfo.count == 0 {
                     self.didParseSensor(sensor)
                 }
@@ -291,36 +291,36 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         app.currentGlucose = currentGlucose
 
-        var title = currentGlucose > 0 ?
-            "\(currentGlucose)" :
-            (currentGlucose < 0 ?
-                "(\(-currentGlucose))" : "---")
+        //        var title = currentGlucose > 0 ?
+        //            "\(currentGlucose)" :
+        //            (currentGlucose < 0 ?
+        //                "(\(-currentGlucose))" : "---")
 
         currentGlucose = abs(currentGlucose)
 
         if currentGlucose > 0 && (currentGlucose > Int(settings.alarmHigh) || currentGlucose < Int(settings.alarmLow)) {
             log("ALARM: current glucose: \(currentGlucose) (settings: high: \(Int(settings.alarmHigh)), low: \(Int(settings.alarmLow)))")
             playAlarm()
-            if (settings.calendarTitle == "" || !settings.calendarAlarmIsOn) && !settings.disabledNotifications { // TODO: notifications settings
-                title += "  \(settings.glucoseUnit)"
-                title += "  \(OOP.alarmDescription(for: app.oopAlarm))  \(OOP.trendSymbol(for: app.oopTrend))"
-                let content = UNMutableNotificationContent()
-                content.title = title
-                content.subtitle = ""
-                content.sound = UNNotificationSound.default
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                let request = UNNotificationRequest(identifier: "DiaBLE", content: content, trigger: trigger)
-                UNUserNotificationCenter.current().add(request)
-            }
+            //            if (settings.calendarTitle == "" || !settings.calendarAlarmIsOn) && !settings.disabledNotifications { // TODO: notifications settings
+            //                title += "  \(settings.glucoseUnit)"
+            //                title += "  \(OOP.alarmDescription(for: app.oopAlarm))  \(OOP.trendSymbol(for: app.oopTrend))"
+            //                let content = UNMutableNotificationContent()
+            //                content.title = title
+            //                content.subtitle = ""
+            //                content.sound = UNNotificationSound.default
+            //                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            //                let request = UNNotificationRequest(identifier: "DiaBLE", content: content, trigger: trigger)
+            //                UNUserNotificationCenter.current().add(request)
+            //            }
         }
 
-        if !settings.disabledNotifications {
-            UIApplication.shared.applicationIconBadgeNumber = currentGlucose
-        } else {
-            UIApplication.shared.applicationIconBadgeNumber = 0
-        }
-
-        eventKit?.sync()
+        //        if !settings.disabledNotifications {
+        //            UIApplication.shared.applicationIconBadgeNumber = currentGlucose
+        //        } else {
+        //            UIApplication.shared.applicationIconBadgeNumber = 0
+        //        }
+        //
+        //        eventKit?.sync()
 
         if history.values.count > 0 {
             let entries = (self.history.values + [Glucose(currentGlucose, date: sensor.lastReadingDate, source: "DiaBLE")]).filter{ $0.value > 0 }
@@ -328,11 +328,11 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             // TODO
             healthKit?.write(entries.filter{$0.date > healthKit?.lastDate ?? Calendar.current.date(byAdding: .hour, value: -8, to : Date())!})
 
-            nightscout?.delete(query: "find[device]=LibreOOP&count=32") { data, response, error in
-                self.nightscout?.post(entries: entries) { data, response, error in
-                    self.nightscout?.read()
-                }
-            }
+            //            nightscout?.delete(query: "find[device]=LibreOOP&count=32") { data, response, error in
+            //                self.nightscout?.post(entries: entries) { data, response, error in
+            //                    self.nightscout?.read()
+            //                }
+            //            }
         }
     }
 }

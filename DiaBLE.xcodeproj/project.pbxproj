@@ -57,6 +57,21 @@
 		C5E1014923A2774D00678DF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5E1014723A2774D00678DF6 /* LaunchScreen.storyboard */; };
 		C5E1015423A2774D00678DF6 /* DiaBLETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1015323A2774D00678DF6 /* DiaBLETests.swift */; };
 		C5E1015F23A2774D00678DF6 /* DiaBLEUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1015E23A2774D00678DF6 /* DiaBLEUITests.swift */; };
+		C5E9C755244495B000D52B32 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566341223B14D55001EB5F3 /* Extensions.swift */; };
+		C5E9C756244495D700D52B32 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5521C8123BB5D5A00826CFB /* App.swift */; };
+		C5E9C7572444964700D52B32 /* Glucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C7187A23E2FB5000D04EA7 /* Glucose.swift */; };
+		C5E9C7582444966500D52B32 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C501BE46242A1ABD006C7F30 /* Settings.swift */; };
+		C5E9C7592444966A00D52B32 /* Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */; };
+		C5E9C75A2444967300D52B32 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5796F23A2CF0700945F72 /* Sensor.swift */; };
+		C5E9C75B2444967700D52B32 /* Transmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5796D23A2CEE800945F72 /* Transmitter.swift */; };
+		C5E9C75C2444967A00D52B32 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50FA48F23C9F2E800928229 /* Watch.swift */; };
+		C5E9C75D2444968000D52B32 /* Health.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C937E323CBA0AE00A87BAB /* Health.swift */; };
+		C5E9C75E2444968400D52B32 /* LibreOOP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5797123A2CF2C00945F72 /* LibreOOP.swift */; };
+		C5E9C75F2444969000D52B32 /* alarm_high.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C513933023B8EB7600CB245F /* alarm_high.mp3 */; };
+		C5E9C7602444969400D52B32 /* alarm_low.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5C84481241B884F009D3EAF /* alarm_low.mp3 */; };
+		C5E9C7612444969800D52B32 /* alarm_signal_loss.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */; };
+		C5E9C763244496C800D52B32 /* MainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E9C762244496C800D52B32 /* MainDelegate.swift */; };
+		C5E9C76424449A2E00D52B32 /* Watlaa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AF44D12422349E00522803 /* Watlaa.swift */; };
 		C5EA857723B28861004A4128 /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = C5EA857623B28861004A4128 /* TODO.md */; };
 		C5FB2EF323A2794D0046F4F9 /* MainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FB2EF223A2794D0046F4F9 /* MainDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -179,6 +194,7 @@
 		C5E1015A23A2774D00678DF6 /* DiaBLEUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaBLEUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5E1015E23A2774D00678DF6 /* DiaBLEUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaBLEUITests.swift; sourceTree = "<group>"; };
 		C5E1016023A2774D00678DF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C5E9C762244496C800D52B32 /* MainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDelegate.swift; sourceTree = "<group>"; };
 		C5EA857623B28861004A4128 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		C5FB2EF223A2794D0046F4F9 /* MainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -239,8 +255,8 @@
 		C58507AB23C50BF40079539D /* DiaBLE Watch Extension */ = {
 			isa = PBXGroup;
 			children = (
-				C500E45824448C4000171BCA /* DiaBLE Watch Extension.entitlements */,
 				C58507AC23C50BF40079539D /* ContentView.swift */,
+				C5E9C762244496C800D52B32 /* MainDelegate.swift */,
 				C58507AE23C50BF40079539D /* HostingController.swift */,
 				C58507B023C50BF40079539D /* ExtensionDelegate.swift */,
 				C58507B223C50BF40079539D /* NotificationController.swift */,
@@ -248,6 +264,7 @@
 				C58507B623C50BF40079539D /* ComplicationController.swift */,
 				C58507B823C50BF40079539D /* Assets.xcassets */,
 				C58507BD23C50BF40079539D /* Info.plist */,
+				C500E45824448C4000171BCA /* DiaBLE Watch Extension.entitlements */,
 				C58507BE23C50BF40079539D /* PushNotificationPayload.apns */,
 				C58507BA23C50BF40079539D /* Preview Content */,
 			);
@@ -532,7 +549,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C58507BC23C50BF40079539D /* Preview Assets.xcassets in Resources */,
+				C5E9C7602444969400D52B32 /* alarm_low.mp3 in Resources */,
+				C5E9C7612444969800D52B32 /* alarm_signal_loss.mp3 in Resources */,
 				C58507B923C50BF40079539D /* Assets.xcassets in Resources */,
+				C5E9C75F2444969000D52B32 /* alarm_high.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,12 +592,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5E9C7572444964700D52B32 /* Glucose.swift in Sources */,
+				C5E9C75C2444967A00D52B32 /* Watch.swift in Sources */,
+				C5E9C75B2444967700D52B32 /* Transmitter.swift in Sources */,
+				C5E9C75A2444967300D52B32 /* Sensor.swift in Sources */,
 				C58507AF23C50BF40079539D /* HostingController.swift in Sources */,
+				C5E9C75E2444968400D52B32 /* LibreOOP.swift in Sources */,
+				C5E9C7592444966A00D52B32 /* Bluetooth.swift in Sources */,
 				C58507AD23C50BF40079539D /* ContentView.swift in Sources */,
 				C58507B323C50BF40079539D /* NotificationController.swift in Sources */,
+				C5E9C7582444966500D52B32 /* Settings.swift in Sources */,
 				C58507B123C50BF40079539D /* ExtensionDelegate.swift in Sources */,
 				C58507B523C50BF40079539D /* NotificationView.swift in Sources */,
+				C5E9C756244495D700D52B32 /* App.swift in Sources */,
 				C58507B723C50BF40079539D /* ComplicationController.swift in Sources */,
+				C5E9C75D2444968000D52B32 /* Health.swift in Sources */,
+				C5E9C755244495B000D52B32 /* Extensions.swift in Sources */,
+				C5E9C763244496C800D52B32 /* MainDelegate.swift in Sources */,
+				C5E9C76424449A2E00D52B32 /* Watlaa.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

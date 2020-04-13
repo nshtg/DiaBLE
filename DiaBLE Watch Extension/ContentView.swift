@@ -1,12 +1,12 @@
-//
-//  ContentView.swift
-//  DiaBLE Watch Extension
-//
-//  Created by Guido Soranzio on 07/01/2020.
-//  Copyright © 2020 Guido Soranzio. All rights reserved.
-//
-
 import SwiftUI
+
+enum Tab: Hashable {
+    case monitor
+    case online
+    case data
+    case log
+    case settings
+}
 
 struct ContentView: View {
     var body: some View {
