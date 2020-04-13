@@ -134,7 +134,7 @@ struct LogView: View {
                 Spacer()
 
             }.font(.system(.footnote))
-        }.background(Color.black)
+        }
     }
 }
 
