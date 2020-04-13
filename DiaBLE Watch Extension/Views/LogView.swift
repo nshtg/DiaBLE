@@ -13,16 +13,16 @@ struct LogView: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        HStack(spacing: 4) {
+        VStack(spacing: 0) {
             ScrollView(showsIndicators: true) {
                 Text(log.text)
 //                    .font(.system(.footnote, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
-                    .font(.caption).foregroundColor(Color.init(UIColor.lightGray))
+                    .font(.footnote).foregroundColor(Color.init(UIColor.lightGray))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
                     .padding(4)
             }
 
-            VStack(alignment: .center, spacing: 8) {
+            HStack(alignment: .center, spacing: 0) {
 
                 VStack(spacing: 0) {
 
@@ -58,10 +58,10 @@ struct LogView: View {
                         //                        if let nightscout = self.app.main.nightscout { nightscout.read() }
                     }
                     ) { VStack { Image("Bluetooth").resizable().frame(width: 32, height: 32)
-                        Text("Scan")
+                        // Text("Scan")
                         }
                     }
-                }.foregroundColor(.accentColor)
+                }.foregroundColor(.blue)
 
                 if app.deviceState == "Connected" {
 
@@ -89,7 +89,7 @@ struct LogView: View {
                     self.settings.debugLevel = 1 - self.settings.debugLevel
                 }) { VStack {
                     Image(systemName: "wrench.fill").resizable().frame(width: 24, height: 24)
-                    Text(settings.debugLevel == 1 ? "Devel" : "Basic").font(.caption).offset(y: -6)
+                    // Text(settings.debugLevel == 1 ? "Devel" : "Basic").font(.caption).offset(y: -6)
                     }
                 }.background(settings.debugLevel == 1 ? Color.accentColor : Color.clear)
                     .foregroundColor(settings.debugLevel == 1 ? .black : .accentColor)
@@ -105,7 +105,7 @@ struct LogView: View {
                 Button(action: { self.log.text = "Log cleared \(Date().local)\n" }) {
                     VStack {
                         Image(systemName: "clear").resizable().frame(width: 24, height: 24)
-                        Text("Clear").offset(y: -6)
+                        // Text("Clear").offset(y: -6)
                     }
                 }
 
@@ -115,7 +115,7 @@ struct LogView: View {
                     if !self.settings.reversedLog { self.log.text.append(" \n") }
                 }) { VStack {
                     Image(systemName: "backward.fill").resizable().frame(width: 12, height: 12).offset(y: 5)
-                    Text(" REV ").offset(y: -2)
+                    // Text(" REV ").offset(y: -2)
                     }
                 }.background(settings.reversedLog ? Color.accentColor : Color.clear)
                     .border(Color.accentColor, width: 3)
