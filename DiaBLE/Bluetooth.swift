@@ -318,6 +318,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         main.info("\n\n\(app.device.name)")
         app.device.peripheral?.delegate = self
+        main.log("Bluetooth: connecting to \(name)...")
         centralManager.connect(app.device.peripheral!, options: nil)
     }
 
