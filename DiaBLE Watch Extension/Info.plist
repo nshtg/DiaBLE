@@ -48,6 +48,12 @@
 	</dict>
 	<key>WKExtensionDelegateClassName</key>
 	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>DiaBLE uses Bluetooth to receive glucose data and alarms from several transmitters and Libre 2 sensors.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>DiaBLE tracks your blood glucose and saves the insulin delivery data</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>DiaBLE reads blood glucose and insulin delivery data</string>
 	<key>WKRunsIndependentlyOfCompanionApp</key>
 	<true/>
 </dict>

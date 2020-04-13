@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C500E45A24448C4000171BCA /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C500E45924448C4000171BCA /* HealthKit.framework */; };
 		C501BE47242A1ABD006C7F30 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C501BE46242A1ABD006C7F30 /* Settings.swift */; };
 		C50FA49023C9F2E800928229 /* Watch.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50FA48F23C9F2E800928229 /* Watch.swift */; };
 		C50FA49323CA7B9400928229 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50FA49223CA7B9400928229 /* HealthKit.framework */; };
@@ -117,6 +118,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C500E45824448C4000171BCA /* DiaBLE Watch Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DiaBLE Watch Extension.entitlements"; sourceTree = "<group>"; };
+		C500E45924448C4000171BCA /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS6.2.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 		C501BE46242A1ABD006C7F30 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		C50FA48F23C9F2E800928229 /* Watch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watch.swift; sourceTree = "<group>"; };
 		C50FA49223CA7B9400928229 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
@@ -185,6 +188,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C500E45A24448C4000171BCA /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +220,7 @@
 		C50FA49123CA7B9400928229 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C500E45924448C4000171BCA /* HealthKit.framework */,
 				C50FA49223CA7B9400928229 /* HealthKit.framework */,
 			);
 			name = Frameworks;
@@ -234,6 +239,7 @@
 		C58507AB23C50BF40079539D /* DiaBLE Watch Extension */ = {
 			isa = PBXGroup;
 			children = (
+				C500E45824448C4000171BCA /* DiaBLE Watch Extension.entitlements */,
 				C58507AC23C50BF40079539D /* ContentView.swift */,
 				C58507AE23C50BF40079539D /* HostingController.swift */,
 				C58507B023C50BF40079539D /* ExtensionDelegate.swift */,
@@ -718,6 +724,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "DiaBLE Watch Extension/DiaBLE Watch Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DiaBLE Watch Extension/Preview Content\"";
@@ -744,6 +751,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "DiaBLE Watch Extension/DiaBLE Watch Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DiaBLE Watch Extension/Preview Content\"";
