@@ -25,5 +25,4 @@ TODO
 PLANS / WISHES
 ---------------
 
-* an independent Apple Watch app connecting directly via Bluetooth
 * a predictive meal log using Machine Learning (see [WoofWoof](https://github.com/gshaviv/ninety-two))
