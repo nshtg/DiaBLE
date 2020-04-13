@@ -9,8 +9,16 @@ enum Tab: Hashable {
 }
 
 struct ContentView: View {
+
+    @EnvironmentObject var app: App
+    @EnvironmentObject var log: Log
+    @EnvironmentObject var history: History
+    @EnvironmentObject var settings: Settings
+
     var body: some View {
-        Text("Hello, World!")
+
+        LogView()
+
     }
 }
 

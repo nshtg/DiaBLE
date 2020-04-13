@@ -72,6 +72,7 @@
 		C5E9C7612444969800D52B32 /* alarm_signal_loss.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */; };
 		C5E9C763244496C800D52B32 /* MainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E9C762244496C800D52B32 /* MainDelegate.swift */; };
 		C5E9C76424449A2E00D52B32 /* Watlaa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AF44D12422349E00522803 /* Watlaa.swift */; };
+		C5E9C7672444A13600D52B32 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E9C7662444A13600D52B32 /* LogView.swift */; };
 		C5EA857723B28861004A4128 /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = C5EA857623B28861004A4128 /* TODO.md */; };
 		C5FB2EF323A2794D0046F4F9 /* MainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FB2EF223A2794D0046F4F9 /* MainDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -195,6 +196,7 @@
 		C5E1015E23A2774D00678DF6 /* DiaBLEUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaBLEUITests.swift; sourceTree = "<group>"; };
 		C5E1016023A2774D00678DF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C5E9C762244496C800D52B32 /* MainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDelegate.swift; sourceTree = "<group>"; };
+		C5E9C7662444A13600D52B32 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		C5EA857623B28861004A4128 /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		C5FB2EF223A2794D0046F4F9 /* MainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -255,7 +257,7 @@
 		C58507AB23C50BF40079539D /* DiaBLE Watch Extension */ = {
 			isa = PBXGroup;
 			children = (
-				C58507AC23C50BF40079539D /* ContentView.swift */,
+				C5E9C7652444A10A00D52B32 /* Views */,
 				C5E9C762244496C800D52B32 /* MainDelegate.swift */,
 				C58507AE23C50BF40079539D /* HostingController.swift */,
 				C58507B023C50BF40079539D /* ExtensionDelegate.swift */,
@@ -389,6 +391,15 @@
 				C5E1016023A2774D00678DF6 /* Info.plist */,
 			);
 			path = DiaBLEUITests;
+			sourceTree = "<group>";
+		};
+		C5E9C7652444A10A00D52B32 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C58507AC23C50BF40079539D /* ContentView.swift */,
+				C5E9C7662444A13600D52B32 /* LogView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -608,6 +619,7 @@
 				C58507B723C50BF40079539D /* ComplicationController.swift in Sources */,
 				C5E9C75D2444968000D52B32 /* Health.swift in Sources */,
 				C5E9C755244495B000D52B32 /* Extensions.swift in Sources */,
+				C5E9C7672444A13600D52B32 /* LogView.swift in Sources */,
 				C5E9C763244496C800D52B32 /* MainDelegate.swift in Sources */,
 				C5E9C76424449A2E00D52B32 /* Watlaa.swift in Sources */,
 			);
