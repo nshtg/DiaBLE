@@ -24,6 +24,13 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        Group {
+            ContentView()
+                .environmentObject(App.test(tab: .log))
+                .environmentObject(Log())
+                .environmentObject(History.test)
+                .environmentObject(Settings())
+                .environment(\.colorScheme, .dark)
+        }
     }
 }

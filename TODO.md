@@ -26,3 +26,4 @@ PLANS / WISHES
 ---------------
 
 * a predictive meal log using Machine Learning (see [WoofWoof](https://github.com/gshaviv/ninety-two))
+* LoopKit client.
