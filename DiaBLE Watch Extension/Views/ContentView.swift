@@ -17,8 +17,10 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            Text("Monitor")
-            NavigationLink(destination: LogView().environmentObject(app).environmentObject(log).environmentObject(history)) {
+            NavigationLink(destination: Monitor().environmentObject(app).environmentObject(history).environmentObject(log).environmentObject(settings)) {
+                Text("Monitor")
+            }
+            NavigationLink(destination: LogView().environmentObject(app).environmentObject(log).environmentObject(settings)) {
                 Text("Log")
             }
         }
