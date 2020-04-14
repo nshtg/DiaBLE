@@ -26,9 +26,9 @@ struct Monitor: View {
                     VStack(spacing: 0) {
 
                         Text("\(app.lastReadingDate.shortTime)")
-                        Text("\(Int(Date().timeIntervalSince(app.lastReadingDate)/60)) min ago").font(.footnote)
+                        Text("\(Int(Date().timeIntervalSince(app.lastReadingDate)/60)) min ago")
 
-                    }.frame(maxWidth: .infinity, alignment: .trailing ).padding(.trailing, 12).foregroundColor(Color.init(UIColor.lightGray))
+                        }.font(.footnote).frame(maxWidth: .infinity, alignment: .trailing ).padding(.trailing, 12).foregroundColor(Color.init(UIColor.lightGray))
 
                     // currentGlucose is negative when set to the last trend raw value (no online connection or calibration)
                     Text(app.currentGlucose > 0 ? "\(app.currentGlucose) " :
@@ -42,7 +42,7 @@ struct Monitor: View {
                         .cornerRadius(5)
 
 
-                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.footnote).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 12)
+                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.title).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 6).padding(.bottom, -10)
                 }
 
                 Text("\(app.oopAlarm.replacingOccurrences(of: "_", with: " ")) - \(app.oopTrend.replacingOccurrences(of: "_", with: " "))")
@@ -314,7 +314,7 @@ struct Monitor: View {
                 if let healthKit = self.app.main.healthKit { healthKit.read() }
                 //                    if let nightscout = self.app.main.nightscout { nightscout.read() }
             }
-            ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.accentColor) }
+            ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue) }
             .frame(height: 16)
 
         }

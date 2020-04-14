@@ -19,7 +19,7 @@ struct LogView: View {
 //                    .font(.system(.footnote, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
                     .font(.footnote).foregroundColor(Color.init(UIColor.lightGray))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
-                    .padding(4)
+                    // .padding(4)
             }
 
             HStack(alignment: .center, spacing: 0) {
@@ -91,8 +91,8 @@ struct LogView: View {
                     Image(systemName: "wrench.fill").resizable().frame(width: 24, height: 24)
                     // Text(settings.debugLevel == 1 ? "Devel" : "Basic").font(.caption).offset(y: -6)
                     }
-                }.background(settings.debugLevel == 1 ? Color.accentColor : Color.clear)
-                    .foregroundColor(settings.debugLevel == 1 ? .black : .accentColor)
+                }.background(settings.debugLevel == 1 ? Color.blue : Color.clear)
+                    .foregroundColor(settings.debugLevel == 1 ? .black : .blue)
                     .padding(.bottom, 6)
 
                 //                Button(action: { UIPasteboard.general.string = self.log.text }) {
@@ -104,7 +104,7 @@ struct LogView: View {
 
                 Button(action: { self.log.text = "Log cleared \(Date().local)\n" }) {
                     VStack {
-                        Image(systemName: "clear").resizable().frame(width: 24, height: 24)
+                        Image(systemName: "clear").resizable().foregroundColor(.blue).frame(width: 24, height: 24)
                         // Text("Clear").offset(y: -6)
                     }
                 }
@@ -117,10 +117,10 @@ struct LogView: View {
                     Image(systemName: "backward.fill").resizable().frame(width: 12, height: 12).offset(y: 5)
                     // Text(" REV ").offset(y: -2)
                     }
-                }.background(settings.reversedLog ? Color.accentColor : Color.clear)
-                    .border(Color.accentColor, width: 3)
+                }.background(settings.reversedLog ? Color.blue : Color.clear)
+                    .border(Color.blue, width: 3)
                     .cornerRadius(5)
-                    .foregroundColor(settings.reversedLog ? .black : .accentColor)
+                    .foregroundColor(settings.reversedLog ? .black : .blue)
 
 
                 Button(action: {
