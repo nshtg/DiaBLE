@@ -16,6 +16,7 @@
 		C522C77123D4D363002021F7 /* Details.swift in Sources */ = {isa = PBXBuildFile; fileRef = C522C77023D4D363002021F7 /* Details.swift */; };
 		C528E1812445097400BFDA73 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C528E1802445097400BFDA73 /* Monitor.swift */; };
 		C528E18324450BC000BFDA73 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C528E18224450BC000BFDA73 /* Graph.swift */; };
+		C528E1852445A60200BFDA73 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C528E1842445A60200BFDA73 /* SettingsView.swift */; };
 		C53C76ED23D9AFD700B59A98 /* Nightscout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EC23D9AFD700B59A98 /* Nightscout.swift */; };
 		C53C76EF23D9B87A00B59A98 /* OnlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EE23D9B87A00B59A98 /* OnlineView.swift */; };
 		C549DD0023F198B700088A4C /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = C549DCFF23F198B700088A4C /* Events.swift */; };
@@ -146,6 +147,7 @@
 		C522C77023D4D363002021F7 /* Details.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Details.swift; sourceTree = "<group>"; };
 		C528E1802445097400BFDA73 /* Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitor.swift; sourceTree = "<group>"; };
 		C528E18224450BC000BFDA73 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
+		C528E1842445A60200BFDA73 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C53C76EC23D9AFD700B59A98 /* Nightscout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nightscout.swift; sourceTree = "<group>"; };
 		C53C76EE23D9B87A00B59A98 /* OnlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineView.swift; sourceTree = "<group>"; };
 		C549DCFF23F198B700088A4C /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 				C5E9C7662444A13600D52B32 /* LogView.swift */,
 				C528E1802445097400BFDA73 /* Monitor.swift */,
 				C528E18224450BC000BFDA73 /* Graph.swift */,
+				C528E1842445A60200BFDA73 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -630,6 +633,7 @@
 				C5E9C7672444A13600D52B32 /* LogView.swift in Sources */,
 				C5E9C763244496C800D52B32 /* MainDelegate.swift in Sources */,
 				C5E9C76424449A2E00D52B32 /* Watlaa.swift in Sources */,
+				C528E1852445A60200BFDA73 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

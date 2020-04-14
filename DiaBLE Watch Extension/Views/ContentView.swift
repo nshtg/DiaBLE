@@ -23,6 +23,9 @@ struct ContentView: View {
             NavigationLink(destination: LogView().environmentObject(app).environmentObject(log).environmentObject(settings)) {
                 Text("Log")
             }
+            NavigationLink(destination: SettingsView().environmentObject(app).environmentObject(history).environmentObject(log).environmentObject(settings)) {
+                Text("Settings")
+            }
         }
     }
 }
