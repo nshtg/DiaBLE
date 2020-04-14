@@ -18,21 +18,20 @@ struct SettingsView: View {
             VStack(spacing: 0) {
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
-                        Button(action: {} ) { Image("Bluetooth").resizable().frame(width: 32, height: 32) }
+//                        Button(action: {} ) { Image("Bluetooth").resizable().frame(width: 32, height: 32) }
                         Picker(selection: $settings.preferredTransmitter, label: Text("Preferred")) {
                             ForEach(TransmitterType.allCases) { t in
                                 Text(t.name).tag(t)
                             }
                         } // .pickerStyle(SegmentedPickerStyle())
-                    }
-                    HStack(spacing: 0) {
-                        Button(action: {} ) { Image(systemName: "line.horizontal.3.decrease.circle").resizable().frame(width: 20, height: 20)// .padding(.leading, 6)
-                        }
+
+                        //                        Button(action: {} ) { Image(systemName: "line.horizontal.3.decrease.circle").resizable().frame(width: 20, height: 20)// .padding(.leading, 6)
+                        //                        }
                         TextField("device name pattern", text: $settings.preferredDevicePattern)
                             // .padding(.horizontal, 12)
                             .frame(alignment: .center)
                     }
-                }.foregroundColor(.accentColor)
+                }.foregroundColor(.blue)
 
                 //                    HStack  {
                 //                        Image(systemName: "clock.fill").resizable().frame(width: 18, height: 18).padding(.leading, 7).foregroundColor(.white)
@@ -83,8 +82,8 @@ struct SettingsView: View {
             //
             //                Spacer()
 
-            VStack(spacing: 0) {
-                HStack(spacing: 0) {
+            HStack(spacing: 0) {
+                VStack(spacing: 0) {
                     Image(systemName: "hand.thumbsup.fill").foregroundColor(.green) // .padding(4)
                     Text("\(Int(settings.targetLow), specifier: "%3d") - \(Int(settings.targetHigh))").foregroundColor(.green)
                     HStack {
@@ -93,7 +92,7 @@ struct SettingsView: View {
                     }
                 }.accentColor(.green)
 
-                HStack(spacing: 0) {
+                VStack(spacing: 0) {
                     Image(systemName: "bell.fill").foregroundColor(.red) // .padding(4)
                     Text("<\(Int(settings.alarmLow), specifier: "%3d")   > \(Int(settings.alarmHigh))").foregroundColor(.red)
                     HStack {
@@ -107,7 +106,7 @@ struct SettingsView: View {
                 Button(action: {
                     self.settings.mutedAudio = !self.settings.mutedAudio // workaround for iOS 13.4 beta, otherwise toggle()
                 }) {
-                    Image(systemName: settings.mutedAudio ? "speaker.slash.fill" : "speaker.2.fill").resizable().frame(width: 24, height: 24).foregroundColor(.accentColor)
+                    Image(systemName: settings.mutedAudio ? "speaker.slash.fill" : "speaker.2.fill").resizable().frame(width: 24, height: 24).foregroundColor(.blue)
                 }
 
                 Button(action: {
@@ -118,7 +117,7 @@ struct SettingsView: View {
                         // UIApplication.shared.applicationIconBadgeNumber = self.app.currentGlucose
                     }
                 }) {
-                    Image(systemName: settings.disabledNotifications ? "zzz" : "app.badge.fill").resizable().frame(width: 24, height: 24).foregroundColor(.accentColor)
+                    Image(systemName: settings.disabledNotifications ? "zzz" : "app.badge.fill").resizable().frame(width: 24, height: 24).foregroundColor(.blue)
                 }
 
                 //                    Button(action: {

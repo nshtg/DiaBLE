@@ -114,7 +114,7 @@ struct LogView: View {
                     self.log.text = self.log.text.split(separator:"\n").reversed().joined(separator: "\n")
                     if !self.settings.reversedLog { self.log.text.append(" \n") }
                 }) { VStack {
-                    Image(systemName: "backward.fill").resizable().frame(width: 12, height: 12).offset(y: 5)
+                    Image(systemName: "backward.fill").resizable().frame(width: 12, height: 12) // .offset(y: 5)
                     // Text(" REV ").offset(y: -2)
                     }
                 }.background(settings.reversedLog ? Color.blue : Color.clear)
@@ -130,8 +130,6 @@ struct LogView: View {
                     Image(systemName: settings.logging ? "stop.circle" : "play.circle").resizable().frame(width: 32, height: 32)
                     }
                 }.foregroundColor(settings.logging ? .red : .green)
-
-                Spacer()
 
             }.font(.system(.footnote))
         }
