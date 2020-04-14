@@ -147,7 +147,7 @@ struct LogView_Previews: PreviewProvider {
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
-            ContentView()
+            LogView()
                 .environmentObject(App.test(tab: .log))
                 .environmentObject(Log())
                 .environmentObject(History.test)

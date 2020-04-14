@@ -16,14 +16,14 @@ struct Monitor: View {
     var body: some View {
         //        NavigationView {
 
-        VStack {
+        VStack(spacing: 0) {
             if !editingCalibration {
                 Spacer()
             }
 
-            VStack {
+            VStack(spacing: 0) {
                 HStack {
-                    VStack {
+                    VStack(spacing: 0) {
 
                         Text("\(app.lastReadingDate.shortTime)")
                         Text("\(Int(Date().timeIntervalSince(app.lastReadingDate)/60)) min ago").font(.footnote)
@@ -42,16 +42,16 @@ struct Monitor: View {
                         .cornerRadius(5)
 
 
-                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.largeTitle).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 12)
+                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.footnote).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 12)
                 }
 
                 Text("\(app.oopAlarm.replacingOccurrences(of: "_", with: " ")) - \(app.oopTrend.replacingOccurrences(of: "_", with: " "))")
-                    .foregroundColor(.blue)
+                .font(.footnote).foregroundColor(.blue)
 
                 HStack {
                     Text(app.deviceState)
                         .foregroundColor(app.deviceState == "Connected" ? .green : .red)
-                        .fixedSize()
+                    .font(.footnote).fixedSize()
 
                     if app.deviceState == "Connected" {
 
@@ -71,12 +71,12 @@ struct Monitor: View {
 
             if !editingCalibration {
 
-                VStack {
+                VStack(spacing: 0) {
 
                     HStack(spacing: 2) {
 
                         if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
-                            VStack {
+                            VStack(spacing: 0) {
                                 Text(app.sensor.state.description)
                                     .foregroundColor(app.sensor.state == .ready ? .green : .red)
 
@@ -91,7 +91,7 @@ struct Monitor: View {
                         }
 
                         if app.device?.name != app.transmitter?.name && app.transmitter?.battery ?? -1 > -1 {
-                            VStack {
+                            VStack(spacing: 0) {
                                 if app.transmitter.battery > -1 {
                                     Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
                                         Text("\(app.transmitter.battery)%").foregroundColor(app.transmitter.battery > 10 ? .green : .red)
@@ -111,7 +111,7 @@ struct Monitor: View {
                         }
 
                         if app.device != nil {
-                            VStack {
+                            VStack(spacing: 0) {
                                 if app.device.battery > -1 {
                                     Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
                                         Text("\(app.device.battery)%").foregroundColor(app.device.battery > 10 ? .green : .red)
@@ -134,7 +134,7 @@ struct Monitor: View {
 
                     Text(app.info)
                         .font(.footnote)
-                        .padding(.vertical, 5)
+                        // .padding(.vertical, 5)
                         .frame(maxWidth: .infinity)
 
                     if app.info.hasPrefix("Scanning") {
@@ -154,7 +154,7 @@ struct Monitor: View {
                     //                        }
                 }
 
-                Spacer()
+                // Spacer()
 
             }
 
@@ -298,7 +298,7 @@ struct Monitor: View {
             //                    }.font(.footnote).accentColor(.purple)
             //                }
 
-            Spacer()
+            // Spacer()
 
             // Same as Rescan
             Button(action: {
@@ -314,10 +314,12 @@ struct Monitor: View {
                 if let healthKit = self.app.main.healthKit { healthKit.read() }
                 //                    if let nightscout = self.app.main.nightscout { nightscout.read() }
             }
-            ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32).padding(.bottom, 8).foregroundColor(.accentColor) }
+            ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.accentColor) }
+            .frame(height: 16)
 
         }
         .multilineTextAlignment(.center)
+        .navigationBarHidden(true)
         //            .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)  -  Monitor", displayMode: .inline)
         //            .navigationBarItems(trailing:
         //                Button(action: {
