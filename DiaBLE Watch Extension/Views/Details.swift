@@ -166,6 +166,8 @@ struct Details: View {
             // .navigationBarTitle(Text("Details"), displayMode: .inline)
         }
         .foregroundColor(Color.init(UIColor.lightGray))
+        .buttonStyle(PlainButtonStyle())
+        .navigationBarTitle(Text("Details"))
     }
 }
 

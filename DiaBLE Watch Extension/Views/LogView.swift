@@ -16,10 +16,10 @@ struct LogView: View {
         VStack(spacing: 0) {
             ScrollView(showsIndicators: true) {
                 Text(log.text)
-//                    .font(.system(.footnote, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
+                    //                    .font(.system(.footnote, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
                     .font(.footnote).foregroundColor(Color.init(UIColor.lightGray))
                     .frame(maxWidth: .infinity, alignment: .topLeading)
-                    // .padding(4)
+                // .padding(4)
             }
 
             HStack(alignment: .center, spacing: 0) {
@@ -133,6 +133,7 @@ struct LogView: View {
 
             }.font(.system(.footnote))
         }
+        .navigationBarTitle(Text("Log"))
     }
 }
 

@@ -406,9 +406,9 @@
 			children = (
 				C58507AC23C50BF40079539D /* ContentView.swift */,
 				C53C0D0824471FF200DB08EE /* Details.swift */,
+				C528E18224450BC000BFDA73 /* Graph.swift */,
 				C5E9C7662444A13600D52B32 /* LogView.swift */,
 				C528E1802445097400BFDA73 /* Monitor.swift */,
-				C528E18224450BC000BFDA73 /* Graph.swift */,
 				C528E1842445A60200BFDA73 /* SettingsView.swift */,
 			);
 			path = Views;

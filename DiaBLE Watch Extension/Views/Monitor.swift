@@ -302,6 +302,7 @@ struct Monitor: View {
 
             // Same as Rescan
             HStack {
+                Spacer()
                 Button(action: {
                     let device = self.app.device
                     let centralManager = self.app.main.centralManager
@@ -317,15 +318,16 @@ struct Monitor: View {
                 }
                 ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue) }
                     .frame(height: 16)
-
+                Spacer()
                 if !app.info.contains("canning") {
                     NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
                         Image(systemName: "info.circle.fill").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
                     }.frame(height: 16)
                 }
-
+                Spacer()
             }
         }
+        .buttonStyle(PlainButtonStyle())
         .multilineTextAlignment(.center)
         .navigationBarHidden(true)
         //            .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)  -  Monitor", displayMode: .inline)
