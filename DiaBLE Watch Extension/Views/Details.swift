@@ -13,8 +13,6 @@ struct Details: View {
     var body: some View {
         VStack {
 
-            // Spacer()
-
             Form {
 
                 if app.device != nil {
@@ -135,8 +133,7 @@ struct Details: View {
                 }
             }
 
-
-            Spacer()
+            // Spacer()
 
             VStack(spacing: 0) {
                 // Same as Rescan
@@ -162,8 +159,7 @@ struct Details: View {
                     .onReceive(timer) { _ in
                         self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
                 }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
-            }.padding(.bottom, 8)
-            // .navigationBarTitle(Text("Details"), displayMode: .inline)
+            } //.padding(.bottom, 8)
         }
         .foregroundColor(Color.init(UIColor.lightGray))
         .buttonStyle(PlainButtonStyle())

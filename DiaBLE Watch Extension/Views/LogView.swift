@@ -18,7 +18,7 @@ struct LogView: View {
                 Text(log.text)
                     //                    .font(.system(.footnote, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
                     .font(.footnote).foregroundColor(Color.init(UIColor.lightGray))
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 // .padding(4)
             }
 
@@ -131,7 +131,9 @@ struct LogView: View {
                     }
                 }.foregroundColor(settings.logging ? .red : .green)
 
-            }.font(.system(.footnote))
+            }.font(.footnote)
+
+            // TODO: .buttonStyle(PlainButtonStyle())
         }
         .navigationBarTitle(Text("Log"))
     }
