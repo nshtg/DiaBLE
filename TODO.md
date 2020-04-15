@@ -13,7 +13,7 @@ TODO
 
 * Get the Libre 2 patchInfo via NFC
 * Manage Nightscout JavaScript alerts synchronously
-* BLE 1805 2A2B: current time
+* BLE: RSSI and 1805 2A2B characteristic (current time)
 * Watlaa iBeacon
 * selection of glucose units
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file

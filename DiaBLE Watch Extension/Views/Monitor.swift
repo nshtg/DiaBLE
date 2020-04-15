@@ -28,7 +28,7 @@ struct Monitor: View {
                         Text("\(app.lastReadingDate.shortTime)")
                         Text("\(Int(Date().timeIntervalSince(app.lastReadingDate)/60)) min ago")
 
-                        }.font(.footnote).frame(maxWidth: .infinity, alignment: .trailing ).padding(.trailing, 12).foregroundColor(Color.init(UIColor.lightGray))
+                    }.font(.footnote).frame(maxWidth: .infinity, alignment: .trailing ).padding(.trailing, 12).foregroundColor(Color.init(UIColor.lightGray))
 
                     // currentGlucose is negative when set to the last trend raw value (no online connection or calibration)
                     Text(app.currentGlucose > 0 ? "\(app.currentGlucose) " :
@@ -46,12 +46,12 @@ struct Monitor: View {
                 }
 
                 Text("\(app.oopAlarm.replacingOccurrences(of: "_", with: " ")) - \(app.oopTrend.replacingOccurrences(of: "_", with: " "))")
-                .font(.footnote).foregroundColor(.blue)
+                    .font(.footnote).foregroundColor(.blue)
 
                 HStack {
                     Text(app.deviceState)
                         .foregroundColor(app.deviceState == "Connected" ? .green : .red)
-                    .font(.footnote).fixedSize()
+                        .font(.footnote).fixedSize()
 
                     if app.deviceState == "Connected" {
 
@@ -100,13 +100,13 @@ struct Monitor: View {
                                     Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
                                         Text("\(app.transmitter.firmware)")
                                 }
-                                if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
-                                    Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                        Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)".trimmingCharacters(in: .whitespaces))
-                                }
-                                if app.transmitter.macAddress.count > 0  {
-                                    Text("\(app.transmitter.macAddress.hexAddress)")
-                                }
+                                //                                if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
+                                //                                    Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                //                                        Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)".trimmingCharacters(in: .whitespaces))
+                                //                                }
+                                //                                if app.transmitter.macAddress.count > 0  {
+                                //                                    Text("\(app.transmitter.macAddress.hexAddress)")
+                                //                                }
                             }
                         }
 
@@ -301,22 +301,30 @@ struct Monitor: View {
             // Spacer()
 
             // Same as Rescan
-            Button(action: {
-                let device = self.app.device
-                let centralManager = self.app.main.centralManager
-                if device != nil {
-                    centralManager.cancelPeripheralConnection(device!.peripheral!)
+            HStack {
+                Button(action: {
+                    let device = self.app.device
+                    let centralManager = self.app.main.centralManager
+                    if device != nil {
+                        centralManager.cancelPeripheralConnection(device!.peripheral!)
+                    }
+                    if centralManager.state == .poweredOn {
+                        centralManager.scanForPeripherals(withServices: nil, options: nil)
+                        self.app.main.info("\n\nScanning...")
+                    }
+                    if let healthKit = self.app.main.healthKit { healthKit.read() }
+                    //                    if let nightscout = self.app.main.nightscout { nightscout.read() }
                 }
-                if centralManager.state == .poweredOn {
-                    centralManager.scanForPeripherals(withServices: nil, options: nil)
-                    self.app.main.info("\n\nScanning...")
-                }
-                if let healthKit = self.app.main.healthKit { healthKit.read() }
-                //                    if let nightscout = self.app.main.nightscout { nightscout.read() }
-            }
-            ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue) }
-            .frame(height: 16)
+                ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue) }
+                    .frame(height: 16)
 
+                if !app.info.contains("canning") {
+                    NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
+                        Image(systemName: "info.circle.fill").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
+                    }.frame(height: 16)
+                }
+
+            }
         }
         .multilineTextAlignment(.center)
         .navigationBarHidden(true)
