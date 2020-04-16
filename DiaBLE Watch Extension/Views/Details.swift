@@ -16,7 +16,7 @@ struct Details: View {
             Form {
 
                 if app.device != nil {
-                    Section(header: Text("Device").font(.footnote)) {
+                    Section(header: Text("Device")) {
                         HStack {
                             Text("Name")
                             Spacer()
@@ -86,12 +86,12 @@ struct Details: View {
                                     .foregroundColor(app.device.battery > 10 ? .green : .red)
                             }
                         }
-                    }.font(.footnote)
+                    }
                 }
 
 
                 if app.sensor != nil {
-                    Section(header: Text("Sensor").font(.footnote)) {
+                    Section(header: Text("Sensor")) {
                         HStack {
                             Text("Status")
                             Spacer()
@@ -122,14 +122,8 @@ struct Details: View {
                                 Text("\((app.lastReadingDate - Double(app.sensor.age) * 60).shortDateTime)").foregroundColor(.yellow)
                             }
                         }
-                    }.font(.footnote)
+                    }
                 }
-
-
-                //                if app.device?.type == Watlaa.type {
-                //                    WatlaaDetailsView(device: app.device as! Watlaa)
-                //                        .font(.footnote)
-                //                }
 
                 if app.device == nil && app.sensor == nil {
                     HStack {
@@ -140,11 +134,8 @@ struct Details: View {
                 }
             }
 
-            // Spacer()
-
             VStack(spacing: 0) {
                 // Same as Rescan
-                // FIXME: updates only every 3-4 seconds
                 Button(action: {
                     let centralManager = self.app.main.centralManager
                     if self.app.device != nil {
@@ -155,18 +146,19 @@ struct Details: View {
                         self.app.main.info("\n\nScanning...")
                     }
                     if let healthKit = self.app.main.healthKit { healthKit.read() }
-                    //                    if let nightscout = self.app.main.nightscout { nightscout.read() }
+                    // if let nightscout = self.app.main.nightscout { nightscout.read() }
                 }
-                ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16)
-                    .foregroundColor(.blue) }.frame(height: 16)
-
-                Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
-                    "\(readingCountdown) s" : "...")
-                    .fixedSize()
-                    .onReceive(timer) { _ in
-                        self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
-            } //.padding(.bottom, 8)
+                ) {
+                    Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 24, height: 24)
+                        .foregroundColor(.blue)
+                    Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
+                        "\(readingCountdown) s" : "...")
+                        .fixedSize()
+                        .onReceive(timer) { _ in
+                            self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
+                    }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
+                }
+            }
         }
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarTitle(Text("Details"))
