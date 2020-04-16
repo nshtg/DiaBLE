@@ -165,9 +165,10 @@ struct SettingsView: View {
             // Spacer()
 
         }
+        .edgesIgnoringSafeArea(.bottom)
+        .navigationBarTitle(Text("Settings"))
         .font(Font.body.monospacedDigit())
         .buttonStyle(PlainButtonStyle())
-        .navigationBarTitle(Text("Settings"))
     }
 }
 

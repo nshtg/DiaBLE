@@ -135,6 +135,7 @@ struct LogView: View {
 
             // TODO: .buttonStyle(PlainButtonStyle())
         }
+        .edgesIgnoringSafeArea(.bottom)
         .navigationBarTitle(Text("Log"))
     }
 }

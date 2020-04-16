@@ -14,7 +14,8 @@ Still too early to decide the final design (but I really like already the evil l
 
 <p align ="center"><img src="https://pbs.twimg.com/media/EVeneWZXQAMmDz5?format=png&name=4096x4096" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVeoUsRWoAUBuzr?format=png&name=4096x4096" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVepOTUXgAARH2r?format=png&name=4096x4096" width="25%" /></p>
 <p align ="center"><img src="https://pbs.twimg.com/media/EVeqRPYWkAAyuCW?format=png&name=4096x4096" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVerNLGWkAAvm2F?format=png&name=4096x4096" width="25%" >/&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVerlxLXYAApZXz?format=png&name=4096x4096" width="25%" /></p>
-<p align ="center"><img src="https://pbs.twimg.com/media/EVeuqaqWkAIuNNd?format=png&name=4096x4096" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVeu_Z-XQAA7LZ6?format=png&name=large" width="50%" /></p>
+<p align ="center"><img src="https://pbs.twimg.com/media/EVsyTgvWkAA3coH?format=png&name=4096x4096" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVeuqaqWkAIuNNd?format=png&name=4096x4096" width="25%" /></p>
+<p align ="center"><img src="https://pbs.twimg.com/media/EVeu_Z-XQAA7LZ6?format=png&name=large" width="50%" /></p>
 <p align ="center"><img src="https://pbs.twimg.com/media/EVexQzZXsAEisB4?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVextP9XkAAh3HN?format=png&name=small" align="top" width="25%" /></p>
 <p align ="center"><img src="https://pbs.twimg.com/media/EVlQilwXgAYNl92?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVlRK3DWkAchgw7?format=png&name=small" align="top" width="25%" /></p>
 

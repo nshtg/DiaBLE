@@ -14,21 +14,21 @@ struct Monitor: View {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        //        NavigationView {
 
         VStack(spacing: 0) {
-            if !editingCalibration {
-                Spacer()
-            }
+
+            //            if !editingCalibration {
+            //                Spacer()
+            //            }
 
             VStack(spacing: 0) {
                 HStack {
                     VStack(spacing: 0) {
 
                         Text("\(app.lastReadingDate.shortTime)")
-                        Text("\(Int(Date().timeIntervalSince(app.lastReadingDate)/60)) min ago")
+                        Text("\(Int(Date().timeIntervalSince(app.lastReadingDate)/60)) min ago").font(.system(size: 10)).lineLimit(1)
 
-                    }.font(.footnote).frame(maxWidth: .infinity, alignment: .trailing ).padding(.trailing, 12).foregroundColor(Color.init(UIColor.lightGray))
+                    }.font(.footnote).frame(maxWidth: .infinity, alignment: .trailing ).foregroundColor(Color.init(UIColor.lightGray))
 
                     // currentGlucose is negative when set to the last trend raw value (no online connection or calibration)
                     Text(app.currentGlucose > 0 ? "\(app.currentGlucose) " :
@@ -42,7 +42,7 @@ struct Monitor: View {
                         .cornerRadius(5)
 
 
-                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.title).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 6).padding(.bottom, -10)
+                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.system(size: 32)).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 6).padding(.bottom, -16)
                 }
 
                 Text("\(app.oopAlarm.replacingOccurrences(of: "_", with: " ")) - \(app.oopTrend.replacingOccurrences(of: "_", with: " "))")
@@ -327,9 +327,10 @@ struct Monitor: View {
                 Spacer()
             }
         }
+        .navigationBarHidden(true)
+        .edgesIgnoringSafeArea([.bottom])
         .buttonStyle(PlainButtonStyle())
         .multilineTextAlignment(.center)
-        .navigationBarHidden(true)
         //            .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)  -  Monitor", displayMode: .inline)
         //            .navigationBarItems(trailing:
         //                Button(action: {
@@ -350,7 +351,6 @@ struct Monitor: View {
         //                        message: Text("This device doesn't allow scanning the Libre."))
         //                }
         //            )
-        //        }.navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

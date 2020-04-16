@@ -161,9 +161,10 @@ struct Details: View {
                 }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
             } //.padding(.bottom, 8)
         }
+        .edgesIgnoringSafeArea(.bottom)
+        .navigationBarTitle(Text("Details"))
         .foregroundColor(Color.init(UIColor.lightGray))
         .buttonStyle(PlainButtonStyle())
-        .navigationBarTitle(Text("Details"))
     }
 }
 
