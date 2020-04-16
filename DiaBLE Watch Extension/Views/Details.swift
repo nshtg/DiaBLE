@@ -71,6 +71,13 @@ struct Details: View {
                                 Text("\(app.device.macAddress.hexAddress)").foregroundColor(.yellow)
                             }
                         }
+                        if app.device.rssi != 0 {
+                            HStack {
+                                Text("RSSI")
+                                Spacer()
+                                Text("\(app.device.rssi) dB").foregroundColor(.yellow)
+                            }
+                        }
                         if app.device.battery > -1 {
                             HStack {
                                 Text("Battery")

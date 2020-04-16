@@ -147,6 +147,7 @@ class Device: ObservableObject {
     var writeCharacteristic: CBCharacteristic?
 
     @Published var battery: Int = -1
+    @Published var rssi: Int = 0
     var model: String = ""
     var serial: String = ""
     var firmware: String = ""
@@ -312,6 +313,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             app.device.name = name
         }
 
+        app.device.rssi = Int(truncating: rssi)
         if let manufacturerData = advertisement["kCBAdvDataManufacturerData"] as? Data {
             app.device.parseManufacturerData(manufacturerData)
         }

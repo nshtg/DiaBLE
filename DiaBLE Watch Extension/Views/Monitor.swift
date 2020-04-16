@@ -42,7 +42,7 @@ struct Monitor: View {
                         .cornerRadius(5)
 
 
-                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.system(size: 32)).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 6).padding(.bottom, -16)
+                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.system(size: 28)).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 6).padding(.bottom, -18)
                 }
 
                 Text("\(app.oopAlarm.replacingOccurrences(of: "_", with: " ")) - \(app.oopTrend.replacingOccurrences(of: "_", with: " "))")
@@ -96,10 +96,14 @@ struct Monitor: View {
                                     Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
                                         Text("\(app.transmitter.battery)%").foregroundColor(app.transmitter.battery > 10 ? .green : .red)
                                 }
-                                if app.transmitter.firmware.count > 0 {
-                                    Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                        Text("\(app.transmitter.firmware)")
+                                if app.transmitter.rssi != 0  {
+                                    Text("RSSI: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("\(app.device.rssi) dB")
                                 }
+//                                if app.transmitter.firmware.count > 0 {
+//                                    Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+//                                        Text("\(app.transmitter.firmware)")
+//                                }
                                 //                                if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
                                 //                                    Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
                                 //                                        Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)".trimmingCharacters(in: .whitespaces))
@@ -116,10 +120,14 @@ struct Monitor: View {
                                     Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
                                         Text("\(app.device.battery)%").foregroundColor(app.device.battery > 10 ? .green : .red)
                                 }
-                                if app.device.firmware.count > 0 {
-                                    Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
-                                        Text("\(app.device.firmware)")
+                                if app.transmitter.rssi != 0  {
+                                    Text("RSSI: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("\(app.device.rssi) dB")
                                 }
+//                                if app.device.firmware.count > 0 {
+//                                    Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+//                                        Text("\(app.device.firmware)")
+//                                }
                                 //                                    if app.device.manufacturer.count + app.device.hardware.count > 0  {
                                 //                                        Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
                                 //                                            Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)".trimmingCharacters(in: .whitespaces))
@@ -321,7 +329,7 @@ struct Monitor: View {
                 Spacer()
                 if !app.info.contains("canning") {
                     NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
-                        Image(systemName: "info.circle.fill").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
+                        Image(systemName: "info.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
                     }.frame(height: 16)
                 }
                 Spacer()
