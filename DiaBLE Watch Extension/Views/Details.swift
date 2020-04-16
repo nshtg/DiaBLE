@@ -170,7 +170,7 @@ struct Details: View {
         }
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarTitle(Text("Details"))
-        .foregroundColor(Color.init(UIColor.lightGray))
+        .foregroundColor(Color(UIColor.lightGray))
         .buttonStyle(PlainButtonStyle())
     }
 }

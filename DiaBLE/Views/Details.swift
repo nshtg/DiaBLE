@@ -172,7 +172,7 @@ struct Details: View {
             }.padding(.bottom, 8)
                 .navigationBarTitle(Text("Details"), displayMode: .inline)
         }
-        .foregroundColor(Color.init(UIColor.lightGray))
+        .foregroundColor(Color(UIColor.lightGray))
     }
 }
 

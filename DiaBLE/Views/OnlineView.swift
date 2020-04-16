@@ -18,14 +18,14 @@ struct OnlineView: View {
             VStack(spacing: 0) {
 
                 HStack {
-                    Image("Nightscout").resizable().frame(width: 32, height: 32).shadow(color: Color.init(UIColor.cyan), radius: 4.0 )
+                    Image("Nightscout").resizable().frame(width: 32, height: 32).shadow(color: Color(UIColor.cyan), radius: 4.0 )
                     VStack(spacing: 0) {
                         HStack(alignment: .firstTextBaseline, spacing: 0) {
-                            Text("https://").foregroundColor(Color.init(UIColor.lightGray))
+                            Text("https://").foregroundColor(Color(UIColor.lightGray))
                             TextField("Nightscout URL", text: $settings.nightscoutSite)
                         }
                         HStack(alignment: .firstTextBaseline) {
-                            Text("token:").foregroundColor(Color.init(UIColor.lightGray))
+                            Text("token:").foregroundColor(Color(UIColor.lightGray))
                             SecureField("token", text: $settings.nightscoutToken)
                         }
                     }

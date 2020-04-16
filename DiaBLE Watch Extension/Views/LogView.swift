@@ -16,8 +16,8 @@ struct LogView: View {
         VStack(spacing: 0) {
             ScrollView(showsIndicators: true) {
                 Text(log.text)
-                    //                    .font(.system(.footnote, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
-                    .font(.footnote).foregroundColor(Color.init(UIColor.lightGray))
+                    //                    .font(.system(.footnote, design: .monospaced)).foregroundColor(Color(UIColor.lightGray))
+                    .font(.footnote).foregroundColor(Color(UIColor.lightGray))
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 // .padding(4)
             }

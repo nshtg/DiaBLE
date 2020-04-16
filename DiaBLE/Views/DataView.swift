@@ -122,7 +122,7 @@ struct DataView: View {
                     }
                 }
             }
-            .font(.system(.caption, design: .monospaced)).foregroundColor(Color.init(UIColor.lightGray))
+            .font(.system(.caption, design: .monospaced)).foregroundColor(Color(UIColor.lightGray))
             .navigationBarTitle("Data", displayMode: .inline)
 
         }.navigationViewStyle(StackNavigationViewStyle())

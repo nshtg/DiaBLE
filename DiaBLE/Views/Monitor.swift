@@ -28,7 +28,7 @@ struct Monitor: View {
                             Text("\(app.lastReadingDate.shortTime)")
                             Text("\(Int(Date().timeIntervalSince(app.lastReadingDate)/60)) min ago").font(.footnote)
 
-                        }.frame(maxWidth: .infinity, alignment: .trailing ).padding(.trailing, 12).foregroundColor(Color.init(UIColor.lightGray))
+                        }.frame(maxWidth: .infinity, alignment: .trailing ).padding(.trailing, 12).foregroundColor(Color(UIColor.lightGray))
 
                         // currentGlucose is negative when set to the last trend raw value (no online connection or calibration)
                         Text(app.currentGlucose > 0 ? "\(app.currentGlucose) " :
@@ -93,19 +93,19 @@ struct Monitor: View {
                             if app.device?.name != app.transmitter?.name && app.transmitter?.battery ?? -1 > -1 {
                                 VStack {
                                     if app.transmitter.battery > -1 {
-                                        Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("Battery: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.transmitter.battery)%").foregroundColor(app.transmitter.battery > 10 ? .green : .red)
                                     }
                                     if app.transmitter.rssi != 0  {
-                                        Text("RSSI: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.device.rssi) dB")
                                     }
                                     if app.transmitter.firmware.count > 0 {
-                                        Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.transmitter.firmware)")
                                     }
                                     if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
-                                        Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("Hardware: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)".trimmingCharacters(in: .whitespaces))
                                     }
                                     if app.transmitter.macAddress.count > 0  {
@@ -117,19 +117,19 @@ struct Monitor: View {
                             if app.device != nil {
                                 VStack {
                                     if app.device.battery > -1 {
-                                        Text("Battery: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("Battery: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.device.battery)%").foregroundColor(app.device.battery > 10 ? .green : .red)
                                     }
                                     if app.transmitter.rssi != 0  {
-                                        Text("RSSI: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.device.rssi) dB")
                                     }
                                     if app.device.firmware.count > 0 {
-                                        Text("Firmware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.device.firmware)")
                                     }
                                     if app.device.manufacturer.count + app.device.hardware.count > 0  {
-                                        Text("Hardware: ").foregroundColor(Color.init(UIColor.lightGray)) +
+                                        Text("Hardware: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)".trimmingCharacters(in: .whitespaces))
                                     }
                                     if app.transmitter.macAddress.count > 0  {
