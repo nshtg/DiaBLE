@@ -109,9 +109,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             let soundName = currentGlucose > Int(settings.alarmHigh) ? "alarm_high" : "alarm_low"
             audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: soundName, ofType: "mp3")!), fileTypeHint: "mp3")
             audioPlayer.play()
+            _ = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in self.audioPlayer.stop() }
         }
         if !settings.disabledNotifications {
-            _ = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in self.audioPlayer.stop() }
             let times = currentGlucose > Int(settings.alarmHigh) ? 3 : 4
             let pause = times == 3 ? 1.0 : 5.0 / 6
             for s in 0 ..< times {

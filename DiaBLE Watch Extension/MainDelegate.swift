@@ -109,16 +109,21 @@ public class MainDelegate: NSObject {
             let soundName = currentGlucose > Int(settings.alarmHigh) ? "alarm_high" : "alarm_low"
             audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: soundName, ofType: "mp3")!), fileTypeHint: "mp3")
             audioPlayer.play()
+            _ = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in self.audioPlayer.stop() }
         }
         if !settings.disabledNotifications {
-            _ = Timer.scheduledTimer(withTimeInterval: 4, repeats: false) { _ in self.audioPlayer.stop() }
-//            let times = currentGlucose > Int(settings.alarmHigh) ? 3 : 4
-//            let pause = times == 3 ? 1.0 : 5.0 / 6
-//            for s in 0 ..< times {
-//                DispatchQueue.main.asyncAfter(deadline: .now() + Double(s) * pause) {
-//                    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate)
-//                }
-//            }
+            if !settings.mutedAudio {
+                let times = currentGlucose > Int(settings.alarmHigh) ? 3 : 4
+                let pause = times == 3 ? 1.0 : 5.0 / 6
+                for s in 0 ..< times {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + Double(s) * pause) {
+                        WKInterfaceDevice.current().play(.notification) // FIXME: vibrates only once
+                    }
+                }
+            } else {
+                let hapticDirection: WKHapticType = currentGlucose > Int(settings.alarmHigh) ? .directionUp : .directionDown
+                WKInterfaceDevice.current().play(hapticDirection)
+            }
         }
     }
 

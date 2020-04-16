@@ -18,7 +18,7 @@ TODO
 * selection of glucose units
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file
 * let the user input their BG and manage slope/offset parameters independent from the temperatures
-* Apple Watch app: complications, heptic alarms, Nightscout uploads, context menus
+* Apple Watch app: state transitions, complications, Nightscout uploads, context menus
 * more modern Swift idioms: Combine, property wrappers, @dynamicCallable/MemberLookup, ViewModifiers
 
 
