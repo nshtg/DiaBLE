@@ -1,12 +1,18 @@
 import Foundation
+
+#if !os(watchOS)
 import WebKit
+#endif
 
-
-class Nightscout: NSObject, WKNavigationDelegate, WKUIDelegate {
+class Nightscout: NSObject {
 
     /// Main app delegate
     var main: MainDelegate
+
+    #if !os(watchOS)
     var webView: WKWebView?
+    #endif
+
 
     init(main: MainDelegate) {
         self.main = main
@@ -166,6 +172,13 @@ class Nightscout: NSObject, WKNavigationDelegate, WKUIDelegate {
         }.resume()
     }
 
+}
+
+
+#if !os(watchOS)
+
+extension Nightscout: WKNavigationDelegate, WKUIDelegate {
+
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         main.debugLog("Nightscout: decide policy for action: \(navigationAction)")
         decisionHandler(.allow)
@@ -207,5 +220,6 @@ class Nightscout: NSObject, WKNavigationDelegate, WKUIDelegate {
         // TODO: block web page updates
         completionHandler(true)
     }
-
 }
+
+#endif

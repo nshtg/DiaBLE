@@ -78,6 +78,7 @@
 		C5E9C76424449A2E00D52B32 /* Watlaa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AF44D12422349E00522803 /* Watlaa.swift */; };
 		C5E9C7672444A13600D52B32 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E9C7662444A13600D52B32 /* LogView.swift */; };
 		C5EA857723B28861004A4128 /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = C5EA857623B28861004A4128 /* TODO.md */; };
+		C5F329D4244998230053A8FB /* Nightscout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EC23D9AFD700B59A98 /* Nightscout.swift */; };
 		C5FB2EF323A2794D0046F4F9 /* MainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FB2EF223A2794D0046F4F9 /* MainDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -626,6 +627,7 @@
 				C53C0D0924471FF200DB08EE /* Details.swift in Sources */,
 				C58507B323C50BF40079539D /* NotificationController.swift in Sources */,
 				C528E18324450BC000BFDA73 /* Graph.swift in Sources */,
+				C5F329D4244998230053A8FB /* Nightscout.swift in Sources */,
 				C5E9C7582444966500D52B32 /* Settings.swift in Sources */,
 				C58507B123C50BF40079539D /* ExtensionDelegate.swift in Sources */,
 				C58507B523C50BF40079539D /* NotificationView.swift in Sources */,
