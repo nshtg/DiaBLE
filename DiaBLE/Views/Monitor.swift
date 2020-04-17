@@ -98,7 +98,7 @@ struct Monitor: View {
                                     }
                                     if app.transmitter.rssi != 0  {
                                         Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
-                                            Text("\(app.device.rssi) dB")
+                                            Text("\(app.transmitter.rssi) dB")
                                     }
                                     if app.transmitter.firmware.count > 0 {
                                         Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
@@ -120,7 +120,7 @@ struct Monitor: View {
                                         Text("Battery: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.device.battery)%").foregroundColor(app.device.battery > 10 ? .green : .red)
                                     }
-                                    if app.transmitter.rssi != 0  {
+                                    if app.device.rssi != 0  {
                                         Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.device.rssi) dB")
                                     }
@@ -132,7 +132,7 @@ struct Monitor: View {
                                         Text("Hardware: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)".trimmingCharacters(in: .whitespaces))
                                     }
-                                    if app.transmitter.macAddress.count > 0  {
+                                    if app.device.macAddress.count > 0  {
                                         Text("\(app.transmitter.macAddress.hexAddress)")
                                     }
                                 }

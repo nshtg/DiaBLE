@@ -3,7 +3,7 @@
 Experimenting with the Bluetooth BLE devices I bought for the Abbott FreeStyle Libre sensor (mainly the **Bubble** and **MiaoMiao** transmitters, M5Stack and the Mi Band and Watlaa watches) and trying something new compared to the traditional apps:
 
 * a universal **SwiftUI** application for iPhone, iPad and Mac Catalyst;
-* an **independent Apple Watch** application connecting directly via Bluetooth;
+* an **independent Apple Watch app** connecting directly via Bluetooth;
 * scanning the Libre directly via **NFC**;
 * using online servers for calibrating just like **Abbott’s algorithm**;
 * varying the **reading interval** (the Bubble firmware allows to set it from 1 to 15 minutes while the MiaoMiao one to reduce it to 1 or 3 minutes);
