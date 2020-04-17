@@ -11,14 +11,12 @@ struct SettingsView: View {
 
     var body: some View {
 
-        VStack(spacing: 0) {
-
-            // Spacer()
+        VStack {
 
             VStack(spacing: 0) {
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
-//                        Button(action: {} ) { Image("Bluetooth").resizable().frame(width: 32, height: 32) }
+                        //                        Button(action: {} ) { Image("Bluetooth").resizable().frame(width: 32, height: 32) }
                         Picker(selection: $settings.preferredTransmitter, label: Text("Preferred")) {
                             ForEach(TransmitterType.allCases) { t in
                                 Text(t.name).tag(t)
@@ -31,7 +29,7 @@ struct SettingsView: View {
                             // .padding(.horizontal, 12)
                             .frame(alignment: .center)
                     }
-                }.foregroundColor(.blue)
+                }.frame(height: 34).font(.footnote).foregroundColor(.blue)
 
                 //                    HStack  {
                 //                        Image(systemName: "clock.fill").resizable().frame(width: 18, height: 18).padding(.leading, 7).foregroundColor(.white)
@@ -80,33 +78,32 @@ struct SettingsView: View {
             //                }
             //                ) { Text("Rescan").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
             //
-            //                Spacer()
 
-            HStack(spacing: 0) {
+            VStack {
                 VStack(spacing: 0) {
-                    Image(systemName: "hand.thumbsup.fill").foregroundColor(.green) // .padding(4)
+                    Image(systemName: "hand.thumbsup.fill").foregroundColor(.green)
                     Text("\(Int(settings.targetLow), specifier: "%3d") - \(Int(settings.targetHigh))").foregroundColor(.green)
                     HStack {
-                        Slider(value: $settings.targetLow,  in: 40 ... 99, step: 1)
-                        Slider(value: $settings.targetHigh, in: 140 ... 299, step: 1)
+                        Slider(value: $settings.targetLow,  in: 40 ... 99, step: 1).frame(height: 20).scaleEffect(0.6)
+                        Slider(value: $settings.targetHigh, in: 140 ... 299, step: 1).frame(height: 20).scaleEffect(0.6)
                     }
                 }.accentColor(.green)
 
                 VStack(spacing: 0) {
-                    Image(systemName: "bell.fill").foregroundColor(.red) // .padding(4)
+                    Image(systemName: "bell.fill").foregroundColor(.red)
                     Text("<\(Int(settings.alarmLow), specifier: "%3d")   > \(Int(settings.alarmHigh))").foregroundColor(.red)
                     HStack {
-                        Slider(value: $settings.alarmLow,  in: 40 ... 99, step: 1)
-                        Slider(value: $settings.alarmHigh, in: 140 ... 299, step: 1)
+                        Slider(value: $settings.alarmLow,  in: 40 ... 99, step: 1).frame(height: 20).scaleEffect(0.6)
+                        Slider(value: $settings.alarmHigh, in: 140 ... 299, step: 1).frame(height: 20).scaleEffect(0.6)
                     }
                 }.accentColor(.red)
-            } // .padding(.horizontal, 40)
+            }
 
             HStack(spacing: 24) {
                 Button(action: {
                     self.settings.mutedAudio = !self.settings.mutedAudio // workaround for iOS 13.4 beta, otherwise toggle()
                 }) {
-                    Image(systemName: settings.mutedAudio ? "speaker.slash.fill" : "speaker.2.fill").resizable().frame(width: 24, height: 24).foregroundColor(.blue)
+                    Image(systemName: settings.mutedAudio ? "speaker.slash.fill" : "speaker.2.fill").resizable().frame(width: 20, height: 20).foregroundColor(.blue)
                 }
 
                 Button(action: {
@@ -117,7 +114,7 @@ struct SettingsView: View {
                         // UIApplication.shared.applicationIconBadgeNumber = self.app.currentGlucose
                     }
                 }) {
-                    Image(systemName: settings.disabledNotifications ? "zzz" : "app.badge.fill").resizable().frame(width: 24, height: 24).foregroundColor(.blue)
+                    Image(systemName: settings.disabledNotifications ? "zzz" : "app.badge.fill").resizable().frame(width: 20, height: 20).foregroundColor(.blue)
                 }
 
                 //                    Button(action: {
