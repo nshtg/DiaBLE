@@ -134,30 +134,51 @@ struct Details: View {
                 }
             }
 
-            VStack(spacing: 0) {
-                // Same as Rescan
+            HStack(alignment: .top) {
+
+                Spacer()
+
+                VStack(spacing: 0) {
+                    // Same as Rescan
+                    Button(action: {
+                        let centralManager = self.app.main.centralManager
+                        if self.app.device != nil {
+                            centralManager.cancelPeripheralConnection(self.app.device.peripheral!)
+                        }
+                        if centralManager.state == .poweredOn {
+                            centralManager.scanForPeripherals(withServices: nil, options: nil)
+                            self.app.main.info("\n\nScanning...")
+                        }
+                        if let healthKit = self.app.main.healthKit { healthKit.read() }
+                        // if let nightscout = self.app.main.nightscout { nightscout.read() }
+                    }
+                    ) {
+                        Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 24, height: 24)
+                            .foregroundColor(.blue)
+                        Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
+                            "\(readingCountdown) s" : "...")
+                            .fixedSize()
+                            .onReceive(timer) { _ in
+                                self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
+                        }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
+                    }
+
+                }
+
+                Spacer()
+
                 Button(action: {
                     let centralManager = self.app.main.centralManager
                     if self.app.device != nil {
                         centralManager.cancelPeripheralConnection(self.app.device.peripheral!)
                     }
-                    if centralManager.state == .poweredOn {
-                        centralManager.scanForPeripherals(withServices: nil, options: nil)
-                        self.app.main.info("\n\nScanning...")
-                    }
-                    if let healthKit = self.app.main.healthKit { healthKit.read() }
-                    // if let nightscout = self.app.main.nightscout { nightscout.read() }
                 }
                 ) {
-                    Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 24, height: 24)
+                    Image(systemName: "escape").resizable().frame(width: 24, height: 24)
                         .foregroundColor(.blue)
-                    Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
-                        "\(readingCountdown) s" : "...")
-                        .fixedSize()
-                        .onReceive(timer) { _ in
-                            self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                    }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
                 }
+
+                Spacer()
             }
         }
         .edgesIgnoringSafeArea(.bottom)
