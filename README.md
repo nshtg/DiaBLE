@@ -19,8 +19,7 @@ Still too early to decide the final design (but I really like already the evil l
 <p align ="center"><img src="https://pbs.twimg.com/media/EVexQzZXsAEisB4?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVextP9XkAAh3HN?format=png&name=small" align="top" width="25%" /></p>
 <p align ="center"><img src="https://pbs.twimg.com/media/EVxo7ZbX0AEt21z?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVxpaLtXsAA_u2O?format=png&name=small" align="top" width="25%" /></p>
 <p align ="center"><img src="https://pbs.twimg.com/media/EVttZ0PXQAAj5gp?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVxp2QLXQAEKeXM?format=png&name=small" align="top" width="25%" /></p>
-<p align ="center">Libre 2: YEP  -  Bubble: NOPE<br><img src="https://pbs.twimg.com/media/EV37sVXWAAAKUxG?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVyjqaTX0AAwsoH?format=png&name=small" align="top" width="25%" /></p>
-
+<p align ="center">Libre 2: YEP  -  Bubble: NOPE<br><img src="https://pbs.twimg.com/media/EV37sVXWAAAKUxG?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EV5OLhAXsAALU5L?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVyjqaTX0AAwsoH?format=png&name=small" align="top" width="25%" /></p>https://pbs.twimg.com/media/EV5OLhAXsAALU5L
 
 
 The project started as a single script for the iPad Swift Playgrounds and was quickly converted to an app by using a standard Xcode template: it should compile finely without external dependencies just after changing the _Bundle Identifier_ in the _General_ panel and the _Team_ in the _Signing and Capabilities_ tab of Xcode -- Spike users know already very well what that means... ;)

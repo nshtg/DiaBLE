@@ -461,6 +461,13 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
     }
 
+    public func centralManager(_ manager: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        let name = peripheral.name ?? "Unnamed peripheral"
+        let errorCode = CBError.Code(rawValue: (error! as NSError).code)!
+        log("Bluetooth: failed to connect to \(name), error type \(errorCode.rawValue): \(error!.localizedDescription); retrying...")
+        centralManager.connect(app.device.peripheral!, options: nil)
+    }
+
 
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         let name = peripheral.name ?? "Unnamed peripheral"
