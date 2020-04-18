@@ -46,7 +46,7 @@ class BLE {
         var description: String {
             switch self {
             case .device:        return "device information"
-            case .systemID:      return "system  id"
+            case .systemID:      return "system id"
             case .model:         return "model number"
             case .serial:        return "serial number"
             case .firmware:      return "firmware version"

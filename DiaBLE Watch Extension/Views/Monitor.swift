@@ -46,7 +46,7 @@ struct Monitor: View {
                 }
 
                 Text("\(app.oopAlarm.replacingOccurrences(of: "_", with: " ")) - \(app.oopTrend.replacingOccurrences(of: "_", with: " "))")
-                    .font(.footnote).foregroundColor(.blue)
+                    .font(.footnote).foregroundColor(.blue).lineLimit(1)
 
                 HStack {
                     Text(app.deviceState)
