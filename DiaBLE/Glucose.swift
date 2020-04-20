@@ -23,9 +23,9 @@ struct Glucose: Identifiable {
     var value: Int = 0
     var calibration: Calibration? {
         willSet(newCalibration) {
-            let slope  = newCalibration!.slope + newCalibration!.slopeSlope  * Double(temperature) + newCalibration!.offsetSlope  + newCalibration!.slopeExtra
-            let offset = newCalibration!.offset + newCalibration!.slopeOffset * Double(temperature) + newCalibration!.offsetOffset + newCalibration!.offsetExtra
-            value = Int(round(offset + slope * Double(raw)))
+            let slope  = (newCalibration!.slope + newCalibration!.slopeSlope  * Double(temperature) + newCalibration!.offsetSlope) * newCalibration!.extraSlope
+            let offset = newCalibration!.offset + newCalibration!.slopeOffset * Double(temperature) + newCalibration!.offsetOffset + newCalibration!.extraOffset
+            value = Int(round(slope * Double(raw) + offset))
         }
     }
     var source: String = ""
@@ -59,8 +59,8 @@ struct Calibration: Codable, Equatable {
     var slopeOffset: Double = 0.0
     var offsetOffset: Double = 0.0
     var offsetSlope: Double = 0.0
-    var slopeExtra: Double = 0.0
-    var offsetExtra: Double = 0.0
+    var extraSlope: Double = 1.0
+    var extraOffset: Double = 0.0
 
     enum CodingKeys: String, CodingKey,  CustomStringConvertible {
         case slopeSlope   = "slope_slope"
