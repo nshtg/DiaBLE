@@ -45,40 +45,6 @@ struct SettingsView: View {
                 //                    }
             }
 
-            //                Spacer()
-            //
-            //                HStack {
-            //                    Stepper(value: $settings.readingInterval,
-            //                            in: settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ?
-            //                                1 ... 5 : 1 ... 15,
-            //                            step: settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ?
-            //                                2 : 1,
-            //                            label: {
-            //                                Image(systemName: "timer").resizable().frame(width: 32, height: 32)
-            //                                Text(" \(settings.readingInterval) min") })
-            //                }
-            //                .foregroundColor(.orange)
-            //                .padding(.horizontal, 80)
-
-            //                Spacer()
-            //
-            //                Button(action: {
-            //                    let device = self.app.device
-            //                    self.app.selectedTab = (self.settings.preferredTransmitter != .none || self.settings.preferredWatch != .none) ? .monitor : .log
-            //                    let centralManager = self.app.main.centralManager
-            //                    if device != nil {
-            //                        centralManager.cancelPeripheralConnection(device!.peripheral!)
-            //                    }
-            //                    if centralManager.state == .poweredOn {
-            //                        centralManager.scanForPeripherals(withServices: nil, options: nil)
-            //                        self.app.main.info("\n\nScanning...")
-            //                    }
-            //                    if let healthKit = self.app.main.healthKit { healthKit.read() }
-            //                    // if let nightscout = self.app.main.nightscout { nightscout.read() }
-            //                }
-            //                ) { Text("Rescan").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
-            //
-
             VStack {
                 VStack(spacing: 0) {
                     Image(systemName: "hand.thumbsup.fill").foregroundColor(.green)
@@ -99,12 +65,49 @@ struct SettingsView: View {
                 }.accentColor(.red)
             }
 
-            HStack(spacing: 24) {
+            HStack() {
+
+                Spacer()
+
+                HStack(spacing: 0) {
+                    Image(systemName: "timer").resizable().frame(width: 20, height: 20)
+                    //                Button(action: {
+                    //                    let device = self.app.device
+                    //                    self.app.selectedTab = (self.settings.preferredTransmitter != .none || self.settings.preferredWatch != .none) ? .monitor : .log
+                    //                    let centralManager = self.app.main.centralManager
+                    //                    if device != nil {
+                    //                        centralManager.cancelPeripheralConnection(device!.peripheral!)
+                    //                    }
+                    //                    if centralManager.state == .poweredOn {
+                    //                        centralManager.scanForPeripherals(withServices: nil, options: nil)
+                    //                        self.app.main.info("\n\nScanning...")
+                    //                    }
+                    //                    if let healthKit = self.app.main.healthKit { healthKit.read() }
+                    //                    // if let nightscout = self.app.main.nightscout { nightscout.read() }
+                    //                }
+                    //                ) { Text("Rescan").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
+                    //
+
+                    Picker(selection: $settings.readingInterval, label: Text("")) {
+                        //                        ForEach(settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ?
+                        //                            1 ..< 6 : 1 ..< 16) { t in
+                        //                            step: settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ?
+                        //                                 2 : 1,
+                        ForEach(1 ..< 16) { t in
+                            Text("\(t - 1) m")
+                        }
+                    }.labelsHidden().frame(width: 40)
+                }.font(.footnote).foregroundColor(.orange)
+
+                Spacer()
+
                 Button(action: {
                     self.settings.mutedAudio = !self.settings.mutedAudio // workaround for iOS 13.4 beta, otherwise toggle()
                 }) {
                     Image(systemName: settings.mutedAudio ? "speaker.slash.fill" : "speaker.2.fill").resizable().frame(width: 20, height: 20).foregroundColor(.blue)
                 }
+
+                Spacer()
 
                 Button(action: {
                     self.settings.disabledNotifications = !self.settings.disabledNotifications // workaround for iOS 13.4 beta, otherwise toggle()
@@ -157,9 +160,9 @@ struct SettingsView: View {
                 //                            }.padding(.top, 40)
                 //                        }.padding(60)
                 //                    }
-            } // .padding(.top, 16)
 
-            // Spacer()
+                Spacer()
+            }
 
         }
         .edgesIgnoringSafeArea(.bottom)

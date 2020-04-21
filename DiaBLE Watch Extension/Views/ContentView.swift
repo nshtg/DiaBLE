@@ -17,13 +17,13 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            NavigationLink(destination: Monitor().environmentObject(app).environmentObject(history).environmentObject(log).environmentObject(settings)) {
+            NavigationLink(destination: Monitor().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
                 Text("Monitor")
             }
             NavigationLink(destination: LogView().environmentObject(app).environmentObject(log).environmentObject(settings)) {
                 Text("Log")
             }
-            NavigationLink(destination: SettingsView().environmentObject(app).environmentObject(history).environmentObject(log).environmentObject(settings)) {
+            NavigationLink(destination: SettingsView().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
                 Text("Settings")
             }
         }
