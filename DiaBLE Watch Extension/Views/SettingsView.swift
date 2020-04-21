@@ -89,14 +89,13 @@ struct SettingsView: View {
                     //
 
                     Picker(selection: $settings.readingInterval, label: Text("")) {
-                        //                        ForEach(settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ?
-                        //                            1 ..< 6 : 1 ..< 16) { t in
-                        //                            step: settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ?
-                        //                                 2 : 1,
-                        ForEach(1 ..< 16) { t in
-                            Text("\(t - 1) m")
+                        ForEach(Array(stride(from: 1,
+                                             through: settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ? 5 : 15,
+                                             by: settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ? 2 : 1)),
+                                id: \.self) { t in
+                                    Text("\(t) m")
                         }
-                    }.labelsHidden().frame(width: 40)
+                    }.labelsHidden().frame(width: 48, height: 36).padding(.top, -14)
                 }.font(.footnote).foregroundColor(.orange)
 
                 Spacer()
@@ -162,7 +161,7 @@ struct SettingsView: View {
                 //                    }
 
                 Spacer()
-            }
+            }.padding(.top, 12)
 
         }
         .edgesIgnoringSafeArea(.bottom)
