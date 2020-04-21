@@ -69,7 +69,7 @@ struct SettingsView: View {
 
                 Spacer()
 
-                HStack(spacing: 0) {
+                HStack(spacing: 3) {
                     Image(systemName: "timer").resizable().frame(width: 20, height: 20)
                     //                Button(action: {
                     //                    let device = self.app.device
@@ -95,7 +95,7 @@ struct SettingsView: View {
                                 id: \.self) { t in
                                     Text("\(t) m")
                         }
-                    }.labelsHidden().frame(width: 48, height: 36).padding(.top, -14)
+                    }.labelsHidden().frame(width: 48, height: 36).padding(.top, -16)
                 }.font(.footnote).foregroundColor(.orange)
 
                 Spacer()
@@ -161,7 +161,7 @@ struct SettingsView: View {
                 //                    }
 
                 Spacer()
-            }.padding(.top, 12)
+            }.padding(.top, 10)
 
         }
         .edgesIgnoringSafeArea(.bottom)
