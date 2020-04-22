@@ -53,7 +53,9 @@
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>DiaBLE tracks your blood glucose and saves the insulin delivery data</string>
 	<key>UIBackgroundModes</key>
-	<array/>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>WKBackgroundModes</key>
 	<array>
 		<string>alarm</string>
