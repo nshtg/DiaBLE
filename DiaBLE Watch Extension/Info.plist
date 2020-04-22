@@ -36,6 +36,8 @@
 		<string>CLKComplicationFamilyGraphicCircular</string>
 		<string>CLKComplicationFamilyGraphicRectangular</string>
 	</array>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>DiaBLE uses Bluetooth to receive glucose data and alarms from several transmitters and Libre 2 sensors.</string>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
@@ -46,14 +48,19 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>
 	</dict>
-	<key>WKExtensionDelegateClassName</key>
-	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>DiaBLE uses Bluetooth to receive glucose data and alarms from several transmitters and Libre 2 sensors.</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>DiaBLE tracks your blood glucose and saves the insulin delivery data</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>DiaBLE reads blood glucose and insulin delivery data</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>DiaBLE tracks your blood glucose and saves the insulin delivery data</string>
+	<key>UIBackgroundModes</key>
+	<array/>
+	<key>WKBackgroundModes</key>
+	<array>
+		<string>alarm</string>
+		<string>workout-processing</string>
+	</array>
+	<key>WKExtensionDelegateClassName</key>
+	<string>$(PRODUCT_MODULE_NAME).ExtensionDelegate</string>
 	<key>WKRunsIndependentlyOfCompanionApp</key>
 	<true/>
 </dict>
