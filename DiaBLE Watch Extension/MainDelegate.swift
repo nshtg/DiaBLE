@@ -27,8 +27,8 @@ public class MainDelegate: NSObject {
 
         centralManager = CBCentralManager(delegate: nil, queue: nil)
         bluetoothDelegate = BluetoothDelegate()
-        //        nfcReader = NFCReader()
-        //        healthKit = HealthKit()
+        // nfcReader = NFCReader()
+        healthKit = HealthKit()
 
         super.init()
 
