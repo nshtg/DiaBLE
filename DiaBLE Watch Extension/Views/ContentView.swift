@@ -21,13 +21,13 @@ struct ContentView: View {
                 NavigationLink(destination: Monitor().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
                     VStack {
                         Image(systemName: "gauge").resizable().frame(width: 32, height: 32)
-                        Text("Monitor")
+                        Text("Monitor").foregroundColor(.blue)
                     }
                 }
                 NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
                     VStack {
                         Image(systemName: "info.circle").resizable().frame(width: 32, height: 32)
-                        Text("Details")
+                        Text("Details").foregroundColor(.blue)
                     }
                 }
             }
@@ -35,17 +35,17 @@ struct ContentView: View {
                 NavigationLink(destination: LogView().environmentObject(app).environmentObject(log).environmentObject(settings)) {
                     VStack {
                         Image(systemName: "doc.plaintext").resizable().frame(width: 32, height: 32)
-                        Text("Log")
+                        Text("Log").foregroundColor(.blue)
                     }
                 }
                 NavigationLink(destination: SettingsView().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
                     VStack {
                         Image(systemName: "gear").resizable().frame(width: 32, height: 32)
-                        Text("Settings")
+                        Text("Settings").foregroundColor(.blue)
                     }
                 }
             }
-        }.padding(-4)
+        }.foregroundColor(.red).padding(-4)
     }
 }
 
