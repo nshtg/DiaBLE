@@ -16,17 +16,36 @@ struct ContentView: View {
     @EnvironmentObject var settings: Settings
 
     var body: some View {
-        VStack {
-            NavigationLink(destination: Monitor().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
-                Text("Monitor")
+        VStack() {
+            HStack {
+                NavigationLink(destination: Monitor().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
+                    VStack {
+                        Image(systemName: "gauge").resizable().frame(width: 32, height: 32)
+                        Text("Monitor")
+                    }
+                }
+                NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
+                    VStack {
+                        Image(systemName: "info.circle").resizable().frame(width: 32, height: 32)
+                        Text("Details")
+                    }
+                }
             }
-            NavigationLink(destination: LogView().environmentObject(app).environmentObject(log).environmentObject(settings)) {
-                Text("Log")
+            HStack {
+                NavigationLink(destination: LogView().environmentObject(app).environmentObject(log).environmentObject(settings)) {
+                    VStack {
+                        Image(systemName: "doc.plaintext").resizable().frame(width: 32, height: 32)
+                        Text("Log")
+                    }
+                }
+                NavigationLink(destination: SettingsView().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
+                    VStack {
+                        Image(systemName: "gear").resizable().frame(width: 32, height: 32)
+                        Text("Settings")
+                    }
+                }
             }
-            NavigationLink(destination: SettingsView().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
-                Text("Settings")
-            }
-        }
+        }.padding(-4)
     }
 }
 

@@ -94,7 +94,7 @@ struct SettingsView: View {
                                 id: \.self) { t in
                                     Text("\(t) min")
                         }
-                    }.labelsHidden().frame(width: 58, height: 36).padding(.top, -16)
+                    }.labelsHidden().frame(width: 60, height: 36).padding(.top, -16)
                 }.font(.footnote).foregroundColor(.orange)
 
                 Spacer()
