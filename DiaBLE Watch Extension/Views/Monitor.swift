@@ -100,10 +100,10 @@ struct Monitor: View {
                                     Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
                                         Text("\(app.transmitter.rssi) dB")
                                 }
-//                                if app.transmitter.firmware.count > 0 {
-//                                    Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
-//                                        Text("\(app.transmitter.firmware)")
-//                                }
+                                //                                if app.transmitter.firmware.count > 0 {
+                                //                                    Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
+                                //                                        Text("\(app.transmitter.firmware)")
+                                //                                }
                                 //                                if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
                                 //                                    Text("Hardware: ").foregroundColor(Color(UIColor.lightGray)) +
                                 //                                        Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)".trimmingCharacters(in: .whitespaces))
@@ -124,10 +124,10 @@ struct Monitor: View {
                                     Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
                                         Text("\(app.device.rssi) dB")
                                 }
-//                                if app.device.firmware.count > 0 {
-//                                    Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
-//                                        Text("\(app.device.firmware)")
-//                                }
+                                //                                if app.device.firmware.count > 0 {
+                                //                                    Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
+                                //                                        Text("\(app.device.firmware)")
+                                //                                }
                                 //                                    if app.device.manufacturer.count + app.device.hardware.count > 0  {
                                 //                                        Text("Hardware: ").foregroundColor(Color(UIColor.lightGray)) +
                                 //                                            Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)".trimmingCharacters(in: .whitespaces))
@@ -322,7 +322,7 @@ struct Monitor: View {
                         self.app.main.info("\n\nScanning...")
                     }
                     if let healthKit = self.app.main.healthKit { healthKit.read() }
-                    //                    if let nightscout = self.app.main.nightscout { nightscout.read() }
+                    // if let nightscout = self.app.main.nightscout { nightscout.read() }
                 }
                 ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue) }
                     .frame(height: 16)

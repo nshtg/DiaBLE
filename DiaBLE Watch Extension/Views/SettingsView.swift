@@ -70,32 +70,31 @@ struct SettingsView: View {
                 Spacer()
 
                 HStack(spacing: 3) {
-                    Image(systemName: "timer").resizable().frame(width: 20, height: 20)
-                    //                Button(action: {
-                    //                    let device = self.app.device
-                    //                    self.app.selectedTab = (self.settings.preferredTransmitter != .none || self.settings.preferredWatch != .none) ? .monitor : .log
-                    //                    let centralManager = self.app.main.centralManager
-                    //                    if device != nil {
-                    //                        centralManager.cancelPeripheralConnection(device!.peripheral!)
-                    //                    }
-                    //                    if centralManager.state == .poweredOn {
-                    //                        centralManager.scanForPeripherals(withServices: nil, options: nil)
-                    //                        self.app.main.info("\n\nScanning...")
-                    //                    }
-                    //                    if let healthKit = self.app.main.healthKit { healthKit.read() }
-                    //                    // if let nightscout = self.app.main.nightscout { nightscout.read() }
-                    //                }
-                    //                ) { Text("Rescan").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
-                    //
+                    Button(action: {
+                        let device = self.app.device
+                        // TODO: switch to Monitor
+                        // self.app.selectedTab = (self.settings.preferredTransmitter != .none || self.settings.preferredWatch != .none) ? .monitor : .log
+                        let centralManager = self.app.main.centralManager
+                        if device != nil {
+                            centralManager.cancelPeripheralConnection(device!.peripheral!)
+                        }
+                        if centralManager.state == .poweredOn {
+                            centralManager.scanForPeripherals(withServices: nil, options: nil)
+                            self.app.main.info("\n\nScanning...")
+                        }
+                        if let healthKit = self.app.main.healthKit { healthKit.read() }
+                        // if let nightscout = self.app.main.nightscout { nightscout.read() }
+                    }
+                    ) { Image(systemName: "timer").resizable().frame(width: 20, height: 20) }
 
                     Picker(selection: $settings.readingInterval, label: Text("")) {
                         ForEach(Array(stride(from: 1,
                                              through: settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ? 5 : 15,
                                              by: settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ? 2 : 1)),
                                 id: \.self) { t in
-                                    Text("\(t) m")
+                                    Text("\(t) min")
                         }
-                    }.labelsHidden().frame(width: 48, height: 36).padding(.top, -16)
+                    }.labelsHidden().frame(width: 58, height: 36).padding(.top, -16)
                 }.font(.footnote).foregroundColor(.orange)
 
                 Spacer()
