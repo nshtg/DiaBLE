@@ -32,6 +32,24 @@ struct OOPHistoryData: Codable {
     var trendArrow: String
     var msg: String?
     var errcode: String?
+    var endTime: Int?
+
+    /// msg
+    enum Error: String {
+        case RESULT_SENSOR_STORAGE_STATE
+        case RESCAN_SENSOR_BAD_CRC
+        case TERMINATE_SENSOR_NORMAL_TERMINATED_STATE
+        case TERMINATE_SENSOR_ERROR_TERMINATED_STATE
+        case TERMINATE_SENSOR_CORRUPT_PAYLOAD
+        case FATAL_ERROR_BAD_ARGUMENTS
+        case TYPE_SENSOR_NOT_STARTED
+        case TYPE_SENSOR_STARTING
+        case TYPE_SENSOR_Expired
+        case TYPE_SENSOR_END
+        case TYPE_SENSOR_ERROR
+        case TYPE_SENSOR_OK
+        case TYPE_SENSOR_DETERMINED
+    }
 
     func glucoseData(sensorAge: Int, readingDate: Date) -> [Glucose] {
         var array = [Glucose]()
