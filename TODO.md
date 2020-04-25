@@ -16,7 +16,7 @@ TODO
 
 * Get the Libre 2 patchInfo via NFC and XOR-decrypt its FRAM
 * Manage Nightscout JavaScript alerts synchronously
-* Apple Watch app: WKExtendedRuntimeSession, complications, Nightscout uploads, context menus
+* Apple Watch app: snapshots, WKExtendedRuntimeSession, complications, Nightscout uploads, context menus
 * BLE: update RSSI and 1805 2A2B characteristic (current time)
 * Watlaa iBeacon
 * selection of glucose units

@@ -216,3 +216,18 @@ func crc16(_ data: Data) -> UInt16 {
     }
     return reverseCrc.byteSwapped
 }
+
+
+func correctedFRAM(_ data: Data) -> Data {
+    var fram = data
+    let headerCRC = crc16(fram[2...23])
+    let bodyCRC =   crc16(fram[26...319])
+    let footerCRC = crc16(fram[322...343])
+    fram[0] =   UInt8(headerCRC >> 8)
+    fram[1] =   UInt8(headerCRC & 0x00FF)
+    fram[24] =  UInt8(bodyCRC >> 8)
+    fram[25] =  UInt8(bodyCRC & 0x00FF)
+    fram[320] = UInt8(footerCRC >> 8)
+    fram[321] = UInt8(footerCRC & 0x00FF)
+    return fram
+}

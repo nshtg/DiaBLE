@@ -1,6 +1,7 @@
 import Foundation
 
 // https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/LibreOOPClient.swift
+// https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/LibreRawGlucoseData.swift
 
 
 struct OOPServer {
