@@ -86,6 +86,8 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.glucoseUnit.rawValue, forKey: "glucoseUnit") }
     }
 
+    @Published var numberFormatter: NumberFormatter = NumberFormatter()
+
     @Published var targetLow: Double = UserDefaults.standard.double(forKey: "targetLow") {
         didSet { UserDefaults.standard.set(self.targetLow, forKey: "targetLow") }
     }
@@ -147,84 +149,10 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(try! JSONEncoder().encode(self.calibration), forKey: "calibration") }
     }
 
+    @Published var oopServer: OOPServer = OOPServer.default
+
     @Published var oopCalibration: Calibration = try! JSONDecoder().decode(Calibration.self, from: UserDefaults.standard.data(forKey: "oopCalibration")!) {
         didSet { UserDefaults.standard.set(try! JSONEncoder().encode(self.oopCalibration), forKey: "oopCalibration") }
     }
 
-
-    @Published var numberFormatter: NumberFormatter
-
-    @Published var oopServer: OOPServer
-
-
-    init(
-        preferredTransmitter: TransmitterType = TransmitterType(rawValue: UserDefaults.standard.string(forKey: "preferredTransmitter")!)!,
-        preferredWatch: WatchType = WatchType(rawValue: UserDefaults.standard.string(forKey: "preferredWatch")!)!,
-        preferredDevicePattern: String = UserDefaults.standard.string(forKey: "preferredDevicePattern")!,
-
-        readingInterval: Int = UserDefaults.standard.integer(forKey: "readingInterval"),
-        glucoseUnit: GlucoseUnit = GlucoseUnit(rawValue: UserDefaults.standard.string(forKey: "glucoseUnit")!)!,
-
-        patchUid: Data = UserDefaults.standard.data(forKey: "patchUid")!,
-        patchInfo: Data = UserDefaults.standard.data(forKey: "patchInfo")!,
-
-        targetLow:  Double = UserDefaults.standard.double(forKey: "targetLow"),
-        targetHigh: Double = UserDefaults.standard.double(forKey: "targetHigh"),
-        alarmLow:   Double = UserDefaults.standard.double(forKey: "alarmLow"),
-        alarmHigh:  Double = UserDefaults.standard.double(forKey: "alarmHigh"),
-        mutedAudio: Bool = UserDefaults.standard.bool(forKey: "mutedAudio"),
-        disabledNotifications: Bool = UserDefaults.standard.bool(forKey: "disabledNotifications"),
-
-        calendarTitle: String = UserDefaults.standard.string(forKey: "calendarTitle")!,
-        calendarAlarmIsOn: Bool = UserDefaults.standard.bool(forKey: "calendarAlarmIsOn"),
-
-        logging: Bool = UserDefaults.standard.bool(forKey: "logging"),
-        reversedLog: Bool = UserDefaults.standard.bool(forKey: "reversedLog"),
-        debugLevel: Int = UserDefaults.standard.integer(forKey: "debugLevel"),
-
-        numberFormatter: NumberFormatter = NumberFormatter(),
-
-        nightscoutSite: String = UserDefaults.standard.string(forKey: "nightscoutSite")!,
-        nightscoutToken: String = UserDefaults.standard.string(forKey: "nightscoutToken")!,
-
-        calibration: Calibration = try! JSONDecoder().decode(Calibration.self, from: UserDefaults.standard.data(forKey: "calibration")!),
-
-        oopServer: OOPServer = OOPServer.default,
-        oopCalibration: Calibration = try! JSONDecoder().decode(Calibration.self, from: UserDefaults.standard.data(forKey: "oopCalibration")!)
-
-    ) {
-        self.preferredTransmitter = preferredTransmitter
-        self.preferredWatch = preferredWatch
-        self.preferredDevicePattern = preferredDevicePattern
-        self.readingInterval = readingInterval
-        self.glucoseUnit = glucoseUnit
-
-        self.patchUid = patchUid
-        self.patchInfo = patchInfo
-
-        self.targetLow = targetLow
-        self.targetHigh = targetHigh
-        self.alarmLow = alarmLow
-        self.alarmHigh = alarmHigh
-        self.mutedAudio = mutedAudio
-        self.disabledNotifications = disabledNotifications
-
-        self.calendarTitle = calendarTitle
-        self.calendarAlarmIsOn = calendarAlarmIsOn
-
-        self.logging = logging
-        self.reversedLog = reversedLog
-        self.debugLevel = debugLevel
-
-        self.numberFormatter = numberFormatter
-        numberFormatter.minimumFractionDigits = 6
-
-        self.nightscoutSite = nightscoutSite
-        self.nightscoutToken = nightscoutToken
-
-        self.calibration = calibration
-
-        self.oopServer = oopServer
-        self.oopCalibration = oopCalibration
-    }
 }
