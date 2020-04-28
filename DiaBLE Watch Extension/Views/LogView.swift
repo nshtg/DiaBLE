@@ -16,33 +16,14 @@ struct LogView: View {
         VStack(spacing: 0) {
             ScrollView(showsIndicators: true) {
                 Text(log.text)
-                    //                    .font(.system(.footnote, design: .monospaced)).foregroundColor(Color(UIColor.lightGray))
+                    // .font(.system(.footnote, design: .monospaced)).foregroundColor(Color(UIColor.lightGray))
                     .font(.footnote).foregroundColor(Color(UIColor.lightGray))
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                // .padding(4)
             }
 
             HStack(alignment: .center, spacing: 0) {
 
                 VStack(spacing: 0) {
-
-                    //                    Button(action: {
-                    //                        if self.app.main.nfcReader.isNFCAvailable {
-                    //                            self.app.main.nfcReader.startSession()
-                    //                        } else {
-                    //                            self.showingNFCAlert = true
-                    //                        }
-                    //                    }) { VStack(spacing: 0) {
-                    //                        Image(systemName: "radiowaves.left")
-                    //                            .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32)
-                    //                        Text("NFC").bold().offset(y: -8)
-                    //                        }
-                    //                    }.alert(isPresented: $showingNFCAlert) {
-                    //                        Alert(
-                    //                            title: Text("NFC not supported"),
-                    //                            message: Text("This device doesn't allow scanning the Libre."))
-                    //                    }
-
                     // Same as Rescan
                     Button(action: {
                         let device = self.app.device
@@ -55,16 +36,14 @@ struct LogView: View {
                             self.app.main.info("\n\nScanning...")
                         }
                         if let healthKit = self.app.main.healthKit { healthKit.read() }
-                        //                        if let nightscout = self.app.main.nightscout { nightscout.read() }
+                        // if let nightscout = self.app.main.nightscout { nightscout.read() }
                     }
-                    ) { VStack { Image("Bluetooth").resizable().frame(width: 32, height: 32)
-                        // Text("Scan")
+                    ) { VStack { Image("Bluetooth").resizable().frame(width: 24, height: 24)
                         }
                     }
                 }.foregroundColor(.blue)
 
                 if app.deviceState == "Connected" {
-
                     Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
                         "\(readingCountdown) s" : "")
                         .fixedSize()
@@ -79,7 +58,7 @@ struct LogView: View {
                         self.app.main.centralManager.stopScan()
                         self.app.main.info("\n\nStopped scanning")
                         self.app.main.log("Bluetooth: stopped scanning")
-                    }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
+                    }) { Image(systemName: "stop.circle").resizable().frame(width: 24, height: 24)
                     }.foregroundColor(.blue)
                 }
 
@@ -89,11 +68,9 @@ struct LogView: View {
                     self.settings.debugLevel = 1 - self.settings.debugLevel
                 }) { VStack {
                     Image(systemName: "wrench.fill").resizable().frame(width: 24, height: 24)
-                    // Text(settings.debugLevel == 1 ? "Devel" : "Basic").font(.caption).offset(y: -6)
                     }
                 }.background(settings.debugLevel == 1 ? Color.blue : Color.clear)
                     .foregroundColor(settings.debugLevel == 1 ? .black : .blue)
-                    .padding(.bottom, 6)
 
                 //                Button(action: { UIPasteboard.general.string = self.log.text }) {
                 //                    VStack {
@@ -105,7 +82,6 @@ struct LogView: View {
                 Button(action: { self.log.text = "Log cleared \(Date().local)\n" }) {
                     VStack {
                         Image(systemName: "clear").resizable().foregroundColor(.blue).frame(width: 24, height: 24)
-                        // Text("Clear").offset(y: -6)
                     }
                 }
 
@@ -114,32 +90,27 @@ struct LogView: View {
                     self.log.text = self.log.text.split(separator:"\n").reversed().joined(separator: "\n")
                     if !self.settings.reversedLog { self.log.text.append(" \n") }
                 }) { VStack {
-                    Image(systemName: "backward.fill").resizable().frame(width: 12, height: 12) // .offset(y: 5)
-                    // Text(" REV ").offset(y: -2)
+                    Image(systemName: "backward.fill").resizable().frame(width: 12, height: 12)
                     }
                 }.background(settings.reversedLog ? Color.blue : Color.clear)
                     .border(Color.blue, width: 3)
                     .cornerRadius(5)
                     .foregroundColor(settings.reversedLog ? .black : .blue)
 
-
                 Button(action: {
                     self.settings.logging = !self.settings.logging // workaround for iOS 13.4 beta, otherwise toggle()
                     self.app.main.log("\(self.settings.logging ? "Log started" : "Log stopped") \(Date().local)")
                 }) { VStack {
-                    Image(systemName: settings.logging ? "stop.circle" : "play.circle").resizable().frame(width: 32, height: 32)
+                    Image(systemName: settings.logging ? "stop.circle" : "play.circle").resizable().frame(width: 24, height: 24)
                     }
                 }.foregroundColor(settings.logging ? .red : .green)
 
             }.font(.footnote)
-
-            // TODO: .buttonStyle(PlainButtonStyle())
         }
         .edgesIgnoringSafeArea(.bottom)
         .navigationBarTitle(Text("Log"))
     }
 }
-
 
 
 struct LogView_Previews: PreviewProvider {
@@ -158,4 +129,3 @@ struct LogView_Previews: PreviewProvider {
         }
     }
 }
-
