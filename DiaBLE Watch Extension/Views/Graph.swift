@@ -135,7 +135,7 @@ struct Graph_Previews: PreviewProvider {
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
-            ContentView()
+            Monitor()
                 .environmentObject(App.test(tab: .monitor))
                 .environmentObject(Log())
                 .environmentObject(History.test)

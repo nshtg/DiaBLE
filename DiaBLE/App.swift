@@ -21,7 +21,7 @@ class App: ObservableObject {
 
     @Published var calibration: Calibration = Calibration() {
         didSet(value) {
-            if editingCalibration {
+            if main != nil && editingCalibration {
                 main.applyCalibration(sensor: sensor)
             }
         }
