@@ -7,7 +7,6 @@ struct LogView: View {
     @EnvironmentObject var log: Log
     @EnvironmentObject var settings: Settings
 
-    @State private var showingNFCAlert = false
     @State private var readingCountdown: Int = 0
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()

@@ -33,8 +33,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         super.init()
 
         log.text = "Welcome to DiaBLE!\n\(self.settings.logging ? "Log started" : "Log stopped") \(Date().local)\n"
-        let userDefaults = UserDefaults.standard.dictionaryRepresentation()
-        debugLog("User defaults: \(Settings.defaults.keys.map{ [$0, userDefaults[$0]!] }.sorted{($0[0] as! String) < ($1[0] as! String) })")
+        debugLog("User defaults: \(Settings.defaults.keys.map{ [$0, UserDefaults.standard.dictionaryRepresentation()[$0]!] }.sorted{($0[0] as! String) < ($1[0] as! String) })")
 
         bluetoothDelegate.main = self
         centralManager.delegate = bluetoothDelegate

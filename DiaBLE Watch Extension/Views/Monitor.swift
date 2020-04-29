@@ -8,7 +8,6 @@ struct Monitor: View {
     @EnvironmentObject var settings: Settings
 
     @State private var editingCalibration = false
-    @State private var showingNFCAlert = false
     @State private var readingCountdown: Int = 0
 
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -339,26 +338,6 @@ struct Monitor: View {
         .edgesIgnoringSafeArea([.bottom])
         .buttonStyle(PlainButtonStyle())
         .multilineTextAlignment(.center)
-        //            .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)  -  Monitor", displayMode: .inline)
-        //            .navigationBarItems(trailing:
-        //                Button(action: {
-        //                    if self.app.main.nfcReader.isNFCAvailable {
-        //                        self.app.main.nfcReader.startSession()
-        //                    } else {
-        //                        self.showingNFCAlert = true
-        //                    }
-        //                }) { VStack(spacing: 0) {
-        //                    Image(systemName: "radiowaves.left")
-        //                        .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32).offset(y: 8)
-        //                    Text("NFC").font(.footnote).bold()
-        //                    Text("  Scan  ").font(.footnote).offset(y: -4)
-        //                    }
-        //                }.alert(isPresented: $showingNFCAlert) {
-        //                    Alert(
-        //                        title: Text("NFC not supported"),
-        //                        message: Text("This device doesn't allow scanning the Libre."))
-        //                }
-        //            )
     }
 }
 

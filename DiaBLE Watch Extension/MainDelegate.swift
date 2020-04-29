@@ -12,7 +12,6 @@ public class MainDelegate: NSObject {
 
     var centralManager: CBCentralManager
     var bluetoothDelegate: BluetoothDelegate
-    //    var nfcReader: NFCReader
     var audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "alarm_high", ofType: "mp3")!), fileTypeHint: "mp3")
     var healthKit: HealthKit?
     //    var nightscout: Nightscout?
@@ -27,18 +26,15 @@ public class MainDelegate: NSObject {
 
         centralManager = CBCentralManager(delegate: nil, queue: nil)
         bluetoothDelegate = BluetoothDelegate()
-        // nfcReader = NFCReader()
         healthKit = HealthKit()
 
         super.init()
 
         log.text = "Welcome to DiaBLE!\n\(self.settings.logging ? "Log started" : "Log stopped") \(Date().local)\n"
-        let userDefaults = UserDefaults.standard.dictionaryRepresentation()
-        debugLog("User defaults: \(Settings.defaults.keys.map{ [$0, userDefaults[$0]!] }.sorted{($0[0] as! String) < ($1[0] as! String) })")
+        debugLog("User defaults: \(Settings.defaults.keys.map{ [$0, UserDefaults.standard.dictionaryRepresentation()[$0]!] }.sorted{($0[0] as! String) < ($1[0] as! String) })")
 
         bluetoothDelegate.main = self
         centralManager.delegate = bluetoothDelegate
-        //        nfcReader.main = self
 
         if let healthKit = healthKit {
             healthKit.main = self
@@ -50,22 +46,22 @@ public class MainDelegate: NSObject {
             }
         }
 
-        //        nightscout = Nightscout(main: self)
-        //        nightscout!.read()
-        //        eventKit = EventKit(main: self)
-        //        eventKit?.sync()
-
-
-        //        UNUserNotificationCenter.current().delegate = self
-        //        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _,_ in }
-        //
-        //        // FIXME: on Mac Catalyst: "Cannot activate session when app is in background."
-        //        do {
-        //            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, options: [.duckOthers])
-        //            try AVAudioSession.sharedInstance().setActive(true)
-        //        } catch {
-        //            log("Audio Session error: \(error)")
-        //        }
+//        nightscout = Nightscout(main: self)
+//        nightscout!.read()
+//        eventKit = EventKit(main: self)
+//        eventKit?.sync()
+//
+//
+//        UNUserNotificationCenter.current().delegate = self
+//        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { _,_ in }
+//
+//        // FIXME: on Mac Catalyst: "Cannot activate session when app is in background."
+//        do {
+//            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, options: [.duckOthers])
+//            try AVAudioSession.sharedInstance().setActive(true)
+//        } catch {
+//            log("Audio Session error: \(error)")
+//        }
 
         let numberFormatter = NumberFormatter()
         numberFormatter.minimumFractionDigits = 8
