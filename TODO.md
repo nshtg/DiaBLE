@@ -2,7 +2,6 @@ FIXME
 -----
 
 * Bubble: the Apple Watch app doesn't connect to it and Mac Catalyst stops receiving data from the read characteristic
-* iOS 13.4 Swift 5.2: didSet is not called when a @Published Bool is toggled in SettingsView (current workaround: use logical !) [[Stack Overflow](https://stackoverflow.com/questions/60130373/ios-13-4-didset-not-called-anymore-for-a-published-bool-when-using-toggle)] [[SR-12089](https://bugs.swift.org/browse/SR-12089)]
 * Apple Watch app:
   - the Monitor counter doesn't update on relaunch
   - readings aren't received in background but Bluetooth connections aren't closed until shutdown, even when the app is removed from the Dock
@@ -14,8 +13,8 @@ FIXME
 TODO
 ----
 
-* Get the Libre 2 patchInfo via NFC and XOR-decrypt its FRAM
-* Manage Nightscout JavaScript alerts synchronously
+* get the Libre 2 patchInfo via NFC and XOR-decrypt its FRAM
+* manage Nightscout JavaScript alerts synchronously
 * Apple Watch app: snapshots, WKExtendedRuntimeSession, complications, Nightscout uploads, context menus
 * BLE: update RSSI and 1805 2A2B characteristic (current time)
 * Watlaa iBeacon

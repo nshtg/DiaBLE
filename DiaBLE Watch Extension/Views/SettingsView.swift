@@ -100,7 +100,7 @@ struct SettingsView: View {
                 Spacer()
 
                 Button(action: {
-                    self.settings.mutedAudio = !self.settings.mutedAudio // workaround for iOS 13.4 beta, otherwise toggle()
+                    self.settings.mutedAudio.toggle()
                 }) {
                     Image(systemName: settings.mutedAudio ? "speaker.slash.fill" : "speaker.2.fill").resizable().frame(width: 20, height: 20).foregroundColor(.blue)
                 }
@@ -108,7 +108,7 @@ struct SettingsView: View {
                 Spacer()
 
                 Button(action: {
-                    self.settings.disabledNotifications = !self.settings.disabledNotifications // workaround for iOS 13.4 beta, otherwise toggle()
+                    self.settings.disabledNotifications.toggle()
                     if self.settings.disabledNotifications {
                         // UIApplication.shared.applicationIconBadgeNumber = 0
                     } else {

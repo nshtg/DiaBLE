@@ -85,7 +85,7 @@ struct LogView: View {
                 }
 
                 Button(action: {
-                    self.settings.reversedLog = !self.settings.reversedLog // workaround for iOS 13.4 beta, otherwise toggle()
+                    self.settings.reversedLog.toggle()
                     self.log.text = self.log.text.split(separator:"\n").reversed().joined(separator: "\n")
                     if !self.settings.reversedLog { self.log.text.append(" \n") }
                 }) { VStack {
@@ -97,7 +97,7 @@ struct LogView: View {
                     .foregroundColor(settings.reversedLog ? .black : .blue)
 
                 Button(action: {
-                    self.settings.logging = !self.settings.logging // workaround for iOS 13.4 beta, otherwise toggle()
+                    self.settings.logging.toggle()
                     self.app.main.log("\(self.settings.logging ? "Log started" : "Log stopped") \(Date().local)")
                 }) { VStack {
                     Image(systemName: settings.logging ? "stop.circle" : "play.circle").resizable().frame(width: 24, height: 24)
