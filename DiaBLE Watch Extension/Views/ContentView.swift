@@ -21,28 +21,28 @@ struct ContentView: View {
             HStack(spacing: 10) {
                 NavigationLink(destination: Monitor().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
                     VStack {
-                        Image(systemName: "gauge").resizable().frame(width: 32, height: 32).offset(y: 4)
-                        Text("Monitor").foregroundColor(.blue)
+                        Image(systemName: "gauge").resizable().frame(width: 40, height: 40).offset(y: 4)
+                        Text("Monitor").bold().foregroundColor(.blue)
                     }.frame(maxWidth: .infinity).padding(.vertical, 6)
                 }
                 NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
                     VStack {
-                        Image(systemName: "info.circle").resizable().frame(width: 32, height: 32).offset(y: 4)
-                        Text("Details").foregroundColor(.blue)
+                        Image(systemName: "info.circle").resizable().frame(width: 40, height: 40).offset(y: 4)
+                        Text("Details").bold().foregroundColor(.blue).bold()
                     }.frame(maxWidth: .infinity).padding(.vertical, 6)
                 }
             }
             HStack(spacing: 10) {
                 NavigationLink(destination: LogView().environmentObject(app).environmentObject(log).environmentObject(settings)) {
                     VStack {
-                        Image(systemName: "doc.plaintext").resizable().frame(width: 32, height: 32).offset(y: 4)
-                        Text("Log").foregroundColor(.blue)
+                        Image(systemName: "doc.plaintext").resizable().frame(width: 40, height: 40).offset(y: 4)
+                        Text("Log").bold().foregroundColor(.blue)
                     }.frame(maxWidth: .infinity).padding(.vertical, 6)
                 }
                 NavigationLink(destination: SettingsView().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
                     VStack {
-                        Image(systemName: "gear").resizable().frame(width: 32, height: 32).offset(y: 4)
-                        Text("Settings").tracking(-0.5).foregroundColor(.blue)
+                        Image(systemName: "gear").resizable().frame(width: 40, height: 40).offset(y: 4)
+                        Text("Settings").bold().tracking(-0.5).foregroundColor(.blue)
                     }.frame(maxWidth: .infinity).padding(.vertical, 6)
                 }
             }
