@@ -23,13 +23,13 @@ struct ContentView: View {
                     VStack {
                         Image(systemName: "gauge").resizable().frame(width: 32, height: 32).offset(y: 4)
                         Text("Monitor").foregroundColor(.blue)
-                    }.frame(maxWidth: .infinity).padding(.vertical, 6).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.yellow, lineWidth: 1.5))
+                    }.frame(maxWidth: .infinity).padding(.vertical, 6)
                 }
                 NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
                     VStack {
                         Image(systemName: "info.circle").resizable().frame(width: 32, height: 32).offset(y: 4)
                         Text("Details").foregroundColor(.blue)
-                    }.frame(maxWidth: .infinity).padding(.vertical, 6).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.yellow, lineWidth: 1.5))
+                    }.frame(maxWidth: .infinity).padding(.vertical, 6)
                 }
             }
             HStack(spacing: 10) {
@@ -37,13 +37,13 @@ struct ContentView: View {
                     VStack {
                         Image(systemName: "doc.plaintext").resizable().frame(width: 32, height: 32).offset(y: 4)
                         Text("Log").foregroundColor(.blue)
-                    }.frame(maxWidth: .infinity).padding(.vertical, 6).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.yellow, lineWidth: 1.5))
+                    }.frame(maxWidth: .infinity).padding(.vertical, 6)
                 }
                 NavigationLink(destination: SettingsView().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
                     VStack {
                         Image(systemName: "gear").resizable().frame(width: 32, height: 32).offset(y: 4)
                         Text("Settings").tracking(-0.5).foregroundColor(.blue)
-                    }.frame(maxWidth: .infinity).padding(.vertical, 6).overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.yellow, lineWidth: 1.5))
+                    }.frame(maxWidth: .infinity).padding(.vertical, 6)
                 }
             }
         }.padding(4)

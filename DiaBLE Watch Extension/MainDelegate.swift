@@ -351,6 +351,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
     }
 
     public func extendedRuntimeSession(_ extendedRuntimeSession: WKExtendedRuntimeSession, didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason, error: Error?) {
-        debugLog("extended session did invalidate: reason: \(reason), error:  \(error?.localizedDescription ?? "undefined")")
+        let errorDescription = error != nil ? error!.localizedDescription : "undefined"
+        debugLog("extended session did invalidate: reason: \(reason), error: \(errorDescription)")
     }
 }
