@@ -171,9 +171,10 @@ class Device: ObservableObject {
     }
 
     // For UI testing
-    convenience init(battery: Int, firmware: String = "", manufacturer: String = "", hardware: String = "", macAddress: Data = Data()) {
+    convenience init(battery: Int, rssi: Int = 0, firmware: String = "", manufacturer: String = "", hardware: String = "", macAddress: Data = Data()) {
         self.init()
         self.battery = battery
+        self.rssi = rssi
         self.firmware = firmware
         self.manufacturer = manufacturer
         self.hardware = hardware
