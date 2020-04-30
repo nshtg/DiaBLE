@@ -2,9 +2,6 @@ FIXME
 -----
 
 * Bubble: the Apple Watch app doesn't connect to it and Mac Catalyst stops receiving data from the read characteristic
-* Apple Watch app:
-  - the Monitor counter doesn't update on relaunch
-  - readings aren't received in background but Bluetooth connections aren't closed until shutdown, even when the app is removed from the Dock
 * Mac Catalyst: AVAudioSession error: "Cannot activate session when app is in background" in MainDelegate init
 * running the CBCentralManager delegate and log() in the main queue makes the tabs irresponsive when scanning for a device and the Mac is continuosly detected
 * when the sensor is not detected the last reading time is updated anyway

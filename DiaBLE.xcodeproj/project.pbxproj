@@ -42,6 +42,10 @@
 		C5A5796E23A2CEE800945F72 /* Transmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5796D23A2CEE800945F72 /* Transmitter.swift */; };
 		C5A5797023A2CF0700945F72 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5796F23A2CF0700945F72 /* Sensor.swift */; };
 		C5A5797223A2CF2C00945F72 /* LibreOOP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5797123A2CF2C00945F72 /* LibreOOP.swift */; };
+		C5A82D1E245B48BF00F710A1 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A82D1D245B48BF00F710A1 /* Bubble.swift */; };
+		C5A82D1F245B48BF00F710A1 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A82D1D245B48BF00F710A1 /* Bubble.swift */; };
+		C5A82D21245B4A8D00F710A1 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */; };
+		C5A82D22245B4A8D00F710A1 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */; };
 		C5AF44D22422349E00522803 /* Watlaa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AF44D12422349E00522803 /* Watlaa.swift */; };
 		C5C20E4523C77FD800475327 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4423C77FD800475327 /* DataView.swift */; };
 		C5C20E4723C780FB00475327 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4623C780FB00475327 /* Monitor.swift */; };
@@ -178,6 +182,8 @@
 		C5A5796D23A2CEE800945F72 /* Transmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transmitter.swift; sourceTree = "<group>"; };
 		C5A5796F23A2CF0700945F72 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		C5A5797123A2CF2C00945F72 /* LibreOOP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreOOP.swift; sourceTree = "<group>"; };
+		C5A82D1D245B48BF00F710A1 /* Bubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
+		C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiao.swift; sourceTree = "<group>"; };
 		C5AF44D12422349E00522803 /* Watlaa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watlaa.swift; sourceTree = "<group>"; };
 		C5C20E4423C77FD800475327 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 		C5C20E4623C780FB00475327 /* Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitor.swift; sourceTree = "<group>"; };
@@ -293,7 +299,9 @@
 		C5AF44D02422344300522803 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
+				C5A82D1D245B48BF00F710A1 /* Bubble.swift */,
 				C5DB1CFA23DB6208009F5C68 /* Legacy.swift */,
+				C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */,
 				C5AF44D12422349E00522803 /* Watlaa.swift */,
 			);
 			path = Devices;
@@ -622,6 +630,7 @@
 				C5E9C75A2444967300D52B32 /* Sensor.swift in Sources */,
 				C58507AF23C50BF40079539D /* HostingController.swift in Sources */,
 				C5E9C75E2444968400D52B32 /* LibreOOP.swift in Sources */,
+				C5A82D1F245B48BF00F710A1 /* Bubble.swift in Sources */,
 				C5E9C7592444966A00D52B32 /* Bluetooth.swift in Sources */,
 				C58507AD23C50BF40079539D /* ContentView.swift in Sources */,
 				C53C0D0924471FF200DB08EE /* Details.swift in Sources */,
@@ -632,6 +641,7 @@
 				C58507B123C50BF40079539D /* ExtensionDelegate.swift in Sources */,
 				C58507B523C50BF40079539D /* NotificationView.swift in Sources */,
 				C5E9C756244495D700D52B32 /* App.swift in Sources */,
+				C5A82D22245B4A8D00F710A1 /* MiaoMiao.swift in Sources */,
 				C58507B723C50BF40079539D /* ComplicationController.swift in Sources */,
 				C5E9C75D2444968000D52B32 /* Health.swift in Sources */,
 				C5E9C755244495B000D52B32 /* Extensions.swift in Sources */,
@@ -652,6 +662,7 @@
 				C5C20E4723C780FB00475327 /* Monitor.swift in Sources */,
 				C5521C8223BB5D5A00826CFB /* App.swift in Sources */,
 				C5E1013F23A2774C00678DF6 /* DiaBLE.xcdatamodeld in Sources */,
+				C5A82D21245B4A8D00F710A1 /* MiaoMiao.swift in Sources */,
 				C5A1B8B023C6410A00D60962 /* Bluetooth.swift in Sources */,
 				C522C77123D4D363002021F7 /* Details.swift in Sources */,
 				C5E1014123A2774C00678DF6 /* ContentView.swift in Sources */,
@@ -674,6 +685,7 @@
 				C5E1013C23A2774C00678DF6 /* SceneDelegate.swift in Sources */,
 				C5C937E423CBA0AE00A87BAB /* Health.swift in Sources */,
 				C5DF10F423C783140023E0E2 /* LogView.swift in Sources */,
+				C5A82D1E245B48BF00F710A1 /* Bubble.swift in Sources */,
 				C5A5797023A2CF0700945F72 /* Sensor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
