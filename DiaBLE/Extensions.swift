@@ -15,12 +15,21 @@ extension String {
     var base64Data: Data? { Data(base64Encoded: self) }
     var sha1: String { self.data(using: .ascii)!.sha1 }
 
-    /// Convert the NFCReader hex dump
     var bytes: [UInt8] {
         var bytes = [UInt8]()
-        for line in self.split(separator: "\n") {
-            for hex in line.split(separator: " ").suffix(8) {
+        if !self.contains(" ") {
+            var offset = self.startIndex
+            while offset < self.endIndex {
+                let hex = self[offset...index(after: offset)]
                 bytes.append(UInt8(hex, radix: 16)!)
+                formIndex(&offset, offsetBy: 2)
+            }
+        } else {
+            /// Convert the NFCReader hex dump
+            for line in self.split(separator: "\n") {
+                for hex in line.split(separator: " ").suffix(8) {
+                    bytes.append(UInt8(hex, radix: 16)!)
+                }
             }
         }
         return bytes
