@@ -1,6 +1,6 @@
 <p align ="center"><img src="./DiaBLE//Assets.xcassets/AppIcon.appiconset/Icon.png" width="25%" /></p>
 
-Experimenting with the Bluetooth BLE devices I bought for the Abbott FreeStyle Libre sensor (mainly the **Bubble** and **MiaoMiao** transmitters, M5Stack and the Mi Band and Watlaa watches) and trying something new compared to the traditional apps:
+Experimenting with the Bluetooth BLE devices I bought for the Abbott FreeStyle Libre sensor (mainly the **BluCon**, **Bubble** and **MiaoMiao** transmitters, M5Stack and the Mi Band and Watlaa watches) and trying something new compared to the traditional apps:
 
 * a universal **SwiftUI** application for iPhone, iPad and Mac Catalyst;
 * an **independent Apple Watch app** connecting directly via Bluetooth;
@@ -27,4 +27,4 @@ The project started as a single script for the iPad Swift Playgrounds and was qu
 Please refer to the [TODOs list](https://github.com/gui-dos/DiaBLE/blob/master/TODO.md) for the up-to-date status of all the current limitations and known bugs of this prototype.
 
 ---
-Credits: [bubbledevteam](https://github.com/bubbledevteam?tab=repositories), [dabear](https://github.com/dabear?tab=repositories), [LibreMonitor](https://github.com/UPetersen/LibreMonitor/tree/Swift4), [Loop](https://github.com/LoopKit/Loop), [Marek Macner](https://github.com/MarekM60?tab=repositories), [Nightguard]( https://github.com/nightscout/nightguard), [RileyLink iOS](https://github.com/ps2/rileylink_ios), [WoofWoof](https://github.com/gshaviv/ninety-two), [xDrip for iOS](https://github.com/JohanDegraeve/xdripswift).
+Credits: [bubbledevteam](https://github.com/bubbledevteam?tab=repositories), [dabear](https://github.com/dabear?tab=repositories), [LibreMonitor](https://github.com/UPetersen/LibreMonitor/tree/Swift4), [Loop](https://github.com/LoopKit/Loop), [Marek Macner](https://github.com/MarekM60?tab=repositories), [Nightguard]( https://github.com/nightscout/nightguard), [RileyLink iOS](https://github.com/ps2/rileylink_ios), [WoofWoof](https://github.com/gshaviv/ninety-two), [xDrip+](https://github.com/NightscoutFoundation/xDrip), [xDrip for iOS](https://github.com/JohanDegraeve/xdripswift).
