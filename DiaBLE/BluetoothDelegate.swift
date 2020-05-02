@@ -86,7 +86,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         log("Bluetooth: found \"\(name)\" (RSSI: \(rssi), advertised data: \(advertisement)); connecting to it")
         centralManager.stopScan()
 
-        if name.matches("blu") {
+        if name.lowercased().hasPrefix("blu") {
             app.transmitter = BluCon(peripheral: peripheral, main: main)
             app.device = app.transmitter
         } else if name == "Bubble" {

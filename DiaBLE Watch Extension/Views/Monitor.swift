@@ -34,7 +34,7 @@ struct Monitor: View {
                         (app.currentGlucose < 0 ? "(\(-app.currentGlucose)) " : "--- "))
                         .fontWeight(.black)
                         .foregroundColor(.black)
-                        .padding(10)
+                        .padding(app.currentGlucose > 0 ? 10 : 4)
                         .background(abs(app.currentGlucose) > 0 && (abs(app.currentGlucose) > Int(settings.alarmHigh) || abs(app.currentGlucose) < Int(settings.alarmLow)) ? Color.red :
                             (app.currentGlucose < 0 ?
                                 (history.calibratedTrend.count > 0 ? Color.purple : Color.yellow) : Color.blue))
