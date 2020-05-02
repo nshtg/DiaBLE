@@ -23,8 +23,8 @@ class Watlaa: Watch {
         var description: String {
             switch self {
             case .data:           return "data"
-            case .dataRead:       return "data read"
             case .dataWrite:      return "data write"
+            case .dataRead:       return "data read"
             case .legacyData:     return "data (legacy)"
             case .legacyDataRead: return "raw glucose data (legacy)"
             case .bridgeStatus:   return "bridge connection status"

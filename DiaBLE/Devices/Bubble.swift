@@ -13,8 +13,8 @@ class Bubble: Transmitter {
         var description: String {
             switch self {
             case .data:      return "data"
-            case .dataRead:  return "data read"
             case .dataWrite: return "data write"
+            case .dataRead:  return "data read"
             }
         }
     }

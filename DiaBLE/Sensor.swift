@@ -173,6 +173,7 @@ class Sensor: ObservableObject {
 func sensorType(patchInfo: Data) -> SensorType {
     switch patchInfo[0] {
     case 0xDF: return .libre1
+    case 0xA2: return .libre1
     case 0x9D: return .libre2
     case 0xE5: return .libreUS
     case 0x70: return .libreProH
