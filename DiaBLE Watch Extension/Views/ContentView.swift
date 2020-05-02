@@ -19,7 +19,7 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 10) {
             HStack(spacing: 10) {
-                NavigationLink(destination: Monitor().environmentObject(app).environmentObject(log).environmentObject(history).environmentObject(settings)) {
+                NavigationLink(destination: Monitor().environmentObject(app).environmentObject(history).environmentObject(settings)) {
                     VStack {
                         Image(systemName: "gauge").resizable().frame(width: 40, height: 40).offset(y: 4)
                         Text("Monitor").bold().foregroundColor(.blue)

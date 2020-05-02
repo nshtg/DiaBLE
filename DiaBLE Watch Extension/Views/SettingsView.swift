@@ -4,6 +4,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var app: App
+    @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
     @State private var showingCalendarPicker = false
@@ -70,10 +71,11 @@ struct SettingsView: View {
                 Spacer()
 
                 HStack(spacing: 3) {
-                    Button(action: {
-                        let device = self.app.device
-                        // TODO: switch to Monitor
+                    NavigationLink(destination: Monitor().environmentObject(app).environmentObject(history).environmentObject(settings)) {
+                        Image(systemName: "timer").resizable().frame(width: 20, height: 20)
+                    }.simultaneousGesture(TapGesture().onEnded {
                         // self.app.selectedTab = (self.settings.preferredTransmitter != .none || self.settings.preferredWatch != .none) ? .monitor : .log
+                        let device = self.app.device
                         let centralManager = self.app.main.centralManager
                         if device != nil {
                             centralManager.cancelPeripheralConnection(device!.peripheral!)
@@ -83,9 +85,8 @@ struct SettingsView: View {
                             self.app.main.info("\n\nScanning...")
                         }
                         if let healthKit = self.app.main.healthKit { healthKit.read() }
-                        // if let nightscout = self.app.main.nightscout { nightscout.read() }
-                    }
-                    ) { Image(systemName: "timer").resizable().frame(width: 20, height: 20) }
+                        // if let nightscout = self.app.main.nightscout { nightscout.read()
+                    })
 
                     Picker(selection: $settings.readingInterval, label: Text("")) {
                         ForEach(Array(stride(from: 1,
@@ -173,14 +174,12 @@ struct SettingsView: View {
 
 struct SettingsView_Previews: PreviewProvider {
     @EnvironmentObject var app: App
-    @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
             SettingsView()
                 .environmentObject(App.test(tab: .settings))
-                .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())
                 .environment(\.colorScheme, .dark)

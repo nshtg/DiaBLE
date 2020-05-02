@@ -2,6 +2,9 @@ FIXME
 -----
 
 * Bubble: the Apple Watch app doesn't connect to it and Mac Catalyst stops receiving data from the read characteristic
+* Apple Watch app:
+  - the Monitor counter doesn't update on relaunch
+  - readings aren't received in background but Bluetooth connections aren't closed until shutdown, even when the app is removed from the Dock
 * Mac Catalyst: AVAudioSession error: "Cannot activate session when app is in background" in MainDelegate init
 * running the CBCentralManager delegate and log() in the main queue makes the tabs irresponsive when scanning for a device and the Mac is continuosly detected
 * when the sensor is not detected the last reading time is updated anyway
@@ -16,7 +19,7 @@ TODO
 * BLE: update RSSI and 1805 2A2B characteristic (current time)
 * Watlaa iBeacon
 * selection of glucose units
-* log: limit to a number of readings; add the time when prepending "\t"; add a search field; record to a file
+* log: limit to a number of readings; add the time when prepending "\t"; add a search field; Share menu; record to a file
 * let the user input their BG and manage slope/offset parameters independent from the temperatures
 * more modern Swift idioms: Combine, property wrappers, @dynamicCallable/MemberLookup, ViewModifiers
 
