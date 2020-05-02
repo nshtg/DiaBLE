@@ -88,13 +88,12 @@ struct LogView: View {
                     self.settings.reversedLog.toggle()
                     self.log.text = self.log.text.split(separator:"\n").reversed().joined(separator: "\n")
                     if !self.settings.reversedLog { self.log.text.append(" \n") }
-                }) { VStack {
-                    Image(systemName: "backward.fill").resizable().frame(width: 12, height: 12)
-                    }
-                }.background(settings.reversedLog ? Color.blue : Color.clear)
-                    .border(Color.blue, width: 3)
-                    .cornerRadius(5)
-                    .foregroundColor(settings.reversedLog ? .black : .blue)
+                }) { ZStack {
+                    RoundedRectangle(cornerRadius: 5).fill(settings.reversedLog ? Color.blue : Color.clear)
+                    RoundedRectangle(cornerRadius: 5).stroke(settings.reversedLog ? Color.clear : Color.blue, lineWidth: 2)
+                    Image(systemName: "backward.fill").resizable().frame(width: 12, height: 12).foregroundColor(settings.reversedLog ? .black : .blue)
+                }.frame(width: 24, height: 24)
+                }
 
                 Button(action: {
                     self.settings.logging.toggle()
