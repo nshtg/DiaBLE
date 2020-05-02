@@ -16,10 +16,6 @@ struct Monitor: View {
 
         VStack(spacing: 0) {
 
-            //            if !editingCalibration {
-            //                Spacer()
-            //            }
-
             VStack(spacing: 0) {
                 HStack {
                     VStack(spacing: 0) {
@@ -79,37 +75,9 @@ struct Monitor: View {
                                 Text(app.sensor.state.description)
                                     .foregroundColor(app.sensor.state == .ready ? .green : .red)
 
-                                //                                    if app.sensor.serial != "" {
-                                //                                        Text("\(app.sensor.serial)")
-                                //                                    }
-
                                 if app.sensor.age > 0 {
                                     Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days")
                                 }
-                            }
-                        }
-
-                        if app.device?.name != app.transmitter?.name && app.transmitter?.battery ?? -1 > -1 {
-                            VStack(spacing: 0) {
-                                if app.transmitter.battery > -1 {
-                                    Text("Battery: ").foregroundColor(Color(UIColor.lightGray)) +
-                                        Text("\(app.transmitter.battery)%").foregroundColor(app.transmitter.battery > 10 ? .green : .red)
-                                }
-                                if app.transmitter.rssi != 0  {
-                                    Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
-                                        Text("\(app.transmitter.rssi) dB")
-                                }
-                                //                                if app.transmitter.firmware.count > 0 {
-                                //                                    Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
-                                //                                        Text("\(app.transmitter.firmware)")
-                                //                                }
-                                //                                if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
-                                //                                    Text("Hardware: ").foregroundColor(Color(UIColor.lightGray)) +
-                                //                                        Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)".trimmingCharacters(in: .whitespaces))
-                                //                                }
-                                //                                if app.transmitter.macAddress.count > 0  {
-                                //                                    Text("\(app.transmitter.macAddress.hexAddress)")
-                                //                                }
                             }
                         }
 
@@ -123,25 +91,15 @@ struct Monitor: View {
                                     Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
                                         Text("\(app.device.rssi) dB")
                                 }
-                                //                                if app.device.firmware.count > 0 {
-                                //                                    Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
-                                //                                        Text("\(app.device.firmware)")
-                                //                                }
-                                //                                    if app.device.manufacturer.count + app.device.hardware.count > 0  {
-                                //                                        Text("Hardware: ").foregroundColor(Color(UIColor.lightGray)) +
-                                //                                            Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)".trimmingCharacters(in: .whitespaces))
-                                //                                    }
-                                //                                    if app.device.macAddress.count > 0  {
-                                //                                        Text("\(app.device.macAddress.hexAddress)")
-                                //                                    }
                             }
                         }
 
                     }.font(.footnote).foregroundColor(.yellow)
 
-                    Text(app.info)
+                    Text(app.info.replacingOccurrences(of: "\n", with: " "))
                         .font(.footnote)
-                        // .padding(.vertical, 5)
+                        .lineLimit(1)
+                        .truncationMode(.head)
                         .frame(maxWidth: .infinity)
 
                     if app.info.hasPrefix("Scanning") {
@@ -152,16 +110,7 @@ struct Monitor: View {
                         }.foregroundColor(.red)
 
                     }
-
-                    //                        if !app.info.contains("canning") {
-                    //                            NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
-                    //                                Text("Details").font(.footnote).bold().fixedSize()
-                    //                                    .padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
-                    //                            }
-                    //                        }
                 }
-
-                // Spacer()
 
             }
 
@@ -304,8 +253,6 @@ struct Monitor: View {
             //
             //                    }.font(.footnote).accentColor(.purple)
             //                }
-
-            // Spacer()
 
             // Same as Rescan
             HStack {
