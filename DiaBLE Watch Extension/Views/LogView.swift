@@ -67,8 +67,7 @@ struct LogView: View {
                     self.settings.debugLevel = 1 - self.settings.debugLevel
                 }) { ZStack {
                     RoundedRectangle(cornerRadius: 5).fill(settings.debugLevel == 1 ? Color.blue : Color.clear)
-                    RoundedRectangle(cornerRadius: 5).stroke(settings.debugLevel == 1 ? Color.clear : Color.blue, lineWidth: 2)
-                    Image(systemName: "wrench.fill").resizable().frame(width: 18, height: 18).foregroundColor(settings.debugLevel == 1 ? .black : .blue)
+                    Image(systemName: "wrench.fill").resizable().frame(width: 22, height: 22).foregroundColor(settings.debugLevel == 1 ? .black : .blue)
                 }.frame(width: 24, height: 24)
                 }
 
