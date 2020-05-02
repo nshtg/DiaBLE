@@ -274,7 +274,7 @@ struct Monitor: View {
                     .frame(height: 16)
                 Spacer()
                 if !app.info.contains("canning") {
-                    NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
+                    NavigationLink(destination: Details().environmentObject(app).environmentObject(history).environmentObject(settings)) {
                         Image(systemName: "info.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
                     }.frame(height: 16)
                 }
