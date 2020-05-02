@@ -60,8 +60,8 @@ extension App {
 
         let app = App()
 
-        app.device = Watlaa()
         app.transmitter = Transmitter(battery: 54, rssi: -75, firmware: "4.56", manufacturer: "Acme Inc.", hardware: "2.3", macAddress: Data([0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF]))
+        app.device = app.transmitter
         app.sensor = Sensor(state: .ready, serial: "0M0008B8CSR", age: 3407)
         app.selectedTab = tab
         app.currentGlucose = 234
