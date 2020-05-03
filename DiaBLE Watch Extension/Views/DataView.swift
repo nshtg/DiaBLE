@@ -35,7 +35,7 @@ struct DataView: View {
                                 Text("OOP history")
                                 ScrollView {
                                     ForEach(history.values) { glucose in
-                                        Text("\(glucose.id) \(glucose.date.shortDateTime)  \(Int(glucose.value), specifier: "%3lld")").padding(.vertical, 4)
+                                        (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(Int(glucose.value), specifier: "%3lld")").bold()).padding(.vertical, 4)
                                     }
                                 }.frame(maxWidth: .infinity, alignment: .topLeading)
                             }.foregroundColor(.blue)
@@ -46,7 +46,7 @@ struct DataView: View {
                                 Text("Raw history")
                                 ScrollView {
                                     ForEach(history.rawValues) { glucose in
-                                        Text("\(glucose.id) \(glucose.date.shortDateTime)  \(Int(glucose.value), specifier: "%3lld")").padding(.vertical, 4)
+                                        (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(Int(glucose.value), specifier: "%3lld")").bold()).padding(.vertical, 4)
                                     }
                                 }.frame(maxWidth: .infinity, alignment: .topLeading)
                             }.foregroundColor(.yellow)
@@ -59,7 +59,7 @@ struct DataView: View {
                                 Text("Calibrated history")
                                 ScrollView {
                                     ForEach(history.calibratedValues) { glucose in
-                                        Text("\(glucose.id) \(glucose.date.shortDateTime)  \(Int(glucose.value), specifier: "%3lld")").padding(.vertical, 4)
+                                        (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(Int(glucose.value), specifier: "%3lld")").bold()).padding(.vertical, 4)
                                     }
                                 }.frame(maxWidth: .infinity, alignment: .topLeading)
                             }.foregroundColor(.purple)
@@ -72,7 +72,7 @@ struct DataView: View {
                                     Text("Raw trend")
                                     ScrollView {
                                         ForEach(history.rawTrend) { glucose in
-                                            Text("\(glucose.id) \(glucose.date.shortDateTime)  \(Int(glucose.value), specifier: "%3lld")").padding(.vertical, 4)
+                                            (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(Int(glucose.value), specifier: "%3lld")").bold()).padding(.vertical, 4)
                                         }
                                     }.frame(maxWidth: .infinity, alignment: .topLeading)
                                 }.foregroundColor(.yellow)
@@ -83,7 +83,7 @@ struct DataView: View {
                                     Text("Calibrated trend")
                                     ScrollView {
                                         ForEach(history.calibratedTrend) { glucose in
-                                            Text("\(glucose.id) \(glucose.date.shortDateTime)  \(Int(glucose.value), specifier: "%3lld")").padding(.vertical, 4)
+                                            (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(Int(glucose.value), specifier: "%3lld")").bold()).padding(.vertical, 4)
                                         }
                                     }.frame(maxWidth: .infinity, alignment: .topLeading)
                                 }.foregroundColor(.purple)
