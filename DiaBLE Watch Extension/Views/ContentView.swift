@@ -63,11 +63,11 @@ struct ContentView: View {
                     }
                 }
             }
+            .foregroundColor(.red)
+            .buttonStyle(PlainButtonStyle())
         }
         .navigationBarTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)")
         .edgesIgnoringSafeArea([.bottom])
-        .foregroundColor(.red)
-        .buttonStyle(PlainButtonStyle())
     }
 }
 
