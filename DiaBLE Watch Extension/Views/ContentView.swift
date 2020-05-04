@@ -55,7 +55,7 @@ struct ContentView: View {
                             Text("Data").bold().foregroundColor(.blue)
                         }.frame(maxWidth: .infinity).padding(.vertical, 6)
                     }
-                    NavigationLink(destination: Monitor().environmentObject(app).environmentObject(history).environmentObject(log).environmentObject(settings)) {
+                    NavigationLink(destination: OnlineView().environmentObject(app).environmentObject(history).environmentObject(settings)) {
                         VStack {
                             Image(systemName: "globe").resizable().frame(width: 40, height: 40).offset(y: 4)
                             Text("Online").bold().foregroundColor(.blue)
