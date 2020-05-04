@@ -54,8 +54,9 @@ class Nightscout: NSObject {
             var values = [Glucose]()
             for item in array {
                 if let dict = item as? [String: Any] {
-                    if let value = dict["sgv"] as? Int, let id = dict["date"] as? Int, let device = dict["device"] as? String {
-                        values.append(Glucose(value, id: id, date: Date(timeIntervalSince1970: Double(id)/1000), source: device))
+                    // watchOS doesn't recognize dict["date"] as Int
+                    if let value = dict["sgv"] as? Int, let id = dict["date"] as? NSNumber, let device = dict["device"] as? String {
+                        values.append(Glucose(value, id: Int(truncating: id), date: Date(timeIntervalSince1970: Double(truncating: id)/1000), source: device))
                     }
                 }
             }

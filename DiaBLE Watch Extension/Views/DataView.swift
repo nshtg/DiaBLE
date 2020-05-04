@@ -116,8 +116,9 @@ struct DataView: View {
                                     }
                                     .frame(maxWidth: .infinity, alignment: .topLeading)
                                 }
-                            }.foregroundColor(.blue)
-                            // .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
+                            }
+                            .foregroundColor(.blue)
+                            .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
                         }
                     }
                 }

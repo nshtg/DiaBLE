@@ -34,17 +34,17 @@ struct OnlineView: View {
                                 self.app.main.info("\n\nScanning...")
                             }
                             if let healthKit = self.app.main.healthKit { healthKit.read() }
-                            // if let nightscout = self.app.main.nightscout { nightscout.read() }
+                            if let nightscout = self.app.main.nightscout { nightscout.read() }
                         }
                         ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16)
-                            .foregroundColor(.blue) }
-
-                        Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
-                            "\(readingCountdown) s" : "...")
-                            .fixedSize()
-                            .onReceive(timer) { _ in
-                                self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                        }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
+                            .foregroundColor(.blue)
+                            Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
+                                "\(readingCountdown) s" : "...")
+                                .fixedSize()
+                                .onReceive(timer) { _ in
+                                    self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
+                            }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
+                        }
                     }
                 }
 
@@ -74,10 +74,13 @@ struct OnlineView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .topLeading)
             }
-            // .font(.system(.footnote, design: .monospaced)).foregroundColor(Color(UIColor.blue))
-            // .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
+                // .font(.system(.footnote, design: .monospaced)).foregroundColor(Color(UIColor.blue))
+                .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read()
+                    self.app.main.log("nightscoutValues count \(self.history.nightscoutValues.count)")
+                    } }
         }
-        .navigationBarTitle("Online").edgesIgnoringSafeArea([.bottom])
+        .navigationBarTitle("Online")
+        .edgesIgnoringSafeArea([.bottom])
         .buttonStyle(PlainButtonStyle())
         .foregroundColor(.blue)
 

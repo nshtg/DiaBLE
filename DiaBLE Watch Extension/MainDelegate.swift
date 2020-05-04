@@ -16,7 +16,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
     var bluetoothDelegate: BluetoothDelegate
     var audioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: Bundle.main.path(forResource: "alarm_high", ofType: "mp3")!), fileTypeHint: "mp3")
     var healthKit: HealthKit?
-    //    var nightscout: Nightscout?
+    var nightscout: Nightscout?
     //    var eventKit: EventKit?
 
 
@@ -50,8 +50,8 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
             }
         }
 
-        //        nightscout = Nightscout(main: self)
-        //        nightscout!.read()
+        nightscout = Nightscout(main: self)
+        nightscout!.read()
         //        eventKit = EventKit(main: self)
         //        eventKit?.sync()
         //
@@ -333,11 +333,11 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
             // TODO
             healthKit?.write(entries.filter{$0.date > healthKit?.lastDate ?? Calendar.current.date(byAdding: .hour, value: -8, to : Date())!})
 
-            //            nightscout?.delete(query: "find[device]=LibreOOP&count=32") { data, response, error in
-            //                self.nightscout?.post(entries: entries) { data, response, error in
-            //                    self.nightscout?.read()
-            //                }
-            //            }
+            nightscout?.delete(query: "find[device]=LibreOOP&count=32") { data, response, error in
+                self.nightscout?.post(entries: entries) { data, response, error in
+                    self.nightscout?.read()
+                }
+            }
         }
     }
 
