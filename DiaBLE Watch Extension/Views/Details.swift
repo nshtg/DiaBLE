@@ -154,7 +154,7 @@ struct Details: View {
                         if let nightscout = self.app.main.nightscout { nightscout.read() }
                     }
                     ) {
-                        Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 24, height: 24)
+                        Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16)
                             .foregroundColor(.blue)
                         Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
                             "\(readingCountdown) s" : "...")
@@ -175,7 +175,7 @@ struct Details: View {
                     }
                 }
                 ) {
-                    Image(systemName: "escape").resizable().frame(width: 24, height: 24)
+                    Image(systemName: "escape").resizable().frame(width: 16, height: 16)
                         .foregroundColor(.blue)
                 }
 
