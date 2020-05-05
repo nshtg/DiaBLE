@@ -124,6 +124,7 @@ struct Details: View {
                             }
                         }
                     }
+
                 }
 
                 if app.device == nil && app.sensor == nil {
@@ -154,16 +155,17 @@ struct Details: View {
                         if let nightscout = self.app.main.nightscout { nightscout.read() }
                     }
                     ) {
-                        Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16)
-                            .foregroundColor(.blue)
-                        Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
-                            "\(readingCountdown) s" : "...")
-                            .fixedSize()
-                            .onReceive(timer) { _ in
-                                self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                        }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
+                        HStack {
+                            Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 18, height: 18)
+                                .foregroundColor(.blue)
+                            Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
+                                "\(readingCountdown) s" : "...")
+                                .fixedSize()
+                                .onReceive(timer) { _ in
+                                    self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
+                            }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
+                        }
                     }
-
                 }
 
                 Spacer()
