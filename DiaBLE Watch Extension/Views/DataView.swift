@@ -97,7 +97,7 @@ struct DataView: View {
                                 Text("HealthKit")
                                 List() {
                                     ForEach(history.storedValues) { glucose in
-                                        Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(Int(glucose.value), specifier: "%3lld")")
+                                        (Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)") + Text("  \(Int(glucose.value), specifier: "%3lld")").bold())
                                             .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets()).listRowInsets(EdgeInsets())
                                     }
                                 }
@@ -111,7 +111,7 @@ struct DataView: View {
                                 Text("Nightscout")
                                 List() {
                                     ForEach(history.nightscoutValues) { glucose in
-                                        Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(Int(glucose.value), specifier: "%3lld")")
+                                        (Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)") + Text("  \(Int(glucose.value), specifier: "%3lld")").bold())
                                             .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets())
                                     }
                                     .frame(maxWidth: .infinity, alignment: .topLeading)
