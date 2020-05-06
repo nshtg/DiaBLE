@@ -52,8 +52,10 @@ class Bubble: Transmitter {
         let firmware = "\(Int(transmitterData[0])).\(Int(transmitterData[1]))"
         let hardware = "\(Int(transmitterData[2])).\(Int(transmitterData[3]))"
         let macAddress = Data(data[2...7])
-        main.log("\(Self.name): advertised manufacturer data: firmware: \(firmware), hardware: \(hardware), MAC address: \(macAddress.hexAddress)" )
+        self.firmware = firmware
+        self.hardware = hardware
         self.macAddress = macAddress
+        main.log("\(Self.name): advertised manufacturer data: firmware: \(firmware), hardware: \(hardware), MAC address: \(macAddress.hexAddress)" )
     }
 
 

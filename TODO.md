@@ -3,7 +3,7 @@ FIXME
 
 * Bubble: the Apple Watch app doesn't connect to it and Mac Catalyst stops receiving data from the read characteristic
 * Apple Watch app:
-  - the Monitor counter doesn't update on relaunch
+  - the Monitor counter doesn't update on rescan
   - readings aren't received in background but Bluetooth connections aren't closed until shutdown, even when the app is removed from the Dock
 * Mac Catalyst: AVAudioSession error: "Cannot activate session when app is in background" in MainDelegate init
 * running the CBCentralManager delegate and log() in the main queue makes the tabs irresponsive when scanning for a device and the Mac is continuosly detected
@@ -16,7 +16,7 @@ TODO
 * get the Libre 2 patchInfo via NFC and XOR-decrypt its FRAM
 * selection of glucose units
 * manage Nightscout JavaScript alerts synchronously
-* Apple Watch app: snapshots, WKExtendedRuntimeSession, complications, context menus
+* Apple Watch app: snapshots, WKExtendedRuntimeSession, complications, context menus, edit calibration parameters
 * BLE: update RSSI and 1805 2A2B characteristic (current time)
 * Watlaa iBeacon
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; Share menu; record to a file
