@@ -55,7 +55,13 @@ class Bubble: Transmitter {
         self.firmware = firmware
         self.hardware = hardware
         self.macAddress = macAddress
-        main.log("\(Self.name): advertised manufacturer data: firmware: \(firmware), hardware: \(hardware), MAC address: \(macAddress.hexAddress)" )
+        var msg = "\(Self.name): advertised manufacturer data: firmware: \(firmware), hardware: \(hardware), MAC address: \(macAddress.hexAddress)"
+        if data.count > 12 {
+            let battery = Int(data[12])
+            self.battery = battery
+            msg +=  ", battery: \(battery)"
+        }
+        main.log(msg)
     }
 
 
