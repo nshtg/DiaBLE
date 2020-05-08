@@ -48,7 +48,7 @@ struct LogView: View {
                         .fixedSize()
                         .onReceive(timer) { _ in
                             self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                    }.font(Font.caption.monospacedDigit()).foregroundColor(.orange)
+                    }.font(Font.footnote.monospacedDigit()).foregroundColor(.orange)
                 }
 
                 // Same as in Monitor

@@ -339,6 +339,8 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
                 }
             }
         }
+
+        extendedSession.start(at: app.lastReadingDate + Double(settings.readingInterval * 60) - 5.0)
     }
 
 

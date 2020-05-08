@@ -18,7 +18,7 @@ struct ContentView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 10) {
+            VStack(spacing: -4) {
                 HStack(spacing: 10) {
                     NavigationLink(destination: Monitor().environmentObject(app).environmentObject(history).environmentObject(settings)) {
                         VStack {
