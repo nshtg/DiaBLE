@@ -16,11 +16,13 @@ struct ContentView: View {
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
+    @State var isMonitorActive: Bool = true
+
     var body: some View {
         ScrollView {
             VStack(spacing: -4) {
                 HStack(spacing: 10) {
-                    NavigationLink(destination: Monitor().environmentObject(app).environmentObject(history).environmentObject(settings)) {
+                    NavigationLink(destination: Monitor().environmentObject(app).environmentObject(history).environmentObject(settings), isActive: $isMonitorActive) {
                         VStack {
                             Image(systemName: "gauge").resizable().frame(width: 40, height: 40).offset(y: 4)
                             Text("Monitor").bold().foregroundColor(.blue)
