@@ -146,7 +146,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                     sensor.fram = Data(fram)
                                 }
 
-                                self.main.info("\n\n\(sensor.type) + NFC")
+                                self.main.status("\(sensor.type) + NFC")
                                 self.main.parseSensorData(sensor)
                             }
                         }

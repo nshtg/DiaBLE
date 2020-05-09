@@ -92,15 +92,20 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
-    public func info(_ text: String) {
+    public func status(_ text: String) {
         DispatchQueue.main.async {
-            if text.prefix(2) == "\n\n" {
-                self.app.info = String(text.dropFirst(2))
-            } else if !self.app.info.contains(text) {
-                self.app.info.append(" \(text)")
+            self.app.status = text
+        }
+    }
+
+    public func errorStatus(_ text: String) {
+        if !self.app.status.contains(text) {
+            DispatchQueue.main.async {
+                self.app.status.append("\n\(text)")
             }
         }
     }
+
 
     public func playAlarm() {
         let currentGlucose = abs(app.currentGlucose)
@@ -128,7 +133,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
         if sensor.crcReport.contains("FAILED") {
             if history.rawValues.count > 0 && sensor.type != .libre2 { // bogus raw data with Libre 1
-                self.info("\nError while validating sensor data")
+                self.errorStatus("Error while validating sensor data")
                 return
             }
         }
@@ -161,7 +166,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             oopCalibration.parameters.slopeOffset == 0.0 &&
                             oopCalibration.parameters.offsetSlope == 0.0 {
                             self.log("LibreOOP: null calibration")
-                            self.info("\nLibreOOP calibration not valid")
+                            self.errorStatus("LibreOOP calibration not valid")
                         } else {
                             self.settings.oopCalibration = oopCalibration.parameters
                             if self.app.calibration == Calibration() || (self.app.calibration != self.settings.calibration) {
@@ -170,13 +175,13 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                         }
                     } else {
                         if data.string.contains("errcode") {
-                            self.info("\nLibreOOP calibration \(data.string)")
+                            self.errorStatus("LibreOOP calibration \(data.string)")
                         }
                     }
                     
                 } else {
                     self.log("LibreOOP: failed calibration")
-                    self.info("\nLibreOOP calibration failed")
+                    self.errorStatus("LibreOOP calibration failed")
                 }
                 
                 // Reapply the current calibration even when the connection fails
@@ -214,7 +219,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                 if let data = data {
                     self.log("LibreOOP: server history response: \(data.string)")
                     if data.string.contains("errcode") {
-                        self.info("\n\(data.string)")
+                        self.errorStatus("\(data.string)")
                         self.history.values = []
                     } else {
                         let decoder = JSONDecoder.init()
@@ -246,19 +251,19 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             self.log("LibreOOP: history values: \(oopHistory.map{ $0.value })")
                         } else {
                             self.log("LibreOOP: error decoding JSON data")
-                            self.info("\nLibreOOP server error: \(data.string)")
+                            self.errorStatus("LibreOOP server error: \(data.string)")
                         }
                     }
                 } else {
                     self.history.values = []
                     self.log("LibreOOP: connection failed")
-                    self.info("\nLibreOOP connection failed")
+                    self.errorStatus("LibreOOP connection failed")
                 }
                 self.didParseSensor(sensor)
                 return
             }
         } else {
-            self.info("\nPatch info not available")
+            self.errorStatus("Patch info not available")
             return
         }
     }

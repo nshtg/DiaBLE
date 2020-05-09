@@ -50,7 +50,7 @@ struct Monitor: View {
 
                     if app.deviceState == "Connected" {
 
-                        Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
+                        Text(readingCountdown > 0 || app.status.hasSuffix("sensor") ?
                             "\(readingCountdown) s" : "")
                             .fixedSize()
                             .onReceive(timer) { _ in
@@ -96,16 +96,16 @@ struct Monitor: View {
 
                     }.font(.footnote).foregroundColor(.yellow)
 
-                    Text(app.info.replacingOccurrences(of: "\n", with: " "))
+                    Text(app.status.replacingOccurrences(of: "\n", with: " "))
                         .font(.footnote)
                         .lineLimit(1)
                         .truncationMode(.head)
                         .frame(maxWidth: .infinity)
 
-                    if app.info.hasPrefix("Scanning") {
+                    if app.status.hasPrefix("Scanning") {
                         Button(action: {
                             self.app.main.centralManager.stopScan()
-                            self.app.main.info("\n\nStopped scanning")
+                            self.app.main.status("Stopped scanning")
                         }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
                         }.foregroundColor(.red)
 
@@ -265,7 +265,7 @@ struct Monitor: View {
                     }
                     if centralManager.state == .poweredOn {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)
-                        self.app.main.info("\n\nScanning...")
+                        self.app.main.status("Scanning...")
                     }
                     if let healthKit = self.app.main.healthKit { healthKit.read() }
                     if let nightscout = self.app.main.nightscout { nightscout.read() }
@@ -273,7 +273,7 @@ struct Monitor: View {
                 ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue) }
                     .frame(height: 16)
                 Spacer()
-                if !app.info.contains("canning") {
+                if !app.status.contains("canning") {
                     NavigationLink(destination: Details().environmentObject(app).environmentObject(history).environmentObject(settings)) {
                         Image(systemName: "info.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
                     }.frame(height: 16)

@@ -55,7 +55,7 @@ struct Monitor: View {
 
                         if app.deviceState == "Connected" {
 
-                            Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
+                            Text(readingCountdown > 0 || app.status.hasSuffix("sensor") ?
                                 "\(readingCountdown) s" : "")
                                 .fixedSize()
                                 .onReceive(timer) { _ in
@@ -140,21 +140,21 @@ struct Monitor: View {
 
                         }.font(.footnote).foregroundColor(.yellow)
 
-                        Text(app.info)
+                        Text(app.status)
                             .font(.footnote)
                             .padding(.vertical, 5)
                             .frame(maxWidth: .infinity)
 
-                        if app.info.hasPrefix("Scanning") {
+                        if app.status.hasPrefix("Scanning") {
                             Button(action: {
                                 self.app.main.centralManager.stopScan()
-                                self.app.main.info("\n\nStopped scanning")
+                                self.app.main.status("Stopped scanning")
                             }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
                             }.foregroundColor(.red)
 
                         }
 
-                        if !app.info.contains("canning") {
+                        if !app.status.contains("canning") {
                             NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
                                 Text("Details").font(.footnote).bold().fixedSize()
                                     .padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
@@ -317,7 +317,7 @@ struct Monitor: View {
                     }
                     if centralManager.state == .poweredOn {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)
-                        self.app.main.info("\n\nScanning...")
+                        self.app.main.status("Scanning...")
                     }
                     if let healthKit = self.app.main.healthKit { healthKit.read() }
                     if let nightscout = self.app.main.nightscout { nightscout.read() }

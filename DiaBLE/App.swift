@@ -17,7 +17,7 @@ class App: ObservableObject {
     @Published var oopTrend: String = ""
 
     @Published var deviceState: String = ""
-    @Published var info: String = "Welcome to DiaBLE!"
+    @Published var status: String = "Welcome to DiaBLE!"
 
     @Published var calibration: Calibration = Calibration() {
         didSet(value) {
@@ -68,7 +68,7 @@ extension App {
         app.oopAlarm = "HIGH_GLUCOSE"
         app.oopTrend = "FALLING"
         app.deviceState = "Connected"
-        app.info = "Sensor + Transmitter\nError about connection\nError about sensor"
+        app.status = "Sensor + Transmitter\nError about connection\nError about sensor"
         app.calibration = Calibration(slopeSlope: 0.123456, slopeOffset: 0.123456, offsetOffset: -15.123456, offsetSlope: 0.123456)
 
         return app

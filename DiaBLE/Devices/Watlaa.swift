@@ -217,11 +217,11 @@ class Watlaa: Watch {
             }
             if data.count == 1 {
                 if response == .noSensor {
-                    main.info("\n\n\(bridgeName): no sensor")
+                    main.status("\(bridgeName): no sensor")
                 }
                 // TODO: prompt the user and allow writing the command 0xD301 to change sensor
                 if response == .newSensor {
-                    main.info("\n\n\(bridgeName): detected a new sensor")
+                    main.status("\(bridgeName): detected a new sensor")
                 }
             } else if data.count == 2 {
                 if response == .frequencyChange {
@@ -264,7 +264,7 @@ class Watlaa: Watch {
                     }
                     bridge.sensor!.fram = Data(bridge.buffer[18 ..< 362])
                     readSetup()
-                    main.info("\n\n\(bridge.sensor!.type)  +  \(bridgeName)")
+                    main.status("\(bridge.sensor!.type)  +  \(bridgeName)")
                 }
             }
 
@@ -291,7 +291,7 @@ class Watlaa: Watch {
                 let fram = bridge.buffer[..<344]
                 bridge.sensor!.fram = Data(fram)
                 readSetup()
-                main.info("\n\n\(bridge.sensor!.type)  +  \(bridgeName)")
+                main.status("\(bridge.sensor!.type)  +  \(bridgeName)")
             }
 
 

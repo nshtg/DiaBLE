@@ -27,7 +27,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         case .poweredOn:
             log("Bluetooth state: Powered on")
             centralManager.scanForPeripherals(withServices: nil, options: nil)
-            main.info("\n\nScanning...")
+            main.status("Scanning...")
         case .resetting:    log("Bluetooth state: Resetting")
         case .unauthorized: log("Bluetooth state: Unauthorized")
         case .unknown:      log("Bluetooth state: Unknown")
@@ -78,7 +78,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             if !settings.preferredDevicePattern.isEmpty {
                 scanningFor += " for '\(settings.preferredDevicePattern)'"
             }
-            main.info("\n\n\(scanningFor)...\nSkipping \(name)...")
+            main.status("\(scanningFor)...\nSkipping \(name)...")
             log("Bluetooth: \(scanningFor.lowercased()), skipping \(name)")
             return
         }
@@ -116,7 +116,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             app.device.parseManufacturerData(manufacturerData)
         }
 
-        main.info("\n\n\(app.device.name)")
+        main.status("\(app.device.name)")
         app.device.peripheral?.delegate = self
         main.log("Bluetooth: connecting to \(name)...")
         centralManager.connect(app.device.peripheral!, options: nil)

@@ -67,11 +67,11 @@ class MiaoMiao: Transmitter {
         }
         if data.count == 1 {
             if response == .noSensor {
-                main.info("\n\n\(name): no sensor")
+                main.status("\(name): no sensor")
             }
             // TODO: prompt the user and allow writing the command 0xD301 to change sensor
             if response == .newSensor {
-                main.info("\n\n\(name): detected a new sensor")
+                main.status("\(name): detected a new sensor")
             }
         } else if data.count == 2 {
             if response == .frequencyChange {
@@ -114,7 +114,7 @@ class MiaoMiao: Transmitter {
                     sensor!.patchInfo = Data([0xDF, 0x00, 0x00, 0x01, 0x01, 0x02])
                 }
                 sensor!.fram = Data(buffer[18 ..< 362])
-                main.info("\n\n\(sensor!.type)  +  \(name)")
+                main.status("\(sensor!.type)  +  \(name)")
             }
         }
     }

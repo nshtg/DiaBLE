@@ -155,7 +155,7 @@ struct Details: View {
                     }
                     if centralManager.state == .poweredOn {
                         centralManager.scanForPeripherals(withServices: nil, options: nil)
-                        self.app.main.info("\n\nScanning...")
+                        self.app.main.status("Scanning...")
                     }
                     if let healthKit = self.app.main.healthKit { healthKit.read() }
                     if let nightscout = self.app.main.nightscout { nightscout.read() }
@@ -163,7 +163,7 @@ struct Details: View {
                 ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32)
                     .foregroundColor(.accentColor) }
 
-                Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.info.hasSuffix("sensor")) ?
+                Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.status.hasSuffix("sensor")) ?
                     "\(readingCountdown) s" : "...")
                     .fixedSize()
                     .onReceive(timer) { _ in

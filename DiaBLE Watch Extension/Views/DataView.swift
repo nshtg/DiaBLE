@@ -19,7 +19,7 @@ struct DataView: View {
                 .foregroundColor(.white)
 
             if app.deviceState == "Connected" {
-                Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
+                Text(readingCountdown > 0 || app.status.hasSuffix("sensor") ?
                     "\(readingCountdown) s" : "")
                     .fixedSize()
                     .onReceive(timer) { _ in

@@ -51,7 +51,7 @@ struct LogView: View {
                         }
                         if centralManager.state == .poweredOn {
                             centralManager.scanForPeripherals(withServices: nil, options: nil)
-                            self.app.main.info("\n\nScanning...")
+                            self.app.main.status("Scanning...")
                         }
                         if let healthKit = self.app.main.healthKit { healthKit.read() }
                         if let nightscout = self.app.main.nightscout { nightscout.read() }
@@ -64,7 +64,7 @@ struct LogView: View {
 
                 if app.deviceState == "Connected" {
 
-                    Text(readingCountdown > 0 || app.info.hasSuffix("sensor") ?
+                    Text(readingCountdown > 0 || app.status.hasSuffix("sensor") ?
                         "\(readingCountdown) s" : "")
                         .fixedSize()
                         .onReceive(timer) { _ in
@@ -73,10 +73,10 @@ struct LogView: View {
                 }
 
                 // Same as in Monitor
-                if app.info.hasPrefix("Scanning") {
+                if app.status.hasPrefix("Scanning") {
                     Button(action: {
                         self.app.main.centralManager.stopScan()
-                        self.app.main.info("\n\nStopped scanning")
+                        self.app.main.status("Stopped scanning")
                         self.app.main.log("Bluetooth: stopped scanning")
                     }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
                     }.foregroundColor(.blue)

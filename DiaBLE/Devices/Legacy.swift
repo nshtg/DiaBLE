@@ -67,7 +67,7 @@ class Limitter: Droplet {
         let firstField = fields[0]
         guard !firstField.hasPrefix("000") else {
             main.log("\(name): no sensor data")
-            main.info("\n\n\(name): no data from sensor")
+            main.status("\(name): no data from sensor")
             if firstField.hasSuffix("999") {
                 let err = fields[1]
                 main.log("\(name): error \(err)\n(0001 = low battery, 0002 = badly positioned)")
@@ -77,7 +77,7 @@ class Limitter: Droplet {
 
         let rawValue = Int(firstField.dropLast(2))!
         main.log("\(name): glucose raw value: \(rawValue)")
-        main.info("\n\n\(name) raw glucose: \(rawValue)")
+        main.status("\(name) raw glucose: \(rawValue)")
         sensor!.currentGlucose = rawValue / 10
 
         let sensorType = LibreType(rawValue: String(firstField.suffix(2)))!.description
@@ -90,7 +90,7 @@ class Limitter: Droplet {
             sensor!.state = .expired
         }
         main.log("\(name): sensor age: \(Int(sensor!.age)) minutes (\(String(format: "%.1f", Double(sensor!.age)/60/24)) days)")
-        main.info("\n\n\(sensorType)  +  \(name)")
+        main.status("\(sensorType)  +  \(name)")
     }
 }
 

@@ -73,7 +73,7 @@ class Bubble: Transmitter {
         main.log("\(name) response: \(response?.description ?? "unknown") (0x\(data[0...0].hex))")
 
         if response == .noSensor {
-            main.info("\n\n\(name): no sensor")
+            main.status("\(name): no sensor")
 
         } else if response == .dataInfo {
             battery = Int(data[4])
@@ -104,7 +104,7 @@ class Bubble: Transmitter {
                     let fram = buffer[..<344]
                     // let footer = buffer.suffix(8)
                     sensor!.fram = Data(fram)
-                    main.info("\n\n\(sensor!.type)  +  \(name)")
+                    main.status("\(sensor!.type)  +  \(name)")
                 }
             }
         }
