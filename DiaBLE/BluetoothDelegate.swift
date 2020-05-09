@@ -18,22 +18,23 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func centralManagerDidUpdateState(_ manager: CBCentralManager) {
         switch manager.state {
         case .poweredOff:
-            log("Bluetooth state: Powered off")
+            log("Bluetooth state: powered off")
+            main.errorStatus("Bluetooth powered off")
             if app.device != nil {
                 centralManager.cancelPeripheralConnection(app.device.peripheral!)
                 app.device.state = .disconnected
             }
             app.deviceState = "Disconnected"
         case .poweredOn:
-            log("Bluetooth state: Powered on")
+            log("Bluetooth state: powered on")
             centralManager.scanForPeripherals(withServices: nil, options: nil)
             main.status("Scanning...")
-        case .resetting:    log("Bluetooth state: Resetting")
-        case .unauthorized: log("Bluetooth state: Unauthorized")
-        case .unknown:      log("Bluetooth state: Unknown")
-        case .unsupported:  log("Bluetooth state: Unsupported")
+        case .resetting:    log("Bluetooth state: resetting")
+        case .unauthorized: log("Bluetooth state: unauthorized")
+        case .unknown:      log("Bluetooth state: unknown")
+        case .unsupported:  log("Bluetooth state: unsupported")
         @unknown default:
-            log("Bluetooth state: Unknown")
+            log("Bluetooth state: unknown")
         }
     }
 
