@@ -16,7 +16,7 @@ TODO
 * get the Libre 2 patchInfo via NFC and XOR-decrypt its FRAM
 * selection of glucose units
 * manage Nightscout JavaScript alerts synchronously
-* Apple Watch app: snapshots, WKExtendedRuntimeSession, complications, context menus, edit calibration parameters
+* Apple Watch app: snapshots, workout and extended runtime background sessions, complications, context menus, edit calibration parameters
 * BLE: update RSSI and 1805 2A2B characteristic (current time)
 * Watlaa iBeacon
 * log: limit to a number of readings; add the time when prepending "\t"; add a search field; Share menu; record to a file
