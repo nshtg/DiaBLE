@@ -331,6 +331,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
             // TODO
             healthKit?.write(entries.filter{$0.date > healthKit?.lastDate ?? Calendar.current.date(byAdding: .hour, value: -8, to : Date())!})
+            healthKit?.read()
 
             nightscout?.delete(query: "find[device]=LibreOOP&count=32") { data, response, error in
                 self.nightscout?.post(entries: entries) { data, response, error in

@@ -30,4 +30,5 @@ Please refer to the [TODOs list](https://github.com/gui-dos/DiaBLE/blob/master/T
 
 ---
 Credits: [bubbledevteam](https://github.com/bubbledevteam?tab=repositories), [dabear](https://github.com/dabear?tab=repositories), [LibreMonitor](https://github.com/UPetersen/LibreMonitor/tree/Swift4), [Loop](https://github.com/LoopKit/Loop), [Marek Macner](https://github.com/MarekM60?tab=repositories), [Nightguard]( https://github.com/nightscout/nightguard), [RileyLink iOS](https://github.com/ps2/rileylink_ios), [WoofWoof](https://github.com/gshaviv/ninety-two), [xDrip+](https://github.com/NightscoutFoundation/xDrip), [xDrip for iOS](https://github.com/JohanDegraeve/xdripswift).
+
 Special thanks to: [Vic Wu](https://github.com/birdfly).

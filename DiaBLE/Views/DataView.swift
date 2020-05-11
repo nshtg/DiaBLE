@@ -32,10 +32,10 @@ struct DataView: View {
                     HStack {
                         if history.values.count > 0 {
                             VStack(spacing: 4) {
-                                Text("OOP history")
+                                Text("OOP history").bold()
                                 ScrollView {
                                     ForEach(history.values) { glucose in
-                                        Text("\(glucose.id) \(glucose.date.shortDateTime)  \(glucose.value, specifier: "%3d")")
+                                        (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
                                     }
                                 }.frame(maxWidth: .infinity, alignment: .topLeading)
                             }.foregroundColor(.blue)
@@ -43,10 +43,10 @@ struct DataView: View {
 
                         if history.rawValues.count > 0 {
                             VStack(spacing: 4) {
-                                Text("Raw history")
+                                Text("Raw history").bold()
                                 ScrollView {
                                     ForEach(history.rawValues) { glucose in
-                                        Text("\(glucose.id) \(glucose.date.shortDateTime)  \(glucose.value, specifier: "%3d")")
+                                        (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
                                     }
                                 }.frame(maxWidth: .infinity, alignment: .topLeading)
                             }.foregroundColor(.yellow)
@@ -56,10 +56,10 @@ struct DataView: View {
                     HStack {
                         if history.calibratedValues.count > 0 {
                             VStack(spacing: 4) {
-                                Text("Calibrated history")
+                                Text("Calibrated history").bold()
                                 ScrollView {
                                     ForEach(history.calibratedValues) { glucose in
-                                        Text("\(glucose.id) \(glucose.date.shortDateTime)  \(glucose.value, specifier: "%3d")")
+                                        (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
                                     }
                                 }.frame(maxWidth: .infinity, alignment: .topLeading)
                             }.foregroundColor(.purple)
@@ -69,10 +69,10 @@ struct DataView: View {
 
                             if history.rawTrend.count > 0 {
                                 VStack(spacing: 4) {
-                                    Text("Raw trend")
+                                    Text("Raw trend").bold()
                                     ScrollView {
                                         ForEach(history.rawTrend) { glucose in
-                                            Text("\(glucose.id) \(glucose.date.shortDateTime)  \(glucose.value, specifier: "%3d")")
+                                            (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
                                         }
                                     }.frame(maxWidth: .infinity, alignment: .topLeading)
                                 }.foregroundColor(.yellow)
@@ -80,10 +80,10 @@ struct DataView: View {
 
                             if history.calibratedTrend.count > 0 {
                                 VStack(spacing: 4) {
-                                    Text("Calibrated trend")
+                                    Text("Calibrated trend").bold()
                                     ScrollView {
                                         ForEach(history.calibratedTrend) { glucose in
-                                            Text("\(glucose.id) \(glucose.date.shortDateTime)  \(glucose.value, specifier: "%3d")")
+                                            (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
                                         }
                                     }.frame(maxWidth: .infinity, alignment: .topLeading)
                                 }.foregroundColor(.purple)
@@ -94,10 +94,10 @@ struct DataView: View {
                     HStack(spacing: 0) {
                         if history.storedValues.count > 0 {
                             VStack(spacing: 0) {
-                                Text("HealthKit")
+                                Text("HealthKit").bold()
                                 List() {
                                     ForEach(history.storedValues) { glucose in
-                                        Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(glucose.value, specifier: "%3d")")
+                                        (Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
                                             .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets()).listRowInsets(EdgeInsets())
                                     }
                                 }
@@ -108,10 +108,10 @@ struct DataView: View {
 
                         if history.nightscoutValues.count > 0 {
                             VStack(spacing: 0) {
-                                Text("Nightscout")
+                                Text("Nightscout").bold()
                                 List() {
                                     ForEach(history.nightscoutValues) { glucose in
-                                        Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)  \(glucose.value, specifier: "%3d")")
+                                        (Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
                                             .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets())
                                     }
                                     .frame(maxWidth: .infinity, alignment: .topLeading)
