@@ -50,9 +50,10 @@ class BluCon: Transmitter {
 
 
     override func read(_ data: Data, for uuid: String) {
-
-        let response = ResponseType(rawValue: data[0...2].string)
-        main.log("\(name) response: \(response?.description ?? "unknown") (0x\(data[0...2].hex))")
+        if data.count > 0 {
+            let response = ResponseType(rawValue: data.string)
+            main.log("\(name) response: \(response?.description ?? "unknown") (0x\(data.hex))")
+        }
 
         // TODO
 
