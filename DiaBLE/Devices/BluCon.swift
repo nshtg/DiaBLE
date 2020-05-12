@@ -1,6 +1,5 @@
 import Foundation
 
-
 // https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/UtilityModels/Blukon.java
 // https://github.com/dabear/LinkBluCon/blob/master/LinkBluCon/LinkBluCon/BluConDeviceManager.swift
 // https://github.com/JohanDegraeve/xdripswift/tree/master/xdrip/BluetoothTransmitter/CGM/Libre/Blucon
@@ -27,16 +26,39 @@ class BluCon: Transmitter {
     override class var dataWriteCharacteristicUUID: String { UUID.dataWrite.rawValue }
     override class var dataReadCharacteristicUUID: String  { UUID.dataRead.rawValue }
 
+
     enum ResponseType: String, CustomStringConvertible {
-        case wakeup  = "cb010000"
-        case error14 = "8b1a020014"
+        case wakeup =     "cb010000"
+        case timeout =    "8b1a020014"
+        case noSensor =   "8b1a02000f"
+        case sensorInfo = "8bd9"
 
         // TODO
 
         var description: String {
             switch self {
-            case .wakeup:  return "wake up"
-            case .error14: return "timeout"
+            case .wakeup:     return "wake up"
+            case .timeout:    return "timeout"
+            case .noSensor:   return "no sensor"
+            case .sensorInfo: return "sensor info"
+
+            }
+        }
+    }
+
+
+    enum RequestType: String, CustomStringConvertible {
+        case ack        = "810a00"
+        case sleep      = "010c0e00"
+        case sensorInfo = "010d0900"
+
+        // TODO
+
+        var description: String {
+            switch self {
+            case .ack:        return "ack"
+            case .sleep:      return "sleep"
+            case .sensorInfo: return "sensor info"
             }
         }
     }
@@ -48,20 +70,37 @@ class BluCon: Transmitter {
 
 
     override func read(_ data: Data, for uuid: String) {
-        if data.count > 0 {
-            let response = ResponseType(rawValue: data.hex)
-            main.log("\(name) response: \(response?.description ?? "unknown") (0x\(data.hex))")
 
-            switch response {
-            case .error14:
-                main.status("\(name): timeout")
+        guard data.count > 0 else { return }
 
-                // TODO
+        let dataHex = data.hex
 
-            default:
-                break
+        let response = ResponseType(rawValue: dataHex)
+        main.log("\(name) response: \(response?.description ?? "unknown") (0x\(dataHex))")
+
+        if response == .wakeup {
+            write(RequestType.sensorInfo.rawValue.bytes, .withResponse)
+
+        } else if response == .timeout {
+            main.status("\(name): timeout")
+            write(RequestType.sleep.rawValue.bytes, .withResponse)
+
+        } else if response == .noSensor {
+            main.status("\(name): no sensor")
+
+        } else {
+            if sensor == nil {
+                sensor = Sensor(transmitter: self)
+                main.app.sensor = sensor
             }
-
+            if dataHex.hasPrefix(ResponseType.sensorInfo.rawValue) {
+                sensor!.uid = Data(data[3...10])
+                sensor!.state = SensorState(rawValue:data[17])!
+                main.log("\(name): patch uid: \(sensor!.uid.hex), serial number: \(sensor!.serial), sensor state: \(sensor!.state)")
+            }
         }
+
+        // TODO
     }
+
 }

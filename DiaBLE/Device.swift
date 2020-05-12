@@ -91,11 +91,11 @@ class Device: ObservableObject {
         self.macAddress = macAddress
     }
 
-    func write(_ bytes: [UInt8], for uuid: String = "") {
+    func write(_ bytes: [UInt8], for uuid: String = "", _ writeType: CBCharacteristicWriteType = .withoutResponse) {
         if uuid.isEmpty {
-            peripheral?.writeValue(Data(bytes), for: writeCharacteristic!, type: .withoutResponse)
+            peripheral?.writeValue(Data(bytes), for: writeCharacteristic!, type: writeType)
         } else {
-            peripheral?.writeValue(Data(bytes), for: characteristics[uuid]!, type: .withoutResponse)
+            peripheral?.writeValue(Data(bytes), for: characteristics[uuid]!, type: writeType)
         }
     }
 
