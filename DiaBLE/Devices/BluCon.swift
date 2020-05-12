@@ -28,12 +28,15 @@ class BluCon: Transmitter {
     override class var dataReadCharacteristicUUID: String  { UUID.dataRead.rawValue }
 
     enum ResponseType: String, CustomStringConvertible {
-        case unknown = "000000"
+        case wakeup  = "cb010000"
+        case error14 = "8b1a020014"
+
         // TODO
 
         var description: String {
             switch self {
-            default:  return "unknown"
+            case .wakeup:  return "wake up"
+            case .error14: return "timeout"
             }
         }
     }
@@ -44,18 +47,21 @@ class BluCon: Transmitter {
     }
 
 
-    override func parseManufacturerData(_ data: Data) {
-        // TODO
-    }
-
-
     override func read(_ data: Data, for uuid: String) {
         if data.count > 0 {
-            let response = ResponseType(rawValue: data.string)
+            let response = ResponseType(rawValue: data.hex)
             main.log("\(name) response: \(response?.description ?? "unknown") (0x\(data.hex))")
+
+            switch response {
+            case .error14:
+                main.status("\(name): timeout")
+
+                // TODO
+
+            default:
+                break
+            }
+
         }
-
-        // TODO
-
     }
 }
