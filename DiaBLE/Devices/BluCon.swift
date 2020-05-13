@@ -1,7 +1,6 @@
 import Foundation
 
 // https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/UtilityModels/Blukon.java
-// https://github.com/dabear/LinkBluCon/blob/master/LinkBluCon/LinkBluCon/BluConDeviceManager.swift
 // https://github.com/JohanDegraeve/xdripswift/tree/master/xdrip/BluetoothTransmitter/CGM/Libre/Blucon
 
 class BluCon: Transmitter {
@@ -28,39 +27,77 @@ class BluCon: Transmitter {
 
 
     enum ResponseType: String, CustomStringConvertible {
-        case wakeup =     "cb010000"
-        case timeout =    "8b1a020014"
-        case noSensor =   "8b1a02000f"
-        case sensorInfo = "8bd9"
-
-        // TODO
+        case ack            = "8b0a00"
+        case patchUidInfo   = "8b0e"
+        case nack           = "8b1a02"
+        case noSensor       = "8b1a02000f"
+        case readingError   = "8b1a020011"
+        case timeout        = "8b1a020014"
+        case sensorInfo     = "8bd9"
+        case unknown2       = "8bda"
+        case unknown1       = "8bdb"
+        case singleBlock    = "8bde"
+        case multipleBlocks = "8bdf"
+        case wakeup         = "cb010000"
+        case batteryLow1    = "cb020000"
+        case batteryLow2    = "cbdb0000"
 
         var description: String {
             switch self {
-            case .wakeup:     return "wake up"
-            case .timeout:    return "timeout"
-            case .noSensor:   return "no sensor"
-            case .sensorInfo: return "sensor info"
-
+            case .ack:            return "ack"
+            case .patchUidInfo:   return "patch uid/info"
+            case .nack:           return "nack"
+            case .noSensor:       return "no sensor"
+            case .readingError:   return "reading error"
+            case .timeout:        return "timeout"
+            case .sensorInfo:     return "sensor info"
+            case .unknown2:       return "unknown2"
+            case .unknown1:       return "unknown1"
+            case .singleBlock:    return "single block"
+            case .multipleBlocks: return "multiple blocks"
+            case .wakeup:         return "wake up"
+            case .batteryLow1:    return "battery low 1"
+            case .batteryLow2:    return "battery low 2"
             }
         }
     }
 
 
-    enum RequestType: String, CustomStringConvertible {
-        case ack        = "810a00"
-        case sleep      = "010c0e00"
-        case sensorInfo = "010d0900"
+    // read single block:    01-0d-0e-01-<block number>
+    // read multiple blocks: 01-0d-0f-02-<start block>-<end block>
 
-        // TODO
+    enum RequestType: String, CustomStringConvertible {
+        case none            = ""
+        case ack             = "810a00"
+        case sleep           = "010c0e00"
+        case sensorInfo      = "010d0900"
+        case fram            = "010d0f02002b"
+        case unknown2        = "010d0a00"
+        case unknown1        = "010d0b00"
+        case patchUid        = "010e0003260100"
+        case patchInfo       = "010e000302a107"
 
         var description: String {
             switch self {
-            case .ack:        return "ack"
-            case .sleep:      return "sleep"
-            case .sensorInfo: return "sensor info"
+            case .none:            return "none"
+            case .ack:             return "ack"
+            case .sleep:           return "sleep"
+            case .sensorInfo:      return "sensor info"
+            case .fram:            return "fram"
+            case .unknown2:        return "unknown2"
+            case .unknown1:        return "unknown1"
+            case .patchUid:        return "patch uid"
+            case .patchInfo:       return "patch info"
             }
         }
+    }
+
+    var currentRequest: RequestType = .none
+
+    func write(request: RequestType) {
+        write(request.rawValue.bytes, .withResponse)
+        currentRequest = request
+        main.debugLog("\(name): written request for \(request)")
     }
 
 
@@ -71,19 +108,20 @@ class BluCon: Transmitter {
 
     override func read(_ data: Data, for uuid: String) {
 
-        guard data.count > 0 else { return }
-
         let dataHex = data.hex
 
         let response = ResponseType(rawValue: dataHex)
-        main.log("\(name) response: \(response?.description ?? "unknown") (0x\(dataHex))")
+        main.log("\(name) response: \(response?.description ?? "data") (0x\(dataHex))")
+
+        guard data.count > 0 else { return }
 
         if response == .wakeup {
-            write(RequestType.sensorInfo.rawValue.bytes, .withResponse)
+            write(request: .sensorInfo)
+            write(request: .fram)
 
         } else if response == .timeout {
             main.status("\(name): timeout")
-            write(RequestType.sleep.rawValue.bytes, .withResponse)
+            write(request: .sleep)
 
         } else if response == .noSensor {
             main.status("\(name): no sensor")
@@ -93,14 +131,29 @@ class BluCon: Transmitter {
                 sensor = Sensor(transmitter: self)
                 main.app.sensor = sensor
             }
+
             if dataHex.hasPrefix(ResponseType.sensorInfo.rawValue) {
                 sensor!.uid = Data(data[3...10])
                 sensor!.state = SensorState(rawValue:data[17])!
                 main.log("\(name): patch uid: \(sensor!.uid.hex), serial number: \(sensor!.serial), sensor state: \(sensor!.state)")
+                if sensor!.state == .ready {
+                    write(request: .ack)
+                } else {
+                    write(request: .sleep)
+                }
+            }
+
+            if dataHex.hasPrefix(ResponseType.multipleBlocks.rawValue) {
+                if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
+                buffer.append(data.suffix(from: 4))
+                main.log("\(name): partial buffer count: \(buffer.count)")
+                if buffer.count == 344 {
+                    let fram = buffer[..<344]
+                    sensor!.fram = Data(fram)
+                    main.status("\(sensor!.type)  +  \(name)")
+                }
             }
         }
-
-        // TODO
     }
 
 }

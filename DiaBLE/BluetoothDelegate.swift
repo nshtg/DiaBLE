@@ -340,7 +340,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
             app.device.read(data, for: characteristic.uuid.uuidString)
 
-            if app.device.type == .transmitter(.bubble) || app.device.type == .transmitter(.miaomiao) || app.device.type == .watch(.watlaa) {
+            if app.device.type == .transmitter(.blu) || app.device.type == .transmitter(.bubble) || app.device.type == .transmitter(.miaomiao) || app.device.type == .watch(.watlaa) {
                 var headerLength = 0
                 if app.device.type == .transmitter(.miaomiao) || (app.device.type == .watch(.watlaa) && characteristic.uuid.uuidString == MiaoMiao.dataReadCharacteristicUUID) {
                     headerLength = 18 + 1
