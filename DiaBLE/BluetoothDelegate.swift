@@ -275,10 +275,14 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         let name = peripheral.name ?? "an unnamed peripheral"
+        var characteristicString = characteristic.uuid.uuidString
         if error != nil {
             log("Bluetooth: error while writing \(name)'s characteristic \(characteristic.uuid.uuidString) value: \(error!.localizedDescription)")
         } else {
-            log("Bluetooth: \(name) did write characteristic value for \(characteristic.uuid.uuidString)")
+            if [BluCon.dataWriteCharacteristicUUID, Bubble.dataWriteCharacteristicUUID, MiaoMiao.dataWriteCharacteristicUUID, Watlaa.dataWriteCharacteristicUUID].contains(characteristicString) {
+                characteristicString = "data write"
+            }
+            log("Bluetooth: \(name) did write value for \(characteristicString) characteristic")
         }
     }
 
@@ -355,4 +359,3 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
     }
 }
-

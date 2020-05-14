@@ -97,7 +97,7 @@ class BluCon: Transmitter {
     func write(request: RequestType) {
         write(request.rawValue.bytes, .withResponse)
         currentRequest = request
-        main.debugLog("\(name): written request for \(request)")
+        main.log("\(name): did write request for \(request)")
     }
 
 
