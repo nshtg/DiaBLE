@@ -122,6 +122,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         app.device.peripheral?.delegate = self
         main.log("Bluetooth: connecting to \(name)...")
         centralManager.connect(app.device.peripheral!, options: nil)
+        if app.device.state == .connecting { app.deviceState = "Connecting" }
     }
 
 
@@ -277,7 +278,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         let name = peripheral.name ?? "an unnamed peripheral"
         var characteristicString = characteristic.uuid.uuidString
         if error != nil {
-            log("Bluetooth: error while writing \(name)'s characteristic \(characteristic.uuid.uuidString) value: \(error!.localizedDescription)")
+            log("Bluetooth: error while writing \(name)'s \(characteristicString) characteristic value: \(error!.localizedDescription)")
         } else {
             if [BluCon.dataWriteCharacteristicUUID, Bubble.dataWriteCharacteristicUUID, MiaoMiao.dataWriteCharacteristicUUID, Watlaa.dataWriteCharacteristicUUID].contains(characteristicString) {
                 characteristicString = "data write"

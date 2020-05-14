@@ -29,13 +29,12 @@ class BluCon: Transmitter {
     enum ResponseType: String, CustomStringConvertible {
         case ack            = "8b0a00"
         case patchUidInfo   = "8b0e"
-        case nack           = "8b1a02"
         case noSensor       = "8b1a02000f"
         case readingError   = "8b1a020011"
         case timeout        = "8b1a020014"
         case sensorInfo     = "8bd9"
         case unknown2       = "8bda"
-        case unknown1       = "8bdb"
+        case firmware       = "8bdb"
         case singleBlock    = "8bde"
         case multipleBlocks = "8bdf"
         case wakeup         = "cb010000"
@@ -46,13 +45,12 @@ class BluCon: Transmitter {
             switch self {
             case .ack:            return "ack"
             case .patchUidInfo:   return "patch uid/info"
-            case .nack:           return "nack"
             case .noSensor:       return "no sensor"
             case .readingError:   return "reading error"
             case .timeout:        return "timeout"
             case .sensorInfo:     return "sensor info"
             case .unknown2:       return "unknown2"
-            case .unknown1:       return "unknown1"
+            case .firmware:       return "firmware"
             case .singleBlock:    return "single block"
             case .multipleBlocks: return "multiple blocks"
             case .wakeup:         return "wake up"
@@ -72,8 +70,7 @@ class BluCon: Transmitter {
         case sleep           = "010c0e00"
         case sensorInfo      = "010d0900"
         case fram            = "010d0f02002b"
-        case unknown2        = "010d0a00"
-        case unknown1        = "010d0b00"
+        case firmware        = "010d0b00"
         case patchUid        = "010e0003260100"
         case patchInfo       = "010e000302a107"
 
@@ -84,8 +81,7 @@ class BluCon: Transmitter {
             case .sleep:           return "sleep"
             case .sensorInfo:      return "sensor info"
             case .fram:            return "fram"
-            case .unknown2:        return "unknown2"
-            case .unknown1:        return "unknown1"
+            case .firmware:        return "firmware"
             case .patchUid:        return "patch uid"
             case .patchInfo:       return "patch info"
             }
@@ -115,23 +111,22 @@ class BluCon: Transmitter {
 
         guard data.count > 0 else { return }
 
-        if response == .wakeup {
-            write(request: .sensorInfo)
-            write(request: .fram)
-
-        } else if response == .timeout {
+        if response == .timeout {
             main.status("\(name): timeout")
             write(request: .sleep)
 
         } else if response == .noSensor {
             main.status("\(name): no sensor")
+            write(request: .sleep)
+
+        } else if response == .wakeup {
+            write(request: .sensorInfo)
 
         } else {
             if sensor == nil {
                 sensor = Sensor(transmitter: self)
                 main.app.sensor = sensor
             }
-
             if dataHex.hasPrefix(ResponseType.sensorInfo.rawValue) {
                 sensor!.uid = Data(data[3...10])
                 sensor!.state = SensorState(rawValue:data[17])!
@@ -141,13 +136,32 @@ class BluCon: Transmitter {
                 } else {
                     write(request: .sleep)
                 }
-            }
 
-            if dataHex.hasPrefix(ResponseType.multipleBlocks.rawValue) {
+            } else if response == .ack {
+                if currentRequest == .ack {
+                    write(request: .firmware)
+                } else { // after a .sleep request
+                    currentRequest = .none
+                }
+
+            } else if dataHex.hasPrefix(ResponseType.firmware.rawValue) {
+                let firmware = dataHex.bytes.dropFirst(2).map {String($0) }.joined(separator: ".")
+                self.firmware = firmware
+                main.log("\(name): firmware: \(firmware)")
+                write(request: .patchInfo)
+
+            } else if dataHex.hasPrefix(ResponseType.patchUidInfo.rawValue) {
+                let patchInfo = Data(data[3...])
+                sensor!.patchInfo = patchInfo
+                main.log("\(name): patch info: \(sensor!.patchInfo.hex) (sensor type: \(sensor!.type.rawValue))")
+                write(request: .fram)
+
+            } else if dataHex.hasPrefix(ResponseType.multipleBlocks.rawValue) {
                 if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
                 buffer.append(data.suffix(from: 4))
                 main.log("\(name): partial buffer count: \(buffer.count)")
                 if buffer.count == 344 {
+                    write(request: .sleep)
                     let fram = buffer[..<344]
                     sensor!.fram = Data(fram)
                     main.status("\(sensor!.type)  +  \(name)")
@@ -155,5 +169,4 @@ class BluCon: Transmitter {
             }
         }
     }
-
 }
