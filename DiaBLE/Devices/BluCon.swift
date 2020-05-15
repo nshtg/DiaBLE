@@ -33,7 +33,7 @@ class BluCon: Transmitter {
         case readingError   = "8b1a020011"
         case timeout        = "8b1a020014"
         case sensorInfo     = "8bd9"
-        case unknown2       = "8bda"
+        case battery        = "8bda"
         case firmware       = "8bdb"
         case singleBlock    = "8bde"
         case multipleBlocks = "8bdf"
@@ -49,7 +49,7 @@ class BluCon: Transmitter {
             case .readingError:   return "reading error"
             case .timeout:        return "timeout"
             case .sensorInfo:     return "sensor info"
-            case .unknown2:       return "unknown2"
+            case .battery:        return "battery"
             case .firmware:       return "firmware"
             case .singleBlock:    return "single block"
             case .multipleBlocks: return "multiple blocks"
@@ -70,6 +70,7 @@ class BluCon: Transmitter {
         case sleep           = "010c0e00"
         case sensorInfo      = "010d0900"
         case fram            = "010d0f02002b"
+        case battery         = "010d0a00"
         case firmware        = "010d0b00"
         case patchUid        = "010e0003260100"
         case patchInfo       = "010e000302a107"
@@ -81,6 +82,7 @@ class BluCon: Transmitter {
             case .sleep:           return "sleep"
             case .sensorInfo:      return "sensor info"
             case .fram:            return "fram"
+            case .battery:         return "battery"
             case .firmware:        return "firmware"
             case .patchUid:        return "patch uid"
             case .patchInfo:       return "patch info"
@@ -117,7 +119,7 @@ class BluCon: Transmitter {
 
         } else if response == .noSensor {
             main.status("\(name): no sensor")
-            write(request: .sleep)
+            // write(request: .sleep) // FIXME: causes an immediate .wakeup
 
         } else if response == .wakeup {
             write(request: .sensorInfo)
@@ -148,12 +150,26 @@ class BluCon: Transmitter {
                 let firmware = dataHex.bytes.dropFirst(2).map {String($0) }.joined(separator: ".")
                 self.firmware = firmware
                 main.log("\(name): firmware: \(firmware)")
+                write(request: .battery)
+
+            } else if dataHex.hasPrefix(ResponseType.battery.rawValue) {
+                if data[2] == 0xaa {
+                    // battery = 100 // TODO
+                } else if data[2] == 0x02 {
+                    battery = 5
+                }
                 write(request: .patchInfo)
+                // write(request: .patchUid) // will give same .patchUidInfo response type
 
             } else if dataHex.hasPrefix(ResponseType.patchUidInfo.rawValue) {
-                let patchInfo = Data(data[3...])
-                sensor!.patchInfo = patchInfo
-                main.log("\(name): patch info: \(sensor!.patchInfo.hex) (sensor type: \(sensor!.type.rawValue))")
+                if currentRequest == .patchInfo {
+                    let patchInfo = Data(data[3...])
+                    sensor!.patchInfo = patchInfo
+                    main.log("\(name): patch info: \(sensor!.patchInfo.hex) (sensor type: \(sensor!.type.rawValue))")
+                } else if currentRequest == .patchUid {
+                    sensor!.uid = Data(data[4...])
+                    main.log("\(name): patch uid: \(sensor!.uid.hex), serial number: \(sensor!.serial)")
+                }
                 write(request: .fram)
 
             } else if dataHex.hasPrefix(ResponseType.multipleBlocks.rawValue) {
