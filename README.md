@@ -23,6 +23,7 @@ Still too early to decide the final design (but I really like already the evil l
 
 <p align ="center">Libre 2: YEP!  -  Bubble: NOPE :(<br><img src="https://pbs.twimg.com/media/EV37sVXWAAAKUxG?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EV5OLhAXsAALU5L?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVyjqaTX0AAwsoH?format=png&name=small" align="top" width="25%" /></p>
 
+<p align ="center">Completing the collection with the BluCon support<br><img src="https://pbs.twimg.com/media/EYEcKgRX0AIMY3w?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EYEcXaMXYAInOqt?format=png&name=small" align="top" width="25%" /></p>
 
 The project started as a single script for the iPad Swift Playgrounds and was quickly converted to an app by using a standard Xcode template: it should compile finely without external dependencies just after changing the _Bundle Identifier_ in the _General_ panel and the _Team_ in the _Signing and Capabilities_ tab of Xcode -- Spike users know already very well what that means... ;)
 
