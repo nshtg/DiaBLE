@@ -90,7 +90,6 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         if name.lowercased().hasPrefix("blu") {
             app.transmitter = BluCon(peripheral: peripheral, main: main)
             app.device = app.transmitter
-            app.device.name = name
         } else if name == "Bubble" {
             app.transmitter = Bubble(peripheral: peripheral, main: main)
             app.device = app.transmitter

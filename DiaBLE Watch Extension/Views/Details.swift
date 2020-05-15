@@ -18,10 +18,17 @@ struct Details: View {
 
                 if app.device != nil {
                     Section(header: Text("Device")) {
-                        HStack {
-                            Text("Name")
-                            Spacer()
-                            Text("\(app.device.name)").foregroundColor(.yellow)
+                        Group {
+                            HStack {
+                                Text("Name")
+                                Spacer()
+                                Text("\(app.device.peripheral?.name ?? "Unnamed")").foregroundColor(.yellow)
+                            }
+                            HStack {
+                                Text("Type")
+                                Spacer()
+                                Text("\(app.device.name)").foregroundColor(.yellow)
+                            }
                         }
                         if !app.device.serial.isEmpty {
                             HStack {
