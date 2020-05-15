@@ -49,7 +49,7 @@ struct DataView: View {
                         }.frame(maxWidth: .infinity, alignment: .topLeading)
                     }.foregroundColor(.yellow)
                 }
-            }
+            }.frame(idealHeight: 300)
 
             HStack {
                 if history.calibratedValues.count > 0 {
@@ -87,7 +87,7 @@ struct DataView: View {
                         }.foregroundColor(.purple)
                     }
                 }
-            }
+            }.frame(idealHeight: 300)
 
             HStack(spacing: 0) {
                 if history.storedValues.count > 0 {
@@ -118,7 +118,7 @@ struct DataView: View {
                     .foregroundColor(.blue)
                     .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
                 }
-            }.frame(idealHeight: 150) // FIXME but otherwise too shrinked when the history empty
+            }.frame(idealHeight: 200) // FIXME but otherwise too shrinked when the history empty
         }
         .navigationBarTitle("Data")
         .edgesIgnoringSafeArea([.bottom])
