@@ -24,10 +24,12 @@ struct Details: View {
                                 Spacer()
                                 Text("\(app.device.peripheral?.name ?? "Unnamed")").foregroundColor(.yellow)
                             }
-                            HStack {
-                                Text("Type")
-                                Spacer()
-                                Text("\(app.device.name)").foregroundColor(.yellow)
+                            if app.device.name != app.device.peripheral?.name ?? "Unnamed" {
+                                HStack {
+                                    Text("Type")
+                                    Spacer()
+                                    Text("\(app.device.name)").foregroundColor(.yellow)
+                                }
                             }
                         }
                         if !app.device.serial.isEmpty {
