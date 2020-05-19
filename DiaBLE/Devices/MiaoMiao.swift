@@ -101,7 +101,7 @@ class MiaoMiao: Transmitter {
                 sensor!.uid = Data(buffer[5...12])
                 main.log("\(name): sensor age: \(sensor!.age) minutes (\(String(format: "%.1f", Double(sensor!.age)/60/24)) days), patch uid: \(sensor!.uid.hex), serial number: \(sensor!.serial)")
                 
-                if buffer.count > 363 {
+                if buffer.count >= 369 {
                     sensor!.patchInfo = Data(buffer[363...368])
                     main.log("\(name): patch info: \(sensor!.patchInfo.hex) (sensor type: \(sensor!.type.rawValue))")
                     // TODO: verify with newer firmwares
