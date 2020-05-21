@@ -334,12 +334,8 @@ struct Monitor: View {
                     } else {
                         self.showingNFCAlert = true
                     }
-                }) { VStack(spacing: 0) {
-                    Image(systemName: "radiowaves.left")
-                        .resizable().rotationEffect(.degrees(90)).frame(width: 16, height: 32).offset(y: 8)
-                    Text("NFC").font(.footnote).bold()
-                    Text("  Scan  ").font(.footnote).offset(y: -4)
-                    }
+                }) {
+                    Image("ScanNFC").resizable().frame(width: 39, height: 27).padding(4)
                 }.alert(isPresented: $showingNFCAlert) {
                     Alert(
                         title: Text("NFC not supported"),
