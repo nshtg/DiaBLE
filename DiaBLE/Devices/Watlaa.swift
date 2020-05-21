@@ -256,7 +256,7 @@ class Watlaa: Watch {
                     }
                     main.log("\(bridgeName): sensor age: \(bridge.sensor!.age) minutes (\(String(format: "%.1f", Double(bridge.sensor!.age)/60/24)) days), patch uid: \(uid.hex), serial number: \(bridge.sensor!.serial)")
 
-                    if bridge.buffer.count > 363 {
+                    if bridge.buffer.count > 369 {
                         bridge.sensor!.patchInfo = Data(bridge.buffer[363...368])
                         main.log("\(bridgeName): patch info: \(bridge.sensor!.patchInfo.hex)")
                     } else {

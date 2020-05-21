@@ -147,7 +147,7 @@ class BluCon: Transmitter {
                 }
 
             } else if dataHex.hasPrefix(ResponseType.firmware.rawValue) {
-                let firmware = dataHex.bytes.dropFirst(2).map {String($0) }.joined(separator: ".")
+                let firmware = dataHex.bytes.dropFirst(2).map { String($0) }.joined(separator: ".")
                 self.firmware = firmware
                 main.log("\(name): firmware: \(firmware)")
                 write(request: .battery)
