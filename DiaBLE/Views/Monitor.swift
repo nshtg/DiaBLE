@@ -335,7 +335,7 @@ struct Monitor: View {
                         self.showingNFCAlert = true
                     }
                 }) {
-                    Image("ScanNFC").resizable().frame(width: 39, height: 27).padding(4)
+                    Image("NFC").resizable().frame(width: 39, height: 27).padding(4)
                 }.alert(isPresented: $showingNFCAlert) {
                     Alert(
                         title: Text("NFC not supported"),

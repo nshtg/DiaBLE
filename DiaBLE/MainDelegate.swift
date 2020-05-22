@@ -69,6 +69,15 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         let numberFormatter = NumberFormatter()
         numberFormatter.minimumFractionDigits = 8
         settings.numberFormatter = numberFormatter
+
+        if let shortcutItem = (UIApplication.shared.delegate as? AppDelegate)?.shortcutItem {
+            if shortcutItem.type == "NFC" {
+                if nfcReader.isNFCAvailable {
+                    nfcReader.startSession()
+                }
+            }
+        }
+
     }
 
 

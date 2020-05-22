@@ -32,7 +32,7 @@ struct LogView: View {
                             self.showingNFCAlert = true
                         }
                     }) {
-                        Image("ScanNFC").resizable().frame(width: 26, height: 18).padding(EdgeInsets(top: 10, leading: 6, bottom: 14, trailing: 0))
+                        Image("NFC").resizable().frame(width: 26, height: 18).padding(EdgeInsets(top: 10, leading: 6, bottom: 14, trailing: 0))
                     }.alert(isPresented: $showingNFCAlert) {
                         Alert(
                             title: Text("NFC not supported"),

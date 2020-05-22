@@ -90,5 +90,16 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>NFC</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>NFC</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Scan Sensor</string>
+		</dict>
+	</array>
 </dict>
 </plist>
