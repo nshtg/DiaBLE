@@ -1,17 +1,10 @@
-//
-//  SceneDelegate.swift
-//  DiaBLE
-//
-//  Created by Guido Soranzio on 12/12/2019.
-//  Copyright © 2019 Guido Soranzio. All rights reserved.
-//
-
 import UIKit
 import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var main: MainDelegate!
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -27,6 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             let mainDelegate = MainDelegate()
+            self.main = mainDelegate
             mainDelegate.app.main = mainDelegate
 
             // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
@@ -71,5 +65,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
+    func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        if shortcutItem.type == "NFC" {
+            if let main = main {
+                if main.nfcReader.isNFCAvailable {
+                    main.nfcReader.startSession()
+                }
+            }
+            completionHandler(true)
+        }
+    }
 }
-
