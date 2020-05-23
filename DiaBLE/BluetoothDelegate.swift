@@ -264,12 +264,22 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func centralManager(_ manager: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         let name = peripheral.name ?? "an unnamed peripheral"
         var msg = "Bluetooth: failed to connect to \(name)"
+        var errorCode: CBError.Code?
+
         if let error = error {
-            let errorCode = CBError.Code(rawValue: (error as NSError).code)!
-            msg += ", error type \(errorCode.rawValue): \(error.localizedDescription)"
+            errorCode = CBError.Code(rawValue: (error as NSError).code)
+            msg += ", error type \(errorCode!.rawValue): \(error.localizedDescription)"
         }
-        log("\(msg); retrying...")
-        centralManager.connect(app.device.peripheral!, options: nil)
+
+        if let errorCode = errorCode, errorCode.rawValue == 14 { // Peer removed pairing information (BluCon)
+            main.errorStatus("Failed to connect: \(error!.localizedDescription)")
+        } else {
+            msg += "; retrying..."
+            main.errorStatus("Failed to connect, retrying...")
+            centralManager.connect(app.device.peripheral!, options: nil)
+        }
+
+        log(msg)
     }
 
 

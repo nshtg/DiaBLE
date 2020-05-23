@@ -154,6 +154,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
             history.rawTrend = sensor.trend
             log("Raw trend: \(sensor.trend.map{$0.value})")
+            log("Raw trend temperatures: \(sensor.trend.map{$0.temperature})")
             history.rawValues = sensor.history
             log("Raw history: \(sensor.history.map{$0.value})")
             debugLog("Raw temperatures: \(sensor.history.map{$0.temperature})")

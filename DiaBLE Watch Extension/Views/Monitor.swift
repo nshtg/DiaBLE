@@ -102,7 +102,7 @@ struct Monitor: View {
                         .truncationMode(.head)
                         .frame(maxWidth: .infinity)
 
-                    if app.status.hasPrefix("Scanning") {
+                    if app.status.hasPrefix("Scanning") || app.status.hasSuffix("retrying...") {
                         Button(action: {
                             self.app.main.centralManager.stopScan()
                             self.app.main.status("Stopped scanning")
