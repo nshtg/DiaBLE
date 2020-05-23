@@ -23,7 +23,7 @@ struct HistoricGlucose: Codable {
     let value: Int
 }
 
-struct OOPHistoryData: Codable {
+struct OOPHistoryResponse: Codable {
     var alarm: String
     var esaMinutesToWait: Int
     var historicGlucose: [HistoricGlucose]
@@ -65,7 +65,7 @@ struct OOPHistoryData: Codable {
             history = history.reversed()
         }
         for g in history {
-            let glucose = Glucose(g.value, id: g.id, date: startDate + Double(g.id * 60), source: "LibreOOP" )
+            let glucose = Glucose(g.value, id: g.id, date: startDate + Double(g.id * 60), source: "OOP" )
             array.append(glucose)
         }
         return array
@@ -108,7 +108,7 @@ struct GetCalibrationStatusResult: Codable {
 
 // TODO: use Combine Result
 
-func postToLibreOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, handler: @escaping (Data?, URLResponse?, Error?, [URLQueryItem]) -> Void) {
+func postToOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, handler: @escaping (Data?, URLResponse?, Error?, [URLQueryItem]) -> Void) {
     var urlComponents = URLComponents(string: server.siteURL + "/" + (patchInfo == nil ? server.calibrationEndpoint : server.historyEndpoint))!
     var queryItems = [URLQueryItem(name: "content", value: bytes.hex)]
     let date = Int64((date.timeIntervalSince1970 * 1000.0).rounded())

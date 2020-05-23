@@ -165,18 +165,18 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             }
 
             log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.calibrationEndpoint)...")
-            postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, queryItems in
-                self.debugLog("LibreOOP: query parameters: \(queryItems)")
+            postToOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate) { data, response, error, queryItems in
+                self.debugLog("OOP: query parameters: \(queryItems)")
                 if let data = data {
-                    self.log("LibreOOP: server calibration response: \(data.string)")
+                    self.log("OOP: server calibration response: \(data.string)")
                     let decoder = JSONDecoder()
                     if let oopCalibration = try? decoder.decode(OOPCalibrationResponse.self, from: data) {
                         if oopCalibration.parameters.offsetOffset == -2.0 &&
                             oopCalibration.parameters.slopeSlope  == 0.0 &&
                             oopCalibration.parameters.slopeOffset == 0.0 &&
                             oopCalibration.parameters.offsetSlope == 0.0 {
-                            self.log("LibreOOP: null calibration")
-                            self.errorStatus("LibreOOP calibration not valid")
+                            self.log("OOP: null calibration")
+                            self.errorStatus("OOP calibration not valid")
                         } else {
                             self.settings.oopCalibration = oopCalibration.parameters
                             if self.app.calibration == Calibration() || (self.app.calibration != self.settings.calibration) {
@@ -185,13 +185,13 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                         }
                     } else {
                         if data.string.contains("errcode") {
-                            self.errorStatus("LibreOOP calibration \(data.string)")
+                            self.errorStatus("OOP calibration \(data.string)")
                         }
                     }
                     
                 } else {
-                    self.log("LibreOOP: failed calibration")
-                    self.errorStatus("LibreOOP calibration failed")
+                    self.log("OOP: failed calibration")
+                    self.errorStatus("OOP calibration failed")
                 }
                 
                 // Reapply the current calibration even when the connection fails
@@ -224,16 +224,16 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         if sensor.patchInfo.count > 0 {
             log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.historyEndpoint)...")
 
-            postToLibreOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate, patchUid: sensor.uid, patchInfo: sensor.patchInfo) { data, response, error, parameters in
-                self.debugLog("LibreOOP: query parameters: \(parameters)")
+            postToOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate, patchUid: sensor.uid, patchInfo: sensor.patchInfo) { data, response, error, parameters in
+                self.debugLog("OOP: query parameters: \(parameters)")
                 if let data = data {
-                    self.log("LibreOOP: server history response: \(data.string)")
+                    self.log("OOP: server history response: \(data.string)")
                     if data.string.contains("errcode") {
                         self.errorStatus("\(data.string)")
                         self.history.values = []
                     } else {
                         let decoder = JSONDecoder.init()
-                        if let oopData = try? decoder.decode(OOPHistoryData.self, from: data) {
+                        if let oopData = try? decoder.decode(OOPHistoryResponse.self, from: data) {
                             let realTimeGlucose = oopData.realTimeGlucose.value
                             if realTimeGlucose > 0 {
                                 sensor.currentGlucose = realTimeGlucose
@@ -247,7 +247,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             if oopHistoryCount > 1 && self.history.rawValues.count > 0 {
                                 if oopHistory[0].value == 0 && oopHistory[1].id == self.history.rawValues[0].id {
                                     oopHistory.removeFirst()
-                                    self.debugLog("LibreOOP: dropped the first null OOP value newer than the corresponding raw one")
+                                    self.debugLog("OOP: dropped the first null OOP value newer than the corresponding raw one")
                                 }
                             }
                             if oopHistoryCount > 0 {
@@ -258,16 +258,16 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             } else {
                                 self.history.values = []
                             }
-                            self.log("LibreOOP: history values: \(oopHistory.map{ $0.value })")
+                            self.log("OOP: history values: \(oopHistory.map{ $0.value })")
                         } else {
-                            self.log("LibreOOP: error decoding JSON data")
-                            self.errorStatus("LibreOOP server error: \(data.string)")
+                            self.log("OOP: error decoding JSON data")
+                            self.errorStatus("OOP server error: \(data.string)")
                         }
                     }
                 } else {
                     self.history.values = []
-                    self.log("LibreOOP: connection failed")
-                    self.errorStatus("LibreOOP connection failed")
+                    self.log("OOP: connection failed")
+                    self.errorStatus("OOP connection failed")
                 }
                 self.didParseSensor(sensor)
                 return
@@ -343,7 +343,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             healthKit?.write(entries.filter{$0.date > healthKit?.lastDate ?? Calendar.current.date(byAdding: .hour, value: -8, to : Date())!})
             healthKit?.read()
 
-            nightscout?.delete(query: "find[device]=LibreOOP&count=32") { data, response, error in
+            nightscout?.delete(query: "find[device]=OOP&count=32") { data, response, error in
                 self.nightscout?.post(entries: entries) { data, response, error in
                     self.nightscout?.read()
                 }
