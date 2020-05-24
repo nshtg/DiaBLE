@@ -151,9 +151,10 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
 
             history.rawTrend = sensor.trend
             log("Raw trend: \(sensor.trend.map{$0.value})")
+            log("Trend temperatures: \(sensor.trend.map{$0.temperature})")
             history.rawValues = sensor.history
             log("Raw history: \(sensor.history.map{$0.value})")
-            debugLog("Raw temperatures: \(sensor.history.map{$0.temperature})")
+            debugLog("History temperatures: \(sensor.history.map{$0.temperature})")
 
 
             if history.rawTrend.count > 0 {
@@ -229,7 +230,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
                         self.history.values = []
                     } else {
                         let decoder = JSONDecoder.init()
-                        if let oopData = try? decoder.decode(OOPHistoryResponse.self, from: data) {
+                        if let oopData = try? decoder.decode(GlucoseSpaceHistoryResponse.self, from: data) {
                             let realTimeGlucose = oopData.realTimeGlucose.value
                             if realTimeGlucose > 0 {
                                 sensor.currentGlucose = realTimeGlucose
