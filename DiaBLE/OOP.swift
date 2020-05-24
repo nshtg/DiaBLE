@@ -1,7 +1,6 @@
 import Foundation
 
-// https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/LibreOOPClient.swift
-// https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/LibreRawGlucoseData.swift
+// https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/
 
 
 struct OOPServer {
@@ -17,19 +16,36 @@ struct OOPServer {
 }
 
 
-struct HistoricGlucose: Codable {
-    let dataQuality: Int
-    let id: Int
-    let value: Int
+protocol GlucoseSpaceResponse {
+    var isError: Bool { get }
+    var sensorTime: Int? { get }
+    var canGetParameters: Bool { get }
+    var sensorState: SensorState { get }
+    var valueError: Bool { get }
+    func glucoseData(date: Date) ->(Glucose?, [Glucose])
 }
 
-struct OOPHistoryResponse: Codable {
+
+struct OOPHistoryValue: Codable {
+    let bg: Double?
+    let quality: Int?
+    let time: Int?
+}
+
+struct GlucoseSpaceHistoricGlucose: Codable {
+    let value: Int
+    let dataQuality: Int
+    let id: Int
+}
+
+
+struct GlucoseSpaceHistoryResponse: Codable {
     var alarm: String
     var esaMinutesToWait: Int
-    var historicGlucose: [HistoricGlucose]
+    var historicGlucose: [GlucoseSpaceHistoricGlucose]
     var isActionable: Bool
     var lsaDetected: Bool
-    var realTimeGlucose: HistoricGlucose
+    var realTimeGlucose: GlucoseSpaceHistoricGlucose
     var trendArrow: String
     var msg: String?
     var errcode: String?
@@ -71,6 +87,39 @@ struct OOPHistoryResponse: Codable {
         return array
     }
 }
+
+
+struct GlucoseSpaceA2HistoryResponse: Codable { // TODO: implement the GlucoseSpaceResponse protocol
+    var errcode: Int?
+    var list: [GlucoseSpaceList]?
+
+    var content: OOPCurrentValue? {
+        return list?.first?.content
+    }
+}
+
+struct GlucoseSpaceList: Codable {
+    let content: OOPCurrentValue?
+    let timestamp: Int?
+}
+
+struct OOPCurrentValue: Codable {
+    let currentTime: Int?
+    let currentTrend: Int?
+    let serialNumber: String?
+    let historyValues: [OOPHistoryValue]?
+    let currentBg: Double?
+    let timestamp: Int?
+    enum CodingKeys: String, CodingKey {
+        case currentTime
+        case currentTrend = "currenTrend"
+        case serialNumber
+        case historyValues = "historicBg"
+        case currentBg
+        case timestamp
+    }
+}
+
 
 struct OOPCalibrationResponse: Codable {
     let errcode: Int
