@@ -34,7 +34,7 @@ struct OOPHistoryValue: Codable {
 
 struct GlucoseSpaceHistoricGlucose: Codable {
     let value: Int
-    let dataQuality: Int
+    let dataQuality: Int    // if != 0, the value is erroneous
     let id: Int
 }
 
@@ -49,16 +49,20 @@ struct GlucoseSpaceHistoryResponse: Codable {
     var trendArrow: String
     var msg: String?
     var errcode: String?
-    var endTime: Int?
+    var endTime: Int?    // if != 0, the sensor expired
 
-    /// msg
-    enum Error: String {
+    enum Msg: String {
         case RESULT_SENSOR_STORAGE_STATE
         case RESCAN_SENSOR_BAD_CRC
+
         case TERMINATE_SENSOR_NORMAL_TERMINATED_STATE
         case TERMINATE_SENSOR_ERROR_TERMINATED_STATE
         case TERMINATE_SENSOR_CORRUPT_PAYLOAD
+
+        // HTTP request bad arguments
         case FATAL_ERROR_BAD_ARGUMENTS
+
+        // sensor state
         case TYPE_SENSOR_NOT_STARTED
         case TYPE_SENSOR_STARTING
         case TYPE_SENSOR_Expired
@@ -67,6 +71,7 @@ struct GlucoseSpaceHistoryResponse: Codable {
         case TYPE_SENSOR_OK
         case TYPE_SENSOR_DETERMINED
     }
+
 
     func glucoseData(sensorAge: Int, readingDate: Date) -> [Glucose] {
         var array = [Glucose]()
@@ -89,6 +94,7 @@ struct GlucoseSpaceHistoryResponse: Codable {
 }
 
 
+// the server uses another arithmetic for a 0xA2 Libre 1 patch
 struct GlucoseSpaceA2HistoryResponse: Codable { // TODO: implement the GlucoseSpaceResponse protocol
     var errcode: Int?
     var list: [GlucoseSpaceList]?
