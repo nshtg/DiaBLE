@@ -9,24 +9,6 @@ Experimenting with the Bluetooth BLE devices I bought for the Abbott FreeStyle L
 * varying the **reading interval** (the Bubble firmware allows to set it from 1 to 15 minutes while the MiaoMiao one to reduce it to 1 or 3 minutes);
 * a detailed **log** to check the traffic from/to the BLE devices and remote servers.
 
-Still too early to decide the final design (but I really like already the evil logo 😈), here there are the first rough screenshots:
-
-
-<p align ="center"><img src="https://pbs.twimg.com/media/EVeneWZXQAMmDz5?format=png&name=4096x4096" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVeoUsRWoAUBuzr?format=png&name=4096x4096" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVepOTUXgAARH2r?format=png&name=4096x4096" width="25%" /></p>
-<p align ="center"><img src="https://pbs.twimg.com/media/EVeqRPYWkAAyuCW?format=png&name=4096x4096" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVerNLGWkAAvm2F?format=png&name=4096x4096" width="25%" >&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVerlxLXYAApZXz?format=png&name=4096x4096" width="25%" /></p>
-<p align ="center"><img src="https://pbs.twimg.com/media/EVsyTgvWkAA3coH?format=png&name=4096x4096" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVeuqaqWkAIuNNd?format=png&name=4096x4096" width="25%" /></p>
-<p align ="center"><img src="https://pbs.twimg.com/media/EVeu_Z-XQAA7LZ6?format=png&name=large" width="50%" /></p>
-<p align ="center"><img src="https://pbs.twimg.com/media/EVexQzZXsAEisB4?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVextP9XkAAh3HN?format=png&name=small" align="top" width="25%" /></p>
-<p align ="center"><img src="https://pbs.twimg.com/media/EVxo7ZbX0AEt21z?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EXPDirwXkAA-v7P?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EWSCb0ZXkAAlHvr?format=png&name=small" align="top" width="25%" /></p>
-<p align ="center"><img src="https://pbs.twimg.com/media/EXGC3YsXQAA6A-k?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EXP_5YUXYAAJ4WA?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EXPhjl5XkAAi9P2?format=png&name=small" align="top" width="25%" /></p>
-<p align ="center"><img src="https://pbs.twimg.com/media/EXKQRfNWAAAo6eK?format=png&name=small" align="top" width="25%" /></p>
-
-<p align ="center"><br><img src="https://pbs.twimg.com/media/EV37sVXWAAAKUxG?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EV5OLhAXsAALU5L?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EVyjqaTX0AAwsoH?format=png&name=small" align="top" width="25%" /></p>
-<h4 align ="center">Libre 2: YEP!  -  Bubble: NOPE :(</h4><br><br>
-
-<p align ="center"><img src="https://pbs.twimg.com/media/EYEcKgRX0AIMY3w?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EYEcXaMXYAInOqt?format=png&name=small" align="top" width="25%" /></p>
-<h4 align ="center">Completing the collection with the BluCon support</h4><br><br>
-
 
 The project started as a single script for the iPad Swift Playgrounds and was quickly converted to an app by using a standard Xcode template: it should compile finely without external dependencies just after changing the _Bundle Identifier_ in the _General_ panel and the _Team_ in the _Signing and Capabilities_ tab of Xcode -- Spike users know already very well what that means... ;)
 

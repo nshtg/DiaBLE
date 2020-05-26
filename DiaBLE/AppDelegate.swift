@@ -27,10 +27,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
 
+
+        #if !os(macOS)
+
         if let shortcutItem = options.shortcutItem {
             self.shortcutItem = shortcutItem
         }
-        
+
+        #endif
+
+
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
