@@ -16,11 +16,11 @@ struct OOPServer {
 }
 
 
-class OOPHistoryResponse: Codable {
+// TODO: Codable
+class OOPHistoryResponse {
     var currentGlucose: Int = 0
     var historyValues: [Glucose] = []
 }
-
 
 protocol GlucoseSpaceHistory {
     var isError: Bool { get }
@@ -45,7 +45,7 @@ struct GlucoseSpaceHistoricGlucose: Codable {
 }
 
 
-class GlucoseSpaceHistoryResponse: OOPHistoryResponse { // TODO: implement the GlucoseSpaceHistory protocol
+class GlucoseSpaceHistoryResponse: OOPHistoryResponse, Codable { // TODO: implement the GlucoseSpaceHistory protocol
     var alarm: String?
     var esaMinutesToWait: Int?
     var historicGlucose: [GlucoseSpaceHistoricGlucose] = []
@@ -102,7 +102,7 @@ class GlucoseSpaceHistoryResponse: OOPHistoryResponse { // TODO: implement the G
 
 
 // the server uses another arithmetic for a 0xA2 Libre 1 patch
-class GlucoseSpaceA2HistoryResponse: OOPHistoryResponse { // TODO: implement the GlucoseSpaceHistory protocol
+class GlucoseSpaceA2HistoryResponse: OOPHistoryResponse, Codable  { // TODO: implement the GlucoseSpaceHistory protocol
     var errcode: Int?
     var list: [GlucoseSpaceList]?
 

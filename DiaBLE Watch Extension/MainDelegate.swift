@@ -229,7 +229,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
                         self.errorStatus("\(data.string)")
                         self.history.values = []
                     } else {
-                        let decoder = JSONDecoder.init()
+                        let decoder = JSONDecoder()
                         if let oopData = try? decoder.decode(GlucoseSpaceHistoryResponse.self, from: data) {
                             let realTimeGlucose = oopData.realTimeGlucose.value
                             if realTimeGlucose > 0 {
@@ -257,7 +257,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
                             }
                             self.log("OOP: history values: \(oopHistory.map{ $0.value })")
                         } else {
-                            self.log("OOP: error decoding JSON data")
+                            self.log("OOP: error while decoding JSON data")
                             self.errorStatus("OOP server error: \(data.string)")
                         }
                     }

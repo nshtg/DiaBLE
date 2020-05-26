@@ -62,7 +62,7 @@ struct Calibration: Codable, Equatable {
     var extraSlope: Double = 1.0
     var extraOffset: Double = 0.0
 
-    enum CodingKeys: String, CodingKey,  CustomStringConvertible {
+    enum CodingKeys: String, CodingKey, CustomStringConvertible {
         case slopeSlope   = "slope_slope"
         case slopeOffset  = "slope_offset"
         case offsetOffset = "offset_offset"
