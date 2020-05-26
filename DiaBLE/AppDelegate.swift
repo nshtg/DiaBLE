@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to select a configuration to create the new scene with.
 
 
-        #if !os(macOS)
+        #if !targetEnvironment(macCatalyst)
 
         if let shortcutItem = options.shortcutItem {
             self.shortcutItem = shortcutItem
