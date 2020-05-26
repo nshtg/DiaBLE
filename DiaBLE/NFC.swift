@@ -1,6 +1,10 @@
 import Foundation
 import CoreNFC
 
+// See "The Inner Guts of a Connected Glucose Sensor for Diabetes":
+// https://github.com/cryptax/talks/blob/master/BlackAlps-2019/glucose-blackalps2019.pdf
+
+
 class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
     var tagSession: NFCTagReaderSession?
