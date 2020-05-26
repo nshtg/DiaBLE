@@ -16,7 +16,13 @@ struct OOPServer {
 }
 
 
-protocol GlucoseSpaceResponse {
+class OOPHistoryResponse: Codable {
+    var currentGlucose: Int = 0
+    var historyValues: [Glucose] = []
+}
+
+
+protocol GlucoseSpaceHistory {
     var isError: Bool { get }
     var sensorTime: Int? { get }
     var canGetParameters: Bool { get }
@@ -39,14 +45,14 @@ struct GlucoseSpaceHistoricGlucose: Codable {
 }
 
 
-struct GlucoseSpaceHistoryResponse: Codable {
-    var alarm: String
-    var esaMinutesToWait: Int
-    var historicGlucose: [GlucoseSpaceHistoricGlucose]
-    var isActionable: Bool
-    var lsaDetected: Bool
-    var realTimeGlucose: GlucoseSpaceHistoricGlucose
-    var trendArrow: String
+class GlucoseSpaceHistoryResponse: OOPHistoryResponse { // TODO: implement the GlucoseSpaceHistory protocol
+    var alarm: String?
+    var esaMinutesToWait: Int?
+    var historicGlucose: [GlucoseSpaceHistoricGlucose] = []
+    var isActionable: Bool?
+    var lsaDetected: Bool?
+    var realTimeGlucose: GlucoseSpaceHistoricGlucose = GlucoseSpaceHistoricGlucose(value: 0, dataQuality: 0, id: 0)
+    var trendArrow: String?
     var msg: String?
     var errcode: String?
     var endTime: Int?    // if != 0, the sensor expired
@@ -55,7 +61,7 @@ struct GlucoseSpaceHistoryResponse: Codable {
         case RESULT_SENSOR_STORAGE_STATE
         case RESCAN_SENSOR_BAD_CRC
 
-        case TERMINATE_SENSOR_NORMAL_TERMINATED_STATE
+        case TERMINATE_SENSOR_NORMAL_TERMINATED_STATE    // 10
         case TERMINATE_SENSOR_ERROR_TERMINATED_STATE
         case TERMINATE_SENSOR_CORRUPT_PAYLOAD
 
@@ -74,28 +80,29 @@ struct GlucoseSpaceHistoryResponse: Codable {
 
 
     func glucoseData(sensorAge: Int, readingDate: Date) -> [Glucose] {
-        var array = [Glucose]()
+        historyValues = [Glucose]()
         var sensorAge = sensorAge
         if sensorAge == 0 { // encrpyted FRAM of the Libre 2
             sensorAge = realTimeGlucose.id // FIXME: can differ 1 minute from the real age
         }
         let startDate = readingDate - Double(sensorAge) * 60
         // let current = Glucose(realTimeGlucose.value, id: realTimeGlucose.id, date: startDate + Double(realTimeGlucose.id * 60))
+        currentGlucose = realTimeGlucose.value
         var history = historicGlucose
         if (history.first?.id ?? 0) < (history.last?.id ?? 0) {
             history = history.reversed()
         }
         for g in history {
             let glucose = Glucose(g.value, id: g.id, date: startDate + Double(g.id * 60), source: "OOP" )
-            array.append(glucose)
+            historyValues.append(glucose)
         }
-        return array
+        return historyValues
     }
 }
 
 
 // the server uses another arithmetic for a 0xA2 Libre 1 patch
-struct GlucoseSpaceA2HistoryResponse: Codable { // TODO: implement the GlucoseSpaceResponse protocol
+class GlucoseSpaceA2HistoryResponse: OOPHistoryResponse { // TODO: implement the GlucoseSpaceHistory protocol
     var errcode: Int?
     var list: [GlucoseSpaceList]?
 

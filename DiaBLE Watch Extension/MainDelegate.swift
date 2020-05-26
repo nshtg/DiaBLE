@@ -151,7 +151,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
 
             history.rawTrend = sensor.trend
             log("Raw trend: \(sensor.trend.map{$0.value})")
-            log("Trend temperatures: \(sensor.trend.map{$0.temperature})")
+            debugLog("Trend temperatures: \(sensor.trend.map{$0.temperature})")
             history.rawValues = sensor.history
             log("Raw history: \(sensor.history.map{$0.value})")
             debugLog("History temperatures: \(sensor.history.map{$0.temperature})")
@@ -236,9 +236,9 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
                                 sensor.currentGlucose = realTimeGlucose
                             }
                             // PROJECTED_HIGH_GLUCOSE | HIGH_GLUCOSE | GLUCOSE_OK | LOW_GLUCOSE | PROJECTED_LOW_GLUCOSE | NOT_DETERMINED
-                            self.app.oopAlarm = oopData.alarm
+                            self.app.oopAlarm = oopData.alarm ?? ""
                             // FALLING_QUICKLY | FALLING | STABLE | RISING | RISING_QUICKLY | NOT_DETERMINED
-                            self.app.oopTrend = oopData.trendArrow
+                            self.app.oopTrend = oopData.trendArrow ?? ""
                             var oopHistory = oopData.glucoseData(sensorAge: sensor.age, readingDate: self.app.lastReadingDate)
                             let oopHistoryCount = oopHistory.count
                             if oopHistoryCount > 1 && self.history.rawValues.count > 0 {

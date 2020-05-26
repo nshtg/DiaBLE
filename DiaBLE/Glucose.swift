@@ -15,7 +15,7 @@ enum GlucoseUnit: String, CustomStringConvertible, CaseIterable, Identifiable {
 
 
 /// id: minutes from sensor start
-struct Glucose: Identifiable {
+struct Glucose: Identifiable, Codable {
     let id: Int
     let date: Date
     let raw: Int
