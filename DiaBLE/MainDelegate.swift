@@ -234,10 +234,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                     } else {
                         let decoder = JSONDecoder()
                         if let oopData = try? decoder.decode(GlucoseSpaceHistoryResponse.self, from: data) {
-                            if let realTimeGlucose = oopData.realTimeGlucose.value {
-                                if realTimeGlucose > 0 {
-                                    sensor.currentGlucose = realTimeGlucose
-                                }
+                            let realTimeGlucose = oopData.realTimeGlucose.value
+                            if realTimeGlucose > 0 {
+                                sensor.currentGlucose = realTimeGlucose
                             }
                             // PROJECTED_HIGH_GLUCOSE | HIGH_GLUCOSE | GLUCOSE_OK | LOW_GLUCOSE | PROJECTED_LOW_GLUCOSE | NOT_DETERMINED
                             self.app.oopAlarm = oopData.alarm ?? ""
