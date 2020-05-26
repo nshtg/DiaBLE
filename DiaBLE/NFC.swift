@@ -1,8 +1,10 @@
 import Foundation
 import CoreNFC
 
-// See "The Inner Guts of a Connected Glucose Sensor for Diabetes":
+// "The Inner Guts of a Connected Glucose Sensor for Diabetes":
 // https://github.com/cryptax/talks/blob/master/BlackAlps-2019/glucose-blackalps2019.pdf
+// "NFC Exploitation with the RF430RFL152 and 'TAL152 - PoC||GTFO 0x20":
+// https://archive.org/stream/pocorgtfo20#page/n6/mode/1up
 
 
 class NFCReader: NSObject, NFCTagReaderSessionDelegate {
