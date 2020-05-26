@@ -39,9 +39,9 @@ struct OOPHistoryValue: Codable {
 }
 
 struct GlucoseSpaceHistoricGlucose: Codable {
-    let value: Int
-    let dataQuality: Int    // if != 0, the value is erroneous
-    let id: Int
+    let value: Int?
+    let dataQuality: Int?    // if != 0, the value is erroneous
+    let id: Int?
 }
 
 
@@ -83,17 +83,17 @@ class GlucoseSpaceHistoryResponse: OOPHistoryResponse, Codable { // TODO: implem
         historyValues = [Glucose]()
         var sensorAge = sensorAge
         if sensorAge == 0 { // encrpyted FRAM of the Libre 2
-            sensorAge = realTimeGlucose.id // FIXME: can differ 1 minute from the real age
+            sensorAge = realTimeGlucose.id ?? 0// FIXME: can differ 1 minute from the real age
         }
         let startDate = readingDate - Double(sensorAge) * 60
         // let current = Glucose(realTimeGlucose.value, id: realTimeGlucose.id, date: startDate + Double(realTimeGlucose.id * 60))
-        currentGlucose = realTimeGlucose.value
+        currentGlucose = realTimeGlucose.value ?? 0
         var history = historicGlucose
         if (history.first?.id ?? 0) < (history.last?.id ?? 0) {
             history = history.reversed()
         }
         for g in history {
-            let glucose = Glucose(g.value, id: g.id, date: startDate + Double(g.id * 60), source: "OOP" )
+            let glucose = Glucose(g.value!, id: g.id!, date: startDate + Double(g.id! * 60), source: "OOP" )
             historyValues.append(glucose)
         }
         return historyValues
