@@ -71,7 +71,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                 // https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/NFCReaderX.java
 
-                tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data([0x07])) { (customResponse: Data, error: Error?) in
+                tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
                     if error != nil {
                         // session.invalidate(errorMessage: "Error while getting patch info: " + error!.localizedDescription)
                         self.main.log("NFC: error while getting patch info: \(error!.localizedDescription)")

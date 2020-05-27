@@ -13,7 +13,6 @@ FIXME
 TODO
 ----
 
-* get the Libre 2 patchInfo via NFC and XOR-decrypt its FRAM
 * selection of glucose units
 * manage Nightscout JavaScript alerts synchronously
 * Apple Watch app: snapshots, workout and extended runtime background sessions, complications, context menus, edit calibration parameters
