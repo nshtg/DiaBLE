@@ -18,6 +18,23 @@ enum SensorType: String, CustomStringConvertible {
     }
 }
 
+enum SensorRegion: Int, CustomStringConvertible {
+    case unknown = 0x0000
+    case europe  = 0x0001
+    case usa     = 0x0002
+    case israel  = 0x0008
+
+    var description: String {
+        switch self {
+        case .unknown: return "Unknown"
+        case .europe:  return "Europe"
+        case .usa:     return "USA"
+        case .israel:  return "Israel"
+        }
+    }
+}
+
+
 enum SensorState: UInt8, CustomStringConvertible {
     case notYetStarted = 0x01
     case starting
@@ -44,6 +61,7 @@ enum SensorState: UInt8, CustomStringConvertible {
 class Sensor: ObservableObject {
 
     var type: SensorType = .unknown
+    var region: Int = 0
     @Published var state: SensorState = SensorState.unknown
     var crcReport: String = ""
     @Published var lastReadingDate = Date()
@@ -89,6 +107,9 @@ class Sensor: ObservableObject {
             guard fram.count > 317 else { return }
             age = Int(fram[317]) << 8 + Int(fram[316])
             let startDate = lastReadingDate - Double(age) * 60
+
+            guard fram.count > 324 else { return }
+            region = Int(fram[322]) << 8 + Int(fram[323])
 
             trend = []
             history = []
