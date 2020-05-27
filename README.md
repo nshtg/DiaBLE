@@ -14,6 +14,9 @@ Still too early to decide the final design (but I really like already the evil l
 <p align ="center"><br><img src="https://pbs.twimg.com/media/EZAsflRX0AMT0WV?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EZAsiYyX0AAgBCu?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EZAslstWAAIUscB?format=png&name=small" align="top" width="25%" /></p>
 <h4 align ="center">Libre 2: YEP!  -  Bubble: NOPE :(</h4><br><br>
 
+<p align ="center"><br><img src="https://pbs.twimg.com/media/EZA0p3-XYAc4f7h?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EZA0tMvWkAgUmCd?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EZA0vVWXsAYuWI8?format=png&name=small" align="top" width="25%" /></p>
+<h4 align ="center">HealthKit &lt;-&gt; Nightscout</h4><br><br>
+
 
 The project started as a single script for the iPad Swift Playgrounds and was quickly converted to an app by using a standard Xcode template: it should compile finely without external dependencies just after changing the _Bundle Identifier_ in the _General_ panel and the _Team_ in the _Signing and Capabilities_ tab of Xcode -- Spike users know already very well what that means... ;)
 
