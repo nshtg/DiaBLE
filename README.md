@@ -11,6 +11,9 @@ Experimenting with the Bluetooth BLE devices I bought for the Abbott FreeStyle L
 
 Still too early to decide the final design (but I really like already the evil logo 😈), here there are some recent screenshots I tweeted:
 
+<p align ="center"><img src="https://pbs.twimg.com/media/EZHiJuJWAAQFXAk?format=png&name=4096x4096" width="25%" /></p>
+
+
 <p align ="center"><br><img src="https://pbs.twimg.com/media/EZAsflRX0AMT0WV?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EZAsiYyX0AAgBCu?format=png&name=small" align="top" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/EZAslstWAAIUscB?format=png&name=small" align="top" width="25%" /></p>
 <h4 align ="center">Libre 2: YEP!  -  Bubble: NOPE :(</h4><br><br>
 

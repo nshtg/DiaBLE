@@ -18,6 +18,9 @@ enum SensorType: String, CustomStringConvertible {
     }
 }
 
+
+// https://github.com/cryptax/misc-code/blob/master/glucose-tools/readdump.py
+
 enum SensorRegion: Int, CustomStringConvertible {
     case unknown = 0x0000
     case europe  = 0x0001
@@ -108,7 +111,7 @@ class Sensor: ObservableObject {
             age = Int(fram[317]) << 8 + Int(fram[316])
             let startDate = lastReadingDate - Double(age) * 60
 
-            guard fram.count > 324 else { return }
+            guard fram.count > 323 else { return }
             region = Int(fram[322]) << 8 + Int(fram[323])
 
             trend = []
