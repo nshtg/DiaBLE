@@ -80,7 +80,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                 // TODO
                 if self.main.settings.debugLevel > 0 {
-                    self.readRaw(tag: tag, 0xF860, 24) // FRAM raw start address, max 3 blocks
+                    self.readRaw(tag: tag, 0xF860, 30) // FRAM raw start address, max 15 16-bit words
                 }
 
                 tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
@@ -176,9 +176,14 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
 
     func readRaw(tag: NFCISO15693Tag, _ address: UInt16, _ bytes: UInt8) {
-        tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data("ADC2".bytes.reversed() + "2175".bytes.reversed() + [UInt8(address & 0x00FF), UInt8(address >> 8), bytes / 2])) { (customResponse: Data, error: Error?) in
 
-            let data = customResponse
+        var words = bytes / 2
+        if bytes % 2 == 1 { words += 1}
+
+        tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data("ADC2".bytes.reversed() + "2175".bytes.reversed() + [UInt8(address & 0x00FF), UInt8(address >> 8), words])) { (customResponse: Data, error: Error?) in
+
+            var data = customResponse
+            if bytes % 2 == 1 { data = data.dropLast()}
 
             if error != nil {
                 // session.invalidate(errorMessage: "Error while reading raw memory: " + error!.localizedDescription)
