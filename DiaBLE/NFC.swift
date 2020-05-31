@@ -3,11 +3,13 @@ import CoreNFC
 
 
 // https://github.com/travisgoodspeed/goodtag/wiki/RF430TAL152H
-
+// https://github.com/travisgoodspeed/GoodV/blob/master/app/src/main/java/com/kk4vcz/goodv/NfcRF430TAL.java
+// https://github.com/travisgoodspeed/goodtag/blob/master/firmware/gcmpatch.c
+//
 // "The Inner Guts of a Connected Glucose Sensor for Diabetes"
 // https://www.youtube.com/watch?v=Y9vtGmxh1IQ
 // https://github.com/cryptax/talks/blob/master/BlackAlps-2019/glucose-blackalps2019.pdf
-
+//
 // "NFC Exploitation with the RF430RFL152 and 'TAL152" in PoC||GTFO 0x20
 // https://archive.org/stream/pocorgtfo20#page/n6/mode/1up
 
@@ -75,6 +77,9 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                 }
 
                 // https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/NFCReaderX.java
+
+                // TEST
+                // self.readRaw(tag: tag, 0xF860, 8) // FRAM raw start address
 
                 tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
                     if error != nil {
@@ -166,4 +171,21 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
             }
         }
     }
+
+
+    func readRaw(tag: NFCISO15693Tag, _ address: UInt16, _ bytes: UInt8) {
+        tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data("ADC2".bytes.reversed() + "2175".bytes.reversed() + [UInt8(address & 0x00FF), UInt8(address >> 8), bytes / 2])) { (customResponse: Data, error: Error?) in
+
+            if error != nil {
+                // session.invalidate(errorMessage: "Error while reading raw memory: " + error!.localizedDescription)
+                self.main.log("NFC: error while reading raw memory at 0x\(String(format: "%04X", address)): \(error!.localizedDescription)")
+            }
+
+            let data = customResponse
+
+            let msg = "NFC: " + String(format: "%04X", address) + "  \(data.reduce("", { $0 + String(format: "%02X", $1) + " "}))\n"
+            self.main.log(msg)
+        }
+    }
+
 }
