@@ -79,7 +79,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                 // https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/NFCReaderX.java
 
                 // TEST
-                // self.readRaw(tag: tag, 0xF860, 8) // FRAM raw start address
+                // self.readRaw(tag: tag, 0xF860, 16) // FRAM raw start address
 
                 tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
                     if error != nil {
@@ -176,15 +176,22 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     func readRaw(tag: NFCISO15693Tag, _ address: UInt16, _ bytes: UInt8) {
         tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data("ADC2".bytes.reversed() + "2175".bytes.reversed() + [UInt8(address & 0x00FF), UInt8(address >> 8), bytes / 2])) { (customResponse: Data, error: Error?) in
 
+            let data = customResponse
+
             if error != nil {
                 // session.invalidate(errorMessage: "Error while reading raw memory: " + error!.localizedDescription)
                 self.main.log("NFC: error while reading raw memory at 0x\(String(format: "%04X", address)): \(error!.localizedDescription)")
+            } else {
+                var offset = data.startIndex
+                var end = offset
+                var msg = "NFC memory dump:\n"
+                while offset < data.endIndex {
+                    _ = data.formIndex(&end, offsetBy: 8, limitedBy: data.endIndex)
+                    msg += String(format: "%04X", address + UInt16(offset)) + "  \(data[offset ..< end].reduce("", { $0 + String(format: "%02X", $1) + " "}))\n"
+                    data.formIndex(&offset, offsetBy: 8)
+                }
+                self.main.log(msg)
             }
-
-            let data = customResponse
-
-            let msg = "NFC: " + String(format: "%04X", address) + "  \(data.reduce("", { $0 + String(format: "%02X", $1) + " "}))\n"
-            self.main.log(msg)
         }
     }
 
