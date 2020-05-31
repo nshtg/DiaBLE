@@ -78,8 +78,10 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                 // https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/NFCReaderX.java
 
-                // TEST
-                // self.readRaw(tag: tag, 0xF860, 16) // FRAM raw start address
+                // TODO
+                if self.main.settings.debugLevel > 0 {
+                    self.readRaw(tag: tag, 0xF860, 24) // FRAM raw start address, max 3 blocks
+                }
 
                 tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
                     if error != nil {
@@ -124,7 +126,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 for (n, data) in dataArray.enumerated() {
                                     if data.count > 0 {
                                         fram.append(data)
-                                        msg += "NFC block #\(String(format:"%02d", n)): \(data.reduce("", { $0 + String(format: "%02X", $1) + " "}))\n"
+                                        msg += "NFC block #\(String(format:"%02d", n)): \(data.reduce("", { $0 + String(format: "%02X", $1) + " "}).dropLast())\n"
                                     }
                                 }
                                 if !msg.isEmpty { self.main.log(String(msg.dropLast())) }
@@ -187,8 +189,8 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                 var msg = "NFC memory dump:\n"
                 while offset < data.endIndex {
                     _ = data.formIndex(&offsetEnd, offsetBy: 8, limitedBy: data.endIndex)
-                    msg += String(format: "%04X", address + UInt16(offset)) + "  \(data[offset ..< offsetEnd].reduce("", { $0 + String(format: "%02X", $1) + " "}))\n"
-                    data.formIndex(&offset, offsetBy: 8)
+                    msg += String(format: "%04X", address + UInt16(offset)) + "  \(data[offset ..< offsetEnd].reduce("", { $0 + String(format: "%02X", $1) + " "}).dropLast())\n"
+                    _ = data.formIndex(&offset, offsetBy: 8, limitedBy: data.endIndex)
                 }
                 self.main.log(msg)
             }
