@@ -183,11 +183,11 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                 self.main.log("NFC: error while reading raw memory at 0x\(String(format: "%04X", address)): \(error!.localizedDescription)")
             } else {
                 var offset = data.startIndex
-                var end = offset
+                var offsetEnd = offset
                 var msg = "NFC memory dump:\n"
                 while offset < data.endIndex {
-                    _ = data.formIndex(&end, offsetBy: 8, limitedBy: data.endIndex)
-                    msg += String(format: "%04X", address + UInt16(offset)) + "  \(data[offset ..< end].reduce("", { $0 + String(format: "%02X", $1) + " "}))\n"
+                    _ = data.formIndex(&offsetEnd, offsetBy: 8, limitedBy: data.endIndex)
+                    msg += String(format: "%04X", address + UInt16(offset)) + "  \(data[offset ..< offsetEnd].reduce("", { $0 + String(format: "%02X", $1) + " "}))\n"
                     data.formIndex(&offset, offsetBy: 8)
                 }
                 self.main.log(msg)
