@@ -80,10 +80,6 @@ struct Monitor: View {
                                     Text(app.sensor.state.description)
                                         .foregroundColor(app.sensor.state == .ready ? .green : .red)
 
-                                    if app.sensor.serial != "" {
-                                        Text("\(app.sensor.serial)")
-                                    }
-
                                     if app.sensor.age > 0 {
                                         Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days")
                                     }
@@ -100,17 +96,6 @@ struct Monitor: View {
                                         Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.transmitter.rssi) dB")
                                     }
-                                    if app.transmitter.firmware.count > 0 {
-                                        Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
-                                            Text("\(app.transmitter.firmware)")
-                                    }
-                                    if app.transmitter.manufacturer.count + app.transmitter.hardware.count > 0  {
-                                        Text("Hardware: ").foregroundColor(Color(UIColor.lightGray)) +
-                                            Text("\(app.transmitter.manufacturer)\(app.transmitter.manufacturer == "" ? "" : "\n")\(app.transmitter.model) \(app.transmitter.hardware)".trimmingCharacters(in: .whitespaces))
-                                    }
-                                    if app.transmitter.macAddress.count > 0  {
-                                        Text("\(app.transmitter.macAddress.hexAddress)")
-                                    }
                                 }
                             }
 
@@ -123,17 +108,6 @@ struct Monitor: View {
                                     if app.device.rssi != 0  {
                                         Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
                                             Text("\(app.device.rssi) dB")
-                                    }
-                                    if app.device.firmware.count > 0 {
-                                        Text("Firmware: ").foregroundColor(Color(UIColor.lightGray)) +
-                                            Text("\(app.device.firmware)")
-                                    }
-                                    if app.device.manufacturer.count + app.device.hardware.count > 0  {
-                                        Text("Hardware: ").foregroundColor(Color(UIColor.lightGray)) +
-                                            Text("\(app.device.manufacturer)\(app.device.manufacturer == "" ? "" : "\n")\(app.device.model) \(app.device.hardware)".trimmingCharacters(in: .whitespaces))
-                                    }
-                                    if app.device.macAddress.count > 0  {
-                                        Text("\(app.transmitter.macAddress.hexAddress)")
                                     }
                                 }
                             }

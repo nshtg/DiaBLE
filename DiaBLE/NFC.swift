@@ -1,6 +1,9 @@
 import Foundation
 import CoreNFC
 
+
+// https://github.com/travisgoodspeed/goodtag/wiki/RF430TAL152H
+
 // "The Inner Guts of a Connected Glucose Sensor for Diabetes"
 // https://www.youtube.com/watch?v=Y9vtGmxh1IQ
 // https://github.com/cryptax/talks/blob/master/BlackAlps-2019/glucose-blackalps2019.pdf
