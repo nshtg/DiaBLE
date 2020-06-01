@@ -78,9 +78,14 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                 // https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/NFCReaderX.java
 
-                // TODO
                 if self.main.settings.debugLevel > 0 {
-                    self.readRaw(tag: tag, 0xF860, 30) // FRAM raw start address, max 15 16-bit words
+                    self.readRaw(tag: tag, 0xF860, 30)    // fram
+                    self.readRaw(tag: tag, 0x1A00, 30)    // config
+                    // TODO: read more than 15 16-bit words
+                    // fram:   0xf800, 2048
+                    // rom:    0x4400, 0x2000
+                    // sram:   0x1C00, 0x1000
+                    // config: 0x1a00, 64    (serial number and calibration)
                 }
 
                 tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
