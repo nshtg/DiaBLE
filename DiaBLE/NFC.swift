@@ -178,17 +178,18 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     func readRaw(tag: NFCISO15693Tag, _ address: UInt16, _ bytes: UInt8) {
 
         var words = bytes / 2
-        if bytes % 2 == 1 { words += 1}
+        if bytes % 2 == 1 || ( bytes % 2 == 0 && address % 2 == 1 ) { words += 1 }
 
         tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data("ADC2".bytes.reversed() + "2175".bytes.reversed() + [UInt8(address & 0x00FF), UInt8(address >> 8), words])) { (customResponse: Data, error: Error?) in
 
             var data = customResponse
-            if bytes % 2 == 1 { data = data.dropLast()}
 
             if error != nil {
                 // session.invalidate(errorMessage: "Error while reading raw memory: " + error!.localizedDescription)
                 self.main.log("NFC: error while reading raw memory at 0x\(String(format: "%04X", address)): \(error!.localizedDescription)")
             } else {
+                if address % 2 == 1 { data = data.subdata(in: 1 ..< data.count) }
+                if (data.count - Int(bytes)) == 1 { data = data.subdata(in: 0 ..< (data.count - 1)) }
                 var offset = data.startIndex
                 var offsetEnd = offset
                 var msg = "NFC memory dump:\n"
