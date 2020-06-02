@@ -26,7 +26,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     }
     
     func startSession() {
-        // execute in the .main queue because of main.log
+        // execute in the .main queue because of publishing changes to main's observables
         tagSession = NFCTagReaderSession(pollingOption: [.iso15693], delegate: self, queue: .main)
         tagSession?.alertMessage = "Hold the top of your iPhone near the Libre sensor"
         tagSession?.begin()
@@ -76,11 +76,9 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                     return
                 }
 
-                // https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/NFCReaderX.java
-
                 if self.main.settings.debugLevel > 0 {
                     self.readRaw(tag: tag, 0xF860, 30)    // fram
-                    self.readRaw(tag: tag, 0x1A00, 30)    // config
+                    self.readRaw(tag: tag, 0x1A00, 30)    // config (patchUid at 0x1A08)
                     // TODO: read more than 15 16-bit words
                     // fram:   0xf800, 2048
                     // rom:    0x4400, 0x2000
@@ -194,7 +192,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                 self.main.log("NFC: error while reading raw memory at 0x\(String(format: "%04X", address)): \(error!.localizedDescription)")
             } else {
                 if address % 2 == 1 { data = data.subdata(in: 1 ..< data.count) }
-                if (data.count - Int(bytes)) == 1 { data = data.subdata(in: 0 ..< (data.count - 1)) }
+                if data.count - Int(bytes) == 1 { data = data.subdata(in: 0 ..< data.count - 1) }
                 var offset = data.startIndex
                 var offsetEnd = offset
                 var msg = "NFC memory dump:\n"

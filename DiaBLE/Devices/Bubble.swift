@@ -100,9 +100,9 @@ class Bubble: Transmitter {
                 if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
                 buffer.append(data.suffix(from: 4))
                 main.log("\(name): partial buffer count: \(buffer.count)")
-                if buffer.count == 352 {
+                if buffer.count >= 344 {
                     let fram = buffer[..<344]
-                    // let footer = buffer.suffix(8)
+                    // let footer = buffer.suffix(8)    // when firmware < 2.0
                     sensor!.fram = Data(fram)
                     main.status("\(sensor!.type)  +  \(name)")
                 }
