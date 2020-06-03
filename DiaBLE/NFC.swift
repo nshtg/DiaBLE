@@ -77,8 +77,10 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                 }
 
                 if self.main.settings.debugLevel > 0 {
-                    self.readRaw(tag: tag, 0xF860, 30)    // fram
-                    self.readRaw(tag: tag, 0x1A00, 30)    // config (patchUid at 0x1A08)
+                    let msg = "NFC: "
+                    self.readRaw(tag: tag, 0xF860, 30) { self.main.debugLog($1.hexDump(address: Int($0), msg: $2?.localizedDescription ?? msg + "leading of FRAM")) }
+                    self.readRaw(tag: tag, 0x1A00, 30) { self.main.debugLog($1.hexDump(address: Int($0), msg: $2?.localizedDescription ?? msg + "leading of config RAM\n(patchUid at 0x1A08)")) }
+                    self.readRaw(tag: tag, 0xFFB8, 24) { self.main.debugLog($1.hexDump(address: Int($0), msg: $2?.localizedDescription ?? msg + "patch table for A0-A4 commands")) }
                     // TODO: read more than 15 16-bit words
                     // fram:   0xf800, 2048
                     // rom:    0x4400, 0x2000
@@ -178,7 +180,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     }
 
 
-    func readRaw(tag: NFCISO15693Tag, _ address: UInt16, _ bytes: UInt8) {
+    func readRaw(tag: NFCISO15693Tag, _ address: UInt16, _ bytes: UInt8, handler: @escaping (UInt16, Data, Error?) -> Void) {
 
         var words = bytes / 2
         if bytes % 2 == 1 || ( bytes % 2 == 0 && address % 2 == 1 ) { words += 1 }
@@ -193,15 +195,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
             } else {
                 if address % 2 == 1 { data = data.subdata(in: 1 ..< data.count) }
                 if data.count - Int(bytes) == 1 { data = data.subdata(in: 0 ..< data.count - 1) }
-                var offset = data.startIndex
-                var offsetEnd = offset
-                var msg = "NFC memory dump:\n"
-                while offset < data.endIndex {
-                    _ = data.formIndex(&offsetEnd, offsetBy: 8, limitedBy: data.endIndex)
-                    msg += String(format: "%04X", address + UInt16(offset)) + "  \(data[offset ..< offsetEnd].reduce("", { $0 + String(format: "%02X", $1) + " "}).dropLast())\n"
-                    _ = data.formIndex(&offset, offsetBy: 8, limitedBy: data.endIndex)
-                }
-                self.main.log(msg)
+                handler(address, data, error)
             }
         }
     }
