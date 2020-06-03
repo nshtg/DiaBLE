@@ -78,9 +78,9 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                 if self.main.settings.debugLevel > 0 {
                     let msg = "NFC: "
-                    self.readRaw(tag: tag, 0xF860, 30) { self.main.debugLog($1.hexDump(address: Int($0), msg: $2?.localizedDescription ?? msg + "leading of FRAM")) }
-                    self.readRaw(tag: tag, 0x1A00, 30) { self.main.debugLog($1.hexDump(address: Int($0), msg: $2?.localizedDescription ?? msg + "leading of config RAM\n(patchUid at 0x1A08)")) }
-                    self.readRaw(tag: tag, 0xFFB8, 24) { self.main.debugLog($1.hexDump(address: Int($0), msg: $2?.localizedDescription ?? msg + "patch table for A0-A4 commands")) }
+                    self.readRaw(tag: tag, 0xF860, 30) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "leading of FRAM:"))) }
+                    self.readRaw(tag: tag, 0x1A00, 30) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "leading of config RAM\n(patchUid at 0x1A08):"))) }
+                    self.readRaw(tag: tag, 0xFFB8, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 commands:"))) }
                     // TODO: read more than 15 16-bit words
                     // fram:   0xf800, 2048
                     // rom:    0x4400, 0x2000
@@ -191,12 +191,12 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
             if error != nil {
                 // session.invalidate(errorMessage: "Error while reading raw memory: " + error!.localizedDescription)
-                self.main.log("NFC: error while reading raw memory at 0x\(String(format: "%04X", address)): \(error!.localizedDescription)")
+                self.main.log("NFC: error while reading raw memory at 0x\(String(format: "%04X", address))")
             } else {
                 if address % 2 == 1 { data = data.subdata(in: 1 ..< data.count) }
                 if data.count - Int(bytes) == 1 { data = data.subdata(in: 0 ..< data.count - 1) }
-                handler(address, data, error)
             }
+            handler(address, data, error)
         }
     }
 

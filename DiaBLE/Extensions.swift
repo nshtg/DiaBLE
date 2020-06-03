@@ -8,10 +8,10 @@ extension Data {
     var hexAddress: String { String(self.reversed().reduce("", { $0 + String(format: "%02X", $1) + ":"}).dropLast(1)) }
     var sha1: String { Insecure.SHA1.hash(data: self).makeIterator().reduce("", { $0 + String(format: "%02x", $1)}) }
 
-    func hexDump(address: Int = 0, msg: String = "") -> String {
+    func hexDump(address: Int = 0, header: String = "") -> String {
         var offset = startIndex
         var offsetEnd = offset
-        var str = msg.isEmpty ? "" : "\(msg):\n"
+        var str = header.isEmpty ? "" : "\(header)\n"
         while offset < endIndex {
             _ = formIndex(&offsetEnd, offsetBy: 8, limitedBy: endIndex)
             if address != 0 { str += String(format: "%X", address + offset) + "  " }
