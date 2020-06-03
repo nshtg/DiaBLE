@@ -15,6 +15,8 @@ struct OOPServer {
                                                 historyEndpoint: "libreoop2")
 }
 
+// TODO: new "callnox" endpoint replies with a GlucoseSpaceA2HistoryResponse specific for an 0xA2 Libre 1 patch
+
 
 // TODO: Codable
 class OOPHistoryResponse {
@@ -101,7 +103,6 @@ class GlucoseSpaceHistoryResponse: OOPHistoryResponse, Codable { // TODO: implem
 }
 
 
-// the server uses another arithmetic for a 0xA2 Libre 1 patch
 class GlucoseSpaceA2HistoryResponse: OOPHistoryResponse, Codable  { // TODO: implement the GlucoseSpaceHistory protocol
     var errcode: Int?
     var list: [GlucoseSpaceList]?

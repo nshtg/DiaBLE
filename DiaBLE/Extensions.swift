@@ -7,6 +7,20 @@ extension Data {
     var string: String { String(decoding: self, as: UTF8.self) }
     var hexAddress: String { String(self.reversed().reduce("", { $0 + String(format: "%02X", $1) + ":"}).dropLast(1)) }
     var sha1: String { Insecure.SHA1.hash(data: self).makeIterator().reduce("", { $0 + String(format: "%02x", $1)}) }
+
+    func hexDump(address: Int = 0, msg: String = "") -> String {
+        var offset = startIndex
+        var offsetEnd = offset
+        var str = msg.isEmpty ? "" : "\(msg):\n"
+        while offset < endIndex {
+            _ = formIndex(&offsetEnd, offsetBy: 8, limitedBy: endIndex)
+            if address != 0 { str += String(format: "%X", address + offset) + "  " }
+            str += "\(self[offset ..< offsetEnd].reduce("", { $0 + String(format: "%02X", $1) + " "}).dropLast())\n"
+            _ = formIndex(&offset, offsetBy: 8, limitedBy: endIndex)
+        }
+        str.removeLast()
+        return str
+    }
 }
 
 
