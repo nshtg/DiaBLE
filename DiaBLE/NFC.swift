@@ -78,10 +78,9 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                 if self.main.settings.debugLevel > 0 {
                     let msg = "NFC: "
-                    self.readRaw(tag: tag, 0xF860, 30) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "leading of FRAM:"))) }
-                    self.readRaw(tag: tag, 0x1A00, 30) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "leading of config RAM\n(patchUid at 0x1A08):"))) }
+                    self.readRaw(tag: tag, 0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:"))); session.invalidate() }
+                    self.readRaw(tag: tag, 0x1A00, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "start of config RAM\n(patchUid at 0x1A08):"))) }
                     self.readRaw(tag: tag, 0xFFB8, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 commands:"))) }
-                    // TODO: read more than 15 16-bit words
                     // fram:   0xf800, 2048
                     // rom:    0x4400, 0x2000
                     // sram:   0x1C00, 0x1000
@@ -112,7 +111,9 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                             if i == requests - 1 {
 
-                                session.invalidate()
+                                if self.main.settings.debugLevel == 0 {
+                                    session.invalidate()
+                                }
 
                                 var sensor: Sensor
                                 if  self.main.app.sensor != nil {
@@ -180,23 +181,39 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     }
 
 
-    func readRaw(tag: NFCISO15693Tag, _ address: UInt16, _ bytes: UInt8, handler: @escaping (UInt16, Data, Error?) -> Void) {
+    func readRaw(tag: NFCISO15693Tag, _ address: UInt16, _ bytes: Int, buffer: Data = Data(), handler: @escaping (UInt16, Data, Error?) -> Void) {
 
-        var words = bytes / 2
-        if bytes % 2 == 1 || ( bytes % 2 == 0 && address % 2 == 1 ) { words += 1 }
+        var buffer = buffer
+        let addressToRead = address + UInt16(buffer.count)
 
-        tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data("ADC2".bytes.reversed() + "2175".bytes.reversed() + [UInt8(address & 0x00FF), UInt8(address >> 8), words])) { (customResponse: Data, error: Error?) in
+        var remainingBytes = bytes
+        let bytesToRead = remainingBytes > 24 ? 24 : bytes
+
+        var remainingWords = bytes / 2
+        if bytes % 2 == 1 || ( bytes % 2 == 0 && addressToRead % 2 == 1 ) { remainingWords += 1 }
+        let wordsToRead = UInt8(remainingWords > 12 ? 12 : remainingWords)
+
+        tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data("ADC2".bytes.reversed() + "2175".bytes.reversed() + [UInt8(addressToRead & 0x00FF), UInt8(addressToRead >> 8), wordsToRead])) { (customResponse: Data, error: Error?) in
 
             var data = customResponse
 
             if error != nil {
                 // session.invalidate(errorMessage: "Error while reading raw memory: " + error!.localizedDescription)
-                self.main.log("NFC: error while reading raw memory at 0x\(String(format: "%04X", address))")
+                self.main.log("NFC: error while reading \(wordsToRead) words at raw memory 0x\(String(format: "%04X", addressToRead))")
+                remainingBytes = 0
             } else {
-                if address % 2 == 1 { data = data.subdata(in: 1 ..< data.count) }
-                if data.count - Int(bytes) == 1 { data = data.subdata(in: 0 ..< data.count - 1) }
+                if addressToRead % 2 == 1 { data = data.subdata(in: 1 ..< data.count) }
+                if data.count - Int(bytesToRead) == 1 { data = data.subdata(in: 0 ..< data.count - 1) }
             }
-            handler(address, data, error)
+
+            buffer += data
+            remainingBytes -= data.count
+
+            if remainingBytes == 0 {
+                handler(address, buffer, error)
+            } else {
+                self.readRaw(tag: tag, address, remainingBytes, buffer: buffer) { address, data, error in handler(address, data, error) }
+            }
         }
     }
 
