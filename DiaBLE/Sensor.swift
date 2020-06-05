@@ -19,8 +19,6 @@ enum SensorType: String, CustomStringConvertible {
 }
 
 
-// https://github.com/cryptax/misc-code/blob/master/glucose-tools/readdump.py
-
 enum SensorRegion: Int, CustomStringConvertible {
     case unknown = 0x0000
     case europe  = 0x0001

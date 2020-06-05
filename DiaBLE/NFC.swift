@@ -9,6 +9,7 @@ import CoreNFC
 // "The Inner Guts of a Connected Glucose Sensor for Diabetes"
 // https://www.youtube.com/watch?v=Y9vtGmxh1IQ
 // https://github.com/cryptax/talks/blob/master/BlackAlps-2019/glucose-blackalps2019.pdf
+// https://github.com/cryptax/misc-code/blob/master/glucose-tools/readdump.py
 //
 // "NFC Exploitation with the RF430RFL152 and 'TAL152" in PoC||GTFO 0x20
 // https://archive.org/stream/pocorgtfo20#page/n6/mode/1up
@@ -74,17 +75,6 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                     session.invalidate(errorMessage: "Error while getting system info: " + error!.localizedDescription)
                     self.main.log("NFC: error while getting system info: \(error!.localizedDescription)")
                     return
-                }
-
-                if self.main.settings.debugLevel > 0 {
-                    let msg = "NFC: "
-                    self.readRaw(tag: tag, 0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:"))); session.invalidate() }
-                    self.readRaw(tag: tag, 0x1A00, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "start of config RAM\n(patchUid at 0x1A08):"))) }
-                    self.readRaw(tag: tag, 0xFFB8, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 commands:"))) }
-                    // fram:   0xf800, 2048
-                    // rom:    0x4400, 0x2000
-                    // sram:   0x1C00, 0x1000
-                    // config: 0x1a00, 64    (serial number and calibration)
                 }
 
                 tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
@@ -166,12 +156,33 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                     self.main.settings.patchInfo = sensor.patchInfo
                                 }
 
-                                if fram.count > 0 {
-                                    sensor.fram = Data(fram)
-                                }
-
                                 self.main.status("\(sensor.type)  +  NFC")
-                                self.main.parseSensorData(sensor)
+
+                                if self.main.settings.debugLevel > 0 {
+                                    let msg = "NFC: dump "
+                                    self.readRaw(tag: tag, 0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:")))
+                                        self.readRaw(tag: tag, 0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
+                                            self.readRaw(tag: tag, 0xFFB8, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 commands:")))
+                                                session.invalidate()
+
+                                                // same final code as for debugLevel = 0
+
+                                                if fram.count > 0 {
+                                                    sensor.fram = Data(fram)
+                                                }
+                                                self.main.parseSensorData(sensor)
+                                            }
+                                        }
+                                    }
+                                } else {
+
+                                    // same final code as for debugLevel > 0
+
+                                    if fram.count > 0 {
+                                        sensor.fram = Data(fram)
+                                    }
+                                    self.main.parseSensorData(sensor)
+                                }
                             }
                         }
                     }
@@ -180,6 +191,11 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
         }
     }
 
+
+    /// fram:   0xF800, 2048
+    /// rom:    0x4400, 0x2000
+    /// sram:   0x1C00, 0x1000
+    /// config: 0x1A00, 64    (serial number and calibration)
 
     func readRaw(tag: NFCISO15693Tag, _ address: UInt16, _ bytes: Int, buffer: Data = Data(), handler: @escaping (UInt16, Data, Error?) -> Void) {
 
@@ -191,14 +207,13 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
         var remainingWords = bytes / 2
         if bytes % 2 == 1 || ( bytes % 2 == 0 && addressToRead % 2 == 1 ) { remainingWords += 1 }
-        let wordsToRead = UInt8(remainingWords > 12 ? 12 : remainingWords)
+        let wordsToRead = UInt8(remainingWords > 12 ? 12 : remainingWords)    // real limit is 15
 
         tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data("ADC2".bytes.reversed() + "2175".bytes.reversed() + [UInt8(addressToRead & 0x00FF), UInt8(addressToRead >> 8), wordsToRead])) { (customResponse: Data, error: Error?) in
 
             var data = customResponse
 
             if error != nil {
-                // session.invalidate(errorMessage: "Error while reading raw memory: " + error!.localizedDescription)
                 self.main.log("NFC: error while reading \(wordsToRead) words at raw memory 0x\(String(format: "%04X", addressToRead))")
                 remainingBytes = 0
             } else {
