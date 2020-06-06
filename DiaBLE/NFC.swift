@@ -159,7 +159,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 self.main.status("\(sensor.type)  +  NFC")
 
                                 if self.main.settings.debugLevel > 0 {
-                                    let msg = "NFC: dump "
+                                    let msg = "NFC: dump of "
                                     self.readRaw(tag: tag, 0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:")))
                                         self.readRaw(tag: tag, 0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
                                             self.readRaw(tag: tag, 0xFFB8, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 commands:")))

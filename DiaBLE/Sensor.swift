@@ -48,8 +48,8 @@ enum SensorState: UInt8, CustomStringConvertible {
     var description: String {
         switch self {
         case .notYetStarted: return "Not started"
-        case .starting:      return "Starting"
-        case .ready:         return "Ready"
+        case .starting:      return "Warming up"
+        case .ready:         return "Active"
         case .expired:       return "Expired"
         case .shutdown:      return "Shut down"
         case .failure:       return "Failure"

@@ -19,7 +19,7 @@ TODO
 * BLE: update RSSI and 1805 2A2B characteristic (current time)
 * Watlaa iBeacon
 * log: limit to a number of readings, prepend time, add a search field, Share menu, record to a file
-* let the user input their BG and manage slope/offset parameters independent from the temperatures
+* let the users input their BG and manage different calibrations
 * more modern Swift idioms: Combine, property wrappers, @dynamicCallable/MemberLookup, ViewModifiers
 
 
