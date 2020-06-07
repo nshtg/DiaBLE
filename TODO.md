@@ -17,7 +17,6 @@ TODO
 * manage Nightscout JavaScript alerts synchronously
 * Apple Watch app: snapshots, workout and extended runtime background sessions, complications, context menus, edit calibration parameters
 * BLE: update RSSI and 1805 2A2B characteristic (current time)
-* Watlaa iBeacon
 * log: limit to a number of readings, prepend time, add a search field, Share menu, record to a file
 * let the users input their BG and manage different calibrations
 * more modern Swift idioms: Combine, property wrappers, @dynamicCallable/MemberLookup, ViewModifiers

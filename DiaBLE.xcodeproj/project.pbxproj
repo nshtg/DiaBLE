@@ -50,9 +50,9 @@
 		C5ADAF40245B4CCF003A2E8B /* BluetoothDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5ADAF3E245B4CCF003A2E8B /* BluetoothDelegate.swift */; };
 		C5ADAF42245B4E56003A2E8B /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5ADAF41245B4E56003A2E8B /* Device.swift */; };
 		C5ADAF43245B4E56003A2E8B /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5ADAF41245B4E56003A2E8B /* Device.swift */; };
-		C5AF44D22422349E00522803 /* Watlaa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AF44D12422349E00522803 /* Watlaa.swift */; };
 		C5C20E4523C77FD800475327 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4423C77FD800475327 /* DataView.swift */; };
 		C5C20E4723C780FB00475327 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4623C780FB00475327 /* Monitor.swift */; };
+		C5C4B092248D9CC0008DB91D /* Legacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DB1CFA23DB6208009F5C68 /* Legacy.swift */; };
 		C5C7187B23E2FB5000D04EA7 /* Glucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C7187A23E2FB5000D04EA7 /* Glucose.swift */; };
 		C5C84482241B884F009D3EAF /* alarm_low.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5C84481241B884F009D3EAF /* alarm_low.mp3 */; };
 		C5C937E423CBA0AE00A87BAB /* Health.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C937E323CBA0AE00A87BAB /* Health.swift */; };
@@ -83,7 +83,6 @@
 		C5E9C7602444969400D52B32 /* alarm_low.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5C84481241B884F009D3EAF /* alarm_low.mp3 */; };
 		C5E9C7612444969800D52B32 /* alarm_signal_loss.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */; };
 		C5E9C763244496C800D52B32 /* MainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E9C762244496C800D52B32 /* MainDelegate.swift */; };
-		C5E9C76424449A2E00D52B32 /* Watlaa.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5AF44D12422349E00522803 /* Watlaa.swift */; };
 		C5E9C7672444A13600D52B32 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E9C7662444A13600D52B32 /* LogView.swift */; };
 		C5EA857723B28861004A4128 /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = C5EA857623B28861004A4128 /* TODO.md */; };
 		C5F329D4244998230053A8FB /* Nightscout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EC23D9AFD700B59A98 /* Nightscout.swift */; };
@@ -190,7 +189,6 @@
 		C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiao.swift; sourceTree = "<group>"; };
 		C5ADAF3E245B4CCF003A2E8B /* BluetoothDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDelegate.swift; sourceTree = "<group>"; };
 		C5ADAF41245B4E56003A2E8B /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
-		C5AF44D12422349E00522803 /* Watlaa.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watlaa.swift; sourceTree = "<group>"; };
 		C5C20E4423C77FD800475327 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 		C5C20E4623C780FB00475327 /* Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitor.swift; sourceTree = "<group>"; };
 		C5C7187A23E2FB5000D04EA7 /* Glucose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glucose.swift; sourceTree = "<group>"; };
@@ -310,7 +308,6 @@
 				C5A82D1D245B48BF00F710A1 /* Bubble.swift */,
 				C5DB1CFA23DB6208009F5C68 /* Legacy.swift */,
 				C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */,
-				C5AF44D12422349E00522803 /* Watlaa.swift */,
 			);
 			path = Devices;
 			sourceTree = "<group>";
@@ -642,6 +639,7 @@
 				C5A82D1F245B48BF00F710A1 /* Bubble.swift in Sources */,
 				C5E9C7592444966A00D52B32 /* Bluetooth.swift in Sources */,
 				C58507AD23C50BF40079539D /* ContentView.swift in Sources */,
+				C5C4B092248D9CC0008DB91D /* Legacy.swift in Sources */,
 				C53C0D0924471FF200DB08EE /* Details.swift in Sources */,
 				C58507B323C50BF40079539D /* NotificationController.swift in Sources */,
 				C55AE3B5245EB1A3009636E0 /* DataView.swift in Sources */,
@@ -661,7 +659,6 @@
 				C5E9C7672444A13600D52B32 /* LogView.swift in Sources */,
 				C55B5D16245FCBE50004FE3B /* OnlineView.swift in Sources */,
 				C5E9C763244496C800D52B32 /* MainDelegate.swift in Sources */,
-				C5E9C76424449A2E00D52B32 /* Watlaa.swift in Sources */,
 				C528E1852445A60200BFDA73 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -687,7 +684,6 @@
 				C5DF10F823C783F90023E0E2 /* SettingsView.swift in Sources */,
 				C5ADAF3F245B4CCF003A2E8B /* BluetoothDelegate.swift in Sources */,
 				C5C20E4523C77FD800475327 /* DataView.swift in Sources */,
-				C5AF44D22422349E00522803 /* Watlaa.swift in Sources */,
 				C501BE47242A1ABD006C7F30 /* Settings.swift in Sources */,
 				C5DA545D245C5D3A0000BF4E /* BluCon.swift in Sources */,
 				C53C76ED23D9AFD700B59A98 /* Nightscout.swift in Sources */,
