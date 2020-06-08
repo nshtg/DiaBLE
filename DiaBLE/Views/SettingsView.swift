@@ -35,15 +35,6 @@ struct SettingsView: View {
                         }
                     }.foregroundColor(.accentColor)
 
-                    HStack  {
-                        Image(systemName: "clock.fill").resizable().frame(width: 18, height: 18).padding(.leading, 7).foregroundColor(.white)
-                        Picker(selection: $settings.preferredWatch, label: Text("Preferred")) {
-                            ForEach(WatchType.allCases) { t in
-                                Text(t.name).tag(t)
-                            }
-                        }.pickerStyle(SegmentedPickerStyle())
-                    }
-
                     NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
                         Text("Details").font(.footnote).bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
                     }
@@ -69,7 +60,7 @@ struct SettingsView: View {
 
                 Button(action: {
                     let device = self.app.device
-                    self.app.selectedTab = (self.settings.preferredTransmitter != .none || self.settings.preferredWatch != .none) ? .monitor : .log
+                    self.app.selectedTab = (self.settings.preferredTransmitter != .none) ? .monitor : .log
                     let centralManager = self.app.main.centralManager
                     if device != nil {
                         centralManager.cancelPeripheralConnection(device!.peripheral!)

@@ -17,33 +17,20 @@ struct SettingsView: View {
             VStack(spacing: 0) {
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
-                        //                        Button(action: {} ) { Image("Bluetooth").resizable().frame(width: 32, height: 32) }
+                        // Button(action: {} ) { Image("Bluetooth").resizable().frame(width: 32, height: 32) }
                         Picker(selection: $settings.preferredTransmitter, label: Text("Preferred")) {
                             ForEach(TransmitterType.allCases) { t in
                                 Text(t.name).tag(t)
                             }
                         } // .pickerStyle(SegmentedPickerStyle())
 
-                        //                        Button(action: {} ) { Image(systemName: "line.horizontal.3.decrease.circle").resizable().frame(width: 20, height: 20)// .padding(.leading, 6)
+                        // Button(action: {} ) { Image(systemName: "line.horizontal.3.decrease.circle").resizable().frame(width: 20, height: 20)// .padding(.leading, 6)
                         //                        }
                         TextField("device name pattern", text: $settings.preferredDevicePattern)
                             // .padding(.horizontal, 12)
                             .frame(alignment: .center)
                     }
                 }.frame(height: 34).font(.footnote).foregroundColor(.blue)
-
-                //                    HStack  {
-                //                        Image(systemName: "clock.fill").resizable().frame(width: 18, height: 18).padding(.leading, 7).foregroundColor(.white)
-                //                        Picker(selection: $settings.preferredWatch, label: Text("Preferred")) {
-                //                            ForEach(WatchType.allCases) { t in
-                //                                Text(t.name).tag(t)
-                //                            }
-                //                        } // .pickerStyle(SegmentedPickerStyle())
-                //                    }
-
-                //                    NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
-                //                        Text("Details").font(.footnote).bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
-                //                    }
             }
 
             VStack {
@@ -74,7 +61,7 @@ struct SettingsView: View {
                     NavigationLink(destination: Monitor().environmentObject(app).environmentObject(history).environmentObject(settings)) {
                         Image(systemName: "timer").resizable().frame(width: 20, height: 20)
                     }.simultaneousGesture(TapGesture().onEnded {
-                        // self.app.selectedTab = (self.settings.preferredTransmitter != .none || self.settings.preferredWatch != .none) ? .monitor : .log
+                        // self.app.selectedTab = (self.settings.preferredTransmitter != .none) ? .monitor : .log
                         let device = self.app.device
                         let centralManager = self.app.main.centralManager
                         if device != nil {

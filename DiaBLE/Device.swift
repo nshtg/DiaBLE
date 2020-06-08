@@ -9,7 +9,7 @@ enum DeviceType: CaseIterable, Hashable, Identifiable {
     case watch(WatchType)
 
     static var allCases: [DeviceType] {
-        return TransmitterType.allCases.map{.transmitter($0)} + WatchType.allCases.map{.watch($0)}
+        return TransmitterType.allCases.map{.transmitter($0)} // + WatchType.allCases.map{.watch($0)}
     }
 
     var id: String {
@@ -146,20 +146,18 @@ class Transmitter: Device {
 
 
 enum WatchType: String, CaseIterable, Hashable, Codable, Identifiable {
-    case none, appleWatch, watlaa
+    case none, appleWatch
     var id: String { rawValue }
     var name: String {
         switch self {
         case .none:       return "Any"
         case .appleWatch: return AppleWatch.name
-        case .watlaa:     return Watlaa.name
         }
     }
     var type: AnyClass {
         switch self {
         case .none:       return Watch.self
         case .appleWatch: return AppleWatch.self
-        case .watlaa:     return Watlaa.self
         }
     }
 }

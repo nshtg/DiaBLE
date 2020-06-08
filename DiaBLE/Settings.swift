@@ -5,7 +5,6 @@ class Settings: ObservableObject {
 
     static let defaults: [String: Any] = [
         "preferredTransmitter": TransmitterType.none.id,
-        "preferredWatch": WatchType.none.id,
         "preferredDevicePattern": BLE.knownDevicesIds.joined(separator: " "),
         "readingInterval": 5,
         "glucoseUnit": GlucoseUnit.mgdl.rawValue,
@@ -40,9 +39,6 @@ class Settings: ObservableObject {
             if type == .blu || (type == .miaomiao && readingInterval > 5) {
                 readingInterval = 5
             }
-            if type != .none && preferredWatch != .none {
-                preferredWatch = .none
-            }
             if type != .none {
                 preferredDevicePattern = type.id
             } else {
@@ -52,26 +48,12 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.preferredTransmitter.id, forKey: "preferredTransmitter") }
     }
 
-    @Published var preferredWatch: WatchType = WatchType(rawValue: UserDefaults.standard.string(forKey: "preferredWatch")!)! {
-        willSet(type) {
-            if type != .none && preferredTransmitter != .none {
-                preferredTransmitter = .none
-            }
-            if type != .none && preferredDevicePattern != "" {
-                preferredDevicePattern = ""
-            }
-        }
-        didSet { UserDefaults.standard.set(self.preferredWatch.rawValue, forKey: "preferredWatch") }
-    }
 
     @Published var preferredDevicePattern: String = UserDefaults.standard.string(forKey: "preferredDevicePattern")! {
         willSet(pattern) {
             if !pattern.isEmpty {
                 if !preferredTransmitter.id.matches(pattern) {
                     preferredTransmitter = .none
-                }
-                if !preferredWatch.id.matches(pattern) {
-                    preferredWatch = .none
                 }
             }
         }

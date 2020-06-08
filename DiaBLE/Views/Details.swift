@@ -137,11 +137,13 @@ struct Details: View {
                 }
 
 
-                if app.device?.type == Watlaa.type {
-                    WatlaaDetailsView(device: app.device as! Watlaa)
-                        .font(.callout)
-                }
+                // Embed a specific device setup panel
+                // if app.device?.type == Custom.type {
+                //     CustomDetailsView(device: app.device as! Custom)
+                //     .font(.callout)
+                // }
 
+                
                 if app.device == nil && app.sensor == nil {
                     HStack {
                         Spacer()

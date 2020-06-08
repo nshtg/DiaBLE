@@ -125,7 +125,7 @@ class Limitter: Droplet {
 
 
 class Watlaa: Watch {
-    override class var type: DeviceType { DeviceType.watch(.watlaa) }
+    // override class var type: DeviceType { DeviceType.watch(.watlaa) }
     override class var name: String { "Watlaa" }
 
     enum UUID: String, CustomStringConvertible, CaseIterable {

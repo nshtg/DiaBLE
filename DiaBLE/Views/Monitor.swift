@@ -86,19 +86,6 @@ struct Monitor: View {
                                 }
                             }
 
-                            if app.device?.name != app.transmitter?.name && app.transmitter?.battery ?? -1 > -1 {
-                                VStack {
-                                    if app.transmitter.battery > -1 {
-                                        Text("Battery: ").foregroundColor(Color(UIColor.lightGray)) +
-                                            Text("\(app.transmitter.battery)%").foregroundColor(app.transmitter.battery > 10 ? .green : .red)
-                                    }
-                                    if app.transmitter.rssi != 0  {
-                                        Text("RSSI: ").foregroundColor(Color(UIColor.lightGray)) +
-                                            Text("\(app.transmitter.rssi) dB")
-                                    }
-                                }
-                            }
-
                             if app.device != nil {
                                 VStack {
                                     if app.device.battery > -1 {

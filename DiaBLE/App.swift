@@ -5,7 +5,6 @@ class App: ObservableObject {
     @Published var device: Device!
     @Published var transmitter: Transmitter!
     @Published var sensor: Sensor!
-    @Published var watch: Watch!
 
     var main: MainDelegate!
 
