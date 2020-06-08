@@ -15,6 +15,16 @@ import CoreNFC
 // https://archive.org/stream/pocorgtfo20#page/n6/mode/1up
 
 
+extension SensorType {
+    var backdoor: String {
+        switch self {
+        case .libre1:    return "c2ad7521"
+        default:         return "deadbeef"
+        }
+    }
+}
+
+
 class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
     var tagSession: NFCTagReaderSession?
@@ -25,7 +35,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     var isNFCAvailable: Bool {
         return NFCTagReaderSession.readingAvailable
     }
-    
+
     func startSession() {
         // execute in the .main queue because of publishing changes to main's observables
         tagSession = NFCTagReaderSession(pollingOption: [.iso15693], delegate: self, queue: .main)
@@ -160,9 +170,9 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                                 if self.main.settings.debugLevel > 0 {
                                     let msg = "NFC: dump of "
-                                    self.readRaw(tag: tag, 0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:")))
-                                        self.readRaw(tag: tag, 0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
-                                            self.readRaw(tag: tag, 0xFFB8, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 commands:")))
+                                    self.readRaw(tag: tag, type: sensor.type, 0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:")))
+                                        self.readRaw(tag: tag, type: sensor.type, 0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
+                                            self.readRaw(tag: tag, type: sensor.type, 0xFFB8, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 commands:")))
                                                 session.invalidate()
 
                                                 // same final code as for debugLevel = 0
@@ -197,7 +207,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     /// sram:   0x1C00, 0x1000
     /// config: 0x1A00, 64    (serial number and calibration)
 
-    func readRaw(tag: NFCISO15693Tag, _ address: UInt16, _ bytes: Int, buffer: Data = Data(), handler: @escaping (UInt16, Data, Error?) -> Void) {
+    func readRaw(tag: NFCISO15693Tag, type: SensorType, _ address: UInt16, _ bytes: Int, buffer: Data = Data(), handler: @escaping (UInt16, Data, Error?) -> Void) {
 
         var buffer = buffer
         let addressToRead = address + UInt16(buffer.count)
@@ -209,7 +219,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
         if bytes % 2 == 1 || ( bytes % 2 == 0 && addressToRead % 2 == 1 ) { remainingWords += 1 }
         let wordsToRead = UInt8(remainingWords > 12 ? 12 : remainingWords)    // real limit is 15
 
-        tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data("ADC2".bytes.reversed() + "2175".bytes.reversed() + [UInt8(addressToRead & 0x00FF), UInt8(addressToRead >> 8), wordsToRead])) { (customResponse: Data, error: Error?) in
+        tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data(type.backdoor.bytes + [UInt8(addressToRead & 0x00FF), UInt8(addressToRead >> 8), wordsToRead])) { (customResponse: Data, error: Error?) in
 
             var data = customResponse
 
@@ -227,7 +237,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
             if remainingBytes == 0 {
                 handler(address, buffer, error)
             } else {
-                self.readRaw(tag: tag, address, remainingBytes, buffer: buffer) { address, data, error in handler(address, data, error) }
+                self.readRaw(tag: tag, type: type, address, remainingBytes, buffer: buffer) { address, data, error in handler(address, data, error) }
             }
         }
     }
