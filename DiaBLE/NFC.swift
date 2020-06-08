@@ -28,6 +28,8 @@ extension SensorType {
 class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
     var tagSession: NFCTagReaderSession?
+    var connectedTag: NFCISO15693Tag?
+    var sensor: Sensor!
 
     /// Main app delegate to use its log()
     var main: MainDelegate!
@@ -77,17 +79,18 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                 session.invalidate(errorMessage: "Connection failure: \(error!.localizedDescription)")
                 return
             }
+            self.connectedTag = tag
 
             // https://www.st.com/en/embedded-software/stsw-st25ios001.html#get-software
 
-            tag.getSystemInfo(requestFlags: [.address, .highDataRate]) { (dfsid: Int, afi: Int, blockSize: Int, memorySize: Int, icRef: Int, error: Error?) in
+            self.connectedTag?.getSystemInfo(requestFlags: [.address, .highDataRate]) { (dfsid: Int, afi: Int, blockSize: Int, memorySize: Int, icRef: Int, error: Error?) in
                 if error != nil {
                     session.invalidate(errorMessage: "Error while getting system info: " + error!.localizedDescription)
                     self.main.log("NFC: error while getting system info: \(error!.localizedDescription)")
                     return
                 }
 
-                tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
+                self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
                     if error != nil {
                         // session.invalidate(errorMessage: "Error while getting patch info: " + error!.localizedDescription)
                         self.main.log("NFC: error while getting patch info: \(error!.localizedDescription)")
@@ -115,18 +118,17 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                     session.invalidate()
                                 }
 
-                                var sensor: Sensor
                                 if  self.main.app.sensor != nil {
-                                    sensor = self.main.app.sensor
+                                    self.sensor = self.main.app.sensor
                                 } else {
-                                    sensor = Sensor()
-                                    self.main.app.sensor = sensor
+                                    self.sensor = Sensor()
+                                    self.main.app.sensor = self.sensor
                                 }
 
                                 var fram = Data()
 
                                 self.main.app.lastReadingDate = Date()
-                                sensor.lastReadingDate = self.main.app.lastReadingDate
+                                self.sensor.lastReadingDate = self.main.app.lastReadingDate
 
                                 var msg = ""
                                 for (n, data) in dataArray.enumerated() {
@@ -152,35 +154,35 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 self.main.log(String(format: "NFC: block size: %d", blockSize))
                                 self.main.log(String(format: "NFC: memory size: %d blocks", memorySize))
 
-                                sensor.uid = Data(tag.identifier.reversed())
-                                self.main.log("NFC: sensor uid: \(sensor.uid.hex)")
-                                self.main.log("NFC: sensor serial number: \(sensor.serial)")
+                                self.sensor.uid = Data(tag.identifier.reversed())
+                                self.main.log("NFC: sensor uid: \(self.sensor.uid.hex)")
+                                self.main.log("NFC: sensor serial number: \(self.sensor.serial)")
 
                                 let patchInfo = customResponse
-                                sensor.patchInfo = Data(patchInfo)
+                                self.sensor.patchInfo = Data(patchInfo)
                                 if customResponse.count > 0 {
                                     self.main.log("NFC: patch info: \(patchInfo.hex)")
-                                    self.main.log("NFC: sensor type: \(sensor.type.rawValue)")
+                                    self.main.log("NFC: sensor type: \(self.sensor.type.rawValue)")
 
-                                    self.main.settings.patchUid = sensor.uid
-                                    self.main.settings.patchInfo = sensor.patchInfo
+                                    self.main.settings.patchUid = self.sensor.uid
+                                    self.main.settings.patchInfo = self.sensor.patchInfo
                                 }
 
-                                self.main.status("\(sensor.type)  +  NFC")
+                                self.main.status("\(self.sensor.type)  +  NFC")
 
                                 if self.main.settings.debugLevel > 0 {
                                     let msg = "NFC: dump of "
-                                    self.readRaw(tag: tag, type: sensor.type, 0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:")))
-                                        self.readRaw(tag: tag, type: sensor.type, 0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
-                                            self.readRaw(tag: tag, type: sensor.type, 0xFFB8, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 commands:")))
+                                    self.readRaw(0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:")))
+                                        self.readRaw(0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
+                                            self.readRaw(0xFFB8, 24) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 commands:")))
                                                 session.invalidate()
 
                                                 // same final code as for debugLevel = 0
 
                                                 if fram.count > 0 {
-                                                    sensor.fram = Data(fram)
+                                                    self.sensor.fram = Data(fram)
                                                 }
-                                                self.main.parseSensorData(sensor)
+                                                self.main.parseSensorData(self.sensor)
                                             }
                                         }
                                     }
@@ -189,9 +191,9 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                     // same final code as for debugLevel > 0
 
                                     if fram.count > 0 {
-                                        sensor.fram = Data(fram)
+                                        self.sensor.fram = Data(fram)
                                     }
-                                    self.main.parseSensorData(sensor)
+                                    self.main.parseSensorData(self.sensor)
                                 }
                             }
                         }
@@ -207,7 +209,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     /// sram:   0x1C00, 0x1000
     /// config: 0x1A00, 64    (serial number and calibration)
 
-    func readRaw(tag: NFCISO15693Tag, type: SensorType, _ address: UInt16, _ bytes: Int, buffer: Data = Data(), handler: @escaping (UInt16, Data, Error?) -> Void) {
+    func readRaw(_ address: UInt16, _ bytes: Int, buffer: Data = Data(), handler: @escaping (UInt16, Data, Error?) -> Void) {
 
         var buffer = buffer
         let addressToRead = address + UInt16(buffer.count)
@@ -219,7 +221,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
         if bytes % 2 == 1 || ( bytes % 2 == 0 && addressToRead % 2 == 1 ) { remainingWords += 1 }
         let wordsToRead = UInt8(remainingWords > 12 ? 12 : remainingWords)    // real limit is 15
 
-        tag.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data(type.backdoor.bytes + [UInt8(addressToRead & 0x00FF), UInt8(addressToRead >> 8), wordsToRead])) { (customResponse: Data, error: Error?) in
+        self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data(self.sensor.type.backdoor.bytes + [UInt8(addressToRead & 0x00FF), UInt8(addressToRead >> 8), wordsToRead])) { (customResponse: Data, error: Error?) in
 
             var data = customResponse
 
@@ -237,7 +239,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
             if remainingBytes == 0 {
                 handler(address, buffer, error)
             } else {
-                self.readRaw(tag: tag, type: type, address, remainingBytes, buffer: buffer) { address, data, error in handler(address, data, error) }
+                self.readRaw(address, remainingBytes, buffer: buffer) { address, data, error in handler(address, data, error) }
             }
         }
     }
