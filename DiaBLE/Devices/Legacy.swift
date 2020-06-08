@@ -591,3 +591,10 @@ struct Watch_Previews: PreviewProvider {
 
 #endif
 
+
+// Legacy code from bluetoothDelegate didDiscoverCharacteristicsFor:
+
+// if app.device.type == .watch(.watlaa) && serviceUUID == Watlaa.dataServiceUUID {
+//     (app.device as! Watlaa).readSetup()
+//     log("Watlaa: reading configuration")
+// }

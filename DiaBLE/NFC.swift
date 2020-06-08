@@ -204,6 +204,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     }
 
 
+    // TODO: test
     /// fram:   0xF800, 2048
     /// rom:    0x4400, 0x2000
     /// sram:   0x1C00, 0x1000

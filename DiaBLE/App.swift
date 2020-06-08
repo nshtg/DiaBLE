@@ -47,7 +47,7 @@ class History: ObservableObject {
     @Published var rawTrend:  [Glucose] = []
     @Published var calibratedValues: [Glucose] = []
     @Published var calibratedTrend:  [Glucose] = []
-    @Published var storedValues: [Glucose] = []
+    @Published var storedValues:     [Glucose] = []
     @Published var nightscoutValues: [Glucose] = []
 }
 
