@@ -134,7 +134,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 for (n, data) in dataArray.enumerated() {
                                     if data.count > 0 {
                                         fram.append(data)
-                                        msg += "NFC block #\(String(format:"%02d", n)): \(data.reduce("", { $0 + String(format: "%02X", $1) + " "}).dropLast())\n"
+                                        msg += "NFC: block #\(String(format:"%02d", n))  \(data.reduce("", { $0 + String(format: "%02X", $1) + " "}).dropLast())\n"
                                     }
                                 }
                                 if !msg.isEmpty { self.main.log(String(msg.dropLast())) }

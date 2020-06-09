@@ -42,7 +42,8 @@ extension String {
         } else {
             /// Convert the NFCReader hex dump
             for line in self.split(separator: "\n") {
-                for hex in line.split(separator: " ").suffix(8) {
+                let column = line.components(separatedBy: "  ")[1]
+                for hex in column.split(separator: " ").suffix(8) {
                     bytes.append(UInt8(hex, radix: 16)!)
                 }
             }
