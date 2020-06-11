@@ -15,8 +15,9 @@ extension Data {
         while offset < endIndex {
             _ = formIndex(&offsetEnd, offsetBy: 8, limitedBy: endIndex)
             if address != 0 { str += String(format: "%X", address + offset) + "  " }
-            str += "\(self[offset ..< offsetEnd].reduce("", { $0 + String(format: "%02X", $1) + " "})) "
-            str += "\(self[offset ..< offsetEnd].reduce("", { $0 + ((isprint(Int32($1)) != 0) ? String(Unicode.Scalar($1)) : "." ) }))\n"
+            str += "\(self[offset ..< offsetEnd].reduce("", { $0 + String(format: "%02X", $1) + " "}))"
+            str += String(repeating: "   ", count: 8 - distance(from: offset, to: offsetEnd))
+            str += "\(self[offset ..< offsetEnd].reduce(" ", { $0 + ((isprint(Int32($1)) != 0) ? String(Unicode.Scalar($1)) : "." ) }))\n"
             _ = formIndex(&offset, offsetBy: 8, limitedBy: endIndex)
         }
         str.removeLast()
