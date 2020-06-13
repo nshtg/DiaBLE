@@ -28,6 +28,12 @@ class BLE {
         case currentTime   = "2A2B"
         case localTimeInfo = "2A0F"
 
+        // Libre 2
+        case compositeRawData = "2902"
+        case abbott           = "FDE3"
+        case abbottCustom     = "F001"
+        case bleLogin         = "F002"
+
         case dfu           = "FE59"
 
         // Mi Band
@@ -53,7 +59,7 @@ class BLE {
             case .hardware:      return "hardware revision"
             case .software:      return "software revision"
             case .manufacturer:  return "manufacturer"
-            case .regulatoryCertificationDataList: return "IEEE 11073-20601 regulatory certification data list"
+            case .regulatoryCertificationDataList: return "regulatory certification data list"
             case .pnpID:         return "pnp id"
             case .battery:       return "battery"
             case .batteryLevel:  return "battery level"
@@ -61,6 +67,10 @@ class BLE {
             case .currentTime:   return "current time"
             case .localTimeInfo: return "local time information"
             case .dfu:           return "device firmware update"
+            case .compositeRawData:  return "composite raw data"
+            case .abbott:            return "Abbott"
+            case .abbottCustom:      return "Abbott custom"
+            case .bleLogin:          return "BLE login"
             case .immediateAlert:    return "immediate alert"
             case .alertNotification: return "alert notification"
             case .heartRate:         return "heart rate"
