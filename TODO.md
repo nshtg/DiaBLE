@@ -1,7 +1,7 @@
 FIXME
 -----
 
-* Bubble: the Apple Watch app doesn't connect to it and Mac Catalyst stops receiving data from the read characteristic
+* Bubble: the Apple Watch app doesn't connect to it
 * Apple Watch app:
   - the Monitor counter doesn't update on rescan
   - readings aren't received in background but Bluetooth connections aren't closed until shutdown, even when the app is removed from the Dock
