@@ -68,7 +68,7 @@ class BLE {
             case .localTimeInfo: return "local time information"
             case .dfu:           return "device firmware update"
             case .compositeRawData:  return "composite raw data"
-            case .abbott:            return "Abbott custom"
+            case .abbott:            return "Abbott Diabetes Care"
             case .abbottCustom:      return "Abbott custom"
             case .bleLogin:          return "BLE login"
             case .immediateAlert:    return "immediate alert"

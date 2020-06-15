@@ -49,16 +49,12 @@ class Bubble: Transmitter {
 
     override func parseManufacturerData(_ data: Data) {
         let transmitterData = Data(data[8...11])
-        let firmware = "\(Int(transmitterData[0])).\(Int(transmitterData[1]))"
-        let hardware = "\(Int(transmitterData[2])).\(Int(transmitterData[3]))"
-        let macAddress = Data(data[2...7])
-        self.firmware = firmware
-        self.hardware = hardware
-        self.macAddress = macAddress
+        firmware = "\(Int(transmitterData[0])).\(Int(transmitterData[1]))"
+        hardware = "\(Int(transmitterData[2])).\(Int(transmitterData[3]))"
+        macAddress = Data(data[2...7])
         var msg = "\(Self.name): advertised manufacturer data: firmware: \(firmware), hardware: \(hardware), MAC address: \(macAddress.hexAddress)"
         if data.count > 12 {
-            let battery = Int(data[12])
-            self.battery = battery
+            battery = Int(data[12])
             msg +=  ", battery: \(battery)"
         }
         main.log(msg)

@@ -63,7 +63,7 @@ class GlucoseSpaceHistoryResponse: OOPHistoryResponse, Codable { // TODO: implem
         case RESULT_SENSOR_STORAGE_STATE
         case RESCAN_SENSOR_BAD_CRC
 
-        case TERMINATE_SENSOR_NORMAL_TERMINATED_STATE    // 10
+        case TERMINATE_SENSOR_NORMAL_TERMINATED_STATE    // errcode: 10
         case TERMINATE_SENSOR_ERROR_TERMINATED_STATE
         case TERMINATE_SENSOR_CORRUPT_PAYLOAD
 
@@ -84,8 +84,8 @@ class GlucoseSpaceHistoryResponse: OOPHistoryResponse, Codable { // TODO: implem
     func glucoseData(sensorAge: Int, readingDate: Date) -> [Glucose] {
         historyValues = [Glucose]()
         var sensorAge = sensorAge
-        if sensorAge == 0 { // encrpyted FRAM of the Libre 2
-            sensorAge = realTimeGlucose.id // FIXME: can differ 1 minute from the real age
+        if sensorAge == 0 {    // encrpyted FRAM of the Libre 2
+            sensorAge = realTimeGlucose.id    // FIXME: can differ 1 minute from the real age
         }
         let startDate = readingDate - Double(sensorAge) * 60
         // let current = Glucose(realTimeGlucose.value, id: realTimeGlucose.id, date: startDate + Double(realTimeGlucose.id * 60))
@@ -135,6 +135,9 @@ struct OOPCurrentValue: Codable {
 }
 
 
+/// errcode: 4 msg: "content crc16 false" with Libre 2
+/// errcode: 5 msg: "oop result error" with terminated sensors
+
 struct OOPCalibrationResponse: Codable {
     let errcode: Int
     let parameters: Calibration
@@ -143,6 +146,7 @@ struct OOPCalibrationResponse: Codable {
         case parameters = "slope"
     }
 }
+
 
 
 // https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/LibreOOPResponse.swift
@@ -185,6 +189,7 @@ func postToOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), pat
         queryItems.append(contentsOf: [
             URLQueryItem(name: "token", value: server.token),
             URLQueryItem(name: "timestamp", value: "\(date)")
+            // , URLQueryItem(name: "appName", value: "diabox")
         ])
     }
     urlComponents.queryItems = queryItems

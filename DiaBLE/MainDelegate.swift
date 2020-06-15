@@ -150,7 +150,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         log("Sensor state: \(sensor.state)")
         log("Sensor region: \(SensorRegion(rawValue: sensor.region)?.description ?? "Unknown") (0x" + String(format: "%02X", sensor.region) + ")")
 
-        if sensor.history.count > 0 {
+
+        if sensor.history.count > 0 {    // FIXME: glucose.space doesn't support the encrypted Libre 2 FRAM
+
             log("Sensor age: \(sensor.age) minutes (\(String(format: "%.2f", Double(sensor.age)/60/24)) days), started on: \((app.lastReadingDate - Double(sensor.age) * 60).shortDateTime)")
 
             history.rawTrend = sensor.trend

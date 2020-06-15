@@ -93,6 +93,8 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         app.device.rssi = Int(truncating: rssi)
         if let manufacturerData = advertisement["kCBAdvDataManufacturerData"] as? Data {
+            let companyId = manufacturerData[0] + manufacturerData[1] << 8
+            main.log("Bluetooth: \(name)'s company id: 0x\(String(format: "%04x", companyId))")
             app.device.parseManufacturerData(manufacturerData)
         }
 

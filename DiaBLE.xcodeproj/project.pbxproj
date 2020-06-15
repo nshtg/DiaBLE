@@ -16,6 +16,8 @@
 		C528E1812445097400BFDA73 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C528E1802445097400BFDA73 /* Monitor.swift */; };
 		C528E18324450BC000BFDA73 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C528E18224450BC000BFDA73 /* Graph.swift */; };
 		C528E1852445A60200BFDA73 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C528E1842445A60200BFDA73 /* SettingsView.swift */; };
+		C52F1A5E24975F12004C2F90 /* company_ids.json in Resources */ = {isa = PBXBuildFile; fileRef = C52F1A5D24975F12004C2F90 /* company_ids.json */; };
+		C52F1A5F24975F12004C2F90 /* company_ids.json in Resources */ = {isa = PBXBuildFile; fileRef = C52F1A5D24975F12004C2F90 /* company_ids.json */; };
 		C53C0D0924471FF200DB08EE /* Details.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C0D0824471FF200DB08EE /* Details.swift */; };
 		C53C76ED23D9AFD700B59A98 /* Nightscout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EC23D9AFD700B59A98 /* Nightscout.swift */; };
 		C53C76EF23D9B87A00B59A98 /* OnlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EE23D9B87A00B59A98 /* OnlineView.swift */; };
@@ -156,6 +158,7 @@
 		C528E1802445097400BFDA73 /* Monitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Monitor.swift; sourceTree = "<group>"; };
 		C528E18224450BC000BFDA73 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
 		C528E1842445A60200BFDA73 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		C52F1A5D24975F12004C2F90 /* company_ids.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = company_ids.json; sourceTree = "<group>"; };
 		C53C0D0824471FF200DB08EE /* Details.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Details.swift; sourceTree = "<group>"; };
 		C53C76EC23D9AFD700B59A98 /* Nightscout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nightscout.swift; sourceTree = "<group>"; };
 		C53C76EE23D9B87A00B59A98 /* OnlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineView.swift; sourceTree = "<group>"; };
@@ -264,6 +267,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C52F1A5C24975E4F004C2F90 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C52F1A5D24975F12004C2F90 /* company_ids.json */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		C585079C23C50BF20079539D /* DiaBLE Watch */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,6 +369,7 @@
 		C5E1013823A2774C00678DF6 /* DiaBLE */ = {
 			isa = PBXGroup;
 			children = (
+				C52F1A5C24975E4F004C2F90 /* Data */,
 				C5AF44D02422344300522803 /* Devices */,
 				C5C20E4323C77F7700475327 /* Views */,
 				C566341223B14D55001EB5F3 /* Extensions.swift */,
@@ -589,6 +601,7 @@
 			files = (
 				C58507BC23C50BF40079539D /* Preview Assets.xcassets in Resources */,
 				C5E9C7602444969400D52B32 /* alarm_low.mp3 in Resources */,
+				C52F1A5F24975F12004C2F90 /* company_ids.json in Resources */,
 				C5E9C7612444969800D52B32 /* alarm_signal_loss.mp3 in Resources */,
 				C58507B923C50BF40079539D /* Assets.xcassets in Resources */,
 				C5E9C75F2444969000D52B32 /* alarm_high.mp3 in Resources */,
@@ -607,6 +620,7 @@
 				C5908FB82428E6B600CF6C83 /* alarm_signal_loss.mp3 in Resources */,
 				C5E1014323A2774D00678DF6 /* Assets.xcassets in Resources */,
 				C5EA857723B28861004A4128 /* TODO.md in Resources */,
+				C52F1A5E24975F12004C2F90 /* company_ids.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
