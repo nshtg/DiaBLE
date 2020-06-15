@@ -58,6 +58,7 @@ class Device: ObservableObject {
 
     @Published var battery: Int = -1
     @Published var rssi: Int = 0
+    var company: String = ""
     var model: String = ""
     var serial: String = ""
     var firmware: String = ""

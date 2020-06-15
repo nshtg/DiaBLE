@@ -2,7 +2,7 @@ import Foundation
 import CoreBluetooth
 
 
-class BLE {
+struct BLE {
 
     static let knownDevices: [Device.Type] = DeviceType.allCases.filter{ $0.id != "none" }.map{ ($0.type as! Device.Type) }
     static let knownDevicesIds: [String]   = DeviceType.allCases.filter{ $0.id != "none" }.map{ $0.id }
@@ -81,6 +81,14 @@ class BLE {
             }
         }
     }
+
+
+    struct Company : Codable {
+        let code: Int
+        let name: String
+    }
+
+    static let companies = try! JSONDecoder().decode(Array<BLE.Company>.self, from: Data(contentsOf: Bundle.main.url(forResource: "company_ids", withExtension: "json")!))
 }
 
 

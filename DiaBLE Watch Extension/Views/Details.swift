@@ -46,32 +46,41 @@ struct Details: View {
                                 Text("\(app.device.firmware)").foregroundColor(.yellow)
                             }
                         }
-                        if !app.device.manufacturer.isEmpty {
-                            HStack {
-                                Text("Manufacturer")
-                                Spacer()
-                                Text("\(app.device.manufacturer)").foregroundColor(.yellow)
+                        Group {
+                            if !app.device.company.isEmpty {
+                                HStack {
+                                    Text("Company")
+                                    Spacer()
+                                    Text("\(app.device.company)").foregroundColor(.yellow)
+                                }
                             }
-                        }
-                        if !app.device.model.isEmpty {
-                            HStack {
-                                Text("Model")
-                                Spacer()
-                                Text("\(app.device.model)").foregroundColor(.yellow)
+                            if !app.device.manufacturer.isEmpty {
+                                HStack {
+                                    Text("Manufacturer")
+                                    Spacer()
+                                    Text("\(app.device.manufacturer)").foregroundColor(.yellow)
+                                }
                             }
-                        }
-                        if !app.device.hardware.isEmpty {
-                            HStack {
-                                Text("Hardware")
-                                Spacer()
-                                Text("\(app.device.hardware)").foregroundColor(.yellow)
+                            if !app.device.model.isEmpty {
+                                HStack {
+                                    Text("Model")
+                                    Spacer()
+                                    Text("\(app.device.model)").foregroundColor(.yellow)
+                                }
                             }
-                        }
-                        if !app.device.software.isEmpty {
-                            HStack {
-                                Text("Software")
-                                Spacer()
-                                Text("\(app.device.software)").foregroundColor(.yellow)
+                            if !app.device.hardware.isEmpty {
+                                HStack {
+                                    Text("Hardware")
+                                    Spacer()
+                                    Text("\(app.device.hardware)").foregroundColor(.yellow)
+                                }
+                            }
+                            if !app.device.software.isEmpty {
+                                HStack {
+                                    Text("Software")
+                                    Spacer()
+                                    Text("\(app.device.software)").foregroundColor(.yellow)
+                                }
                             }
                         }
                         if app.device.macAddress.count > 0 {
