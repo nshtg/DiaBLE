@@ -135,8 +135,8 @@ struct OOPCurrentValue: Codable {
 }
 
 
-/// errcode: 4 msg: "content crc16 false" with Libre 2
-/// errcode: 5 msg: "oop result error" with terminated sensors
+/// errcode: 4, msg: "content crc16 false" with Libre 2
+/// errcode: 5, msg: "oop result error" with terminated sensors
 
 struct OOPCalibrationResponse: Codable {
     let errcode: Int

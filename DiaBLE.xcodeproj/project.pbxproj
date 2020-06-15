@@ -275,6 +275,16 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		C52F1A6024976D3D004C2F90 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				C513933023B8EB7600CB245F /* alarm_high.mp3 */,
+				C5C84481241B884F009D3EAF /* alarm_low.mp3 */,
+				C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
 		C585079C23C50BF20079539D /* DiaBLE Watch */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +379,7 @@
 		C5E1013823A2774C00678DF6 /* DiaBLE */ = {
 			isa = PBXGroup;
 			children = (
+				C52F1A6024976D3D004C2F90 /* Media */,
 				C52F1A5C24975E4F004C2F90 /* Data */,
 				C5AF44D02422344300522803 /* Devices */,
 				C5C20E4323C77F7700475327 /* Views */,
@@ -388,9 +399,6 @@
 				C53C76EC23D9AFD700B59A98 /* Nightscout.swift */,
 				C5E1013923A2774C00678DF6 /* AppDelegate.swift */,
 				C5E1013B23A2774C00678DF6 /* SceneDelegate.swift */,
-				C513933023B8EB7600CB245F /* alarm_high.mp3 */,
-				C5C84481241B884F009D3EAF /* alarm_low.mp3 */,
-				C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */,
 				C5E1014223A2774D00678DF6 /* Assets.xcassets */,
 				C5E1014723A2774D00678DF6 /* LaunchScreen.storyboard */,
 				C5E1014A23A2774D00678DF6 /* Info.plist */,
