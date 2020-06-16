@@ -41,7 +41,7 @@ class Device: ObservableObject {
     class var dataWriteCharacteristicUUID: String { "" }
 
     var type: DeviceType = DeviceType.none
-    var name: String = "Unknown"
+    @Published var name: String = "Unknown"
 
 
     /// Main app delegate to use its log()

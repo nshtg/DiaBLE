@@ -83,7 +83,7 @@ struct BLE {
     }
 
 
-    struct Company : Codable {
+    struct Company: Codable {
         let code: Int
         let name: String
     }

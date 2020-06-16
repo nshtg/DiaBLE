@@ -20,10 +20,12 @@ struct Details: View {
                 if app.device != nil {
                     Section(header: Text("Device").font(.headline)) {
                         Group {
-                            HStack {
-                                Text("Name")
-                                Spacer()
-                                Text("\(app.device.peripheral?.name ?? "Unnamed")").foregroundColor(.yellow)
+                            if app.device.peripheral?.name != nil {
+                                HStack {
+                                    Text("Name")
+                                    Spacer()
+                                    Text("\(app.device.peripheral!.name!)").foregroundColor(.yellow)
+                                }
                             }
                             if app.device.name != app.device.peripheral?.name ?? "Unnamed" {
                                 HStack {
@@ -38,13 +40,6 @@ struct Details: View {
                                 Text("Serial")
                                 Spacer()
                                 Text("\(app.device.serial)").foregroundColor(.yellow)
-                            }
-                        }
-                        if !app.device.firmware.isEmpty {
-                            HStack {
-                                Text("Firmware")
-                                Spacer()
-                                Text("\(app.device.firmware)").foregroundColor(.yellow)
                             }
                         }
                         Group {
@@ -67,6 +62,13 @@ struct Details: View {
                                     Text("Model")
                                     Spacer()
                                     Text("\(app.device.model)").foregroundColor(.yellow)
+                                }
+                            }
+                            if !app.device.firmware.isEmpty {
+                                HStack {
+                                    Text("Firmware")
+                                    Spacer()
+                                    Text("\(app.device.firmware)").foregroundColor(.yellow)
                                 }
                             }
                             if !app.device.hardware.isEmpty {
