@@ -25,7 +25,7 @@ struct Monitor: View {
                     HStack {
                         VStack {
 
-                            Text("\(app.lastReadingDate.shortTime)")
+                            Text(app.lastReadingDate.shortTime)
                             Text("\(Int(Date().timeIntervalSince(app.lastReadingDate)/60)) min ago").font(.footnote)
 
                         }.frame(maxWidth: .infinity, alignment: .trailing ).padding(.trailing, 12).foregroundColor(Color(UIColor.lightGray))

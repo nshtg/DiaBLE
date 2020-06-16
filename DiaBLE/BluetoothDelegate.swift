@@ -106,7 +106,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         app.device.rssi = Int(truncating: rssi)
         app.device.company = BLE.companies[companyId].name
         var msg = "Bluetooth: found \(name!) (RSSI: \(rssi), advertised data: \(advertisement)), "
-        if app.device.company != "< Unknown >" { msg += "company id: 0x\(String(format: "%04x", companyId)))" }
+        if app.device.company != "< Unknown >" { msg += ", company id: 0x\(String(format: "%04x", companyId)))" }
         log(msg)
         if let manufacturerData = manufacturerData {
             app.device.parseManufacturerData(manufacturerData)

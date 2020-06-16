@@ -23,14 +23,14 @@ struct Details: View {
                                 HStack {
                                     Text("Name")
                                     Spacer()
-                                    Text("\(app.device.peripheral!.name!)").foregroundColor(.yellow)
+                                    Text(app.device.peripheral!.name!).foregroundColor(.yellow)
                                 }
                             }
                             if app.device.name != app.device.peripheral?.name ?? "Unnamed" {
                                 HStack {
                                     Text("Type")
                                     Spacer()
-                                    Text("\(app.device.name)").foregroundColor(.yellow)
+                                    Text(app.device.name).foregroundColor(.yellow)
                                 }
                             }
                         }
@@ -38,7 +38,7 @@ struct Details: View {
                             HStack {
                                 Text("Serial")
                                 Spacer()
-                                Text("\(app.device.serial)").foregroundColor(.yellow)
+                                Text(app.device.serial).foregroundColor(.yellow)
                             }
                         }
                         Group {
@@ -46,42 +46,42 @@ struct Details: View {
                                 HStack {
                                     Text("Company")
                                     Spacer()
-                                    Text("\(app.device.company)").foregroundColor(.yellow)
+                                    Text(app.device.company).foregroundColor(.yellow)
                                 }
                             }
                             if !app.device.manufacturer.isEmpty {
                                 HStack {
                                     Text("Manufacturer")
                                     Spacer()
-                                    Text("\(app.device.manufacturer)").foregroundColor(.yellow)
+                                    Text(app.device.manufacturer).foregroundColor(.yellow)
                                 }
                             }
                             if !app.device.model.isEmpty {
                                 HStack {
                                     Text("Model")
                                     Spacer()
-                                    Text("\(app.device.model)").foregroundColor(.yellow)
+                                    Text(app.device.model).foregroundColor(.yellow)
                                 }
                             }
                             if !app.device.firmware.isEmpty {
                                 HStack {
                                     Text("Firmware")
                                     Spacer()
-                                    Text("\(app.device.firmware)").foregroundColor(.yellow)
+                                    Text(app.device.firmware).foregroundColor(.yellow)
                                 }
                             }
                             if !app.device.hardware.isEmpty {
                                 HStack {
                                     Text("Hardware")
                                     Spacer()
-                                    Text("\(app.device.hardware)").foregroundColor(.yellow)
+                                    Text(app.device.hardware).foregroundColor(.yellow)
                                 }
                             }
                             if !app.device.software.isEmpty {
                                 HStack {
                                     Text("Software")
                                     Spacer()
-                                    Text("\(app.device.software)").foregroundColor(.yellow)
+                                    Text(app.device.software).foregroundColor(.yellow)
                                 }
                             }
                         }
@@ -89,7 +89,7 @@ struct Details: View {
                             HStack {
                                 Text("MAC Address")
                                 Spacer()
-                                Text("\(app.device.macAddress.hexAddress)").foregroundColor(.yellow)
+                                Text(app.device.macAddress.hexAddress).foregroundColor(.yellow)
                             }
                         }
                         if app.device.rssi != 0 {
@@ -116,19 +116,19 @@ struct Details: View {
                         HStack {
                             Text("Status")
                             Spacer()
-                            Text("\(app.sensor.state.description)")
+                            Text(app.sensor.state.description)
                                 .foregroundColor(app.sensor.state == .ready ? .green : .red)
                         }
                         HStack {
                             Text("Type")
                             Spacer()
-                            Text("\(app.sensor.type.description)").foregroundColor(.yellow)
+                            Text(app.sensor.type.description).foregroundColor(.yellow)
                         }
                         if app.sensor.serial != "" {
                             HStack {
                                 Text("Serial")
                                 Spacer()
-                                Text("\(app.sensor.serial)").foregroundColor(.yellow)
+                                Text(app.sensor.serial).foregroundColor(.yellow)
                             }
                         }
                         if app.sensor.age > 0 {

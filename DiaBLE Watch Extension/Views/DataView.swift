@@ -15,7 +15,7 @@ struct DataView: View {
     var body: some View {
         ScrollView {
 
-            Text("\(Date().dateTime)")
+            Text(Date().dateTime)
                 .foregroundColor(.white)
 
             if app.deviceState == "Connected" {

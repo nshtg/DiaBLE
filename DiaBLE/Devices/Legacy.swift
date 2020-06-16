@@ -493,14 +493,14 @@ struct WatlaaDetailsView: View {
                 HStack {
                     Text("Bridge status")
                     Spacer()
-                    Text("\(device.bridgeStatus.description)")
+                    Text(device.bridgeStatus.description)
                         .foregroundColor(device.bridgeStatus == .connectedActiveSensor ? .green : .red)
                 }
                 if !(device.transmitter?.sensor?.serial.isEmpty ?? true) {
                     HStack {
                         Text("Sensor serial")
                         Spacer()
-                        Text("\(device.transmitter!.sensor!.serial)").foregroundColor(.yellow)
+                        Text(device.transmitter!.sensor!.serial).foregroundColor(.yellow)
                     }
                 }
             }
