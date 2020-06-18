@@ -149,11 +149,11 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 self.main.log("NFC: IC manufacturer code: \(manufacturer)")
                                 self.main.log("NFC: IC serial number: \(tag.icSerialNumber.hex)")
 
-                                var rom = "NFC: RF430TAL152H "
+                                var rom = "RF430TAL152H"
                                 switch tag.identifier[2] {
-                                case 0xA0: rom += "Libre 1 A0"
-                                case 0xA4: rom += "Libre 2 A4"
-                                default:   rom += "unknown"
+                                case 0xA0: rom += " Libre 1 A0"
+                                case 0xA4: rom += " Libre 2 A4"
+                                default:   rom += " unknown"
                                 }
                                 self.main.log("NFC: \(rom) ROM")
 
@@ -183,8 +183,8 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                     self.readRaw(0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:")))
                                         self.readRaw(0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
                                             self.readRaw(0xFFAC, 36) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 E0-E2 commands:")))
-                                                self.writeRaw(0x0000, Data([0x00])) {
-                                                    self.main.log("NFC TODO: did write at address: 0x\(String(format: "%X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
+                                                self.writeRaw(0xFFB8, Data([0xE0, 0x00])) {
+                                                    self.main.debugLog("NFC: TEST: did write at address: 0x\(String(format: "%04X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
 
                                                     session.invalidate()
 
@@ -264,14 +264,27 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
         self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA4, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
             self.main.debugLog("NFC: unlock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
 
+            // var remainingBytes = bytes
+            let addressToRead = (address / 8) * 8
+            let startOffset = Int((8 - address % 8 ) % 8)
+            let endAddressToRead = ((Int(address) + bytes.count - 1) / 8) * 8 + 7
+            let blocksToRead = (endAddressToRead - Int(addressToRead)) / 8 + 1
+            self.readRaw(addressToRead, blocksToRead * 8) {
+                var msg = $2?.localizedDescription ?? $1.hexDump(address: Int(address), header: "NFC: blocks to overwrite:")
+                var bytesToWrite = $1
+                bytesToWrite.replaceSubrange(startOffset ..< startOffset + bytes.count, with: bytes)
+                msg += "\(bytesToWrite.hexDump(address: Int(address), header: "\nwith blocks:"))"
+                self.main.debugLog(msg)
 
-            // TODO
+
+                // TODO
 
 
-            // Lock
-            self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
-                self.main.debugLog("NFC: lock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
-                handler(address, bytes, error)
+                // Lock
+                self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
+                    self.main.debugLog("NFC: lock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
+                    handler(address, bytes, error)
+                }
             }
         }
     }
