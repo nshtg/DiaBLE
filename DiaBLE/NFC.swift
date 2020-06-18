@@ -183,14 +183,18 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                     self.readRaw(0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:")))
                                         self.readRaw(0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
                                             self.readRaw(0xFFAC, 36) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 E0-E2 commands:")))
-                                                session.invalidate()
+                                                self.writeRaw(0x0000, Data([0x00])) {
+                                                    self.main.log("NFC TODO: did write at address: 0x\(String(format: "%X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
 
-                                                // same final code as for debugLevel = 0
+                                                    session.invalidate()
 
-                                                if fram.count > 0 {
-                                                    self.sensor.fram = Data(fram)
+                                                    // same final code as for debugLevel = 0
+
+                                                    if fram.count > 0 {
+                                                        self.sensor.fram = Data(fram)
+                                                    }
+                                                    self.main.parseSensorData(self.sensor)
                                                 }
-                                                self.main.parseSensorData(self.sensor)
                                             }
                                         }
                                     }
@@ -258,7 +262,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
         // Unlock
         self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA4, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
-            self.main.log("NFC: unlock command response: 0x\(customResponse.hex)")
+            self.main.debugLog("NFC: unlock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
 
 
             // TODO
@@ -266,8 +270,8 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
             // Lock
             self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
-                self.main.log("NFC: lock command response: 0x\(customResponse.hex)")
-
+                self.main.debugLog("NFC: lock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
+                handler(address, bytes, error)
             }
         }
     }
