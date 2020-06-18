@@ -149,6 +149,14 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 self.main.log("NFC: IC manufacturer code: \(manufacturer)")
                                 self.main.log("NFC: IC serial number: \(tag.icSerialNumber.hex)")
 
+                                var rom = "NFC: RF430TAL152H "
+                                switch tag.identifier[2] {
+                                case 0xA0: rom += "Libre 1 A0"
+                                case 0xA4: rom += "Libre 2 A4"
+                                default:   rom += "unknown"
+                                }
+                                self.main.log("NFC: \(rom) ROM")
+
                                 self.main.log(String(format: "NFC: IC reference: 0x%X", icRef))
 
                                 self.main.log(String(format: "NFC: block size: %d", blockSize))
@@ -205,7 +213,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
 
     // TODO: test
-    /// fram:   0xF800, 2048
+    /// fram:   0xF860, 2048
     /// rom:    0x4400, 0x2000
     /// sram:   0x1C00, 0x1000
     /// config: 0x1A00, 64    (serial number and calibration)
@@ -241,6 +249,25 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                 handler(address, buffer, error)
             } else {
                 self.readRaw(address, remainingBytes, buffer: buffer) { address, data, error in handler(address, data, error) }
+            }
+        }
+    }
+
+
+    func writeRaw(_ address: UInt16, _ bytes: Data, handler: @escaping (UInt16, Data, Error?) -> Void) {
+
+        // Unlock
+        self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA4, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
+            self.main.log("NFC: unlock command response: 0x\(customResponse.hex)")
+
+
+            // TODO
+
+
+            // Lock
+            self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
+                self.main.log("NFC: lock command response: 0x\(customResponse.hex)")
+
             }
         }
     }
