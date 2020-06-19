@@ -25,6 +25,21 @@ extension SensorType {
 }
 
 
+extension Sensor {
+    static var freshFRAM: Data {
+        var fram =  "50 37 B0 32 01 00 02 08 \n"
+        for _ in 1...2 {
+            fram += "00 00 00 00 00 00 00 00 \n"
+        }
+        fram +=     "62 c2 00 00 00 00 00 00 \n"
+        for _ in 4 ... 0x27 {
+            fram += "00 00 00 00 00 00 00 00 \n"
+        }
+        return Data(fram.bytes)
+    }
+}
+
+
 class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
     var tagSession: NFCTagReaderSession?
@@ -185,6 +200,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                             self.readRaw(0xFFAC, 36) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 E0-E2 commands:")))
                                                 self.writeRaw(0xFFB8, Data([0xE0, 0x00])) {
                                                 // self.writeRaw(0x0001, Data([0xE0, 0x00])) { // TEST
+                                                // self.writeRaw(0x0000, Sensor.freshFRAM) { // TEST
                                                     self.main.debugLog("NFC: TEST: did write at address: 0x\(String(format: "%04X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
 
                                                     session.invalidate()
@@ -293,7 +309,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 if i != blocks - 1 { return }
 
                             } else {
-                                self.main.debugLog("NFC: wrote block 0x\(String(format: "%X",startBlock + i)) (\(i + 1) of \(blocks)) \(blockToWrite.hex) at 0x\(String(format: "%X", (startBlock + i) * 8))")
+                                self.main.debugLog("NFC: wrote block 0x\(String(format: "%X", startBlock + i)) (\(i + 1) of \(blocks)) \(blockToWrite.hex) at 0x\(String(format: "%X", (startBlock + i) * 8))")
                             }
 
                             if i == blocks - 1 {
@@ -322,15 +338,20 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                     for i in 0 ..< requests {
 
+                        let startIndex = startBlock + i * requestBlocks
+                        let endIndex   = startBlock + i * requestBlocks + (i == requests - 1 ? remainder - 1: requestBlocks - 1)
+                        // let blockRange = NSRange(UInt8(startIndex) ... UInt8(endIndex))
+                        let range = startIndex ... endIndex
+
                         // TODO: write to 16-bit addresses as the custom cummand C4 for other chips
-                        // self.connectedTag?.writeMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: NSRange(UInt8(startBlock + i * requestBlocks)...UInt8(startBlock + i * requestBlocks + (i == requests - 1 ? remainder - 1: requestBlocks - 1))), dataBlocks: blocksToWrite) { error in // TEST
+                        // self.connectedTag?.writeMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: blockRange, dataBlocks: blocksToWrite) { error in // TEST
 
                         if error != nil {
-                            self.main.log("NFC: error while writing multiple blocks 0x\(String(format: "%X", startBlock + i * requestBlocks)) - 0x\(String(format: "%X", startBlock + i * requestBlocks + (i == requests - 1 ? remainder - 1: requestBlocks - 1))) \(blocksToWrite) at 0x\(String(format: "%X", (startBlock + i) * 8)): \(error!.localizedDescription)")
+                            self.main.log("NFC: error while writing multiple blocks 0x\(String(format: "%X", startIndex)) - 0x\(String(format: "%X", endIndex))) \(blocksToWrite[range].reduce("", { $0 + $1.hex })) at 0x\(String(format: "%X", (startBlock + i) * 8)): \(error!.localizedDescription)")
                             if i != requests - 1 { return }
 
                         } else {
-                            self.main.debugLog("NFC: wrote blocks 0x\(String(format: "%X", startBlock + i * requestBlocks)) - 0x\(String(format: "%X", startBlock + i * requestBlocks + (i == requests - 1 ? remainder - 1: requestBlocks - 1))) \(blocksToWrite) at 0x\(String(format: "%X", (startBlock + i) * 8))")
+                            self.main.debugLog("NFC: wrote blocks 0x\(String(format: "%X", startIndex)) - 0x\(String(format: "%X", endIndex))) \(blocksToWrite[range].reduce("", { $0 + $1.hex })) at 0x\(String(format: "%X", (startBlock + i) * 8))")
                         }
 
                         if i == requests - 1 {

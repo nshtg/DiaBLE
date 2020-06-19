@@ -43,7 +43,7 @@ extension String {
         } else {
             /// Convert the NFCReader hex dump
             for line in self.split(separator: "\n") {
-                let column = line.components(separatedBy: "  ")[1]
+                let column = line.contains("  ") ? line.components(separatedBy: "  ")[1] : String(line)
                 for hex in column.split(separator: " ").suffix(8) {
                     bytes.append(UInt8(hex, radix: 16)!)
                 }
