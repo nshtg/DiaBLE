@@ -113,10 +113,10 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                     for i in 0 ..< requests {
 
-                        self.connectedTag?.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: NSRange(UInt8(i * requestBlocks)...UInt8(i * requestBlocks + (i == requests - 1 ? remainder - 1: requestBlocks - 1)))) { (blockArray, error) in
+                        self.connectedTag?.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: NSRange(UInt8(i * requestBlocks)...UInt8(i * requestBlocks + (i == requests - 1 ? remainder: requestBlocks) - (requestBlocks > 1 ? 1 : 0)))) { (blockArray, error) in
 
                             if error != nil {
-                                self.main.log("NFC: error while reading multiple blocks (#\(i * requestBlocks) - #\(i * requestBlocks + (i == requests - 1 ? remainder - 1: requestBlocks - 1))) : \(error!.localizedDescription)")
+                                self.main.log("NFC: error while reading multiple blocks (#\(i * requestBlocks) - #\(i * requestBlocks + (i == requests - 1 ? remainder: requestBlocks) - (requestBlocks > 1 ? 1 : 0))) : \(error!.localizedDescription)")
                                 session.invalidate(errorMessage: "Error while reading multiple blocks: \(error!.localizedDescription)")
                                 if i != requests - 1 { return }
 
@@ -333,25 +333,27 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                     var blocksToWrite = [Data](repeating: Data(), count: blocks)
 
                     for i in 0 ..< blocks {
-                        blocksToWrite[i] = bytesToWrite[i * 8 ... i * 8 + 7]
+                        blocksToWrite[i] = Data(bytesToWrite[i * 8 ... i * 8 + 7])
                     }
 
                     for i in 0 ..< requests {
 
                         let startIndex = startBlock + i * requestBlocks
-                        let endIndex   = startBlock + i * requestBlocks + (i == requests - 1 ? remainder - 1: requestBlocks - 1)
+                        let endIndex   = startIndex + (i == requests - 1 ? remainder : requestBlocks) - (requestBlocks > 1 ? 1 : 0)
                         // let blockRange = NSRange(UInt8(startIndex) ... UInt8(endIndex))
-                        let range = startIndex ... endIndex
+
+                        var dataBlocks = [Data]()
+                        for j in startIndex ... endIndex { dataBlocks.append(blocksToWrite[j]) }
 
                         // TODO: write to 16-bit addresses as the custom cummand C4 for other chips
-                        // self.connectedTag?.writeMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: blockRange, dataBlocks: blocksToWrite) { error in // TEST
+                        // self.connectedTag?.writeMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: blockRange, dataBlocks: dataBlocks) { error in // TEST
 
                         if error != nil {
-                            self.main.log("NFC: error while writing multiple blocks 0x\(String(format: "%X", startIndex)) - 0x\(String(format: "%X", endIndex))) \(blocksToWrite[range].reduce("", { $0 + $1.hex })) at 0x\(String(format: "%X", (startBlock + i) * 8)): \(error!.localizedDescription)")
+                            self.main.log("NFC: error while writing multiple blocks 0x\(String(format: "%X", startIndex)) - 0x\(String(format: "%X", endIndex))) \(dataBlocks.reduce("", { $0 + $1.hex })) at 0x\(String(format: "%X", (startBlock + i * requestBlocks) * 8)): \(error!.localizedDescription)")
                             if i != requests - 1 { return }
 
                         } else {
-                            self.main.debugLog("NFC: wrote blocks 0x\(String(format: "%X", startIndex)) - 0x\(String(format: "%X", endIndex))) \(blocksToWrite[range].reduce("", { $0 + $1.hex })) at 0x\(String(format: "%X", (startBlock + i) * 8))")
+                            self.main.debugLog("NFC: wrote blocks 0x\(String(format: "%X", startIndex)) - 0x\(String(format: "%X", endIndex))) \(dataBlocks.reduce("", { $0 + $1.hex })) at 0x\(String(format: "%X", (startBlock + i * requestBlocks) * 8))")
                         }
 
                         if i == requests - 1 {
