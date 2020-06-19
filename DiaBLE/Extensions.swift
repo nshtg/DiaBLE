@@ -8,13 +8,13 @@ extension Data {
     var hexAddress: String { String(self.reversed().reduce("", { $0 + String(format: "%02X", $1) + ":"}).dropLast(1)) }
     var sha1: String { Insecure.SHA1.hash(data: self).makeIterator().reduce("", { $0 + String(format: "%02x", $1)}) }
 
-    func hexDump(address: Int = 0, header: String = "") -> String {
+    func hexDump(address: Int = -1, header: String = "") -> String {
         var offset = startIndex
         var offsetEnd = offset
         var str = header.isEmpty ? "" : "\(header)\n"
         while offset < endIndex {
             _ = formIndex(&offsetEnd, offsetBy: 8, limitedBy: endIndex)
-            if address != 0 { str += String(format: "%X", address + offset) + "  " }
+            if address != -1 { str += String(format: "%X", address + offset) + "  " }
             str += "\(self[offset ..< offsetEnd].reduce("", { $0 + String(format: "%02X", $1) + " "}))"
             str += String(repeating: "   ", count: 8 - distance(from: offset, to: offsetEnd))
             str += "\(self[offset ..< offsetEnd].reduce(" ", { $0 + ((isprint(Int32($1)) != 0) ? String(Unicode.Scalar($1)) : "." ) }))\n"
