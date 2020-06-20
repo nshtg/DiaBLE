@@ -19,6 +19,10 @@ extension SensorType {
     var backdoor: String {
         switch self {
         case .libre1:    return "c2ad7521"
+        // TODO: test eDroplet NFC A4
+        // case .libre2:    return "1b60b24b2a"
+        // case .libreUS:   return "1b75ae93f0"
+        // case .libreProH: return "c2ad0090"
         default:         return "deadbeef"
         }
     }
@@ -164,10 +168,10 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 self.main.log("NFC: IC manufacturer code: \(manufacturer)")
                                 self.main.log("NFC: IC serial number: \(tag.icSerialNumber.hex)")
 
-                                var rom = "RF430TAL152H"
+                                var rom = "RF430"
                                 switch self.connectedTag?.identifier[2] {
-                                case 0xA0: rom += " Libre 1 A0"
-                                case 0xA4: rom += " Libre 2 A4"
+                                case 0xA0: rom += "TAL152H Libre 1 A0"
+                                case 0xA4: rom += "TAL160H Libre 2 A4"
                                 default:   rom += " unknown"
                                 }
                                 self.main.log("NFC: \(rom) ROM")
@@ -251,12 +255,14 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
         if bytes % 2 == 1 || ( bytes % 2 == 0 && addressToRead % 2 == 1 ) { remainingWords += 1 }
         let wordsToRead = UInt8(remainingWords > 12 ? 12 : remainingWords)    // real limit is 15
 
+        if buffer.count == 0 { self.main.debugLog("NFC: sending 0xa3\(sensor.type.backdoor) command (\(sensor.type) read raw)") }
+
         self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data(self.sensor.type.backdoor.bytes + [UInt8(addressToRead & 0x00FF), UInt8(addressToRead >> 8), wordsToRead])) { (customResponse: Data, error: Error?) in
 
             var data = customResponse
 
             if error != nil {
-                self.main.log("NFC: error while reading \(wordsToRead) words at raw memory 0x\(String(format: "%04X", addressToRead))")
+                self.main.debugLog("NFC: error while reading \(wordsToRead) words at raw memory 0x\(String(format: "%04X", addressToRead))")
                 remainingBytes = 0
             } else {
                 if addressToRead % 2 == 1 { data = data.subdata(in: 1 ..< data.count) }
