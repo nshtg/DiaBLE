@@ -285,9 +285,13 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
             let startOffset = Int(address % 8)
             let endAddressToRead = ((Int(address) + bytes.count - 1) / 8) * 8 + 7
             let blocksToRead = (endAddressToRead - Int(addressToRead)) / 8 + 1
-            self.readRaw(addressToRead, blocksToRead * 8) {
-                var msg = $2?.localizedDescription ?? $1.hexDump(address: Int(addressToRead), header: "NFC: blocks to overwrite:")
-                var bytesToWrite = $1
+            self.readRaw(addressToRead, blocksToRead * 8) { address, data, error in
+                var msg = error?.localizedDescription ?? data.hexDump(address: Int(addressToRead), header: "NFC: blocks to overwrite:")
+                if error != nil {
+                    handler(address, bytes, error)
+                    return
+                }
+                var bytesToWrite = data
                 bytesToWrite.replaceSubrange(startOffset ..< startOffset + bytes.count, with: bytes)
                 msg += "\(bytesToWrite.hexDump(address: Int(addressToRead), header: "\nwith blocks:"))"
                 self.main.debugLog(msg)
