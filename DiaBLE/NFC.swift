@@ -19,7 +19,7 @@ extension SensorType {
     var backdoor: String {
         switch self {
         case .libre1:    return "c2ad7521"
-        // TODO: test eDroplet NFC A4
+        // TODO: test eDroplet NFC A4 unlock command
         // case .libre2:    return "1b60b24b2a"
         // case .libreUS:   return "1b75ae93f0"
         // case .libreProH: return "c2ad0090"
@@ -117,10 +117,10 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                     for i in 0 ..< requests {
 
-                        self.connectedTag?.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: NSRange(UInt8(i * requestBlocks)...UInt8(i * requestBlocks + (i == requests - 1 ? remainder: requestBlocks) - (requestBlocks > 1 ? 1 : 0)))) { (blockArray, error) in
+                        self.connectedTag?.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: NSRange(UInt8(i * requestBlocks)...UInt8(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0)))) { (blockArray, error) in
 
                             if error != nil {
-                                self.main.log("NFC: error while reading multiple blocks (#\(i * requestBlocks) - #\(i * requestBlocks + (i == requests - 1 ? remainder: requestBlocks) - (requestBlocks > 1 ? 1 : 0))) : \(error!.localizedDescription)")
+                                self.main.log("NFC: error while reading multiple blocks (#\(i * requestBlocks) - #\(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0))) : \(error!.localizedDescription)")
                                 session.invalidate(errorMessage: "Error while reading multiple blocks: \(error!.localizedDescription)")
                                 if i != requests - 1 { return }
 
@@ -203,7 +203,6 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                         self.readRaw(0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
                                             self.readRaw(0xFFAC, 36) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 E0-E2 commands:")))
                                                 self.writeRaw(0xFFB8, Data([0xE0, 0x00])) {
-                                                // self.writeRaw(0x0001, Data([0xE0, 0x00])) { // TEST
                                                 // self.writeRaw(0x0000, Sensor.freshFRAM) { // TEST
                                                     self.main.debugLog("NFC: TEST: did write at address: 0x\(String(format: "%04X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
 
@@ -334,9 +333,9 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                         }
                     }
 
-                } else {
+                } else { // startBlock < 256: write to FRAM instead to real 0x0000
 
-                    let requestBlocks = 3
+                    let requestBlocks = 2 // 3 doesn't work
 
                     let requests = Int(ceil(Double(blocks) / Double(requestBlocks)))
                     let remainder = blocks % requestBlocks
@@ -349,32 +348,32 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                     for i in 0 ..< requests {
 
                         let startIndex = startBlock + i * requestBlocks
-                        let endIndex   = startIndex + (i == requests - 1 ? remainder : requestBlocks) - (requestBlocks > 1 ? 1 : 0)
-                        // let blockRange = NSRange(UInt8(startIndex) ... UInt8(endIndex))
+                        let endIndex   = startIndex + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0)
+                        let blockRange = NSRange(UInt8(startIndex) ... UInt8(endIndex))
 
                         var dataBlocks = [Data]()
                         for j in startIndex ... endIndex { dataBlocks.append(blocksToWrite[j]) }
 
                         // TODO: write to 16-bit addresses as the custom cummand C4 for other chips
-                        // self.connectedTag?.writeMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: blockRange, dataBlocks: dataBlocks) { error in // TEST
+                        self.connectedTag?.writeMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: blockRange, dataBlocks: dataBlocks) { error in // TEST
 
-                        if error != nil {
-                            self.main.log("NFC: error while writing multiple blocks 0x\(String(format: "%X", startIndex)) - 0x\(String(format: "%X", endIndex))) \(dataBlocks.reduce("", { $0 + $1.hex })) at 0x\(String(format: "%X", (startBlock + i * requestBlocks) * 8)): \(error!.localizedDescription)")
-                            if i != requests - 1 { return }
+                            if error != nil {
+                                self.main.log("NFC: error while writing multiple blocks 0x\(String(format: "%X", startIndex)) - 0x\(String(format: "%X", endIndex))) \(dataBlocks.reduce("", { $0 + $1.hex })) at 0x\(String(format: "%X", (startBlock + i * requestBlocks) * 8)): \(error!.localizedDescription)")
+                                if i != requests - 1 { return }
 
-                        } else {
-                            self.main.debugLog("NFC: wrote blocks 0x\(String(format: "%X", startIndex)) - 0x\(String(format: "%X", endIndex))) \(dataBlocks.reduce("", { $0 + $1.hex })) at 0x\(String(format: "%X", (startBlock + i * requestBlocks) * 8))")
-                        }
-
-                        if i == requests - 1 {
-
-                            // Lock
-                            self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
-                                self.main.debugLog("NFC: lock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
-                                handler(address, bytes, error)
+                            } else {
+                                self.main.debugLog("NFC: wrote blocks 0x\(String(format: "%X", startIndex)) - 0x\(String(format: "%X", endIndex))) \(dataBlocks.reduce("", { $0 + $1.hex })) at 0x\(String(format: "%X", (startBlock + i * requestBlocks) * 8))")
                             }
-                        }
-                        // } // TEST
+
+                            if i == requests - 1 {
+
+                                // Lock
+                                self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
+                                    self.main.debugLog("NFC: lock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
+                                    handler(address, bytes, error)
+                                }
+                            }
+                        } // TEST writeMultipleBlocks
                     }
                 }
             }
