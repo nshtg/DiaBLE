@@ -27,7 +27,7 @@ enum SensorRegion: Int, CustomStringConvertible {
 
     var description: String {
         switch self {
-        case .unknown: return "Unknown"
+        case .unknown: return "unknown"
         case .europe:  return "Europe"
         case .usa:     return "USA"
         case .israel:  return "Israel"
@@ -64,6 +64,7 @@ class Sensor: ObservableObject {
     var type: SensorType = .unknown
     var region: Int = 0
     @Published var state: SensorState = SensorState.unknown
+    @Published var reinitializations: Int = 0
     var crcReport: String = ""
     @Published var lastReadingDate = Date()
     @Published var transmitter: Transmitter?
@@ -105,9 +106,10 @@ class Sensor: ObservableObject {
                 state = sensorState
             }
 
-            guard fram.count > 317 else { return }
+            guard fram.count > 318 else { return }
             age = Int(fram[317]) << 8 + Int(fram[316])
             let startDate = lastReadingDate - Double(age) * 60
+            reinitializations = Int(fram[318])
 
             guard fram.count > 323 else { return }
             region = Int(fram[322]) << 8 + Int(fram[323])

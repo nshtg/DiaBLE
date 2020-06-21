@@ -148,8 +148,8 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         }
 
         log("Sensor state: \(sensor.state)")
-        log("Sensor region: \(SensorRegion(rawValue: sensor.region)?.description ?? "Unknown") (0x" + String(format: "%02X", sensor.region) + ")")
-
+        if sensor.reinitializations > 0 { log("Sensor reinitializations: \(sensor.reinitializations)") }
+        log("Sensor region: \(SensorRegion(rawValue: sensor.region)?.description ?? "unknown")\(sensor.region != 0 ? " (0x" + String(format: "%02X", sensor.region)  + ")" : "")")
 
         if sensor.history.count > 0 {    // FIXME: glucose.space's calibrationEndpoint doesn't support the encrypted Libre 2 FRAM
 
@@ -161,7 +161,6 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
             history.rawValues = sensor.history
             log("Raw history: \(sensor.history.map{$0.value})")
             debugLog("History temperatures: \(sensor.history.map{$0.temperature})")
-
 
             if history.rawTrend.count > 0 {
                 sensor.currentGlucose = -history.rawTrend[0].value

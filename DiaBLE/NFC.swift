@@ -283,6 +283,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     func writeRaw(_ address: UInt16, _ bytes: Data, handler: @escaping (UInt16, Data, Error?) -> Void) {
 
         // Unlock
+        self.main.debugLog("NFC: sending 0xa4\(sensor.type.backdoor) command (\(sensor.type) unlock)")
         self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA4, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
             self.main.debugLog("NFC: unlock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
 
