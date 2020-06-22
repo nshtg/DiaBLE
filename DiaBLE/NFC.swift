@@ -280,7 +280,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     }
 
 
-    func writeRaw(_ address: UInt16, _ bytes: Data, handler: @escaping (UInt16, Data, Error?) -> Void) {
+    func writeRaw(_ address: UInt16, _ data: Data, handler: @escaping (UInt16, Data, Error?) -> Void) {
 
         // Unlock
         self.main.debugLog("NFC: sending 0xa4\(sensor.type.backdoor) command (\(sensor.type) unlock)")
@@ -289,16 +289,16 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
             let addressToRead = (address / 8) * 8
             let startOffset = Int(address % 8)
-            let endAddressToRead = ((Int(address) + bytes.count - 1) / 8) * 8 + 7
+            let endAddressToRead = ((Int(address) + data.count - 1) / 8) * 8 + 7
             let blocksToRead = (endAddressToRead - Int(addressToRead)) / 8 + 1
-            self.readRaw(addressToRead, blocksToRead * 8) { addr, data, error in
-                var msg = error?.localizedDescription ?? data.hexDump(address: Int(addr), header: "NFC: blocks to overwrite:")
+            self.readRaw(addressToRead, blocksToRead * 8) { readAddress, readData, error in
+                var msg = error?.localizedDescription ?? readData.hexDump(address: Int(readAddress), header: "NFC: blocks to overwrite:")
                 if error != nil {
-                    handler(address, bytes, error)
+                    handler(address, data, error)
                     return
                 }
-                var bytesToWrite = data
-                bytesToWrite.replaceSubrange(startOffset ..< startOffset + bytes.count, with: bytes)
+                var bytesToWrite = readData
+                bytesToWrite.replaceSubrange(startOffset ..< startOffset + data.count, with: data)
                 msg += "\(bytesToWrite.hexDump(address: Int(addressToRead), header: "\nwith blocks:"))"
                 self.main.debugLog(msg)
 
@@ -327,7 +327,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 // Lock
                                 self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
                                     self.main.debugLog("NFC: lock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
-                                    handler(address, bytes, error)
+                                    handler(address, data, error)
                                 }
 
                             }
@@ -349,7 +349,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                     for i in 0 ..< requests {
 
                         let startIndex = startBlock + i * requestBlocks
-                        let endIndex   = startIndex + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0)
+                        let endIndex = startIndex + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0)
                         let blockRange = NSRange(UInt8(startIndex) ... UInt8(endIndex))
 
                         var dataBlocks = [Data]()
@@ -371,7 +371,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                 // Lock
                                 self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
                                     self.main.debugLog("NFC: lock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
-                                    handler(address, bytes, error)
+                                    handler(address, data, error)
                                 }
                             }
                         } // TEST writeMultipleBlocks
