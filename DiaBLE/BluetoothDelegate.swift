@@ -18,7 +18,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func centralManagerDidUpdateState(_ manager: CBCentralManager) {
         switch manager.state {
         case .poweredOff:
-            log("Bluetooth state: powered off")
+            log("Bluetooth: state: powered off")
             main.errorStatus("Bluetooth powered off")
             if app.device != nil {
                 centralManager.cancelPeripheralConnection(app.device.peripheral!)
@@ -26,15 +26,15 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             }
             app.deviceState = "Disconnected"
         case .poweredOn:
-            log("Bluetooth state: powered on")
+            log("Bluetooth: state: powered on")
             centralManager.scanForPeripherals(withServices: nil, options: nil)
             main.status("Scanning...")
-        case .resetting:    log("Bluetooth state: resetting")
-        case .unauthorized: log("Bluetooth state: unauthorized")
-        case .unknown:      log("Bluetooth state: unknown")
-        case .unsupported:  log("Bluetooth state: unsupported")
+        case .resetting:    log("Bluetooth: state: resetting")
+        case .unauthorized: log("Bluetooth: state: unauthorized")
+        case .unknown:      log("Bluetooth: state: unknown")
+        case .unsupported:  log("Bluetooth: state: unsupported")
         @unknown default:
-            log("Bluetooth state: unknown")
+            log("Bluetooth: state: unknown")
         }
     }
 
@@ -70,7 +70,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         centralManager.stopScan()
 
-        var companyId = BLE.companies.count - 1 // < Unknown >
+        var companyId = BLE.companies.count - 1 // "< Unknown >"
         if let manufacturerData = manufacturerData {
             companyId = Int(manufacturerData[0]) + Int(manufacturerData[1]) << 8
         }
@@ -139,7 +139,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             for service in services {
                 let serviceUUID = service.uuid.uuidString
                 var description = "unknown service"
-                if serviceUUID == type(of:app.device).dataServiceUUID {
+                if serviceUUID == type(of: app.device).dataServiceUUID {
                     description = "data service"
                 }
                 if let uuid = BLE.UUID(rawValue: serviceUUID) {
@@ -225,7 +225,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             let readCommand = app.device.readCommand(interval: settings.readingInterval)
             app.device.write(readCommand)
             log("\(app.device.name): writing start reading command 0x\(Data(readCommand).hex)")
-            // app.device.write([0xD3, 0x01]); log("MiaoMiao writing start new sensor command D301")
+            // app.device.write([0xD3, 0x01]); log("MiaoMiao: writing start new sensor command D301")
         }
 
     }

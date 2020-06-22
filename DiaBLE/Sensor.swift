@@ -39,7 +39,7 @@ enum SensorRegion: Int, CustomStringConvertible {
 enum SensorState: UInt8, CustomStringConvertible {
     case notYetStarted = 0x01
     case starting
-    case ready
+    case ready                   // for 14.5 days
     case expired
     case shutdown
     case failure

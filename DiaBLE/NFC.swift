@@ -120,7 +120,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                         self.connectedTag?.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: NSRange(UInt8(i * requestBlocks)...UInt8(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0)))) { (blockArray, error) in
 
                             if error != nil {
-                                self.main.log("NFC: error while reading multiple blocks (#\(i * requestBlocks) - #\(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0))) : \(error!.localizedDescription)")
+                                self.main.log("NFC: error while reading multiple blocks (#\(i * requestBlocks) - #\(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0))): \(error!.localizedDescription)")
                                 session.invalidate(errorMessage: "Error while reading multiple blocks: \(error!.localizedDescription)")
                                 if i != requests - 1 { return }
 
