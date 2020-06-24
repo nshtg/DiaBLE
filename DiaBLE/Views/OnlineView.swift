@@ -3,7 +3,7 @@ import SwiftUI
 
 
 struct OnlineView: View {
-    @EnvironmentObject var app: DiableApp
+    @EnvironmentObject var app: DiaBLEAppState
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
@@ -105,14 +105,14 @@ struct OnlineView: View {
 
 
 struct OnlineView_Previews: PreviewProvider {
-    @EnvironmentObject var app: DiableApp
+    @EnvironmentObject var app: DiaBLEAppState
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
             ContentView()
-                .environmentObject(DiableApp.test(tab: .online))
+                .environmentObject(DiaBLEAppState.test(tab: .online))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

@@ -3,7 +3,7 @@ import SwiftUI
 
 
 struct LogView: View {
-    @EnvironmentObject var app: DiableApp
+    @EnvironmentObject var app: DiaBLEAppState
     @EnvironmentObject var log: Log
     @EnvironmentObject var settings: Settings
 
@@ -141,14 +141,14 @@ struct LogView: View {
 
 
 struct LogView_Previews: PreviewProvider {
-    @EnvironmentObject var app: DiableApp
+    @EnvironmentObject var app: DiaBLEAppState
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
             ContentView()
-                .environmentObject(DiableApp.test(tab: .log))
+                .environmentObject(DiaBLEAppState.test(tab: .log))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

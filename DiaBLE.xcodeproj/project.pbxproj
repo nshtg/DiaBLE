@@ -22,7 +22,7 @@
 		C53C76ED23D9AFD700B59A98 /* Nightscout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EC23D9AFD700B59A98 /* Nightscout.swift */; };
 		C53C76EF23D9B87A00B59A98 /* OnlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EE23D9B87A00B59A98 /* OnlineView.swift */; };
 		C549DD0023F198B700088A4C /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = C549DCFF23F198B700088A4C /* Events.swift */; };
-		C5521C8223BB5D5A00826CFB /* DiableApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5521C8123BB5D5A00826CFB /* DiableApp.swift */; };
+		C5521C8223BB5D5A00826CFB /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5521C8123BB5D5A00826CFB /* App.swift */; };
 		C55AE3B5245EB1A3009636E0 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55AE3B4245EB1A3009636E0 /* DataView.swift */; };
 		C55B5D16245FCBE50004FE3B /* OnlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B5D15245FCBE50004FE3B /* OnlineView.swift */; };
 		C566341323B14D55001EB5F3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566341223B14D55001EB5F3 /* Extensions.swift */; };
@@ -74,7 +74,7 @@
 		C5E1015423A2774D00678DF6 /* DiaBLETests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1015323A2774D00678DF6 /* DiaBLETests.swift */; };
 		C5E1015F23A2774D00678DF6 /* DiaBLEUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1015E23A2774D00678DF6 /* DiaBLEUITests.swift */; };
 		C5E9C755244495B000D52B32 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566341223B14D55001EB5F3 /* Extensions.swift */; };
-		C5E9C756244495D700D52B32 /* DiableApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5521C8123BB5D5A00826CFB /* DiableApp.swift */; };
+		C5E9C756244495D700D52B32 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5521C8123BB5D5A00826CFB /* App.swift */; };
 		C5E9C7572444964700D52B32 /* Glucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C7187A23E2FB5000D04EA7 /* Glucose.swift */; };
 		C5E9C7582444966500D52B32 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C501BE46242A1ABD006C7F30 /* Settings.swift */; };
 		C5E9C7592444966A00D52B32 /* Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */; };
@@ -163,7 +163,7 @@
 		C53C76EC23D9AFD700B59A98 /* Nightscout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nightscout.swift; sourceTree = "<group>"; };
 		C53C76EE23D9B87A00B59A98 /* OnlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineView.swift; sourceTree = "<group>"; };
 		C549DCFF23F198B700088A4C /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
-		C5521C8123BB5D5A00826CFB /* DiableApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiableApp.swift; sourceTree = "<group>"; };
+		C5521C8123BB5D5A00826CFB /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		C55AE3B4245EB1A3009636E0 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
 		C55B5D15245FCBE50004FE3B /* OnlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineView.swift; sourceTree = "<group>"; };
 		C566341223B14D55001EB5F3 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -384,7 +384,7 @@
 				C52F1A6024976D3D004C2F90 /* Media */,
 				C5C20E4323C77F7700475327 /* Views */,
 				C566341223B14D55001EB5F3 /* Extensions.swift */,
-				C5521C8123BB5D5A00826CFB /* DiableApp.swift */,
+				C5521C8123BB5D5A00826CFB /* App.swift */,
 				C501BE46242A1ABD006C7F30 /* Settings.swift */,
 				C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */,
 				C5ADAF41245B4E56003A2E8B /* Device.swift */,
@@ -670,7 +670,7 @@
 				C5E9C7582444966500D52B32 /* Settings.swift in Sources */,
 				C58507B123C50BF40079539D /* ExtensionDelegate.swift in Sources */,
 				C58507B523C50BF40079539D /* NotificationView.swift in Sources */,
-				C5E9C756244495D700D52B32 /* DiableApp.swift in Sources */,
+				C5E9C756244495D700D52B32 /* App.swift in Sources */,
 				C5A82D22245B4A8D00F710A1 /* MiaoMiao.swift in Sources */,
 				C5ADAF43245B4E56003A2E8B /* Device.swift in Sources */,
 				C58507B723C50BF40079539D /* ComplicationController.swift in Sources */,
@@ -692,7 +692,7 @@
 				C597AF6B23AB9E3E0012926C /* NFC.swift in Sources */,
 				C5E1013A23A2774C00678DF6 /* AppDelegate.swift in Sources */,
 				C5C20E4723C780FB00475327 /* Monitor.swift in Sources */,
-				C5521C8223BB5D5A00826CFB /* DiableApp.swift in Sources */,
+				C5521C8223BB5D5A00826CFB /* App.swift in Sources */,
 				C5E1013F23A2774C00678DF6 /* DiaBLE.xcdatamodeld in Sources */,
 				C5A82D21245B4A8D00F710A1 /* MiaoMiao.swift in Sources */,
 				C5A1B8B023C6410A00D60962 /* Bluetooth.swift in Sources */,
