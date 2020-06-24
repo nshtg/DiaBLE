@@ -1,6 +1,6 @@
 import Foundation
 
-class App: ObservableObject {
+class DiableApp: ObservableObject {
 
     @Published var device: Device!
     @Published var transmitter: Transmitter!
@@ -54,10 +54,10 @@ class History: ObservableObject {
 
 // For UI testing
 
-extension App {
-    static func test(tab: Tab) -> App {
+extension DiableApp {
+    static func test(tab: Tab) -> DiableApp {
 
-        let app = App()
+        let app = DiableApp()
 
         app.transmitter = Transmitter(battery: 54, rssi: -75, firmware: "4.56", manufacturer: "Acme Inc.", hardware: "2.3", macAddress: Data([0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF]))
         app.device = app.transmitter

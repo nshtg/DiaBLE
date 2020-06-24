@@ -3,7 +3,7 @@ import SwiftUI
 
 
 struct Monitor: View {
-    @EnvironmentObject var app: App
+    @EnvironmentObject var app: DiableApp
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
@@ -290,13 +290,13 @@ struct Monitor: View {
 
 
 struct Monitor_Previews: PreviewProvider {
-    @EnvironmentObject var app: App
+    @EnvironmentObject var app: DiableApp
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
             Monitor()
-                .environmentObject(App.test(tab: .monitor))
+                .environmentObject(DiableApp.test(tab: .monitor))
                 .environmentObject(History.test)
                 .environmentObject(Settings())
                 .environment(\.colorScheme, .dark)

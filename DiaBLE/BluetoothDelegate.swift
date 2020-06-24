@@ -6,7 +6,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
     var main: MainDelegate!
     var centralManager: CBCentralManager { main.centralManager }
-    var app: App { main.app }
+    var app: DiableApp { main.app }
     var settings: Settings { main.settings }
 
 

@@ -11,7 +11,7 @@ enum Tab: Hashable {
 
 struct ContentView: View {
 
-    @EnvironmentObject var app: App
+    @EnvironmentObject var app: DiableApp
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
@@ -77,7 +77,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContentView()
-                .environmentObject(App.test(tab: .log))
+                .environmentObject(DiableApp.test(tab: .log))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

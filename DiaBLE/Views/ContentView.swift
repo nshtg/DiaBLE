@@ -9,7 +9,7 @@ enum Tab: Hashable {
 }
 
 struct ContentView: View {
-    @EnvironmentObject var app: App
+    @EnvironmentObject var app: DiableApp
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
@@ -52,7 +52,7 @@ struct ContentView: View {
 
 
 struct ContentView_Previews: PreviewProvider {
-    @EnvironmentObject var app: App
+    @EnvironmentObject var app: DiableApp
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
@@ -62,35 +62,35 @@ struct ContentView_Previews: PreviewProvider {
 
         Group {
             ContentView()
-                .environmentObject(App.test(tab: .monitor))
+                .environmentObject(DiableApp.test(tab: .monitor))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())
                 .environment(\.colorScheme, .dark)
 
             ContentView()
-                .environmentObject(App.test(tab: .online))
+                .environmentObject(DiableApp.test(tab: .online))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())
                 .environment(\.colorScheme, .dark)
 
             ContentView()
-                .environmentObject(App.test(tab: .data))
+                .environmentObject(DiableApp.test(tab: .data))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())
                 .environment(\.colorScheme, .dark)
 
             ContentView()
-                .environmentObject(App.test(tab: .log))
+                .environmentObject(DiableApp.test(tab: .log))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())
                 .environment(\.colorScheme, .dark)
 
             ContentView()
-                .environmentObject(App.test(tab: .settings))
+                .environmentObject(DiableApp.test(tab: .settings))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

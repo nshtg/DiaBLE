@@ -5,7 +5,7 @@ import AVFoundation
 
 public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
-    var app: App
+    var app: DiableApp
     var log: Log
     var history: History
     var settings: Settings
@@ -20,7 +20,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
 
     override init() {
-        app = App()
+        app = DiableApp()
         log = Log()
         history = History()
         settings = Settings()

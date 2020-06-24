@@ -5,7 +5,7 @@ import AVFoundation
 //public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
 
-    var app: App
+    var app: DiableApp
     var log: Log
     var history: History
     var settings: Settings
@@ -21,7 +21,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
 
 
     override init() {
-        app = App()
+        app = DiableApp()
         log = Log()
         history = History()
         settings = Settings()
