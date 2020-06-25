@@ -20,6 +20,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 
 
     override init() {
+
+        UserDefaults.standard.register(defaults: Settings.defaults)
+
         app = DiaBLEAppState()
         log = Log()
         history = History()
@@ -35,6 +38,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         log.text = "Welcome to DiaBLE!\n\(self.settings.logging ? "Log started" : "Log stopped") \(Date().local)\n"
         debugLog("User defaults: \(Settings.defaults.keys.map{ [$0, UserDefaults.standard.dictionaryRepresentation()[$0]!] }.sorted{($0[0] as! String) < ($1[0] as! String) })")
 
+        app.main = self
         bluetoothDelegate.main = self
         centralManager.delegate = bluetoothDelegate
         nfcReader.main = self

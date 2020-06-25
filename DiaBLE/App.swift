@@ -1,15 +1,22 @@
-import Foundation
+import SwiftUI
 
 
 // TODO: iOS 14
 
-// @main
-// struct DiaBLEApp: App {
-//     var body: some Scene {
-//         WindowGroup {
-//         }
-//     }
-// }
+@main
+struct DiaBLEApp: App {
+
+    var main: MainDelegate = MainDelegate()
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView().environmentObject(main.app)
+                .environmentObject(main.log)
+                .environmentObject(main.history)
+                .environmentObject(main.settings)
+        }
+    }
+}
 
 
 class DiaBLEAppState: ObservableObject {
