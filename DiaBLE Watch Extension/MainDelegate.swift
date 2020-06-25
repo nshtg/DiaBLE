@@ -21,11 +21,15 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
 
 
     override init() {
+
+        UserDefaults.standard.register(defaults: Settings.defaults)
+
         app = DiaBLEAppState()
         log = Log()
         history = History()
         settings = Settings()
         extendedSession = WKExtendedRuntimeSession()
+
 
         centralManager = CBCentralManager(delegate: nil, queue: nil)
         bluetoothDelegate = BluetoothDelegate()
@@ -36,6 +40,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
         log.text = "Welcome to DiaBLE!\n\(self.settings.logging ? "Log started" : "Log stopped") \(Date().local)\n"
         debugLog("User defaults: \(Settings.defaults.keys.map{ [$0, UserDefaults.standard.dictionaryRepresentation()[$0]!] }.sorted{($0[0] as! String) < ($1[0] as! String) })")
 
+        app.main = self
         extendedSession.delegate = self
         bluetoothDelegate.main = self
         centralManager.delegate = bluetoothDelegate
