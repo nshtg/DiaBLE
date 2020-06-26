@@ -8,11 +8,13 @@ struct OOPServer {
     var token: String
     var calibrationEndpoint: String
     var historyEndpoint: String
+    var activationEndpoint: String
 
     static let `default`: OOPServer = OOPServer(siteURL: "https://www.glucose.space",
                                                 token: "bubble-201907",
                                                 calibrationEndpoint: "calibrateSensor",
-                                                historyEndpoint: "libreoop2")
+                                                historyEndpoint: "libreoop2",
+                                                activationEndpoint: "activation")
 }
 
 // TODO: new "callnox" endpoint replies with a GlucoseSpaceA2HistoryResponse specific for an 0xA2 Libre 1 patch
@@ -173,11 +175,19 @@ struct GetCalibrationStatusResult: Codable {
 }
 
 
+struct GlucoseSpaceActivationResponse: Codable {
+    let error: Int
+    let productFamily: Int
+    let activationCommand: Int
+    let activationPayload: String
+}
+
+
 // TODO: use Combine Result
 
 func postToOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, handler: @escaping (Data?, URLResponse?, Error?, [URLQueryItem]) -> Void) {
-    var urlComponents = URLComponents(string: server.siteURL + "/" + (patchInfo == nil ? server.calibrationEndpoint : server.historyEndpoint))!
-    var queryItems = [URLQueryItem(name: "content", value: bytes.hex)]
+    var urlComponents = URLComponents(string: server.siteURL + "/" + (patchInfo == nil ? server.calibrationEndpoint : (bytes.count > 0 ? server.historyEndpoint : server.activationEndpoint)))!
+    var queryItems: [URLQueryItem] = bytes.count > 0 ? [URLQueryItem(name: "content", value: bytes.hex)] : []
     let date = Int64((date.timeIntervalSince1970 * 1000.0).rounded())
     if let patchInfo = patchInfo {
         queryItems.append(contentsOf: [
