@@ -13,6 +13,7 @@ FIXME
 TODO
 ----
 
+* clean the code base by restarting from a fresh Xcode 12 project template and making use of the new Widgets, @StateScenes, ScrollViewReaders, lazy grids...
 * selection of glucose units
 * manage Nightscout JavaScript alerts synchronously
 * Apple Watch app: snapshots, workout and extended runtime background sessions, complications, context menus, edit calibration parameters

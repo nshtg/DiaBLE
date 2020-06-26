@@ -129,14 +129,14 @@ struct Graph: View {
 
 
 struct Graph_Previews: PreviewProvider {
-    @EnvironmentObject var app: DiaBLEAppState
+    @EnvironmentObject var app: AppState
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
             ContentView()
-                .environmentObject(DiaBLEAppState.test(tab: .monitor))
+                .environmentObject(AppState.test(tab: .monitor))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

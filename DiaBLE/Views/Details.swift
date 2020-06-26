@@ -3,7 +3,7 @@ import SwiftUI
 
 
 struct Details: View {
-    @EnvironmentObject var app: DiaBLEAppState
+    @EnvironmentObject var app: AppState
     @EnvironmentObject var settings: Settings
 
     @State private var readingCountdown: Int = 0
@@ -200,12 +200,12 @@ struct Details: View {
 
 
 struct Details_Preview: PreviewProvider {
-    @EnvironmentObject var app: DiaBLEAppState
+    @EnvironmentObject var app: AppState
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
             Details()
-                .environmentObject(DiaBLEAppState.test(tab: .monitor))
+                .environmentObject(AppState.test(tab: .monitor))
                 .environmentObject(Settings())
                 .environment(\.colorScheme, .dark)
         }

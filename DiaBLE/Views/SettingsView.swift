@@ -3,7 +3,7 @@ import SwiftUI
 
 
 struct SettingsView: View {
-    @EnvironmentObject var app: DiaBLEAppState
+    @EnvironmentObject var app: AppState
     @EnvironmentObject var settings: Settings
 
     @State private var showingCalendarPicker = false
@@ -167,14 +167,14 @@ struct SettingsView: View {
 
 
 struct SettingsView_Previews: PreviewProvider {
-    @EnvironmentObject var app: DiaBLEAppState
+    @EnvironmentObject var app: AppState
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
             ContentView()
-                .environmentObject(DiaBLEAppState.test(tab: .settings))
+                .environmentObject(AppState.test(tab: .settings))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

@@ -5,7 +5,7 @@ import AVFoundation
 //public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
 public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
 
-    var app: DiaBLEAppState
+    var app: AppState
     var log: Log
     var history: History
     var settings: Settings
@@ -24,12 +24,11 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
 
         UserDefaults.standard.register(defaults: Settings.defaults)
 
-        app = DiaBLEAppState()
+        app = AppState()
         log = Log()
         history = History()
         settings = Settings()
         extendedSession = WKExtendedRuntimeSession()
-
 
         centralManager = CBCentralManager(delegate: nil, queue: nil)
         bluetoothDelegate = BluetoothDelegate()

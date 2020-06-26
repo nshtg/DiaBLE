@@ -11,12 +11,12 @@ enum Tab: Hashable {
 
 struct ContentView: View {
 
-    @EnvironmentObject var app: DiaBLEAppState
+    @EnvironmentObject var app: AppState
     @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
-    @State var isMonitorActive: Bool = true
+    @State var isMonitorActive: Bool = false
 
     var body: some View {
         ScrollView {
@@ -77,7 +77,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContentView()
-                .environmentObject(DiaBLEAppState.test(tab: .log))
+                .environmentObject(AppState.test(tab: .log))
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())

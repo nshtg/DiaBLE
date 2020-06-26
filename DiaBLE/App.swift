@@ -6,11 +6,12 @@ import SwiftUI
 @main
 struct DiaBLEApp: App {
 
-    var main: MainDelegate = MainDelegate()
+    var main: MainDelegate! = MainDelegate()
 
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(main.app)
+            ContentView()
+                .environmentObject(main.app)
                 .environmentObject(main.log)
                 .environmentObject(main.history)
                 .environmentObject(main.settings)
@@ -19,7 +20,7 @@ struct DiaBLEApp: App {
 }
 
 
-class DiaBLEAppState: ObservableObject {
+class AppState: ObservableObject {
 
     @Published var device: Device!
     @Published var transmitter: Transmitter!
@@ -73,10 +74,10 @@ class History: ObservableObject {
 
 // For UI testing
 
-extension DiaBLEAppState {
-    static func test(tab: Tab) -> DiaBLEAppState {
+extension AppState {
+    static func test(tab: Tab) -> AppState {
 
-        let app = DiaBLEAppState()
+        let app = AppState()
 
         app.transmitter = Transmitter(battery: 54, rssi: -75, firmware: "4.56", manufacturer: "Acme Inc.", hardware: "2.3", macAddress: Data([0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF]))
         app.device = app.transmitter

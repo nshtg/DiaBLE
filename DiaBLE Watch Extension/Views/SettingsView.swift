@@ -3,7 +3,7 @@ import SwiftUI
 
 
 struct SettingsView: View {
-    @EnvironmentObject var app: DiaBLEAppState
+    @EnvironmentObject var app: AppState
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
@@ -161,13 +161,13 @@ struct SettingsView: View {
 
 
 struct SettingsView_Previews: PreviewProvider {
-    @EnvironmentObject var app: DiaBLEAppState
+    @EnvironmentObject var app: AppState
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
             SettingsView()
-                .environmentObject(DiaBLEAppState.test(tab: .settings))
+                .environmentObject(AppState.test(tab: .settings))
                 .environmentObject(History.test)
                 .environmentObject(Settings())
                 .environment(\.colorScheme, .dark)
