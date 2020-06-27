@@ -102,130 +102,142 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
             // https://www.st.com/en/embedded-software/stsw-st25ios001.html#get-software
 
-            self.connectedTag?.getSystemInfo(requestFlags: [.address, .highDataRate]) { (dfsid: Int, afi: Int, blockSize: Int, memorySize: Int, icRef: Int, error: Error?) in
-                if error != nil {
-                    session.invalidate(errorMessage: "Error while getting system info: " + error!.localizedDescription)
-                    self.main.log("NFC: error while getting system info: \(error!.localizedDescription)")
+            self.connectedTag?.getSystemInfo(requestFlags: [.address, .highDataRate]) { result in
+
+                switch result {
+
+                case .failure(let error):
+                    session.invalidate(errorMessage: "Error while getting system info: " + error.localizedDescription)
+                    self.main.log("NFC: error while getting system info: \(error.localizedDescription)")
                     return
-                }
 
-                self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
-                    if error != nil {
-                        // session.invalidate(errorMessage: "Error while getting patch info: " + error!.localizedDescription)
-                        self.main.log("NFC: error while getting patch info: \(error!.localizedDescription)")
-                    }
+                case .success(let systemInfo):
+                    self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA1, customRequestParameters: Data()) { (customResponse: Data, error: Error?) in
+                        if error != nil {
+                            // session.invalidate(errorMessage: "Error while getting patch info: " + error!.localizedDescription)
+                            self.main.log("NFC: error while getting patch info: \(error!.localizedDescription)")
+                        }
 
-                    for i in 0 ..< requests {
+                        for i in 0 ..< requests {
 
-                        self.connectedTag?.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: NSRange(UInt8(i * requestBlocks)...UInt8(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0)))) { (blockArray, error) in
+                            self.connectedTag?.readMultipleBlocks(requestFlags: [.highDataRate, .address], blockRange: NSRange(UInt8(i * requestBlocks)...UInt8(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0)))) { (blockArray, error) in
 
-                            if error != nil {
-                                self.main.log("NFC: error while reading multiple blocks (#\(i * requestBlocks) - #\(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0))): \(error!.localizedDescription)")
-                                session.invalidate(errorMessage: "Error while reading multiple blocks: \(error!.localizedDescription)")
-                                if i != requests - 1 { return }
+                                if error != nil {
+                                    self.main.log("NFC: error while reading multiple blocks (#\(i * requestBlocks) - #\(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0))): \(error!.localizedDescription)")
+                                    session.invalidate(errorMessage: "Error while reading multiple blocks: \(error!.localizedDescription)")
+                                    if i != requests - 1 { return }
 
-                            } else {
-                                for j in 0 ..< blockArray.count {
-                                    dataArray[i * requestBlocks + j] = blockArray[j]
-                                }
-                            }
-
-
-                            if i == requests - 1 {
-
-                                if self.main.settings.debugLevel == 0 {
-                                    session.invalidate()
-                                }
-
-                                if  self.main.app.sensor != nil {
-                                    self.sensor = self.main.app.sensor
                                 } else {
-                                    self.sensor = Sensor()
-                                    self.main.app.sensor = self.sensor
-                                }
-
-                                var fram = Data()
-
-                                self.main.app.lastReadingDate = Date()
-                                self.sensor.lastReadingDate = self.main.app.lastReadingDate
-
-                                var msg = ""
-                                for (n, data) in dataArray.enumerated() {
-                                    if data.count > 0 {
-                                        fram.append(data)
-                                        msg += "NFC: block #\(String(format:"%02d", n))  \(data.reduce("", { $0 + String(format: "%02X", $1) + " "}).dropLast())\n"
+                                    for j in 0 ..< blockArray.count {
+                                        dataArray[i * requestBlocks + j] = blockArray[j]
                                     }
                                 }
-                                if !msg.isEmpty { self.main.log(String(msg.dropLast())) }
 
-                                let uid = self.connectedTag!.identifier.hex
-                                self.main.log("NFC: IC identifier: \(uid)")
 
-                                var manufacturer = String(tag.icManufacturerCode)
-                                if manufacturer == "7" {
-                                    manufacturer.append(" (Texas Instruments)")
-                                }
-                                self.main.log("NFC: IC manufacturer code: \(manufacturer)")
-                                self.main.log("NFC: IC serial number: \(tag.icSerialNumber.hex)")
+                                if i == requests - 1 {
 
-                                var rom = "RF430"
-                                switch self.connectedTag?.identifier[2] {
-                                case 0xA0: rom += "TAL152H Libre 1 A0"
-                                case 0xA4: rom += "TAL160H Libre 2 A4"
-                                default:   rom += " unknown"
-                                }
-                                self.main.log("NFC: \(rom) ROM")
+                                    if self.main.settings.debugLevel == 0 {
+                                        session.invalidate()
+                                    }
 
-                                self.main.log(String(format: "NFC: IC reference: 0x%X", icRef))
+                                    if  self.main.app.sensor != nil {
+                                        self.sensor = self.main.app.sensor
+                                    } else {
+                                        self.sensor = Sensor()
+                                        self.main.app.sensor = self.sensor
+                                    }
 
-                                self.main.log(String(format: "NFC: block size: %d", blockSize))
-                                self.main.log(String(format: "NFC: memory size: %d blocks", memorySize))
+                                    var fram = Data()
 
-                                self.sensor.uid = Data(tag.identifier.reversed())
-                                self.main.log("NFC: sensor uid: \(self.sensor.uid.hex)")
-                                self.main.log("NFC: sensor serial number: \(self.sensor.serial)")
+                                    self.main.app.lastReadingDate = Date()
+                                    self.sensor.lastReadingDate = self.main.app.lastReadingDate
 
-                                let patchInfo = customResponse
-                                self.sensor.patchInfo = Data(patchInfo)
-                                if customResponse.count > 0 {
-                                    self.main.log("NFC: patch info: \(patchInfo.hex)")
-                                    self.main.log("NFC: sensor type: \(self.sensor.type.rawValue)")
+                                    var msg = ""
+                                    for (n, data) in dataArray.enumerated() {
+                                        if data.count > 0 {
+                                            fram.append(data)
+                                            msg += "NFC: block #\(String(format:"%02d", n))  \(data.reduce("", { $0 + String(format: "%02X", $1) + " "}).dropLast())\n"
+                                        }
+                                    }
+                                    if !msg.isEmpty { self.main.log(String(msg.dropLast())) }
 
-                                    self.main.settings.patchUid = self.sensor.uid
-                                    self.main.settings.patchInfo = self.sensor.patchInfo
-                                }
+                                    let uid = self.connectedTag!.identifier.hex
+                                    self.main.log("NFC: IC identifier: \(uid)")
 
-                                self.main.status("\(self.sensor.type)  +  NFC")
+                                    var manufacturer = String(tag.icManufacturerCode)
+                                    if manufacturer == "7" {
+                                        manufacturer.append(" (Texas Instruments)")
+                                    }
+                                    self.main.log("NFC: IC manufacturer code: \(manufacturer)")
+                                    self.main.log("NFC: IC serial number: \(tag.icSerialNumber.hex)")
 
-                                if self.main.settings.debugLevel > 0 {
-                                    let msg = "NFC: dump of "
-                                    self.readRaw(0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:")))
-                                        self.readRaw(0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
-                                            self.readRaw(0xFFAC, 36) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 E0-E2 commands:")))
-                                                self.writeRaw(0xFFB8, Data([0xE0, 0x00])) {
-                                                // self.writeRaw(0x0000, Sensor.freshFRAM) { // TEST
-                                                    self.main.debugLog("NFC: TEST: did write at address: 0x\(String(format: "%04X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
+                                    var rom = "RF430"
+                                    switch self.connectedTag?.identifier[2] {
+                                    case 0xA0: rom += "TAL152H Libre 1 A0"
+                                    case 0xA4: rom += "TAL160H Libre 2 A4"
+                                    default:   rom += " unknown"
+                                    }
+                                    self.main.log("NFC: \(rom) ROM")
 
-                                                    session.invalidate()
+                                    self.main.log(String(format: "NFC: IC reference: 0x%X", systemInfo.icReference))
+                                    if systemInfo.applicationFamilyIdentifier != -1 {
+                                        self.main.log(String(format: "NFC: application family id (AFI): %d", systemInfo.applicationFamilyIdentifier))
+                                    }
+                                    if systemInfo.dataStorageFormatIdentifier != -1 {
+                                        self.main.log(String(format: "NFC: data storage format id: %d", systemInfo.dataStorageFormatIdentifier))
+                                    }
 
-                                                    // same final code as for debugLevel = 0
 
-                                                    if fram.count > 0 {
-                                                        self.sensor.fram = Data(fram)
+                                    self.main.log(String(format: "NFC: memory size: %d blocks", systemInfo.totalBlocks))
+                                    self.main.log(String(format: "NFC: block size: %d", systemInfo.blockSize))
+
+
+                                    self.sensor.uid = Data(tag.identifier.reversed())
+                                    self.main.log("NFC: sensor uid: \(self.sensor.uid.hex)")
+                                    self.main.log("NFC: sensor serial number: \(self.sensor.serial)")
+
+                                    let patchInfo = customResponse
+                                    self.sensor.patchInfo = Data(patchInfo)
+                                    if customResponse.count > 0 {
+                                        self.main.log("NFC: patch info: \(patchInfo.hex)")
+                                        self.main.log("NFC: sensor type: \(self.sensor.type.rawValue)")
+
+                                        self.main.settings.patchUid = self.sensor.uid
+                                        self.main.settings.patchInfo = self.sensor.patchInfo
+                                    }
+
+                                    self.main.status("\(self.sensor.type)  +  NFC")
+
+                                    if self.main.settings.debugLevel > 0 {
+                                        let msg = "NFC: dump of "
+                                        self.readRaw(0xF860, 43 * 8) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "FRAM:")))
+                                            self.readRaw(0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
+                                                self.readRaw(0xFFAC, 36) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 E0-E2 commands:")))
+                                                    self.writeRaw(0xFFB8, Data([0xE0, 0x00])) {
+                                                        // self.writeRaw(0x0000, Sensor.freshFRAM) { // TEST
+                                                        self.main.debugLog("NFC: TEST: did write at address: 0x\(String(format: "%04X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
+
+                                                        session.invalidate()
+
+                                                        // same final code as for debugLevel = 0
+
+                                                        if fram.count > 0 {
+                                                            self.sensor.fram = Data(fram)
+                                                        }
+                                                        self.main.parseSensorData(self.sensor)
                                                     }
-                                                    self.main.parseSensorData(self.sensor)
                                                 }
                                             }
                                         }
-                                    }
-                                } else {
+                                    } else {
 
-                                    // same final code as for debugLevel > 0
+                                        // same final code as for debugLevel > 0
 
-                                    if fram.count > 0 {
-                                        self.sensor.fram = Data(fram)
+                                        if fram.count > 0 {
+                                            self.sensor.fram = Data(fram)
+                                        }
+                                        self.main.parseSensorData(self.sensor)
                                     }
-                                    self.main.parseSensorData(self.sensor)
                                 }
                             }
                         }
@@ -234,7 +246,6 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
             }
         }
     }
-
 
     // TODO: test
     /// fram:   0xF860, 2048
@@ -379,6 +390,6 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                 }
             }
         }
-    }
 
+    }
 }
