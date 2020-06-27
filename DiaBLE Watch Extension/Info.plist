@@ -43,7 +43,7 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>name.soranzio.guido.diable.DiaBLE.watchkitapp</string>
+			<string>name.soranzio.guido.diable.DiaBLE-Legacy.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>

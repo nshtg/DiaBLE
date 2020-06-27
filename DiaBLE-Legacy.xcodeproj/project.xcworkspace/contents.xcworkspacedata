@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:DiaBLE.xcodeproj">
+      location = "self:DiaBLE-Legacy.xcodeproj">
    </FileRef>
 </Workspace>
