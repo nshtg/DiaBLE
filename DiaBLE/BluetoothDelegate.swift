@@ -56,20 +56,6 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             }
         }
 
-        if (didFindATransmitter && !settings.preferredDevicePattern.isEmpty && name != nil && !name!.matches(settings.preferredDevicePattern))
-            || !didFindATransmitter && (settings.preferredTransmitter != .none || (!settings.preferredDevicePattern.isEmpty && (name == nil || (name != nil && !name!.matches(settings.preferredDevicePattern))))) {
-            var scanningFor = "Scanning"
-            if !settings.preferredDevicePattern.isEmpty {
-                scanningFor += " for '\(settings.preferredDevicePattern)'"
-            }
-            main.status("\(scanningFor)...\nSkipping \(name ?? "an unnamed peripheral")...")
-            log("Bluetooth: \(scanningFor.lowercased()), skipping \(name ?? "an unnamed peripheral")")
-
-            return
-        }
-
-        centralManager.stopScan()
-
         var companyId = BLE.companies.count - 1 // "< Unknown >"
         if let manufacturerData = manufacturerData {
             companyId = Int(manufacturerData[0]) + Int(manufacturerData[1]) << 8
@@ -81,6 +67,20 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                 name = "\(BLE.companies[companyId].name)'s unnamed peripheral"
             }
         }
+
+        if (didFindATransmitter && !settings.preferredDevicePattern.isEmpty && !name!.matches(settings.preferredDevicePattern))
+            || !didFindATransmitter && (settings.preferredTransmitter != .none || (!settings.preferredDevicePattern.isEmpty && !name!.matches(settings.preferredDevicePattern))) {
+            var scanningFor = "Scanning"
+            if !settings.preferredDevicePattern.isEmpty {
+                scanningFor += " for '\(settings.preferredDevicePattern)'"
+            }
+            main.status("\(scanningFor)...\nSkipping \(name!)...")
+            log("Bluetooth: \(scanningFor.lowercased()), skipping \(name!)")
+
+            return
+        }
+
+        centralManager.stopScan()
 
         if name!.lowercased().hasPrefix("blu") {
             app.transmitter = BluCon(peripheral: peripheral, main: main)
@@ -106,7 +106,12 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         app.device.rssi = Int(truncating: rssi)
         app.device.company = BLE.companies[companyId].name
         var msg = "Bluetooth: found \(name!): RSSI: \(rssi), advertised data: \(advertisement)"
-        if app.device.company != "< Unknown >" { msg += ", company: \(app.device.company) (id: 0x\(String(format: "%04x", companyId)))" }
+        if app.device.company == "< Unknown >" {
+            msg += ", company id: \(companyId) (0x\(String(format: "%04x", companyId)))"
+        }
+        else {
+            msg += ", company: \(app.device.company) (id: 0x\(String(format: "%04x", companyId)))"
+        }
         log(msg)
         if let manufacturerData = manufacturerData {
             app.device.parseManufacturerData(manufacturerData)
