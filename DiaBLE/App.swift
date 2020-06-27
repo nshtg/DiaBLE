@@ -8,7 +8,7 @@ struct DiaBLEApp: App {
 
     var main: MainDelegate! = MainDelegate()
 
-    var body: some Scene {
+    @SceneBuilder var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(main.app)
