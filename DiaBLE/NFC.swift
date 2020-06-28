@@ -102,6 +102,8 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
             // https://www.st.com/en/embedded-software/stsw-st25ios001.html#get-software
 
+            #if !targetEnvironment(macCatalyst)    // the new getSystemInfo doesn't compile in beta 1
+
             self.connectedTag?.getSystemInfo(requestFlags: [.address, .highDataRate]) { result in
 
                 switch result {
@@ -244,6 +246,8 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                     }
                 }
             }
+
+            #endif
         }
     }
 
