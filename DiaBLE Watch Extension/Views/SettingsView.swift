@@ -153,7 +153,7 @@ struct SettingsView: View {
 
         }
         .edgesIgnoringSafeArea(.bottom)
-        .navigationBarTitle(Text("Settings"))
+        .navigationTitle("Settings")
         .font(Font.body.monospacedDigit())
         .buttonStyle(PlainButtonStyle())
     }

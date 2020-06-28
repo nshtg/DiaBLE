@@ -106,7 +106,7 @@ struct LogView: View {
             }.font(.footnote)
         }
         .edgesIgnoringSafeArea(.bottom)
-        .navigationBarTitle(Text("Log"))
+        .navigationTitle("Log")
     }
 }
 

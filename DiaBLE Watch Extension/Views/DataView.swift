@@ -120,7 +120,7 @@ struct DataView: View {
                 }
             }.frame(idealHeight: 200) // FIXME but otherwise too shrinked when the history empty
         }
-        .navigationBarTitle("Data")
+        .navigationTitle("Data")
         .edgesIgnoringSafeArea([.bottom])
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             // .font(.system(.footnote, design: .monospaced)).foregroundColor(Color(UIColor.lightGray))

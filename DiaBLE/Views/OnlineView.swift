@@ -98,7 +98,8 @@ struct OnlineView: View {
                 }.font(.system(.caption, design: .monospaced)).foregroundColor(.blue)
                     .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
             }
-            .navigationBarTitle("Online", displayMode: .inline)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Online")
         }.navigationViewStyle(StackNavigationViewStyle())
     }
 }

@@ -79,7 +79,7 @@ struct OnlineView: View {
                     self.app.main.log("nightscoutValues count \(self.history.nightscoutValues.count)")
                     } }
         }
-        .navigationBarTitle("Online")
+        .navigationTitle("Online")
         .edgesIgnoringSafeArea([.bottom])
         .buttonStyle(PlainButtonStyle())
         .foregroundColor(.blue)

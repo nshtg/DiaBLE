@@ -132,7 +132,8 @@ struct LogView: View {
 
                 }.font(.system(.footnote))
             }
-            .navigationBarTitle("Log", displayMode: .inline)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Log")
             .background(Color.black)
         }.navigationViewStyle(StackNavigationViewStyle())
     }

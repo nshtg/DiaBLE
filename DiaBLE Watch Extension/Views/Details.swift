@@ -204,7 +204,7 @@ struct Details: View {
             }
         }
         .edgesIgnoringSafeArea(.bottom)
-        .navigationBarTitle(Text("Details"))
+        .navigationTitle("Details")
         .foregroundColor(Color(UIColor.lightGray))
         .buttonStyle(PlainButtonStyle())
     }
