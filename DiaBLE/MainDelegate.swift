@@ -243,6 +243,9 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
                             let realTimeGlucose = oopData.realTimeGlucose.value
                             if realTimeGlucose > 0 {
                                 sensor.currentGlucose = realTimeGlucose
+                                if sensor.age == 0 { // Libre 2
+                                    sensor.age = oopData.realTimeGlucose.id
+                                }
                             }
                             // PROJECTED_HIGH_GLUCOSE | HIGH_GLUCOSE | GLUCOSE_OK | LOW_GLUCOSE | PROJECTED_LOW_GLUCOSE | NOT_DETERMINED
                             self.app.oopAlarm = oopData.alarm ?? ""
