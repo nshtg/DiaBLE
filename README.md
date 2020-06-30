@@ -9,12 +9,6 @@ Experimenting with the **BluCon**, **Bubble** and **MiaoMiao** BLE transmitters 
 * varying the **reading interval** (the Bubble firmware allows to set it from 1 to 15 minutes while the MiaoMiao one to reduce it to 1 or 3 minutes);
 * a detailed **log** to check the traffic from/to the BLE devices and remote servers.
 
-Still too early to decide the final design (but I really like already the evil logo 😈), here there are some recent screenshots I tweeted:
-
-<p align ="center"><img src="https://pbs.twimg.com/media/EaZALPNWsAAG0ZH?format=png&name=large" width="50%" /></p>
-<h4 align ="center">Libre 2 + Bubble firmware 2.1 + Catalyst</h4><br><br>
-
-The project started as a single script for the iPad Swift Playgrounds and was quickly converted to an app by using a standard Xcode template: it should compile finely without external dependencies just after changing the _Bundle Identifier_ in the _General_ panel and the _Team_ in the _Signing and Capabilities_ tab of Xcode -- Spike users know already very well what that means... ;)
 
 Please refer to the [TODOs list](https://github.com/gui-dos/DiaBLE/blob/master/TODO.md) for the up-to-date status of all the current limitations and known bugs of this prototype.
 
