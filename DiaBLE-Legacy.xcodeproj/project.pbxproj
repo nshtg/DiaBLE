@@ -29,7 +29,6 @@
 		C58507A123C50BF30079539D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C58507A023C50BF30079539D /* Assets.xcassets */; };
 		C58507A823C50BF40079539D /* DiaBLE-Legacy Watch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C58507A723C50BF40079539D /* DiaBLE-Legacy Watch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C58507AD23C50BF40079539D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507AC23C50BF40079539D /* ContentView.swift */; };
-		C58507B123C50BF40079539D /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507B023C50BF40079539D /* ExtensionDelegate.swift */; };
 		C58507B323C50BF40079539D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507B223C50BF40079539D /* NotificationController.swift */; };
 		C58507B523C50BF40079539D /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507B423C50BF40079539D /* NotificationView.swift */; };
 		C58507B723C50BF40079539D /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58507B623C50BF40079539D /* ComplicationController.swift */; };
@@ -152,7 +151,6 @@
 		C58507A223C50BF30079539D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C58507A723C50BF40079539D /* DiaBLE-Legacy Watch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "DiaBLE-Legacy Watch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C58507AC23C50BF40079539D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		C58507B023C50BF40079539D /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		C58507B223C50BF40079539D /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		C58507B423C50BF40079539D /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		C58507B623C50BF40079539D /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
@@ -255,7 +253,6 @@
 			children = (
 				C5E9C7652444A10A00D52B32 /* Views */,
 				C5E9C762244496C800D52B32 /* MainDelegate.swift */,
-				C58507B023C50BF40079539D /* ExtensionDelegate.swift */,
 				C58507B223C50BF40079539D /* NotificationController.swift */,
 				C58507B423C50BF40079539D /* NotificationView.swift */,
 				C58507B623C50BF40079539D /* ComplicationController.swift */,
@@ -535,7 +532,6 @@
 				C528E18324450BC000BFDA73 /* Graph.swift in Sources */,
 				C5F329D4244998230053A8FB /* Nightscout.swift in Sources */,
 				C5E9C7582444966500D52B32 /* Settings.swift in Sources */,
-				C58507B123C50BF40079539D /* ExtensionDelegate.swift in Sources */,
 				C58507B523C50BF40079539D /* NotificationView.swift in Sources */,
 				C5E9C756244495D700D52B32 /* App.swift in Sources */,
 				C5A82D22245B4A8D00F710A1 /* MiaoMiao.swift in Sources */,
