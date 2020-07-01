@@ -14,6 +14,10 @@ struct DiaBLEApp: App {
                 .environmentObject(main.history)
                 .environmentObject(main.settings)
         }
+
+        #if os(watchOS)
+        WKNotificationScene(controller: NotificationController.self, category: "myCategory")
+        #endif
     }
 }
 
