@@ -1,8 +1,6 @@
 import SwiftUI
 
 
-// TODO: iOS 14
-
 @main
 struct DiaBLEApp: App {
 
