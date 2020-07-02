@@ -224,6 +224,22 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
         }
 
         if sensor.patchInfo.count > 0 {
+
+            // TODO
+            if settings.debugLevel > 0 {
+                debugLog("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.activationEndpoint)...")
+                postToOOP(server: settings.oopServer, patchUid: sensor.uid, patchInfo: sensor.patchInfo) { data, response, error, queryItems in
+                    self.debugLog("OOP: query parameters: \(queryItems)")
+                    if let data = data {
+                        self.debugLog("OOP: server activation response: \(data.string)")
+                        let decoder = JSONDecoder()
+                        if let oopActivationResponse = try? decoder.decode(GlucoseSpaceActivationResponse.self, from: data) {
+                            self.debugLog("OOP: activation response: \(oopActivationResponse), activation command: 0x\(String(format: "%2X", UInt8(Int16(oopActivationResponse.activationCommand) & 0xFF)))")
+                        }
+                    }
+                }
+            }
+
             log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.historyEndpoint)...")
 
             postToOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate, patchUid: sensor.uid, patchInfo: sensor.patchInfo) { data, response, error, parameters in
