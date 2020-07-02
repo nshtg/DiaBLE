@@ -3,10 +3,10 @@ import CoreNFC
 
 
 // "Security analysis of a Connected Glucose Sensor for Diabetes"
-// https://fortiguard.com/events/3551/pass-the-salt-2020-pique-curiosity-not-diabetic-fingers
 // https://fortinetweb.s3.amazonaws.com/fortiguard/research/techreport.pdf
 
 // "Pique curiosity, not diabetic fingers"
+// https://fortiguard.com/events/3551/pass-the-salt-2020-pique-curiosity-not-diabetic-fingers
 // https://github.com/cryptax/talks/blob/master/PassTheSalt-2020/glucose-pts2020.pdf
 //
 // "The Inner Guts of a Connected Glucose Sensor for Diabetes"

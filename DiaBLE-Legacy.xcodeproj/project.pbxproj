@@ -61,7 +61,6 @@
 		C5DF10F623C7838B0023E0E2 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DF10F523C7838A0023E0E2 /* Graph.swift */; };
 		C5DF10F823C783F90023E0E2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DF10F723C783F90023E0E2 /* SettingsView.swift */; };
 		C5E1013A23A2774C00678DF6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1013923A2774C00678DF6 /* AppDelegate.swift */; };
-		C5E1013F23A2774C00678DF6 /* DiaBLE.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5E1013D23A2774C00678DF6 /* DiaBLE.xcdatamodeld */; };
 		C5E1014123A2774C00678DF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5E1014023A2774C00678DF6 /* ContentView.swift */; };
 		C5E1014323A2774D00678DF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5E1014223A2774D00678DF6 /* Assets.xcassets */; };
 		C5E1014623A2774D00678DF6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5E1014523A2774D00678DF6 /* Preview Assets.xcassets */; };
@@ -179,7 +178,6 @@
 		C5DF10F723C783F90023E0E2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C5E1013623A2774C00678DF6 /* DiaBLE-Legacy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DiaBLE-Legacy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5E1013923A2774C00678DF6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C5E1013E23A2774C00678DF6 /* DiaBLE.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaBLE.xcdatamodel; sourceTree = "<group>"; };
 		C5E1014023A2774C00678DF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C5E1014223A2774D00678DF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C5E1014523A2774D00678DF6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -344,7 +342,6 @@
 				C5E1014223A2774D00678DF6 /* Assets.xcassets */,
 				C5E1014A23A2774D00678DF6 /* Info.plist */,
 				C5C80BCA23A27EFA00ACFDE9 /* DiaBLE.entitlements */,
-				C5E1013D23A2774C00678DF6 /* DiaBLE.xcdatamodeld */,
 				C5E1014423A2774D00678DF6 /* Preview Content */,
 			);
 			path = DiaBLE;
@@ -552,7 +549,6 @@
 				C5E1013A23A2774C00678DF6 /* AppDelegate.swift in Sources */,
 				C5C20E4723C780FB00475327 /* Monitor.swift in Sources */,
 				C5521C8223BB5D5A00826CFB /* App.swift in Sources */,
-				C5E1013F23A2774C00678DF6 /* DiaBLE.xcdatamodeld in Sources */,
 				C5A82D21245B4A8D00F710A1 /* MiaoMiao.swift in Sources */,
 				C5A1B8B023C6410A00D60962 /* Bluetooth.swift in Sources */,
 				C522C77123D4D363002021F7 /* Details.swift in Sources */,
@@ -899,19 +895,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		C5E1013D23A2774C00678DF6 /* DiaBLE.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				C5E1013E23A2774C00678DF6 /* DiaBLE.xcdatamodel */,
-			);
-			currentVersion = C5E1013E23A2774C00678DF6 /* DiaBLE.xcdatamodel */;
-			path = DiaBLE.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = C5E1012E23A2774C00678DF6 /* Project object */;
 }
