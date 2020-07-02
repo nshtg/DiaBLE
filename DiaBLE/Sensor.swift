@@ -101,7 +101,10 @@ class Sensor: ObservableObject {
         didSet {
 
             updateCRCReport()
-            guard !crcReport.contains("FAILED") else { return }
+            guard !crcReport.contains("FAILED") else {
+                state = .unknown
+                return
+            }
 
             if let sensorState = SensorState(rawValue: fram[4]) {
                 state = sensorState
