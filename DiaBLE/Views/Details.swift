@@ -118,7 +118,7 @@ struct Details: View {
                             Text("Status")
                             Spacer()
                             Text(app.sensor.state.description)
-                                .foregroundColor(app.sensor.state == .ready ? .green : .red)
+                                .foregroundColor(app.sensor.state == .active ? .green : .red)
                         }
                         HStack {
                             Text("Type")

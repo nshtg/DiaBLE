@@ -78,7 +78,7 @@ struct Monitor: View {
                             if app.sensor != nil && (app.sensor.state != .unknown || app.sensor.serial != "") {
                                 VStack {
                                     Text(app.sensor.state.description)
-                                        .foregroundColor(app.sensor.state == .ready ? .green : .red)
+                                        .foregroundColor(app.sensor.state == .active ? .green : .red)
 
                                     if app.sensor.age > 0 {
                                         Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days")

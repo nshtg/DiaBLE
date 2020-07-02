@@ -86,7 +86,7 @@ class Limitter: Droplet {
 
         sensor!.age = Int(fields[3])! * 10
         if Double(sensor!.age)/60/24 < 14.5 {
-            sensor!.state = .ready
+            sensor!.state = .active
         } else {
             sensor!.state = .expired
         }

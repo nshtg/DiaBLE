@@ -133,7 +133,7 @@ class BluCon: Transmitter {
                 sensor!.uid = Data(data[3...10])
                 sensor!.state = SensorState(rawValue:data[17])!
                 main.log("\(name): patch uid: \(sensor!.uid.hex), serial number: \(sensor!.serial), sensor state: \(sensor!.state)")
-                if sensor!.state == .ready {
+                if sensor!.state == .active {
                     write(request: .ack)
                 } else {
                     write(request: .sleep)
