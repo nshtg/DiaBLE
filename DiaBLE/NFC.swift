@@ -2,9 +2,12 @@ import Foundation
 import CoreNFC
 
 
-// https://github.com/travisgoodspeed/goodtag/wiki/RF430TAL152H
-// https://github.com/travisgoodspeed/GoodV/blob/master/app/src/main/java/com/kk4vcz/goodv/NfcRF430TAL.java
-// https://github.com/travisgoodspeed/goodtag/blob/master/firmware/gcmpatch.c
+// "Security analysis of a Connected Glucose Sensor for Diabetes"
+// https://fortiguard.com/events/3551/pass-the-salt-2020-pique-curiosity-not-diabetic-fingers
+// https://fortinetweb.s3.amazonaws.com/fortiguard/research/techreport.pdf
+
+// "Pique curiosity, not diabetic fingers"
+// https://github.com/cryptax/talks/blob/master/PassTheSalt-2020/glucose-pts2020.pdf
 //
 // "The Inner Guts of a Connected Glucose Sensor for Diabetes"
 // https://www.youtube.com/watch?v=Y9vtGmxh1IQ
@@ -13,13 +16,22 @@ import CoreNFC
 //
 // "NFC Exploitation with the RF430RFL152 and 'TAL152" in PoC||GTFO 0x20
 // https://archive.org/stream/pocorgtfo20#page/n6/mode/1up
+//
+// https://github.com/travisgoodspeed/goodtag/wiki/RF430TAL152H
+// https://github.com/travisgoodspeed/GoodV/blob/master/app/src/main/java/com/kk4vcz/goodv/NfcRF430TAL.java
+// https://github.com/travisgoodspeed/goodtag/blob/master/firmware/gcmpatch.c
+//
+//
+// https://github.com/MarekM60/eDropletNFC
+//
+// https://github.com/captainbeeheart/openfreestyle/blob/master/docs/reverse.md
 
 
 extension SensorType {
     var backdoor: String {
         switch self {
         case .libre1:    return "c2ad7521"
-        // TODO: test eDroplet NFC A4 unlock command
+        // TODO: test eDropletNFC A4 unlock command
         // case .libre2:    return "1b60b24b2a"
         // case .libreUS:   return "1b75ae93f0"
         // case .libreProH: return "c2ad0090"
