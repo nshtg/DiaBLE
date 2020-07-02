@@ -2,7 +2,7 @@ import Foundation
 import CoreNFC
 
 
-// "Security analysis of a Connected Glucose Sensor for Diabetes"
+// "Security Analysis of a Connected Glucose Sensor for Diabetes"
 // https://fortinetweb.s3.amazonaws.com/fortiguard/research/techreport.pdf
 
 // "Pique curiosity, not diabetic fingers"
@@ -264,7 +264,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     }
 
     // TODO: test
-    /// fram:   0xF860, 2048
+    /// fram:   0xF860, 1952
     /// rom:    0x4400, 0x2000
     /// sram:   0x1C00, 0x1000
     /// config: 0x1A00, 64    (serial number and calibration)

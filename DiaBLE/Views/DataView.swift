@@ -116,7 +116,7 @@ struct DataView: View {
                                     }
                                     .frame(maxWidth: .infinity, alignment: .topLeading)
                                 }
-                            }.foregroundColor(.blue)
+                            }.foregroundColor(Color(UIColor.cyan))
                                 .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
                         }
                     }

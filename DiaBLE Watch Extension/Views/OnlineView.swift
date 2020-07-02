@@ -39,11 +39,11 @@ struct OnlineView: View {
                         ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16)
                             .foregroundColor(.blue)
                             Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.status.hasSuffix("sensor")) ?
-                                "\(readingCountdown) s" : "...")
+                                    "\(readingCountdown) s" : "...")
                                 .fixedSize()
                                 .onReceive(timer) { _ in
                                     self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                            }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
+                                }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
                         }
                     }
                 }
@@ -74,10 +74,12 @@ struct OnlineView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .topLeading)
             }
-                // .font(.system(.footnote, design: .monospaced)).foregroundColor(Color(UIColor.blue))
-                .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read()
-                    self.app.main.log("nightscoutValues count \(self.history.nightscoutValues.count)")
-                    } }
+            // .font(.system(.footnote, design: .monospaced))
+            .foregroundColor(Color(UIColor.cyan))
+            .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read()
+                self.app.main.log("nightscoutValues count \(self.history.nightscoutValues.count)")
+
+            } }
         }
         .navigationTitle("Online")
         .edgesIgnoringSafeArea([.bottom])

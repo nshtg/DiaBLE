@@ -95,7 +95,7 @@ struct OnlineView: View {
                             .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets())
                     }
                     .frame(maxWidth: .infinity, alignment: .topLeading)
-                }.font(.system(.caption, design: .monospaced)).foregroundColor(.blue)
+                }.font(.system(.caption, design: .monospaced)).foregroundColor(Color(UIColor.cyan))
                     .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
             }
             .navigationBarTitleDisplayMode(.inline)
