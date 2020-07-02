@@ -37,24 +37,24 @@ enum SensorRegion: Int, CustomStringConvertible {
 
 
 enum SensorState: UInt8, CustomStringConvertible {
-    case unknown       = 0x00
+    case unknown      = 0x00
     
-    case notActivated  = 0x01
-    case warmingUp     = 0x02
-    case active        = 0x03    // Libre 1: for 14.5 days
-    case expired       = 0x04    // Libre 1: 12 hours more
-    case shutdown      = 0x05    // Libre 1: 15th day onwards
-    case failure       = 0x06
+    case notActivated = 0x01
+    case warmingUp    = 0x02
+    case active       = 0x03    // Libre 1: for 14.5 days
+    case expired      = 0x04    // Libre 1: 12 hours more
+    case shutdown     = 0x05    // Libre 1: 15th day onwards
+    case failure      = 0x06
 
     var description: String {
         switch self {
-        case .notActivated:  return "Not activated"
-        case .warmingUp:     return "Warming up"
-        case .active:        return "Active"
-        case .expired:       return "Expired"
-        case .shutdown:      return "Shut down"
-        case .failure:       return "Failure"
-        default:             return "Unknown"
+        case .notActivated: return "Not activated"
+        case .warmingUp:    return "Warming up"
+        case .active:       return "Active"
+        case .expired:      return "Expired"
+        case .shutdown:     return "Shut down"
+        case .failure:      return "Failure"
+        default:            return "Unknown"
         }
     }
 }
