@@ -20,10 +20,10 @@ enum SensorType: String, CustomStringConvertible {
 
 
 enum SensorRegion: Int, CustomStringConvertible {
-    case unknown = 0x0000
-    case europe  = 0x0001
-    case usa     = 0x0002
-    case israel  = 0x0008
+    case unknown = 0
+    case europe  = 1
+    case usa     = 2
+    case israel  = 8
 
     var description: String {
         switch self {

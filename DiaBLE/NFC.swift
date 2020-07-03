@@ -21,9 +21,6 @@ import CoreNFC
 // https://github.com/travisgoodspeed/GoodV/blob/master/app/src/main/java/com/kk4vcz/goodv/NfcRF430TAL.java
 // https://github.com/travisgoodspeed/goodtag/blob/master/firmware/gcmpatch.c
 //
-//
-// https://github.com/MarekM60/eDropletNFC
-//
 // https://github.com/captainbeeheart/openfreestyle/blob/master/docs/reverse.md
 
 
@@ -31,10 +28,7 @@ extension SensorType {
     var backdoor: String {
         switch self {
         case .libre1:    return "c2ad7521"
-        // TODO: test eDropletNFC A4 unlock command
-        // case .libre2:    return "1b60b24b2a"
-        // case .libreUS:   return "1b75ae93f0"
-        // case .libreProH: return "c2ad0090"
+        case .libreProH: return "c2ad0090"
         default:         return "deadbeef"
         }
     }
