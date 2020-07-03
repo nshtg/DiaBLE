@@ -35,21 +35,6 @@ extension SensorType {
 }
 
 
-extension Sensor {
-    static var freshFRAM: Data {
-        var fram =  "50 37 B0 32 01 00 02 08 \n"
-        for _ in 1...2 {
-            fram += "00 00 00 00 00 00 00 00 \n"
-        }
-        fram +=     "62 c2 00 00 00 00 00 00 \n"
-        for _ in 4 ... 0x27 {
-            fram += "00 00 00 00 00 00 00 00 \n"
-        }
-        return Data(fram.bytes)
-    }
-}
-
-
 class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
     var tagSession: NFCTagReaderSession?
@@ -222,7 +207,6 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                             self.readRaw(0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
                                                 self.readRaw(0xFFAC, 36) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 E0-E2 commands:")))
                                                     self.writeRaw(0xFFB8, Data([0xE0, 0x00])) {
-                                                        // self.writeRaw(0x0000, Sensor.freshFRAM) { // TEST
                                                         self.main.debugLog("NFC: TEST: did write at address: 0x\(String(format: "%04X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
 
                                                         session.invalidate()
