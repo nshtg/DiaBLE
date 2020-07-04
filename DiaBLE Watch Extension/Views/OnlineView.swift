@@ -84,7 +84,7 @@ struct OnlineView: View {
         .navigationTitle("Online")
         .edgesIgnoringSafeArea([.bottom])
         .buttonStyle(PlainButtonStyle())
-        .foregroundColor(.blue)
+        .foregroundColor(Color(UIColor.cyan))
 
     }
 }

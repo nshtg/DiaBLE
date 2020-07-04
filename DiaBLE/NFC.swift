@@ -207,6 +207,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                             self.readRaw(0x1A00, 64) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "config RAM\n(patchUid at 0x1A08):")))
                                                 self.readRaw(0xFFAC, 36) { self.main.debugLog(msg + ($2?.localizedDescription ?? $1.hexDump(address: Int($0), header: "patch table for A0-A4 E0-E2 commands:")))
                                                     self.writeRaw(0xFFB8, Data([0xE0, 0x00])) { // to restore: Data([0xAB, 0xAB]))
+                                                        // TODO: overwrite commands CRC
                                                         self.main.debugLog("NFC: did write at address: 0x\(String(format: "%04X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
 
                                                         session.invalidate()

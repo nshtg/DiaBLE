@@ -14,7 +14,7 @@ struct Monitor: View {
 
     var body: some View {
 
-        VStack(spacing: 0) {
+        ScrollView() {
 
             VStack(spacing: 0) {
                 HStack {
@@ -30,14 +30,14 @@ struct Monitor: View {
                         (app.currentGlucose < 0 ? "(\(-app.currentGlucose)) " : "--- "))
                         .fontWeight(.black)
                         .foregroundColor(.black)
-                        .padding(.vertical, 10).padding(.horizontal, app.currentGlucose > 0 ? 10 : 4)
+                        .padding(.vertical, 6).padding(.horizontal, app.currentGlucose > 0 ? 10 : 4)
                         .background(abs(app.currentGlucose) > 0 && (abs(app.currentGlucose) > Int(settings.alarmHigh) || abs(app.currentGlucose) < Int(settings.alarmLow)) ? Color.red :
                             (app.currentGlucose < 0 ?
                                 (history.calibratedTrend.count > 0 ? Color.purple : Color.yellow) : Color.blue))
                         .cornerRadius(5)
 
 
-                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.system(size: 28)).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 6).padding(.bottom, -18)
+                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.system(size: 28)).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 6)
                 }
 
                 Text("\(app.oopAlarm.replacingOccurrences(of: "_", with: " ")) - \(app.oopTrend.replacingOccurrences(of: "_", with: " "))")
@@ -281,7 +281,8 @@ struct Monitor: View {
                 Spacer()
             }
         }
-        .navigationBarHidden(true)
+        .navigationTitle("Monitor")
+        // .navigationBarHidden(true)
         .edgesIgnoringSafeArea([.bottom])
         .buttonStyle(PlainButtonStyle())
         .multilineTextAlignment(.center)
