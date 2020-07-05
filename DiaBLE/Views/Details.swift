@@ -43,7 +43,7 @@ struct Details: View {
                             }
                         }
                         Group {
-                            if !app.device.company.isEmpty {
+                            if !app.device.company.isEmpty && app.device.company != "< Unknown >" {
                                 HStack {
                                     Text("Company")
                                     Spacer()
