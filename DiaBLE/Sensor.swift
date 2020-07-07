@@ -85,6 +85,9 @@ class Sensor: ObservableObject {
             if serial != "" {
                 serial = type.serialPrefix + serial.dropFirst()
             }
+            if region == 0 {
+                region = Int(info[3])
+            }
         }
     }
 

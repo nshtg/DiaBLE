@@ -131,6 +131,13 @@ struct Details: View {
                                 Text(app.sensor.serial).foregroundColor(.yellow)
                             }
                         }
+                        if app.sensor.region != 0 {
+                            HStack {
+                                Text("Region")
+                                Spacer()
+                                Text("\(SensorRegion(rawValue: app.sensor.region)?.description ?? "unknown") (\(app.sensor.region))").foregroundColor(.yellow)
+                            }
+                        }
                         if app.sensor.age > 0 {
                             HStack {
                                 Text("Age")
