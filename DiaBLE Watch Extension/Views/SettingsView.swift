@@ -30,7 +30,7 @@ struct SettingsView: View {
                             // .padding(.horizontal, 12)
                             .frame(alignment: .center)
                     }
-                }.frame(height: 34).font(.footnote).foregroundColor(.blue)
+                }.padding(.top, 8).font(.footnote).foregroundColor(.blue)
             }
 
             VStack {
@@ -83,7 +83,7 @@ struct SettingsView: View {
                                 id: \.self) { t in
                                     Text("\(t) min")
                         }
-                    }.labelsHidden().frame(width: 60, height: 36).padding(.top, -16)
+                    }.labelsHidden().frame(width: 60)
                 }.font(.footnote).foregroundColor(.orange)
 
                 Spacer()

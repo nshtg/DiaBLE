@@ -131,6 +131,7 @@ struct Details: View {
                                 Text(app.sensor.serial).foregroundColor(.yellow)
                             }
                         }
+                        // FIXME: ld: warning: could not create compact unwind
                         if app.sensor.region != 0 {
                             HStack {
                                 Text("Region")
