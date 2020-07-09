@@ -229,10 +229,12 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     }
 
     // TODO: test
-    /// fram:   0xF860, 1952
-    /// rom:    0x4400, 0x2000
-    /// sram:   0x1C00, 0x1000
     /// config: 0x1A00, 64    (serial number and calibration)
+    /// sram:   0x1C00, 512
+    /// rom:    0x4400 - 0x5FFF
+    /// fram lock table: 0xF840, 32
+    /// fram:   0xF860, 1952
+
 
     func readRaw(_ address: UInt16, _ bytes: Int, buffer: Data = Data(), handler: @escaping (UInt16, Data, Error?) -> Void) {
 
