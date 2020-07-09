@@ -10,7 +10,6 @@ import CoreNFC
 // https://github.com/travisgoodspeed/goodtag/blob/master/firmware/gcmpatch.c
 // https://github.com/captainbeeheart/openfreestyle/blob/master/docs/reverse.md
 
-
 extension SensorType {
     var backdoor: String {
         switch self {

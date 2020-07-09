@@ -138,6 +138,13 @@ struct Details: View {
                                 Text("\(SensorRegion(rawValue: app.sensor.region)?.description ?? "unknown") (\(app.sensor.region))").foregroundColor(.yellow)
                             }
                         }
+                        if app.sensor.maxLife > 0 {
+                            HStack {
+                                Text("Max life")
+                                Spacer()
+                                Text("\(Double(app.sensor.maxLife)/60/24, specifier: "%.1f") days").foregroundColor(.yellow)
+                            }
+                        }
                         if app.sensor.age > 0 {
                             HStack {
                                 Text("Age")
