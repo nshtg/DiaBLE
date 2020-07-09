@@ -19,6 +19,18 @@ enum SensorType: String, CustomStringConvertible {
 }
 
 
+func sensorType(patchInfo: Data) -> SensorType {
+    switch patchInfo[0] {
+    case 0xDF: return .libre1
+    case 0xA2: return .libre1
+    case 0x9D: return .libre2
+    case 0xE5: return .libreUS
+    case 0x70: return .libreProH
+    default:   return .unknown
+    }
+}
+
+
 enum SensorRegion: Int, CustomStringConvertible {
     case unknown = 0
     case europe  = 1
@@ -65,6 +77,7 @@ class Sensor: ObservableObject {
     var type: SensorType = .unknown
     var region: Int = 0
     @Published var state: SensorState = SensorState.unknown
+    @Published var maxLife: Int = 0
     @Published var reinitializations: Int = 0
     var crcReport: String = ""
     @Published var lastReadingDate = Date()
@@ -118,8 +131,9 @@ class Sensor: ObservableObject {
             let startDate = lastReadingDate - Double(age) * 60
             reinitializations = Int(fram[318])
 
-            guard fram.count > 323 else { return }
+            guard fram.count > 327 else { return }
             region = Int(fram[322]) << 8 + Int(fram[323])
+            maxLife = Int(fram[327]) << 8 + Int(fram[326])
 
             trend = []
             history = []
@@ -194,21 +208,6 @@ class Sensor: ObservableObject {
 
             crcReport = report
         }
-    }
-}
-
-
-// https://github.com/keencave/LBridge/blob/master/LBridge_Arduino_V11/LBridge_Arduino_V1.1.02_190502_2120/LBridge_Arduino_V1.1.02_190502_2120.ino
-// https://github.com/bubbledevteam/bubble-client-swift/blob/master/LibreSensor/SensorData.swift
-
-func sensorType(patchInfo: Data) -> SensorType {
-    switch patchInfo[0] {
-    case 0xDF: return .libre1
-    case 0xA2: return .libre1
-    case 0x9D: return .libre2
-    case 0xE5: return .libreUS
-    case 0x70: return .libreProH
-    default:   return .unknown
     }
 }
 

@@ -2,25 +2,12 @@ import Foundation
 import CoreNFC
 
 
-// "Security Analysis of a Connected Glucose Sensor for Diabetes"
-// https://fortinetweb.s3.amazonaws.com/fortiguard/research/techreport.pdf
-
-// "Pique curiosity, not diabetic fingers"
 // https://fortiguard.com/events/3551/pass-the-salt-2020-pique-curiosity-not-diabetic-fingers
-// https://github.com/cryptax/talks/blob/master/PassTheSalt-2020/glucose-pts2020.pdf
-//
-// "The Inner Guts of a Connected Glucose Sensor for Diabetes"
-// https://www.youtube.com/watch?v=Y9vtGmxh1IQ
-// https://github.com/cryptax/talks/blob/master/BlackAlps-2019/glucose-blackalps2019.pdf
-// https://github.com/cryptax/misc-code/blob/master/glucose-tools/readdump.py
-//
-// "NFC Exploitation with the RF430RFL152 and 'TAL152" in PoC||GTFO 0x20
-// https://archive.org/stream/pocorgtfo20#page/n6/mode/1up
-//
+// https://fortinetweb.s3.amazonaws.com/fortiguard/research/techreport.pdf
 // https://github.com/travisgoodspeed/goodtag/wiki/RF430TAL152H
 // https://github.com/travisgoodspeed/GoodV/blob/master/app/src/main/java/com/kk4vcz/goodv/NfcRF430TAL.java
+// https://github.com/cryptax/misc-code/blob/master/glucose-tools/readdump.py
 // https://github.com/travisgoodspeed/goodtag/blob/master/firmware/gcmpatch.c
-//
 // https://github.com/captainbeeheart/openfreestyle/blob/master/docs/reverse.md
 
 
@@ -93,7 +80,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
             // https://www.st.com/en/embedded-software/stsw-st25ios001.html#get-software
 
-            #if !targetEnvironment(macCatalyst)    // the new getSystemInfo doesn't compile in iOS 14 beta 1
+            #if !targetEnvironment(macCatalyst)    // the new getSystemInfo doesn't compile in iOS 14 beta
 
             self.connectedTag?.getSystemInfo(requestFlags: [.address, .highDataRate]) { result in
 
@@ -385,6 +372,6 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                 }
             }
         }
-
     }
+
 }
