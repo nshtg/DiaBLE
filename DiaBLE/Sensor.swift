@@ -76,7 +76,7 @@ class Sensor: ObservableObject {
 
     var type: SensorType = .unknown
     var region: Int = 0
-    @Published var state: SensorState = SensorState.unknown
+    @Published var state: SensorState = .unknown
     @Published var maxLife: Int = 0
     @Published var reinitializations: Int = 0
     var crcReport: String = ""

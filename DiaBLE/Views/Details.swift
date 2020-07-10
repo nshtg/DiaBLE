@@ -141,7 +141,7 @@ struct Details: View {
                         }
                         if app.sensor.maxLife > 0 {
                             HStack {
-                                Text("Max life")
+                                Text("Maximum Life")
                                 Spacer()
                                 Text("\(Double(app.sensor.maxLife)/60/24, specifier: "%.1f") days").foregroundColor(.yellow)
                             }

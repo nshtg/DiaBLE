@@ -3,12 +3,14 @@ import CoreBluetooth
 import AVFoundation
 
 
-public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
+public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     var app: AppState
     var log: Log
     var history: History
     var settings: Settings
+
+    var shortcutItem: UIApplicationShortcutItem?
 
     var centralManager: CBCentralManager
     var bluetoothDelegate: BluetoothDelegate
@@ -74,7 +76,7 @@ public class MainDelegate: NSObject, UNUserNotificationCenterDelegate {
         numberFormatter.minimumFractionDigits = 8
         settings.numberFormatter = numberFormatter
 
-        if let shortcutItem = (UIApplication.shared.delegate as? AppDelegate)?.shortcutItem {
+        if let shortcutItem = shortcutItem {
             if shortcutItem.type == "NFC" {
                 if nfcReader.isNFCAvailable {
                     nfcReader.startSession()
