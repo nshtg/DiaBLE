@@ -10,8 +10,6 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
     var history: History
     var settings: Settings
 
-    var shortcutItem: UIApplicationShortcutItem?
-
     var centralManager: CBCentralManager
     var bluetoothDelegate: BluetoothDelegate
     var nfcReader: NFCReader
@@ -76,15 +74,6 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
         numberFormatter.minimumFractionDigits = 8
         settings.numberFormatter = numberFormatter
 
-        // TODO: assign shortcutItem at launch
-        if let shortcutItem = shortcutItem {
-            if shortcutItem.type == "NFC" {
-                if nfcReader.isNFCAvailable {
-                    nfcReader.startSession()
-                }
-            }
-        }
-
     }
 
 
@@ -120,6 +109,28 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
                 self.app.status.append("\n\(text)")
             }
         }
+    }
+
+
+    // FIXME: iOS 14 Beta 2: launchOptions empty
+    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        if let shortcutItem = launchOptions?[.shortcutItem] as? UIApplicationShortcutItem {
+            if shortcutItem.type == "NFC" {
+                if nfcReader.isNFCAvailable {
+                    nfcReader.startSession()
+                }
+            }
+        }
+        return true
+    }
+
+    public func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+        if shortcutItem.type == "NFC" {
+            if nfcReader.isNFCAvailable {
+                nfcReader.startSession()
+            }
+        }
+        completionHandler(true)
     }
 
 
@@ -198,15 +209,15 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
                             self.errorStatus("OOP calibration \(data.string)")
                         }
                     }
-                    
+
                 } else {
                     self.log("OOP: failed calibration")
                     self.errorStatus("OOP calibration failed")
                 }
-                
+
                 // Reapply the current calibration even when the connection fails
                 self.applyCalibration(sensor: sensor)
-                
+
                 if sensor.patchInfo.count == 0 {
                     self.didParseSensor(sensor)
                 }
