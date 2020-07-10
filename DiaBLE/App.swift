@@ -3,10 +3,10 @@ import SwiftUI
 
 @main
 struct DiaBLEApp: App {
-    #if os(macOS)
-    @UIApplicationDelegateAdaptor(MainDelegate.self) var main: MainDelegate! = MainDelegate()
+    #if !os(watchOS)
+    @UIApplicationDelegateAdaptor(MainDelegate.self) var main
     #else
-    var main: MainDelegate! = MainDelegate()
+    var main: MainDelegate = MainDelegate()
     #endif
     
     @SceneBuilder var body: some Scene {

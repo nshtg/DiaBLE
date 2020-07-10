@@ -76,6 +76,7 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
         numberFormatter.minimumFractionDigits = 8
         settings.numberFormatter = numberFormatter
 
+        // TODO: assign shortcutItem at launch
         if let shortcutItem = shortcutItem {
             if shortcutItem.type == "NFC" {
                 if nfcReader.isNFCAvailable {
