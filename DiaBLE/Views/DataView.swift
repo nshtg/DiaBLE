@@ -95,7 +95,7 @@ struct DataView: View {
                         if history.storedValues.count > 0 {
                             VStack(spacing: 0) {
                                 Text("HealthKit").bold()
-                                List() {
+                                List {
                                     ForEach(history.storedValues) { glucose in
                                         (Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
                                             .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets()).listRowInsets(EdgeInsets())
@@ -109,7 +109,7 @@ struct DataView: View {
                         if history.nightscoutValues.count > 0 {
                             VStack(spacing: 0) {
                                 Text("Nightscout").bold()
-                                List() {
+                                List {
                                     ForEach(history.nightscoutValues) { glucose in
                                         (Text("\(String(glucose.source[..<(glucose.source.lastIndex(of: " ") ?? glucose.source.endIndex)])) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
                                             .fixedSize(horizontal: false, vertical: true).listRowInsets(EdgeInsets())
