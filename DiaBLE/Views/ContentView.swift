@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum Tab: Hashable {
+enum Tab: String {
     case monitor
     case online
     case data
@@ -14,9 +14,11 @@ struct ContentView: View {
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
+    @AppStorage("selectedTab") var selectedTab: Tab = .monitor
+
     var body: some View {
 
-        TabView(selection: $app.selectedTab) {
+        TabView(selection: $selectedTab) {
             Monitor()
                 .tabItem {
                     Image(systemName: "gauge")

@@ -50,7 +50,7 @@ class Nightscout: NSObject {
 
 
     func read(handler: (([Glucose]) -> ())? = nil) {
-        request(endpoint: "api/v1/entries.json", query: "count=100") {data, response, error, array in
+        request(endpoint: "api/v1/entries.json", query: "count=100") { data, response, error, array in
             var values = [Glucose]()
             for item in array {
                 if let dict = item as? [String: Any] {

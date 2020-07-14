@@ -60,7 +60,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
         guard let firstTag = tags.first else { return }
         guard case .iso15693(let tag) = firstTag else { return }
 
-        session.alertMessage = "Scan complete"
+        session.alertMessage = "Scan Complete"
 
         let blocks = 43
         let requestBlocks = 3
@@ -168,10 +168,8 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                         self.main.log(String(format: "NFC: data storage format id: %d", systemInfo.dataStorageFormatIdentifier))
                                     }
 
-
                                     self.main.log(String(format: "NFC: memory size: %d blocks", systemInfo.totalBlocks))
                                     self.main.log(String(format: "NFC: block size: %d", systemInfo.blockSize))
-
 
                                     self.sensor.uid = Data(tag.identifier.reversed())
                                     self.main.log("NFC: sensor uid: \(self.sensor.uid.hex)")
