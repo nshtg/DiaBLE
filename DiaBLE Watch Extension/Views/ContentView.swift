@@ -1,13 +1,5 @@
 import SwiftUI
 
-enum Tab: Hashable {
-    case monitor
-    case online
-    case data
-    case log
-    case settings
-}
-
 
 struct ContentView: View {
 

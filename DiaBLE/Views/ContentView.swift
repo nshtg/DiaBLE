@@ -1,12 +1,5 @@
 import SwiftUI
 
-enum Tab: String {
-    case monitor
-    case online
-    case data
-    case log
-    case settings
-}
 
 struct ContentView: View {
     @EnvironmentObject var app: AppState
@@ -14,11 +7,9 @@ struct ContentView: View {
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
-    @AppStorage("selectedTab") var selectedTab: Tab = .monitor
-
     var body: some View {
 
-        TabView(selection: $selectedTab) {
+        TabView(selection: $app.selectedTab) {
             Monitor()
                 .tabItem {
                     Image(systemName: "gauge")

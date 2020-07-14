@@ -25,6 +25,15 @@ struct DiaBLEApp: App {
 }
 
 
+enum Tab: String {
+    case monitor
+    case online
+    case data
+    case log
+    case settings
+}
+
+
 class AppState: ObservableObject {
 
     @Published var device: Device!
@@ -33,7 +42,7 @@ class AppState: ObservableObject {
 
     var main: MainDelegate!
 
-    @Published var selectedTab: Tab = .monitor
+    @AppStorage("selectedTab") var selectedTab: Tab = .monitor
 
     @Published var currentGlucose: Int = 0
     @Published var lastReadingDate: Date = Date()
