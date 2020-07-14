@@ -93,7 +93,7 @@ struct DataView: View {
 
                     HStack(spacing: 0) {
                         if history.storedValues.count > 0 {
-                            VStack(spacing: 0) {
+                            VStack(spacing: 4) {
                                 Text("HealthKit").bold()
                                 List {
                                     ForEach(history.storedValues) { glucose in
@@ -107,7 +107,7 @@ struct DataView: View {
                         }
 
                         if history.nightscoutValues.count > 0 {
-                            VStack(spacing: 0) {
+                            VStack(spacing: 4) {
                                 Text("Nightscout").bold()
                                 List {
                                     ForEach(history.nightscoutValues) { glucose in

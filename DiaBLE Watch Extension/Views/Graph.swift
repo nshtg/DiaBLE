@@ -140,7 +140,6 @@ struct Graph_Previews: PreviewProvider {
                 .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())
-                .environment(\.colorScheme, .dark)
         }
     }
 }

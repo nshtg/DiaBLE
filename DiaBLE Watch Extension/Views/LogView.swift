@@ -114,16 +114,13 @@ struct LogView: View {
 struct LogView_Previews: PreviewProvider {
     @EnvironmentObject var app: AppState
     @EnvironmentObject var log: Log
-    @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
     static var previews: some View {
         Group {
             LogView()
                 .environmentObject(AppState.test(tab: .log))
                 .environmentObject(Log())
-                .environmentObject(History.test)
                 .environmentObject(Settings())
-                .environment(\.colorScheme, .dark)
         }
     }
 }

@@ -100,7 +100,6 @@ struct OnlineView_Previews: PreviewProvider {
                 .environmentObject(AppState.test(tab: .online))
                 .environmentObject(History.test)
                 .environmentObject(Settings())
-                .environment(\.colorScheme, .dark)
         }
     }
 }

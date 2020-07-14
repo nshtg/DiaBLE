@@ -300,7 +300,6 @@ struct Monitor_Previews: PreviewProvider {
                 .environmentObject(AppState.test(tab: .monitor))
                 .environmentObject(History.test)
                 .environmentObject(Settings())
-                .environment(\.colorScheme, .dark)
         }
     }
 }

@@ -170,7 +170,6 @@ struct SettingsView_Previews: PreviewProvider {
                 .environmentObject(AppState.test(tab: .settings))
                 .environmentObject(History.test)
                 .environmentObject(Settings())
-                .environment(\.colorScheme, .dark)
         }
     }
 }

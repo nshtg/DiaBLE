@@ -139,7 +139,6 @@ struct DataView_Previews: PreviewProvider {
                 .environmentObject(AppState.test(tab: .data))
                 .environmentObject(History.test)
                 .environmentObject(Settings())
-                .environment(\.colorScheme, .dark)
         }
     }
 }
