@@ -36,7 +36,8 @@ protocol GlucoseSpaceHistory {
 }
 
 
-enum OOPDataQuality: Int {
+enum OOPDataQuality: Int, CustomStringConvertible {
+    case OK                      = 0
     case SD14_FIFO_OVERFLOW      = 1
     case FILTER_DELTA            = 2
     case WORK_VOLTAGE            = 4
@@ -50,7 +51,27 @@ enum OOPDataQuality: Int {
     case TEMP_HIGH               = 8192
     case TEMP_LOW                = 16384
     case INVALID_DATA            = 32768
+
+    var description: String {
+        switch self {
+        case .OK:                  return "OK"
+        case .SD14_FIFO_OVERFLOW:  return "SD14_FIFO_OVERFLOW"
+        case .FILTER_DELTA:        return "FILTER_DELTA"
+        case .WORK_VOLTAGE:        return "WORK_VOLTAGE"
+        case .PEAK_DELTA_EXCEEDED: return "PEAK_DELTA_EXCEEDED"
+        case .AVG_DELTA_EXCEEDED:  return "AVG_DELTA_EXCEEDED"
+        case .RF:                  return "RF"
+        case .REF_R:               return "REF_R"
+        case .SIGNAL_SATURATED:    return "SIGNAL_SATURATED"
+        case .SENSOR_SIGNAL_LOW:   return "SENSOR_SIGNAL_LOW"
+        case .THERMISTOR_OUT_OF_RANGE: return "HERMISTOR_OUT_OF_RANGE"
+        case .TEMP_HIGH:           return "TEMP_HIGH"
+        case .TEMP_LOW:            return "TEMP_LOW"
+        case .INVALID_DATA:        return "INVALID_DATA"
+        }
+    }
 }
+    
 
 struct OOPHistoryValue: Codable {
     let bg: Double
