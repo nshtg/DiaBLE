@@ -36,6 +36,22 @@ protocol GlucoseSpaceHistory {
 }
 
 
+enum OOPDataQuality: Int {
+    case SD14_FIFO_OVERFLOW      = 1
+    case FILTER_DELTA            = 2
+    case WORK_VOLTAGE            = 4
+    case PEAK_DELTA_EXCEEDED     = 8
+    case AVG_DELTA_EXCEEDED      = 16
+    case RF                      = 32
+    case REF_R                   = 64
+    case SIGNAL_SATURATED        = 128
+    case SENSOR_SIGNAL_LOW       = 256
+    case THERMISTOR_OUT_OF_RANGE = 2048
+    case TEMP_HIGH               = 8192
+    case TEMP_LOW                = 16384
+    case INVALID_DATA            = 32768
+}
+
 struct OOPHistoryValue: Codable {
     let bg: Double
     let quality: Int
