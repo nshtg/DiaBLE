@@ -130,9 +130,7 @@ struct DataView: View {
 
 
 struct DataView_Previews: PreviewProvider {
-    @EnvironmentObject var app: AppState
-    @EnvironmentObject var history: History
-    @EnvironmentObject var settings: Settings
+
     static var previews: some View {
         Group {
             DataView()

@@ -45,11 +45,6 @@ struct ContentView: View {
 
 
 struct ContentView_Previews: PreviewProvider {
-    @EnvironmentObject var app: AppState
-    @EnvironmentObject var log: Log
-    @EnvironmentObject var history: History
-    @EnvironmentObject var settings: Settings
-
 
     static var previews: some View {
 
