@@ -64,7 +64,7 @@ enum OOPDataQuality: Int, CustomStringConvertible {
         case .REF_R:               return "REF_R"
         case .SIGNAL_SATURATED:    return "SIGNAL_SATURATED"
         case .SENSOR_SIGNAL_LOW:   return "SENSOR_SIGNAL_LOW"
-        case .THERMISTOR_OUT_OF_RANGE: return "HERMISTOR_OUT_OF_RANGE"
+        case .THERMISTOR_OUT_OF_RANGE: return "THERMISTOR_OUT_OF_RANGE"
         case .TEMP_HIGH:           return "TEMP_HIGH"
         case .TEMP_LOW:            return "TEMP_LOW"
         case .INVALID_DATA:        return "INVALID_DATA"
