@@ -32,17 +32,19 @@ func sensorType(patchInfo: Data) -> SensorType {
 
 
 enum SensorRegion: Int, CustomStringConvertible {
-    case unknown = 0
-    case europe  = 1
-    case usa     = 2
-    case israel  = 8
+    case unknown    = 0
+    case european   = 1
+    case usa        = 2
+    case australian = 4
+    case eastern    = 8
 
     var description: String {
         switch self {
-        case .unknown: return "unknown"
-        case .europe:  return "Europe"
-        case .usa:     return "USA"
-        case .israel:  return "Israel"
+        case .unknown:    return "unknown"
+        case .european:   return "European"
+        case .usa:        return "USA"
+        case .australian: return "Australian"
+        case .eastern:    return "Eastern"
         }
     }
 }
