@@ -66,7 +66,7 @@ struct OnlineView: View {
                             self.showingNFCAlert = true
                         }
                     }) {
-                        Image("NFC").resizable().frame(width: 39, height: 27).padding(.bottom, 12)
+                        Image("NFC").renderingMode(.template).resizable().frame(width: 39, height: 27).padding(.bottom, 12)
                     }.alert(isPresented: $showingNFCAlert) {
                         Alert(
                             title: Text("NFC not supported"),

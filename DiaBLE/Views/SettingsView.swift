@@ -19,7 +19,7 @@ struct SettingsView: View {
                 VStack(spacing: 20) {
                     VStack {
                         HStack(spacing: 0) {
-                            Button(action: {} ) { Image("Bluetooth").resizable().frame(width: 32, height: 32) }
+                            Button(action: {} ) { Image("Bluetooth").renderingMode(.template).resizable().frame(width: 32, height: 32) }
                             Picker(selection: $settings.preferredTransmitter, label: Text("Preferred")) {
                                 ForEach(TransmitterType.allCases) { t in
                                     Text(t.name).tag(t)
