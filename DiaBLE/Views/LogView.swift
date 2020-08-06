@@ -33,7 +33,7 @@ struct LogView: View {
                                 self.showingNFCAlert = true
                             }
                         }) {
-                            Image("NFC").resizable().frame(width: 26, height: 18).padding(EdgeInsets(top: 10, leading: 6, bottom: 14, trailing: 0))
+                            Image("NFC").renderingMode(.template).resizable().frame(width: 26, height: 18).padding(EdgeInsets(top: 10, leading: 6, bottom: 14, trailing: 0))
                         }.alert(isPresented: $showingNFCAlert) {
                             Alert(
                                 title: Text("NFC not supported"),
@@ -54,7 +54,7 @@ struct LogView: View {
                             if let healthKit = self.app.main.healthKit { healthKit.read() }
                             if let nightscout = self.app.main.nightscout { nightscout.read() }
                         }
-                        ) { VStack { Image("Bluetooth").resizable().frame(width: 32, height: 32)
+                        ) { VStack { Image("Bluetooth").renderingMode(.template).resizable().frame(width: 32, height: 32)
                             Text("Scan")
                             }
                         }
