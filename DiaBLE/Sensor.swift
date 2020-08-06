@@ -1,11 +1,11 @@
 import Foundation
 
 enum SensorType: String, CustomStringConvertible {
-    case libre1    = "Libre 1"
-    case libre2    = "Libre 2"
-    case libreUS   = "Libre US"
-    case libreProH = "Libre Pro/H"
-    case unknown   = "Libre"
+    case libre1       = "Libre 1"
+    case libre2       = "Libre 2"
+    case libreUS14day = "Libre US 14d"
+    case libreProH    = "Libre Pro/H"
+    case unknown      = "Libre"
 
     var description: String { self.rawValue }
 
@@ -24,7 +24,7 @@ func sensorType(patchInfo: Data) -> SensorType {
     case 0xDF: return .libre1
     case 0xA2: return .libre1
     case 0x9D: return .libre2
-    case 0xE5: return .libreUS
+    case 0xE5: return .libreUS14day
     case 0x70: return .libreProH
     default:   return .unknown
     }
@@ -117,7 +117,9 @@ class Sensor: ObservableObject {
 
     var fram: Data = Data() {
         didSet {
-
+            if type == .libre2 || type == .libreUS14day {
+                fram = Data(Libre2.decryptFRAM(type: type, id: [UInt8](uid), info: [UInt8](patchInfo), data: [UInt8](fram))!)
+            }
             updateCRCReport()
             guard !crcReport.contains("FAILED") else {
                 state = .unknown
@@ -263,4 +265,110 @@ func correctedFRAM(_ data: Data) -> Data {
     fram[320] = UInt8(footerCRC >> 8)
     fram[321] = UInt8(footerCRC & 0x00FF)
     return fram
+}
+
+
+// https://raw.githubusercontent.com/ivalkou/LibreTools/master/Sources/LibreTools/Sensor/Libre2.swift
+//
+//  Copyright © 2020 Ivan Valkou. All rights reserved.
+
+enum Libre2 {
+    /// Decrypts 43 blocks of Libre 2 FRAM
+    /// - Parameters:
+    ///   - type: Suppurted sensor type (.libre2, .libreUS14day)
+    ///   - id: ID/Serial of the sensor. Could be retrieved from NFC as uid.
+    ///   - info: Sensor info. Retrieved by sending command '0xa1' via NFC.
+    ///   - data: Encrypted FRAM data
+    /// - Returns: Decrypted FRAM data
+    static func decryptFRAM(type: SensorType, id: [UInt8], info: [UInt8], data: [UInt8]) -> [UInt8]? {
+        guard type == .libre2 || type == .libreUS14day else {
+            print("Unsupported sensor type")
+            return nil
+        }
+
+        func getMiddle(block: Int) -> UInt16 {
+            switch type {
+            case .libreUS14day:
+                if block < 3 || block >= 40 {
+                    // For header and footer it is a fixed value.
+                    return 0xcadc
+                }
+                return UInt16(info[5], info[4])
+            case .libre2:
+                return UInt16(info[5], info[4]) ^ 0x44
+            default: fatalError("Unsupported sensor type")
+            }
+        }
+
+        var result = [UInt8]()
+
+        for i in 0 ..< 43 {
+            let middle = getMiddle(block: i)
+            let input = prepareVariables(id: id, middle: middle, block: i)
+            let blockKey = processCrypto(input: input, key: key);
+
+            result.append(data[i * 8 + 0] ^ UInt8(truncatingIfNeeded: blockKey[3]))
+            result.append(data[i * 8 + 1] ^ UInt8(truncatingIfNeeded: blockKey[3] >> 8))
+            result.append(data[i * 8 + 2] ^ UInt8(truncatingIfNeeded: blockKey[2]))
+            result.append(data[i * 8 + 3] ^ UInt8(truncatingIfNeeded: blockKey[2] >> 8))
+            result.append(data[i * 8 + 4] ^ UInt8(truncatingIfNeeded: blockKey[1]))
+            result.append(data[i * 8 + 5] ^ UInt8(truncatingIfNeeded: blockKey[1] >> 8))
+            result.append(data[i * 8 + 6] ^ UInt8(truncatingIfNeeded: blockKey[0]))
+            result.append(data[i * 8 + 7] ^ UInt8(truncatingIfNeeded: blockKey[0] >> 8))
+        }
+        return result
+    }
+
+}
+
+private extension Libre2 {
+    static let key: [UInt16] = [0xA0C5, 0x6860, 0x0000, 0x14C6]
+
+    static func processCrypto(input: [UInt16], key: [UInt16]) -> [UInt16] {
+        func op(_ value: UInt16) -> UInt16 {
+            // We check for last 2 bits and do the xor with specific value if bit is 1
+            var res = value >> 2 // Result does not include these last 2 bits
+
+            if value & 1 != 0 { // If last bit is 1
+                res = res ^ key[1]
+            }
+
+            if value & 2 != 0 { // If second last bit is 1
+                res = res ^ key[0]
+            }
+
+            return res
+        }
+
+        let r0 = op(input[0]) ^ input[3]
+        let r1 = op(r0) ^ input[2]
+        let r2 = op(r1) ^ input[1]
+        let r3 = op(r2) ^ input[0]
+        let r4 = op(r3)
+        let r5 = op(r4 ^ r0)
+        let r6 = op(r5 ^ r1)
+        let r7 = op(r6 ^ r2)
+
+        let f1 = r0 ^ r4
+        let f2 = r1 ^ r5
+        let f3 = r2 ^ r6
+        let f4 = r3 ^ r7
+
+        return [f1, f2, f3, f4];
+    }
+
+    static func prepareVariables(id: [UInt8], middle: UInt16, block: Int) -> [UInt16] {
+        let s1 = UInt16(id[5], id[4]) + middle + UInt16(block)
+        let s2 = UInt16(id[3], id[2]) + key[2]
+        let s3 = UInt16(id[1], id[0]) + (UInt16(block) << 1)
+        let s4 = 0x241a ^ key[3]
+
+        return [s1, s2, s3, s4]
+    }
+}
+
+extension UInt16 {
+    init(_ byte0: UInt8, _ byte1: UInt8) {
+        self = Data([byte1, byte0]).withUnsafeBytes { $0.load(as: UInt16.self) }
+    }
 }
