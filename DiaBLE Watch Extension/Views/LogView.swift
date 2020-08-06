@@ -37,7 +37,7 @@ struct LogView: View {
                         if let healthKit = self.app.main.healthKit { healthKit.read() }
                         if let nightscout = self.app.main.nightscout { nightscout.read() }
                     }
-                    ) { VStack { Image("Bluetooth").resizable().frame(width: 24, height: 24)
+                    ) { VStack { Image("Bluetooth").renderingMode(.template).resizable().frame(width: 24, height: 24)
                         }
                     }
                 }.foregroundColor(.blue)
