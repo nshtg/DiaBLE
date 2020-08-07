@@ -117,11 +117,10 @@ class Sensor: ObservableObject {
 
     var fram: Data = Data() {
         didSet {
-            print("Encrypted FRAM: " + fram.hex)
             if type == .libre2 || type == .libreUS14day {
+                encryptedFram = fram
                 fram = Data(Libre2.decryptFRAM(type: type, id: [UInt8](uid), info: [UInt8](patchInfo), data: [UInt8](fram))!)
             }
-            print("Decrypted FRAM: " + fram.hex)
             updateCRCReport()
             guard !crcReport.contains("FAILED") else {
                 state = .unknown
@@ -179,6 +178,7 @@ class Sensor: ObservableObject {
                 history.append(Glucose(raw: raw, temperature: temperature, id: id, date: date))}
         }
     }
+    var encryptedFram: Data = Data()
 
 
     init() {
