@@ -117,9 +117,11 @@ class Sensor: ObservableObject {
 
     var fram: Data = Data() {
         didSet {
+            print("Encrypted FRAM: " + fram.hex)
             if type == .libre2 || type == .libreUS14day {
                 fram = Data(Libre2.decryptFRAM(type: type, id: [UInt8](uid), info: [UInt8](patchInfo), data: [UInt8](fram))!)
             }
+            print("Decrypted FRAM: " + fram.hex)
             updateCRCReport()
             guard !crcReport.contains("FAILED") else {
                 state = .unknown
@@ -136,7 +138,8 @@ class Sensor: ObservableObject {
             reinitializations = Int(fram[318])
 
             guard fram.count > 327 else { return }
-            region = Int(fram[322]) << 8 + Int(fram[323])
+            // Int(fram[322]) << 8 + Int(fram[323]) correspond to patchInfo[2...3]
+            region = Int(fram[323])
             maxLife = Int(fram[327]) << 8 + Int(fram[326])
 
             trend = []
@@ -268,7 +271,7 @@ func correctedFRAM(_ data: Data) -> Data {
 }
 
 
-// https://raw.githubusercontent.com/ivalkou/LibreTools/master/Sources/LibreTools/Sensor/Libre2.swift
+// https://github.com/ivalkou/LibreTools/blob/master/Sources/LibreTools/Sensor/Libre2.swift
 //
 //  Copyright © 2020 Ivan Valkou. All rights reserved.
 
