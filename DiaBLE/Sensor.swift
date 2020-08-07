@@ -178,8 +178,8 @@ class Sensor: ObservableObject {
                 history.append(Glucose(raw: raw, temperature: temperature, id: id, date: date))}
         }
     }
-    var encryptedFram: Data = Data()
 
+    var encryptedFram: Data = Data()
 
     init() {
     }
@@ -258,17 +258,20 @@ func crc16(_ data: Data) -> UInt16 {
 
 func checksummedFRAM(_ data: Data) -> Data {
     var fram = data
-    let headerCRC = crc16(fram[2...23])
-    let bodyCRC =   crc16(fram[26...319])
-    let footerCRC = crc16(fram[322...343])
-    fram[0] =   UInt8(headerCRC >> 8)
-    fram[1] =   UInt8(headerCRC & 0x00FF)
-    fram[24] =  UInt8(bodyCRC >> 8)
-    fram[25] =  UInt8(bodyCRC & 0x00FF)
-    fram[320] = UInt8(footerCRC >> 8)
-    fram[321] = UInt8(footerCRC & 0x00FF)
-    if fram.count == 244 * 8 {
-        let commandsCRC = crc16(fram[43 * 8 + 2 ..< (244 - 6) * 8])    // Libre 1: 0x9e42 
+
+    let headerCRC = crc16(fram[ 2         ..<  3 * 8])
+    let bodyCRC =   crc16(fram[ 3 * 8 + 2 ..< 40 * 8])
+    let footerCRC = crc16(fram[40 * 8 + 2 ..< 43 * 8])
+
+    fram[ 0] =         UInt8(headerCRC >> 8)
+    fram[ 1] =         UInt8(headerCRC & 0x00FF)
+    fram[ 3 * 8] =     UInt8(bodyCRC >> 8)
+    fram[ 3 * 8 + 1] = UInt8(bodyCRC & 0x00FF)
+    fram[40 * 8] =     UInt8(footerCRC >> 8)
+    fram[40 * 8 + 1] = UInt8(footerCRC & 0x00FF)
+
+    if fram.count >= 244 * 8 {
+        let commandsCRC = crc16(fram[43 * 8 + 2 ..< (244 - 6) * 8])    // Libre 1: 0x9e42
         fram[43 * 8] =     UInt8(commandsCRC >> 8)
         fram[43 * 8 + 1] = UInt8(commandsCRC & 0x00FF)
     }
