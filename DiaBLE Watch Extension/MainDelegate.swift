@@ -139,11 +139,10 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
 
     func parseSensorData(_ sensor: Sensor) {
 
-        log(sensor.crcReport)
         if sensor.encryptedFram.count > 0 {
             log("Sensor encrypted FRAM: \(sensor.encryptedFram.hex)\ndecrypted:\n\(sensor.fram.hex)")
         }
-
+        log(sensor.crcReport)
         if sensor.crcReport.contains("FAILED") {
             if history.rawValues.count > 0 && sensor.type != .libre2 { // bogus raw data with Libre 1
                 self.errorStatus("Error while validating sensor data")

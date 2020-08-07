@@ -256,7 +256,7 @@ func crc16(_ data: Data) -> UInt16 {
 }
 
 
-func correctedFRAM(_ data: Data) -> Data {
+func checksummedFRAM(_ data: Data) -> Data {
     var fram = data
     let headerCRC = crc16(fram[2...23])
     let bodyCRC =   crc16(fram[26...319])
@@ -267,6 +267,11 @@ func correctedFRAM(_ data: Data) -> Data {
     fram[25] =  UInt8(bodyCRC & 0x00FF)
     fram[320] = UInt8(footerCRC >> 8)
     fram[321] = UInt8(footerCRC & 0x00FF)
+    if fram.count == 244 * 8 {
+        let commandsCRC = crc16(fram[43 * 8 + 2 ..< (244 - 6) * 8])    // Libre 1: 0x9e42 
+        fram[43 * 8] =     UInt8(commandsCRC >> 8)
+        fram[43 * 8 + 1] = UInt8(commandsCRC & 0x00FF)
+    }
     return fram
 }
 
