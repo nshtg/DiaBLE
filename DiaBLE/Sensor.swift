@@ -117,7 +117,8 @@ class Sensor: ObservableObject {
 
     var fram: Data = Data() {
         didSet {
-            if type == .libre2 || type == .libreUS14day {
+            encryptedFram = Data()
+            if (type == .libre2 || type == .libreUS14day) && (fram[0...1].hex != String(format: "%04x", crc16(fram[2...23]))) {
                 encryptedFram = fram
                 fram = Data(Libre2.decryptFRAM(type: type, id: [UInt8](uid), info: [UInt8](patchInfo), data: [UInt8](fram))!)
             }

@@ -24,16 +24,18 @@ class Bubble: Transmitter {
     override class var dataReadCharacteristicUUID: String  { UUID.dataRead.rawValue }
 
     enum ResponseType: UInt8, CustomStringConvertible {
-        case dataInfo =     0x80
-        case dataPacket =   0x82
-        case noSensor =     0xBF
-        case serialNumber = 0xC0
-        case patchInfo =    0xC1
+        case dataInfo =            0x80
+        case dataPacket =          0x82
+        case decryptedDataPacket = 0x88
+        case noSensor =            0xBF
+        case serialNumber =        0xC0
+        case patchInfo =           0xC1
 
         var description: String {
             switch self {
             case .dataInfo:     return "data info"
             case .dataPacket:   return "data packet"
+            case .decryptedDataPacket: return "decrypted data packet"
             case .noSensor:     return "no sensor"
             case .serialNumber: return "serial number"
             case .patchInfo:    return "patch info"
@@ -74,10 +76,15 @@ class Bubble: Transmitter {
         } else if response == .dataInfo {
             battery = Int(data[4])
             firmware = "\(data[2]).\(data[3])"
-            hardware = "\(data[data.count-2]).\(data[data.count-1])"
+            hardware = "\(data[data.count - 2]).\(data[data.count - 1])"
             main.log("\(name): battery: \(battery), firmware: \(firmware), hardware: \(hardware)")
-            // confirm receipt
-            write([0x02, 0x01, 0x00, 0x00, 0x00, 0x2B])
+            main.log(sensorType(patchInfo: main.settings.patchInfo).description)
+            let libreType = sensorType(patchInfo: main.settings.patchInfo)
+            if Double(firmware)! >= 2.6 && (libreType == .libre2 || libreType == .libreUS14day) {
+                write([0x08, 0x01, 0x00, 0x00, 0x00, 0x2B])
+            } else {
+                write([0x02, 0x01, 0x00, 0x00, 0x00, 0x2B])
+            }
 
         } else {
             if sensor == nil {
@@ -92,7 +99,7 @@ class Bubble: Transmitter {
                 sensor!.patchInfo = Data(Double(firmware)! < 1.35 ? data[3...8] : data[5...10])
                 main.log("\(name): patch info: \(sensor!.patchInfo.hex) (sensor type: \(sensor!.type.rawValue))")
 
-            } else if response == .dataPacket {
+            } else if response == .dataPacket || response == .decryptedDataPacket {
                 if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
                 buffer.append(data.suffix(from: 4))
                 main.log("\(name): partial buffer count: \(buffer.count)")
