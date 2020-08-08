@@ -77,23 +77,23 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
     }
 
 
-    public func log(_ text: String) {
+    public func log(_ msg: String) {
         DispatchQueue.main.async {
-            if self.settings.logging || text.hasPrefix("Log") {
+            if self.settings.logging || msg.hasPrefix("Log") {
                 if self.settings.reversedLog {
-                    self.log.text = "\(text)\n \n\(self.log.text)"
+                    self.log.text = "\(msg)\n \n\(self.log.text)"
                 } else {
-                    self.log.text.append(" \n\(text)\n")
+                    self.log.text.append(" \n\(msg)\n")
                 }
             }
         }
-        print("\(text)")
+        print(msg)
     }
 
 
-    public func debugLog(_ text: String) {
+    public func debugLog(_ msg: String) {
         if settings.debugLevel > 0 {
-            log(text)
+            log(msg)
         }
     }
 
