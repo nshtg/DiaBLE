@@ -123,7 +123,7 @@ struct Details: View {
                         HStack {
                             Text("Type")
                             Spacer()
-                            Text(app.sensor.type.description).foregroundColor(.yellow)
+                            Text("\(app.sensor.type.description)\(app.sensor.patchInfo.hex.hasPrefix("a2") ? " (A2 kind)" : "")").foregroundColor(.yellow)
                         }
                         if app.sensor.serial != "" {
                             HStack {
