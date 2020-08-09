@@ -33,12 +33,12 @@ class Bubble: Transmitter {
 
         var description: String {
             switch self {
-            case .dataInfo:     return "data info"
-            case .dataPacket:   return "data packet"
+            case .dataInfo:            return "data info"
+            case .dataPacket:          return "data packet"
             case .decryptedDataPacket: return "decrypted data packet"
-            case .noSensor:     return "no sensor"
-            case .serialNumber: return "serial number"
-            case .patchInfo:    return "patch info"
+            case .noSensor:            return "no sensor"
+            case .serialNumber:        return "serial number"
+            case .patchInfo:           return "patch info"
             }
         }
     }
@@ -78,7 +78,6 @@ class Bubble: Transmitter {
             firmware = "\(data[2]).\(data[3])"
             hardware = "\(data[data.count - 2]).\(data[data.count - 1])"
             main.log("\(name): battery: \(battery), firmware: \(firmware), hardware: \(hardware)")
-            main.log(sensorType(patchInfo: main.settings.patchInfo).description)
             let libreType = sensorType(patchInfo: main.settings.patchInfo)
             if Double(firmware)! >= 2.6 && (libreType == .libre2 || libreType == .libreUS14day) {
                 write([0x08, 0x01, 0x00, 0x00, 0x00, 0x2B])

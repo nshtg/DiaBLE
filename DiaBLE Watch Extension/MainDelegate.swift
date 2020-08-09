@@ -190,7 +190,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
                         }
                     } else {
                         if data.string.contains("errcode") {
-                            self.errorStatus("OOP calibration \(data.string)")
+                            self.errorStatus("OOP calibration error: \(data.string)")
                         }
                     }
 
@@ -250,7 +250,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
                 if let data = data {
                     self.log("OOP: server history response: \(data.string)")
                     if data.string.contains("errcode") {
-                        self.errorStatus("\(data.string)")
+                        self.errorStatus("OOP history error: \(data.string)")
                         self.history.values = []
                     } else {
                         let decoder = JSONDecoder()
