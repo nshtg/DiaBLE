@@ -120,7 +120,9 @@ class Sensor: ObservableObject {
             encryptedFram = Data()
             if (type == .libre2 || type == .libreUS14day) && (fram[0...1].hex != String(format: "%04x", crc16(fram[2...23]))) {
                 encryptedFram = fram
-                fram = Data(Libre2.decryptFRAM(type: type, id: [UInt8](uid), info: [UInt8](patchInfo), data: [UInt8](fram))!)
+                if let decryptedFRAM = try? Data(Libre2.decryptFRAM(type: type, id: [UInt8](uid), info: [UInt8](patchInfo), data: [UInt8](fram))) {
+                    fram = decryptedFRAM
+                }
             }
             updateCRCReport()
             guard !crcReport.contains("FAILED") else {
@@ -292,13 +294,15 @@ enum Libre2 {
     ///   - info: Sensor info. Retrieved by sending command '0xa1' via NFC.
     ///   - data: Encrypted FRAM data
     /// - Returns: Decrypted FRAM data
-    static func decryptFRAM(type: SensorType, id: [UInt8], info: [UInt8], data: [UInt8]) -> [UInt8]? {
+    static func decryptFRAM(type: SensorType, id: [UInt8], info: [UInt8], data: [UInt8]) throws -> [UInt8] {
         guard type == .libre2 || type == .libreUS14day else {
-            print("Unsupported sensor type")
-            return nil
+            struct DecryptFRAMError: Error, LocalizedError {
+                let errorDescription = "Unsupported sensor type"
+            }
+            throw DecryptFRAMError()
         }
 
-        func getMiddle(block: Int) -> UInt16 {
+        func getArg(block: Int) -> UInt16 {
             switch type {
             case .libreUS14day:
                 if block < 3 || block >= 40 {
@@ -315,28 +319,26 @@ enum Libre2 {
         var result = [UInt8]()
 
         for i in 0 ..< 43 {
-            let middle = getMiddle(block: i)
-            let input = prepareVariables(id: id, middle: middle, block: i)
-            let blockKey = processCrypto(input: input, key: key);
+            let input = prepareVariables(id: id, x: UInt16(i), y: getArg(block: i))
+            let blockKey = processCrypto(input: input)
 
-            result.append(data[i * 8 + 0] ^ UInt8(truncatingIfNeeded: blockKey[3]))
-            result.append(data[i * 8 + 1] ^ UInt8(truncatingIfNeeded: blockKey[3] >> 8))
-            result.append(data[i * 8 + 2] ^ UInt8(truncatingIfNeeded: blockKey[2]))
-            result.append(data[i * 8 + 3] ^ UInt8(truncatingIfNeeded: blockKey[2] >> 8))
-            result.append(data[i * 8 + 4] ^ UInt8(truncatingIfNeeded: blockKey[1]))
-            result.append(data[i * 8 + 5] ^ UInt8(truncatingIfNeeded: blockKey[1] >> 8))
-            result.append(data[i * 8 + 6] ^ UInt8(truncatingIfNeeded: blockKey[0]))
-            result.append(data[i * 8 + 7] ^ UInt8(truncatingIfNeeded: blockKey[0] >> 8))
+            result.append(data[i * 8 + 0] ^ UInt8(truncatingIfNeeded: blockKey[0]))
+            result.append(data[i * 8 + 1] ^ UInt8(truncatingIfNeeded: blockKey[0] >> 8))
+            result.append(data[i * 8 + 2] ^ UInt8(truncatingIfNeeded: blockKey[1]))
+            result.append(data[i * 8 + 3] ^ UInt8(truncatingIfNeeded: blockKey[1] >> 8))
+            result.append(data[i * 8 + 4] ^ UInt8(truncatingIfNeeded: blockKey[2]))
+            result.append(data[i * 8 + 5] ^ UInt8(truncatingIfNeeded: blockKey[2] >> 8))
+            result.append(data[i * 8 + 6] ^ UInt8(truncatingIfNeeded: blockKey[3]))
+            result.append(data[i * 8 + 7] ^ UInt8(truncatingIfNeeded: blockKey[3] >> 8))
         }
         return result
     }
-
 }
 
 private extension Libre2 {
     static let key: [UInt16] = [0xA0C5, 0x6860, 0x0000, 0x14C6]
 
-    static func processCrypto(input: [UInt16], key: [UInt16]) -> [UInt16] {
+    static func processCrypto(input: [UInt16]) -> [UInt16] {
         func op(_ value: UInt16) -> UInt16 {
             // We check for last 2 bits and do the xor with specific value if bit is 1
             var res = value >> 2 // Result does not include these last 2 bits
@@ -366,16 +368,32 @@ private extension Libre2 {
         let f3 = r2 ^ r6
         let f4 = r3 ^ r7
 
-        return [f1, f2, f3, f4];
+        return [f4, f3, f2, f1];
     }
 
-    static func prepareVariables(id: [UInt8], middle: UInt16, block: Int) -> [UInt16] {
-        let s1 = UInt16(id[5], id[4]) + middle + UInt16(block)
-        let s2 = UInt16(id[3], id[2]) + key[2]
-        let s3 = UInt16(id[1], id[0]) + (UInt16(block) << 1)
+    static func prepareVariables(id: [UInt8], x: UInt16, y: UInt16) -> [UInt16] {
+        let s1 = UInt16(truncatingIfNeeded: UInt(UInt16(id[5], id[4])) + UInt(x) + UInt(y))
+        let s2 = UInt16(truncatingIfNeeded: UInt(UInt16(id[3], id[2])) + UInt(key[2]))
+        let s3 = UInt16(truncatingIfNeeded: UInt(UInt16(id[1], id[0])) + UInt(x) * 2)
         let s4 = 0x241a ^ key[3]
 
         return [s1, s2, s3, s4]
+    }
+
+    static func usefulFunction(id: [UInt8], x: UInt16, y: UInt16) -> [UInt8] {
+        let blockKey = processCrypto(input: prepareVariables(id: id, x: x, y: y))
+        let low = blockKey[0]
+        let high = blockKey[1]
+
+        let r1 = low ^ 0x4344
+        let r2 = high ^ 0x4163
+
+        return [
+            UInt8(truncatingIfNeeded: r1),
+            UInt8(truncatingIfNeeded: r1 >> 8),
+            UInt8(truncatingIfNeeded: r2),
+            UInt8(truncatingIfNeeded: r2 >> 8)
+        ]
     }
 }
 
