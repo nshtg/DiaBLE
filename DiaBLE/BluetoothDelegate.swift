@@ -91,12 +91,21 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         } else if name!.matches("miaomiao") {
             app.transmitter = MiaoMiao(peripheral: peripheral, main: main)
             app.device = app.transmitter
+
             // } else if name.matches("custom") {
             //    custom = Custom(peripheral: peripheral, main: main)
             //    app.device = custom
             //    app.device.name = peripheral.name!
             //    app.transmitter = custom.transmitter
             //    app.transmitter.name = "bridge"
+
+        } else if name!.matches("Mi Smart Band") {
+            app.device = Device(peripheral: peripheral, main: main)
+            app.device.name = name!
+            if manufacturerData!.count > 16 {
+                app.device.macAddress = Data(manufacturerData!.suffix(6).reversed())
+                log("Bluetooth: \(name!) MAC Address (auth key): \(app.device.macAddress.hex.uppercased())")
+            }
 
         } else {
             app.device = Device(peripheral: peripheral, main: main)

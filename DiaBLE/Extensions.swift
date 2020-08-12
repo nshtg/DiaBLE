@@ -53,7 +53,7 @@ extension String {
     }
 
     func matches(_ pattern: String) -> Bool {
-        return pattern.split(separator: " ").contains { self.lowercased().contains($0.lowercased()) }
+        return pattern.split(separator: " ").allSatisfy { self.lowercased().contains($0.lowercased()) }
     }
 }
 
