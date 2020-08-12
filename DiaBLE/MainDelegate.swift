@@ -261,9 +261,16 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
                 }
             }
 
+            var fram = sensor.encryptedFram.count > 0 ? sensor.encryptedFram : sensor.fram
+
+            // decryptFRAM() is symmetric: encrypt decrypted fram received from a Bubble
+            if (sensor.type == .libre2 || sensor.type == .libreUS14day) && sensor.encryptedFram.count == 0 {
+                fram = try! Data(Libre2.decryptFRAM(type: sensor.type, id: [UInt8](sensor.uid), info: [UInt8](sensor.patchInfo), data: [UInt8](fram)))
+            }
+
             log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.historyEndpoint)...")
 
-            postToOOP(server: settings.oopServer, bytes: sensor.fram, date: app.lastReadingDate, patchUid: sensor.uid, patchInfo: sensor.patchInfo) { data, response, error, parameters in
+            postToOOP(server: settings.oopServer, bytes: fram, date: app.lastReadingDate, patchUid: sensor.uid, patchInfo: sensor.patchInfo) { data, response, error, parameters in
                 self.debugLog("OOP: query parameters: \(parameters)")
                 if let data = data {
                     self.log("OOP: server history response: \(data.string)")
