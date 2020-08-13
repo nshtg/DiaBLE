@@ -53,7 +53,7 @@ class Bubble: Transmitter {
         let transmitterData = Data(data[8...11])
         firmware = "\(Int(transmitterData[0])).\(Int(transmitterData[1]))"
         hardware = "\(Int(transmitterData[2])).\(Int(transmitterData[3]))"
-        macAddress = Data(data[2...7])
+        macAddress = Data(data[2...7].reversed())
         var msg = "\(Self.name): advertised manufacturer data: firmware: \(firmware), hardware: \(hardware), MAC address: \(macAddress.hexAddress)"
         if data.count > 12 {
             battery = Int(data[12])

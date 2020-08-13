@@ -102,8 +102,8 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         } else if name!.matches("Mi Smart Band") {
             app.device = Device(peripheral: peripheral, main: main)
             app.device.name = name!
-            if manufacturerData!.count > 16 {
-                app.device.macAddress = Data(manufacturerData!.suffix(6).reversed())
+            if manufacturerData!.count >= 8 {
+                app.device.macAddress = Data(manufacturerData!.suffix(6))
                 log("Bluetooth: \(name!) MAC Address (auth key): \(app.device.macAddress.hex.uppercased())")
             }
 

@@ -54,6 +54,13 @@ class MiaoMiao: Transmitter {
         }
         return command
     }
+
+    override func parseManufacturerData(_ data: Data) {
+        if data.count >= 8 {
+            macAddress = data.suffix(6)
+            main.log("\(Self.name): MAC Address: \(macAddress.hexAddress))")
+        }
+    }
     
     override func read(_ data: Data, for uuid: String) {
         
