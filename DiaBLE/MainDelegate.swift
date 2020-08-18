@@ -172,7 +172,7 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
         log("Sensor region: \(SensorRegion(rawValue: sensor.region)?.description ?? "unknown")\(sensor.region != 0 ? " (0x" + String(format: "%02X", sensor.region) + ")" : "")")
         if sensor.maxLife > 0 { log("Sensor maximum life: \(String(format: "%.2f", Double(sensor.maxLife)/60/24)) days (\(sensor.maxLife) minutes)") }
 
-        if sensor.history.count > 0 {    // FIXME: glucose.space's calibrationEndpoint doesn't support the encrypted Libre 2 FRAM
+        if sensor.history.count > 0 {
 
             log("Sensor age: \(sensor.age) minutes (\(String(format: "%.2f", Double(sensor.age)/60/24)) days), started on: \((app.lastReadingDate - Double(sensor.age) * 60).shortDateTime)")
 
@@ -283,9 +283,6 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
                             let realTimeGlucose = oopData.realTimeGlucose.value
                             if realTimeGlucose > 0 {
                                 sensor.currentGlucose = realTimeGlucose
-                                if sensor.age == 0 { // Libre 2
-                                    sensor.age = oopData.realTimeGlucose.id
-                                }
                             }
                             // PROJECTED_HIGH_GLUCOSE | HIGH_GLUCOSE | GLUCOSE_OK | LOW_GLUCOSE | PROJECTED_LOW_GLUCOSE | NOT_DETERMINED
                             self.app.oopAlarm = oopData.alarm ?? ""

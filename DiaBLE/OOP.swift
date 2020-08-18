@@ -42,15 +42,15 @@ enum OOPDataQuality: Int, CustomStringConvertible {
     case FILTER_DELTA            = 2
     case WORK_VOLTAGE            = 4
     case PEAK_DELTA_EXCEEDED     = 8
-    case AVG_DELTA_EXCEEDED      = 16
-    case RF                      = 32
-    case REF_R                   = 64
-    case SIGNAL_SATURATED        = 128
-    case SENSOR_SIGNAL_LOW       = 256
-    case THERMISTOR_OUT_OF_RANGE = 2048
-    case TEMP_HIGH               = 8192
-    case TEMP_LOW                = 16384
-    case INVALID_DATA            = 32768
+    case AVG_DELTA_EXCEEDED      = 16     //   0x10
+    case RF                      = 32     //   0x20
+    case REF_R                   = 64     //   0x40
+    case SIGNAL_SATURATED        = 128    //   0x80
+    case SENSOR_SIGNAL_LOW       = 256    //  0x100
+    case THERMISTOR_OUT_OF_RANGE = 2048   //  0x800
+    case TEMP_HIGH               = 8192   // 0x2000
+    case TEMP_LOW                = 16384  // 0x4000
+    case INVALID_DATA            = 32768  // 0x8000
 
     var description: String {
         switch self {
@@ -122,10 +122,6 @@ class GlucoseSpaceHistoryResponse: OOPHistoryResponse, Codable { // TODO: implem
 
     func glucoseData(sensorAge: Int, readingDate: Date) -> [Glucose] {
         historyValues = [Glucose]()
-        var sensorAge = sensorAge
-        if sensorAge == 0 {    // encrpyted FRAM of the Libre 2
-            sensorAge = realTimeGlucose.id    // FIXME: can differ 1 minute from the real age
-        }
         let startDate = readingDate - Double(sensorAge) * 60
         // let current = Glucose(realTimeGlucose.value, id: realTimeGlucose.id, date: startDate + Double(realTimeGlucose.id * 60))
         currentGlucose = realTimeGlucose.value
@@ -174,7 +170,7 @@ struct OOPCurrentValue: Codable {
 }
 
 
-/// errcode: 4, msg: "content crc16 false" with Libre 2
+/// errcode: 4, msg: "content crc16 false"
 /// errcode: 5, msg: "oop result error" with terminated sensors
 
 struct OOPCalibrationResponse: Codable {
