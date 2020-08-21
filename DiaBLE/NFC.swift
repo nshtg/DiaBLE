@@ -21,6 +21,8 @@ extension SensorType {
 }
 
 
+// TODO: reimplement using Combine
+
 class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
     var tagSession: NFCTagReaderSession?

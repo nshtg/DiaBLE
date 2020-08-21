@@ -14,7 +14,7 @@ struct Monitor: View {
 
     var body: some View {
 
-        ScrollView() {
+        VStack(spacing: 0) {
 
             VStack(spacing: 0) {
                 HStack {
@@ -26,18 +26,17 @@ struct Monitor: View {
                     }.font(.footnote).frame(maxWidth: .infinity, alignment: .trailing ).foregroundColor(Color(UIColor.lightGray))
 
                     // currentGlucose is negative when set to the last trend raw value (no online connection or calibration)
-                    Text(app.currentGlucose > 0 ? "\(app.currentGlucose) " :
-                        (app.currentGlucose < 0 ? "(\(-app.currentGlucose)) " : "--- "))
+                    Text(app.currentGlucose > 0 ? "\(app.currentGlucose)" : (app.currentGlucose < 0 ? "(\(-app.currentGlucose))" : "---"))
                         .fontWeight(.black)
                         .foregroundColor(.black)
-                        .padding(.vertical, 6).padding(.horizontal, app.currentGlucose > 0 ? 10 : 4)
+                        .padding(.vertical, 10).padding(.horizontal, app.currentGlucose > 0 ? 10 : 4)
                         .background(abs(app.currentGlucose) > 0 && (abs(app.currentGlucose) > Int(settings.alarmHigh) || abs(app.currentGlucose) < Int(settings.alarmLow)) ? Color.red :
-                            (app.currentGlucose < 0 ?
-                                (history.calibratedTrend.count > 0 ? Color.purple : Color.yellow) : Color.blue))
+                                        (app.currentGlucose < 0 ?
+                                            (history.calibratedTrend.count > 0 ? Color.purple : Color.yellow) : Color.blue))
                         .cornerRadius(5)
 
 
-                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.system(size: 28)).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 6)
+                    Text(OOP.trendSymbol(for: app.oopTrend)).font(.system(size: 28)).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 6).padding(.bottom, -18)
                 }
 
                 Text("\(app.oopAlarm.replacingOccurrences(of: "_", with: " ")) - \(app.oopTrend.replacingOccurrences(of: "_", with: " "))")
@@ -51,11 +50,12 @@ struct Monitor: View {
                     if app.deviceState == "Connected" {
 
                         Text(readingCountdown > 0 || app.status.hasSuffix("sensor") ?
-                            "\(readingCountdown) s" : "")
+                                "\(readingCountdown) s" : "")
                             .fixedSize()
                             .onReceive(timer) { _ in
                                 self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                        }.font(Font.footnote.monospacedDigit()).foregroundColor(.orange)
+                            }
+                            .font(Font.footnote.monospacedDigit()).foregroundColor(.orange)
                     }
                 }
             }
@@ -271,7 +271,7 @@ struct Monitor: View {
                     if let nightscout = self.app.main.nightscout { nightscout.read() }
                 }
                 ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue) }
-                    .frame(height: 16)
+                .frame(height: 16)
                 Spacer()
                 if !app.status.contains("canning") {
                     NavigationLink(destination: Details().environmentObject(app).environmentObject(history).environmentObject(settings)) {
@@ -281,8 +281,8 @@ struct Monitor: View {
                 Spacer()
             }
         }
-        .navigationTitle("Monitor")
-        // .navigationBarHidden(true)
+        // .navigationTitle("Monitor")
+        .navigationBarHidden(true)
         .edgesIgnoringSafeArea([.bottom])
         .buttonStyle(PlainButtonStyle())
         .multilineTextAlignment(.center)

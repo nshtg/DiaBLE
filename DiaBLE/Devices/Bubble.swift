@@ -57,7 +57,7 @@ class Bubble: Transmitter {
         var msg = "\(Self.name): advertised manufacturer data: firmware: \(firmware), hardware: \(hardware), MAC address: \(macAddress.hexAddress)"
         if data.count > 12 {
             battery = Int(data[12])
-            msg +=  ", battery: \(battery)"
+            msg += ", battery: \(battery)"
         }
         main.log(msg)
     }
@@ -101,7 +101,7 @@ class Bubble: Transmitter {
             } else if response == .dataPacket || response == .decryptedDataPacket {
                 if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
                 buffer.append(data.suffix(from: 4))
-                main.log("\(name): partial buffer count: \(buffer.count)")
+                main.log("\(name): partial buffer size: \(buffer.count)")
                 if buffer.count >= 344 {
                     let fram = buffer[..<344]
                     // let footer = buffer.suffix(8)    // when firmware < 2.0
