@@ -4,6 +4,7 @@ import SwiftUI
 
 struct Monitor: View {
     @EnvironmentObject var app: AppState
+    @EnvironmentObject var log: Log
     @EnvironmentObject var history: History
     @EnvironmentObject var settings: Settings
 
@@ -254,8 +255,11 @@ struct Monitor: View {
             //                    }.font(.footnote).accentColor(.purple)
             //                }
 
-            // Same as Rescan
             HStack {
+                Spacer()
+                NavigationLink(destination: ContentView().environmentObject(app).environmentObject(history).environmentObject(log).environmentObject(settings)) {
+                    Image(systemName: "chevron.left.circle.fill").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
+                }.frame(height: 16)
                 Spacer()
                 Button(action: {
                     let device = self.app.device
@@ -296,6 +300,7 @@ struct Monitor_Previews: PreviewProvider {
         Group {
             Monitor()
                 .environmentObject(AppState.test(tab: .monitor))
+                .environmentObject(Log())
                 .environmentObject(History.test)
                 .environmentObject(Settings())
         }
