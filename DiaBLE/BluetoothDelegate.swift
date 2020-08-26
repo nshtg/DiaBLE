@@ -59,6 +59,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         var companyId = BLE.companies.count - 1 // "< Unknown >"
         if let manufacturerData = manufacturerData {
             companyId = Int(manufacturerData[0]) + Int(manufacturerData[1]) << 8
+            if companyId >= BLE.companies.count { companyId =  BLE.companies.count - 1 }    // when 0xFFFF
         }
 
         if name == nil {
