@@ -245,6 +245,11 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
 
             var fram = sensor.encryptedFram.count > 0 ? sensor.encryptedFram : sensor.fram
 
+            guard fram.count >= 344 else {
+                log("Partially scanned FRAM (\(fram.count)/344): cannot proceed to OOP")
+                return
+            }
+
             // decryptFRAM() is symmetric: encrypt decrypted fram received from a Bubble
             if (sensor.type == .libre2 || sensor.type == .libreUS14day) && sensor.encryptedFram.count == 0 {
                 fram = try! Data(Libre2.decryptFRAM(type: sensor.type, id: [UInt8](sensor.uid), info: [UInt8](sensor.patchInfo), data: [UInt8](fram)))
@@ -368,7 +373,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
             let entries = (self.history.values + [Glucose(currentGlucose, date: sensor.lastReadingDate, source: "DiaBLE")]).filter{ $0.value > 0 }
 
             // TODO
-            healthKit?.write(entries.filter{$0.date > healthKit?.lastDate ?? Calendar.current.date(byAdding: .hour, value: -8, to : Date())!})
+            healthKit?.write(entries.filter{$0.date > healthKit?.lastDate ?? Calendar.current.date(byAdding: .hour, value: -8, to: Date())!})
             healthKit?.read()
 
             nightscout?.delete(query: "find[device]=OOP&count=32") { data, response, error in
