@@ -172,7 +172,7 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
         log("Sensor region: \(SensorRegion(rawValue: sensor.region)?.description ?? "unknown")\(sensor.region != 0 ? " (0x" + String(format: "%02X", sensor.region) + ")" : "")")
         if sensor.maxLife > 0 { log("Sensor maximum life: \(String(format: "%.2f", Double(sensor.maxLife)/60/24)) days (\(sensor.maxLife) minutes)") }
 
-        if sensor.history.count > 0 {
+        if sensor.history.count > 0 && sensor.fram.count >= 344 {
 
             log("Sensor age: \(sensor.age) minutes (\(String(format: "%.2f", Double(sensor.age)/60/24)) days), started on: \((app.lastReadingDate - Double(sensor.age) * 60).shortDateTime)")
 
