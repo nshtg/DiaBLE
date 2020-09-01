@@ -105,7 +105,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             app.device.name = name!
             if manufacturerData!.count >= 8 {
                 app.device.macAddress = Data(manufacturerData!.suffix(6))
-                log("Bluetooth: \(name!) MAC Address (auth key): \(app.device.macAddress.hex.uppercased())")
+                log("Bluetooth: \(name!) MAC Address: \(app.device.macAddress.hex.uppercased())")
             }
 
         } else {
