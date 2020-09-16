@@ -70,7 +70,7 @@ class EventKit {
             currentGlucose = abs(currentGlucose)
             if currentGlucose != 0 {
                 title += "  \(self.main.settings.glucoseUnit)"
-                title += "  \(OOP.alarmDescription(for: self.main.app.oopAlarm))  \(OOP.trendSymbol(for: self.main.app.oopTrend))"
+                title += "  \(OOP.Alarm(rawValue: self.main.app.oopAlarm)?.description ?? "")  \(OOP.TrendArrow(rawValue: self.main.app.oopTrend)?.symbol ?? "---")"
 
                 // TODO: delta
 

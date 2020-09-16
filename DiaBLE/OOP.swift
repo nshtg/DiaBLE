@@ -71,7 +71,7 @@ enum OOPDataQuality: Int, CustomStringConvertible {
         }
     }
 }
-    
+
 
 struct OOPHistoryValue: Codable {
     let bg: Double
@@ -250,24 +250,45 @@ func postToOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), pat
 
 
 struct OOP {
-    static func trendSymbol(for trend: String) -> String {
-        switch trend {
-        case "RISING_QUICKLY":  return "↑"
-        case "RISING":          return "↗︎"
-        case "STABLE":          return "→"
-        case "FALLING":         return "↘︎"
-        case "FALLING_QUICKLY": return "↓"
-        default:                return "---" // NOT_DETERMINED
+
+    enum TrendArrow: String, CaseIterable {
+        case NOT_DETERMINED
+        case FALLING_QUICKLY
+        case FALLING
+        case STABLE
+        case RISING
+        case RISING_QUICKLY
+
+        var symbol: String {
+            switch self {
+            case .FALLING_QUICKLY: return "↓"
+            case .FALLING:         return "↘︎"
+            case .STABLE:          return "→"
+            case .RISING:          return "↗︎"
+            case .RISING_QUICKLY:  return "↑"
+            default:               return "---"
+            }
         }
     }
-    static func alarmDescription(for alarm: String) -> String {
-        switch alarm {
-        case "PROJECTED_HIGH_GLUCOSE": return "GOING HIGH"
-        case "HIGH_GLUCOSE":           return "HIGH"
-        case "GLUCOSE_OK":             return "OK"
-        case "LOW_GLUCOSE":            return "LOW"
-        case "PROJECTED_LOW_GLUCOSE":  return "GOING LOW"
-        default:                       return "" // NOT_DETERMINED
+
+    enum Alarm: String, CaseIterable {
+        case NOT_DETERMINED
+        case LOW_GLUCOSE
+        case PROJECTED_LOW_GLUCOSE
+        case GLUCOSE_OK
+        case PROJECTED_HIGH_GLUCOSE
+        case HIGH_GLUCOSE
+
+        var description: String {
+            switch self {
+            case .LOW_GLUCOSE:            return "LOW"
+            case .PROJECTED_LOW_GLUCOSE:  return "GOING LOW"
+            case .GLUCOSE_OK:             return "OK"
+            case .PROJECTED_HIGH_GLUCOSE: return "GOING HIGH"
+            case .HIGH_GLUCOSE:           return "HIGH"
+            default:                      return ""
+            }
         }
     }
+
 }

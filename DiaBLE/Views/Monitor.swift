@@ -42,7 +42,7 @@ struct Monitor: View {
                             .cornerRadius(5)
 
 
-                        Text(OOP.trendSymbol(for: app.oopTrend)).font(.largeTitle).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 12)
+                        Text(OOP.TrendArrow(rawValue: app.oopTrend)?.symbol ?? "---").font(.largeTitle).bold().foregroundColor(.blue).bold().frame(maxWidth: .infinity, alignment: .leading).padding(.leading, 12)
                     }
 
                     Text("\(app.oopAlarm.replacingOccurrences(of: "_", with: " ")) - \(app.oopTrend.replacingOccurrences(of: "_", with: " "))")

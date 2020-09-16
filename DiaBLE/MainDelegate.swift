@@ -368,7 +368,7 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
             playAlarm()
             if (settings.calendarTitle == "" || !settings.calendarAlarmIsOn) && !settings.disabledNotifications { // TODO: notifications settings
                 title += "  \(settings.glucoseUnit)"
-                title += "  \(OOP.alarmDescription(for: app.oopAlarm))  \(OOP.trendSymbol(for: app.oopTrend))"
+                title += "  \(OOP.Alarm(rawValue: app.oopAlarm)?.description ?? "")  \(OOP.TrendArrow(rawValue: app.oopTrend)?.symbol ?? "---")"
                 let content = UNMutableNotificationContent()
                 content.title = title
                 content.subtitle = ""
