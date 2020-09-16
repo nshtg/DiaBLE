@@ -9,7 +9,7 @@ enum SensorType: String, CustomStringConvertible {
 
     var description: String { self.rawValue }
 
-    var serialPrefix: String {
+    var serialPrefix: String {    // equals product family
         switch self {
         case .libreProH: return "1"
         case .libre2:    return "3"
@@ -78,17 +78,18 @@ class Sensor: ObservableObject {
 
     var type: SensorType = .unknown
     var region: Int = 0
-    @Published var state: SensorState = .unknown
-    @Published var maxLife: Int = 0
-    @Published var reinitializations: Int = 0
-    var crcReport: String = ""
-    @Published var lastReadingDate = Date()
-    @Published var transmitter: Transmitter?
-
-    @Published var age: Int = 0
     var serial: String = ""
 
+    @Published var transmitter: Transmitter?
+    @Published var state: SensorState = .unknown
     @Published var currentGlucose: Int = 0
+    @Published var lastReadingDate = Date()
+    @Published var age: Int = 0
+    @Published var maxLife: Int = 0
+    @Published var reinitializations: Int = 0
+
+    var crcReport: String = ""    // TODO
+
 
     var patchInfo: Data = Data() {
         willSet(info) {

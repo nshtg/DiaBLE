@@ -16,10 +16,9 @@ TODO
 * clean the code base by restarting from a fresh Xcode 12 project template and make use of the new Widgets, @Scene/AppStorage, ScrollViewReaders, lazy grids...
 * selection of glucose units
 * manage Nightscout JavaScript alerts synchronously
-* Apple Watch app: snapshots, workout and extended runtime background sessions, complications, context menus, edit calibration parameters
+* Apple Watch app: snapshots, workout and extended runtime background sessions, complications
 * BLE: Libre 2 beacons, update RSSI continuously
 * log: limit to a number of readings, prepend time, add a search field, Share menu, record to a file
-* let the users input their BG and manage different calibrations
 * more modern Swift idioms: Combine, property wrappers, @dynamicCallable/MemberLookup, ViewModifiers
 
 

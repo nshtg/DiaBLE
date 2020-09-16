@@ -135,7 +135,7 @@ struct Details: View {
                             HStack {
                                 Text("Region")
                                 Spacer()
-                                Text("\(SensorRegion(rawValue: app.sensor.region)?.description ?? "unknown") (\(app.sensor.region))").foregroundColor(.yellow)
+                                Text("\(SensorRegion(rawValue: app.sensor.region)?.description ?? "unknown")").foregroundColor(.yellow)
                             }
                         }
                         if app.sensor.maxLife > 0 {

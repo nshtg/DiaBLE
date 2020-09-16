@@ -29,12 +29,12 @@ struct BLE {
         case localTimeInfo = "2A0F"
 
         // Libre 2
-        case compositeRawData = "2902"
-        case abbott           = "FDE3"
-        case abbottCustom     = "F001"
-        case bleLogin         = "F002"
+        case abbottCustom     = "FDE3"
+        case bleLogin         = "F001"
+        case compositeRawData = "F002"
 
-        case dfu           = "FE59"
+        case configDescriptor = "2902"
+        case dfu              = "FE59"
 
         // Mi Band
         case immediateAlert    = "1802"
@@ -67,10 +67,10 @@ struct BLE {
             case .currentTime:   return "current time"
             case .localTimeInfo: return "local time information"
             case .dfu:           return "device firmware update"
-            case .compositeRawData:  return "composite raw data"
-            case .abbott:            return "Abbott Diabetes Care"
             case .abbottCustom:      return "Abbott custom"
+            case .compositeRawData:  return "composite raw data"
             case .bleLogin:          return "BLE login"
+            case .configDescriptor:  return "configuration descriptor"
             case .immediateAlert:    return "immediate alert"
             case .alertNotification: return "alert notification"
             case .heartRate:         return "heart rate"
