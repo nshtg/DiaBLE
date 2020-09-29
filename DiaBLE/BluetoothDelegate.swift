@@ -82,8 +82,11 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
 
         centralManager.stopScan()
-
-        if name!.lowercased().hasPrefix("blu") {
+        if name!.lowercased().hasPrefix("abbott") {
+            app.transmitter = Abbott(peripheral: peripheral, main: main)
+            app.device = app.transmitter
+            app.device.name = "Libre 2"
+        } else if name!.lowercased().hasPrefix("blu") {
             app.transmitter = BluCon(peripheral: peripheral, main: main)
             app.device = app.transmitter
         } else if name! == "Bubble" {

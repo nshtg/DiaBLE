@@ -20,4 +20,6 @@ class Abbott: Transmitter {
 
     override class var knownUUIDs: [String] { UUID.allCases.map{$0.rawValue} }
 
+    override class var dataServiceUUID: String { UUID.abbottCustom.rawValue }
+
 }
