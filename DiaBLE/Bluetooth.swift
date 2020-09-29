@@ -28,11 +28,6 @@ struct BLE {
         case currentTime   = "2A2B"
         case localTimeInfo = "2A0F"
 
-        // Libre 2
-        case abbottCustom     = "FDE3"
-        case bleLogin         = "F001"
-        case compositeRawData = "F002"
-
         case configDescriptor = "2902"
         case dfu              = "FE59"
 
@@ -67,9 +62,6 @@ struct BLE {
             case .currentTime:   return "current time"
             case .localTimeInfo: return "local time information"
             case .dfu:           return "device firmware update"
-            case .abbottCustom:      return "Abbott custom"
-            case .bleLogin:          return "BLE login"
-            case .compositeRawData:  return "composite raw data"
             case .configDescriptor:  return "configuration descriptor"
             case .immediateAlert:    return "immediate alert"
             case .alertNotification: return "alert notification"

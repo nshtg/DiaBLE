@@ -170,7 +170,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         guard let characteristics = service.characteristics
-            else { log("Bluetooth: unable to retrieve service characteristics"); return }
+        else { log("Bluetooth: unable to retrieve service characteristics"); return }
 
         let serviceUUID = service.uuid.uuidString
         var serviceDescription = serviceUUID
@@ -193,6 +193,16 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             } else if uuid == BluCon.dataWriteCharacteristicUUID || uuid == Bubble.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID {
                 msg += " (data write)"
                 app.device.writeCharacteristic = characteristic
+
+            } else if let uuid = Abbott.UUID(rawValue: uuid) {
+                msg += " (\(uuid))"
+                if characteristic.properties.contains(.notify) {
+                    app.device.peripheral?.setNotifyValue(true, for: characteristic)
+                }
+                if characteristic.properties.contains(.read) {
+                    app.device.peripheral?.readValue(for: characteristic)
+                    msg += "; reading it"
+                }
 
                 // } else if let uuid = Custom.UUID(rawValue: uuid) {
                 //    msg += " (\(uuid))"
@@ -322,7 +332,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         }
 
         guard let data = characteristic.value
-            else { log("Bluetooth: \(name)'s error updating value for \(characteristicString) characteristic: \(error!.localizedDescription)"); return }
+        else { log("Bluetooth: \(name)'s error updating value for \(characteristicString) characteristic: \(error!.localizedDescription)"); return }
 
         var msg = "Bluetooth: \(name) did update value for \(characteristicString) characteristic (\(data.count) bytes received):"
         if data.count > 0 {

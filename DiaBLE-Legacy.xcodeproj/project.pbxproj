@@ -34,6 +34,8 @@
 		C58507B923C50BF40079539D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C58507B823C50BF40079539D /* Assets.xcassets */; };
 		C58507BC23C50BF40079539D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C58507BB23C50BF40079539D /* Preview Assets.xcassets */; };
 		C58507C123C50BF40079539D /* DiaBLE-Legacy Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C585079B23C50BF20079539D /* DiaBLE-Legacy Watch.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C58F47F3252303260079D2D7 /* Abbott.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58F47F2252303260079D2D7 /* Abbott.swift */; };
+		C58F47F4252303260079D2D7 /* Abbott.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58F47F2252303260079D2D7 /* Abbott.swift */; };
 		C5908FB82428E6B600CF6C83 /* alarm_signal_loss.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */; };
 		C5965CC323DCC13300B3C5D8 /* ViewRepresentables.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5965CC223DCC13300B3C5D8 /* ViewRepresentables.swift */; };
 		C597AF6B23AB9E3E0012926C /* NFC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C597AF6A23AB9E3E0012926C /* NFC.swift */; };
@@ -154,6 +156,7 @@
 		C58507BB23C50BF40079539D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C58507BD23C50BF40079539D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C58507BE23C50BF40079539D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		C58F47F2252303260079D2D7 /* Abbott.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Abbott.swift; sourceTree = "<group>"; };
 		C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm_signal_loss.mp3; sourceTree = "<group>"; };
 		C5965CC223DCC13300B3C5D8 /* ViewRepresentables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRepresentables.swift; sourceTree = "<group>"; };
 		C597AF6A23AB9E3E0012926C /* NFC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFC.swift; sourceTree = "<group>"; };
@@ -268,6 +271,7 @@
 		C5AF44D02422344300522803 /* Devices */ = {
 			isa = PBXGroup;
 			children = (
+				C58F47F2252303260079D2D7 /* Abbott.swift */,
 				C5DA545C245C5D3A0000BF4E /* BluCon.swift */,
 				C5A82D1D245B48BF00F710A1 /* Bubble.swift */,
 				C5DB1CFA23DB6208009F5C68 /* Legacy.swift */,
@@ -535,6 +539,7 @@
 				C55B5D16245FCBE50004FE3B /* OnlineView.swift in Sources */,
 				C5E9C763244496C800D52B32 /* MainDelegate.swift in Sources */,
 				C528E1852445A60200BFDA73 /* SettingsView.swift in Sources */,
+				C58F47F4252303260079D2D7 /* Abbott.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,6 +574,7 @@
 				C5DF10F423C783140023E0E2 /* LogView.swift in Sources */,
 				C5A82D1E245B48BF00F710A1 /* Bubble.swift in Sources */,
 				C5A5797023A2CF0700945F72 /* Sensor.swift in Sources */,
+				C58F47F3252303260079D2D7 /* Abbott.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
