@@ -172,8 +172,10 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     }
 
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        guard let characteristics = service.characteristics
-        else { log("Bluetooth: unable to retrieve service characteristics"); return }
+        guard let characteristics = service.characteristics else {
+            log("Bluetooth: unable to retrieve service characteristics")
+            return
+        }
 
         let serviceUUID = service.uuid.uuidString
         var serviceDescription = serviceUUID
@@ -334,8 +336,10 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             characteristicString = "data read"
         }
 
-        guard let data = characteristic.value
-        else { log("Bluetooth: \(name)'s error updating value for \(characteristicString) characteristic: \(error!.localizedDescription)"); return }
+        guard let data = characteristic.value else {
+            log("Bluetooth: \(name)'s error updating value for \(characteristicString) characteristic: \(error!.localizedDescription)")
+            return
+        }
 
         var msg = "Bluetooth: \(name) did update value for \(characteristicString) characteristic (\(data.count) bytes received):"
         if data.count > 0 {

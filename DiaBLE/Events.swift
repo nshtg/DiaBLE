@@ -19,16 +19,14 @@ class EventKit {
     func sync(handler: ((EKCalendar?) -> ())? = nil) {
 
         store.requestAccess(to: .event) { granted, error  in
-            guard granted
-                else {
-                    self.main.debugLog("EventKit: access not granted")
-                    return
+            guard granted else {
+                self.main.debugLog("EventKit: access not granted")
+                return
             }
 
-            guard EKEventStore.authorizationStatus(for: .event) == .authorized
-                else {
-                    self.main.log("EventKit: access to calendar events not authorized")
-                    return
+            guard EKEventStore.authorizationStatus(for: .event) == .authorized else {
+                self.main.log("EventKit: access to calendar events not authorized")
+                return
             }
 
             self.calendarTitles = self.store.calendars(for: .event)

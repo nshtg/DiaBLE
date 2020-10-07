@@ -239,6 +239,9 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
                         if let oopActivationResponse = try? decoder.decode(GlucoseSpaceActivationResponse.self, from: data) {
                             self.debugLog("OOP: activation response: \(oopActivationResponse), activation command: 0x\(String(format: "%2X", UInt8(Int16(oopActivationResponse.activationCommand) & 0xFF)))")
                         }
+                        if sensor.type == .libre2 {
+                            self.debugLog("Libre 2: computed activation payload: \(Libre2.activateParameters(id: [UInt8](sensor.uid)).hex)" )
+                        }
                     }
                 }
             }
