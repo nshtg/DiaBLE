@@ -119,7 +119,7 @@ class Sensor: ObservableObject {
     var fram: Data = Data() {
         didSet {
             encryptedFram = Data()
-            if fram.count >= 344 && (type == .libre2 || type == .libreUS14day) && (fram[0...1].hex != String(format: "%04x", crc16(fram[2...23]))) {
+            if fram.count >= 344 && (type == .libre2 || type == .libreUS14day) && UInt16(fram[0], fram[1]) != crc16(fram[2...23]) {
                 encryptedFram = fram
                 if let decryptedFRAM = try? Data(Libre2.decryptFRAM(type: type, id: [UInt8](uid), info: [UInt8](patchInfo), data: [UInt8](fram))) {
                     fram = decryptedFRAM
@@ -263,7 +263,7 @@ func crc16(_ data: Data) -> UInt16 {
 func checksummedFRAM(_ data: Data) -> Data {
     var fram = data
 
-    let headerCRC = crc16(fram[ 2         ..<  3 * 8])
+    let headerCRC = crc16(fram[         2 ..<  3 * 8])
     let bodyCRC =   crc16(fram[ 3 * 8 + 2 ..< 40 * 8])
     let footerCRC = crc16(fram[40 * 8 + 2 ..< 43 * 8])
 
@@ -334,6 +334,48 @@ enum Libre2 {
         }
         return result
     }
+
+    /// Decrypts Libre 2 BLE payload
+    /// - Parameters:
+    ///   - id: ID/Serial of the sensor. Could be retrieved from NFC as uid.
+    ///   - data: Encrypted BLE data
+    /// - Returns: Decrypted BLE data
+    static func decryptBLE(id: [UInt8], data: [UInt8]) throws -> [UInt8] {
+        let d = usefulFunction(id: id, x: 0x1b, y: 0x1b6a)
+        let x = UInt16(d[1], d[0]) ^ UInt16(d[3], d[2]) | 0x63
+        let y = UInt16(data[1], data[0]) ^ 0x63
+
+        var key = [UInt8]()
+        var initialKey = processCrypto(input: prepareVariables(id: id, x: x, y: y))
+
+        for _ in 0 ..< 8 {
+            key.append(UInt8(truncatingIfNeeded: initialKey[0]))
+            key.append(UInt8(truncatingIfNeeded: initialKey[0] >> 8))
+            key.append(UInt8(truncatingIfNeeded: initialKey[1]))
+            key.append(UInt8(truncatingIfNeeded: initialKey[1] >> 8))
+            key.append(UInt8(truncatingIfNeeded: initialKey[2]))
+            key.append(UInt8(truncatingIfNeeded: initialKey[2] >> 8))
+            key.append(UInt8(truncatingIfNeeded: initialKey[3]))
+            key.append(UInt8(truncatingIfNeeded: initialKey[3] >> 8))
+            initialKey = processCrypto(input: initialKey)
+        }
+
+        let result = data[2...].enumerated().map { i, value in
+            value ^ key[i]
+        }
+
+        // Original: guard Crc.hasValidCrc16InLastTwoBytes(result) else {
+
+        guard crc16(Data(result.prefix(42))) == UInt16(result[42], result[43]) else {
+            struct DecryptBLEError: Error, LocalizedError {
+                let errorDescription = "BLE data decrytion failed"
+            }
+            throw DecryptBLEError()
+        }
+
+        return result
+    }
+
 
     static func activateParameters(id: [UInt8]) -> Data {
         let d = usefulFunction(id: id, x: 0x1b, y: 0x1b6a)
@@ -408,4 +450,33 @@ extension UInt16 {
     init(_ byte0: UInt8, _ byte1: UInt8) {
         self = Data([byte1, byte0]).withUnsafeBytes { $0.load(as: UInt16.self) }
     }
+}
+
+
+func readBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int) -> Int {
+    guard bitCount != 0 else {
+        return 0
+    }
+    var res = 0
+    for i in 0 ..< bitCount {
+        let totalBitOffset = byteOffset * 8 + bitOffset + i
+        let byte = Int(floor(Float(totalBitOffset) / 8))
+        let bit = totalBitOffset % 8
+        if totalBitOffset >= 0 && ((buffer[byte] >> bit) & 0x1) == 1 {
+            res |= 1 << i
+        }
+    }
+    return res
+}
+
+func writeBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int, _ value: Int) -> [UInt8]{
+    var res = buffer
+    for i in 0 ..< bitCount {
+        let totalBitOffset = byteOffset * 8 + bitOffset + i
+        let byte = Int(floor(Double(totalBitOffset) / 8))
+        let bit = totalBitOffset % 8
+        let bitValue = (value >> i) & 0x1
+        res[byte] = (res[byte] & ~(1 << bit) | (UInt8(bitValue) << bit))
+    }
+    return res
 }
