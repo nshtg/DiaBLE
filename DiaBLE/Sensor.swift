@@ -55,7 +55,7 @@ enum SensorState: UInt8, CustomStringConvertible {
     
     case notActivated = 0x01
     case warmingUp    = 0x02
-    case active       = 0x03    // Libre 1: for 14.5 days
+    case active       = 0x03    // Libre 1: for ≈ 14.5 days
     case expired      = 0x04    // Libre 1: 12 hours more
     case shutdown     = 0x05    // Libre 1: 15th day onwards
     case failure      = 0x06
@@ -392,8 +392,8 @@ private extension Libre2 {
         let low = blockKey[0]
         let high = blockKey[1]
 
-        let r1 = low ^ 0x4344
-        let r2 = high ^ 0x4163
+        let r1 = low ^ 0x4163
+        let r2 = high ^ 0x4344
 
         return [
             UInt8(truncatingIfNeeded: r1),
