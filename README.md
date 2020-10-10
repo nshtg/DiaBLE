@@ -1,6 +1,6 @@
 <p align ="center"><img src="./DiaBLE/Assets.xcassets/AppIcon.appiconset/Icon.png" width="25%" /></p>
 
-Experimenting with the **BluCon**, **Bubble** and **MiaoMiao** BLE transmitters I bought to extend the reach of the  FreeStyle Libre glucose sensor and trying something new compared to the traditional apps:
+Experimenting with the FreeStyle **Libre 2** and the **BluCon**, **Bubble** and **MiaoMiao** BLE transmitters I bought to extend the reach of the Libre 1 glucose sensor, trying something new compared to the traditional apps:
 
 * a universal **SwiftUI** application for iPhone, iPad and Mac Catalyst;
 * an **independent Apple Watch app** connecting directly via Bluetooth;
