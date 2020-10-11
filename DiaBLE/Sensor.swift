@@ -453,6 +453,8 @@ extension UInt16 {
 }
 
 
+// https://github.com/dabear/SwitftLibreOOPWebPublic/blob/master/SwiftLibreOOPWeb/Model/SensorData.swift
+
 func readBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int) -> Int {
     guard bitCount != 0 else {
         return 0

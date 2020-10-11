@@ -10,12 +10,29 @@ import CoreNFC
 // https://github.com/travisgoodspeed/goodtag/blob/master/firmware/gcmpatch.c
 // https://github.com/captainbeeheart/openfreestyle/blob/master/docs/reverse.md
 
+
+struct NFCCommand {
+    let code: UInt8
+    let parameters: Data
+}
+
 extension SensorType {
     var backdoor: String {
         switch self {
         case .libre1:    return "c2ad7521"
         case .libreProH: return "c2ad0090"
         default:         return "deadbeef"
+        }
+    }
+}
+
+extension Sensor {
+    var activationCommand: NFCCommand {
+        switch self.type {
+        case .libre1:    return NFCCommand(code: 0xa0, parameters: Data(SensorType.libre1.backdoor.bytes))
+        case .libreProH: return NFCCommand(code: 0xa0, parameters: Data(SensorType.libreProH.backdoor.bytes))
+        case .libre2:    return NFCCommand(code: 0xa1, parameters: Libre2.activateParameters(id: [UInt8](uid)))
+        default:         return NFCCommand(code: 0x00, parameters: Data())
         }
     }
 }
