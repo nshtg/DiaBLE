@@ -27,12 +27,35 @@ extension SensorType {
 }
 
 extension Sensor {
+
     var activationCommand: NFCCommand {
         switch self.type {
-        case .libre1:    return NFCCommand(code: 0xa0, parameters: Data(SensorType.libre1.backdoor.bytes))
-        case .libreProH: return NFCCommand(code: 0xa0, parameters: Data(SensorType.libreProH.backdoor.bytes))
-        case .libre2:    return NFCCommand(code: 0xa1, parameters: Libre2.activateParameters(id: [UInt8](uid)))
+        case .libre1:    return NFCCommand(code: 0xA0, parameters: Data(SensorType.libre1.backdoor.bytes))
+        case .libreProH: return NFCCommand(code: 0xA0, parameters: Data(SensorType.libreProH.backdoor.bytes))
+        case .libre2:    return NFCCommand(code: 0xA1, parameters: Libre2.activateParameters(id: [UInt8](uid)))
         default:         return NFCCommand(code: 0x00, parameters: Data())
+        }
+    }
+
+
+    // Enables Bluetooth on Libre 2. Returns peripheral MAC address to connect to.
+    // unlockCode could be any 32 bit value. The unlockCode and sensor patchUid/patchInfo
+    // will have also to be provided to the login function when connecting to peripheral.
+
+    var enableStreamingCommand: NFCCommand {
+        switch self.type {
+        case .libre2:
+            let b: [UInt8] = [
+                UInt8(unlockCode & 0xFF),
+                UInt8((unlockCode >> 8) & 0xFF),
+                UInt8((unlockCode >> 16) & 0xFF),
+                UInt8((unlockCode >> 24) & 0xFF)
+            ]
+            let d = Libre2.usefulFunction(id: [UInt8](uid), x: UInt16(0x1e), y: UInt16(patchInfo[5], patchInfo[4]) ^ UInt16(b[1], b[0]))
+            return NFCCommand(code: 0xA1, parameters: Data([0x1e, b[0], b[1], b[2], b[3], d[0], d[1], d[2], d[3]]))
+
+        default:
+            return NFCCommand(code: 0x00, parameters: Data())
         }
     }
 }
@@ -215,7 +238,19 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                                     // TODO: overwrite commands CRC
                                                     // self.main.debugLog("NFC: did write at address: 0x\(String(format: "%04X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
 
+                                                    if self.sensor.type == .libre2 {
+                                                        self.main.debugLog("NFC: sending command to enable BLE streaming on \(self.sensor.type): code: 0x\(String(format: "%0X", self.sensor.enableStreamingCommand.code)), parameters: 0x\(self.sensor.enableStreamingCommand.parameters.hex) (unlock code: \(self.sensor.unlockCode))")
+                                                        self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode:  self.sensor.enableStreamingCommand.code, customRequestParameters: self.sensor.enableStreamingCommand.parameters) { (customResponse: Data, error: Error?) in
+                                                            self.main.debugLog("NFC: enable BLE streaming command response: \(customResponse.hexAddress) (MAC address), error: \(error?.localizedDescription ?? "none")")
+
+                                                            session.invalidate()
+                                                        }
+
+                                                    } else {
+
                                                     session.invalidate()
+
+                                                    }
 
                                                     // same final code as for debugLevel = 0
 

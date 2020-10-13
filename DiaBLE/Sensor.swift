@@ -183,7 +183,11 @@ class Sensor: ObservableObject {
         }
     }
 
+    // Libre 2 and BLE streaming parameters
     var encryptedFram: Data = Data()
+    var unlockCode: UInt32 = 42
+    var unlockCount: UInt16 = 0
+
 
     init() {
     }
@@ -220,6 +224,7 @@ class Sensor: ObservableObject {
             crcReport = report
         }
     }
+
 }
 
 
@@ -384,7 +389,7 @@ enum Libre2 {
 
 }
 
-private extension Libre2 {
+extension Libre2 {
     static let key: [UInt16] = [0xA0C5, 0x6860, 0x0000, 0x14C6]
 
     static func processCrypto(input: [UInt16]) -> [UInt16] {

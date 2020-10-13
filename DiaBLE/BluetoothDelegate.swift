@@ -202,11 +202,15 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             } else if let uuid = Abbott.UUID(rawValue: uuid) {
                 msg += " (\(uuid))"
                 if characteristic.properties.contains(.notify) {
+                    app.device.readCharacteristic = characteristic
                     app.device.peripheral?.setNotifyValue(true, for: characteristic)
                 }
                 if characteristic.properties.contains(.read) {
                     app.device.peripheral?.readValue(for: characteristic)
                     msg += "; reading it"
+                }
+                if uuid == Abbott.UUID.bleLogin {
+                    app.device.writeCharacteristic = characteristic
                 }
 
                 // } else if let uuid = Custom.UUID(rawValue: uuid) {
@@ -260,6 +264,9 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             // app.device.write([0xD3, 0x01]); log("MiaoMiao: writing start new sensor command D301")
         }
 
+        if app.device.type == .transmitter(.abbott) && app.sensor.type == .libre2 && serviceUUID == Abbott.dataServiceUUID {
+            // TODO: write streaming unlock payload
+        }
     }
 
 
