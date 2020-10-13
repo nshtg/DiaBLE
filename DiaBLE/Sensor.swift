@@ -434,6 +434,15 @@ extension Libre2 {
         return [s1, s2, s3, s4]
     }
 
+    static func prepareVariables2(id: [UInt8], i1: UInt16, i2: UInt16, i3: UInt16, i4: UInt16) -> [UInt16] {
+        let s1 = UInt16(truncatingIfNeeded: UInt(UInt16(id[5], id[4])) + UInt(i1))
+        let s2 = UInt16(truncatingIfNeeded: UInt(UInt16(id[3], id[2])) + UInt(i2))
+        let s3 = UInt16(truncatingIfNeeded: UInt(UInt16(id[1], id[0])) + UInt(i3) + UInt(key[2]))
+        let s4 = UInt16(truncatingIfNeeded: UInt(i4) + UInt(key[3]))
+
+        return [s1, s2, s3, s4]
+    }
+
     static func usefulFunction(id: [UInt8], x: UInt16, y: UInt16) -> [UInt8] {
         let blockKey = processCrypto(input: prepareVariables(id: id, x: x, y: y))
         let low = blockKey[0]
@@ -449,6 +458,53 @@ extension Libre2 {
             UInt8(truncatingIfNeeded: r2 >> 8)
         ]
     }
+
+    static func streamingUnlockPayload(id: [UInt8], info: [UInt8], enableTime: UInt32, unlockCount: UInt16) -> [UInt8] {
+
+        // First 4 bytes are just int32 of timestamp + unlockCount
+        let time = enableTime + UInt32(unlockCount)
+        let b: [UInt8] = [
+            UInt8(time & 0xFF),
+            UInt8((time >> 8) & 0xFF),
+            UInt8((time >> 16) & 0xFF),
+            UInt8((time >> 24) & 0xFF)
+        ]
+
+        // Then we need data of activation command and enable command that were send to sensor
+        let ad = usefulFunction(id: id, x: 0x1b, y: 0x1b6a)
+        let ed = usefulFunction(id: id, x: 0x1e, y: UInt16(enableTime & 0xFFFF) ^ UInt16(info[5], info[4]))
+
+        let t11 = UInt16(ed[1], ed[0]) ^ UInt16(b[3], b[2])
+        let t12 = UInt16(ad[1], ad[0])
+        let t13 = UInt16(ed[3], ed[2]) ^ UInt16(b[1], b[0])
+        let t14 = UInt16(ad[3], ad[2])
+
+        let t2 = processCrypto(input: prepareVariables2(id: id, i1: t11, i2: t12, i3: t13, i4: t14))
+
+        // TODO extract if secret
+        let t31 = crc16(Data([0xc1, 0xc4, 0xc3, 0xc0, 0xd4, 0xe1, 0xe7, 0xba, UInt8(t2[0] & 0xFF), UInt8((t2[0] >> 8) & 0xFF)])).byteSwapped
+        let t32 = crc16(Data([UInt8(t2[1] & 0xFF), UInt8((t2[1] >> 8) & 0xFF),
+                              UInt8(t2[2] & 0xFF), UInt8((t2[2] >> 8) & 0xFF),
+                              UInt8(t2[3] & 0xFF), UInt8((t2[3] >> 8) & 0xFF)])).byteSwapped
+        let t33 = crc16(Data([ad[0], ad[1], ad[2], ad[3], ed[0], ed[1]])).byteSwapped
+        let t34 = crc16(Data([ed[2], ed[3], b[0], b[1], b[2], b[3]])).byteSwapped
+
+        let t4 = processCrypto(input: prepareVariables2(id: id, i1: t31, i2: t32, i3: t33, i4: t34))
+
+        let res = [
+            UInt8(t4[0] & 0xFF),
+            UInt8((t4[0] >> 8) & 0xFF),
+            UInt8(t4[1] & 0xFF),
+            UInt8((t4[1] >> 8) & 0xFF),
+            UInt8(t4[2] & 0xFF),
+            UInt8((t4[2] >> 8) & 0xFF),
+            UInt8(t4[3] & 0xFF),
+            UInt8((t4[3] >> 8) & 0xFF)
+        ]
+
+        return [b[0], b[1], b[2], b[3], res[0], res[1], res[2], res[3], res[4], res[5], res[6], res[7]]
+    }
+
 }
 
 extension UInt16 {
