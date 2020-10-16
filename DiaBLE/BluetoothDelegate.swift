@@ -276,7 +276,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             }
             if main.settings.debugLevel > 0 {
                 main.debugLog("Bluetooth: writing streaming unlock payload: \(Data(Libre2.streamingUnlockPayload(id: [UInt8](sensor.uid), info: [UInt8](sensor.patchInfo), enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount)).base64EncodedString()) (unlock code: \(sensor.unlockCode), unlock count: \(sensor.unlockCount))")
-                // app.device.write([UInt8](Data(Libre2.streamingUnlockPayload(id: [UInt8](sensor.uid), info: [UInt8]( sensor.patchInfo), enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount)).base64EncodedData()))
+                app.device.write([UInt8](Data(Libre2.streamingUnlockPayload(id: [UInt8](sensor.uid), info: [UInt8](sensor.patchInfo), enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount)).base64EncodedData()))
             }
         }
     }

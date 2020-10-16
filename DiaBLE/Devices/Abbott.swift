@@ -25,4 +25,25 @@ class Abbott: Transmitter {
     override class var dataReadCharacteristicUUID: String  { UUID.compositeRawData.rawValue }
 
 
+    // TEST
+    func parseBLEData( _ data: Data = Data("ee098c09e6898b0dd1c98a0dc1898c09a6098d0d9dc98a0d94c98a0dd2c98a0d000008040000080cf52cc08e".bytes)) -> [Glucose] {
+        
+        var bleGlucose: [Glucose] = []
+        for i in 0 ..< 10 {
+            var temperatureAdjustment = readBits(data, i * 4, 0x1a, 0x5) << 2
+            let negativeAdjustment = readBits(data, i * 4, 0x1f, 0x1)
+            if negativeAdjustment != 0 {
+                temperatureAdjustment = -temperatureAdjustment
+            }
+            let glucose = Glucose(raw: readBits(data, i * 4, 0, 0xe),
+                                  temperature: readBits(data, i * 4, 0xe, 0xc) << 2,
+                                  temperatureAdjustment: temperatureAdjustment)
+            bleGlucose.append(glucose)
+        }
+        let wearTimeMinutes = UInt16(data[41], data[40])
+        let crc = UInt16(data[42], data[43])
+        main.debugLog("Bluetooth: received BLE data 0x\(data.hex) (wear time: \(wearTimeMinutes) minutes (0x\(String(format: "%04x", wearTimeMinutes))), CRC: \(String(format: "%04x", crc)), computed CRC: \(String(format: "%04x", crc16(Data(data[0...41]))))), glucose values: \(bleGlucose)")
+        return bleGlucose
+    }
+
 }

@@ -20,6 +20,7 @@ struct Glucose: Identifiable, Codable {
     let date: Date
     let raw: Int
     let temperature: Int
+    let temperatureAdjustment: Int
     var value: Int = 0
     var calibration: Calibration? {
         willSet(newCalibration) {
@@ -30,18 +31,20 @@ struct Glucose: Identifiable, Codable {
     }
     var source: String = ""
 
-    init(raw: Int, temperature: Int = 0, calibration: Calibration? = nil, id: Int = 0, date: Date = Date()) {
+    init(raw: Int, temperature: Int = 0, temperatureAdjustment: Int = 0, calibration: Calibration? = nil, id: Int = 0, date: Date = Date()) {
         self.id = id
         self.date = date
         self.raw = raw
         self.value = raw / 10
         self.temperature = temperature
+        self.temperatureAdjustment = temperatureAdjustment
         self.calibration = calibration
     }
 
     init(bytes: [UInt8], calibration: Calibration? = nil, id: Int = 0, date: Date = Date()) {
         let raw = (Int(bytes[1] & 0x1F) << 8) + Int(bytes[0])
         let temperature = (Int(bytes[4] & 0x3F) << 8)  + Int(bytes[3])
+        // TODO: temperatureAdjustment
         self.init(raw: raw, temperature: temperature, calibration: calibration, id: id, date: date)
     }
 
