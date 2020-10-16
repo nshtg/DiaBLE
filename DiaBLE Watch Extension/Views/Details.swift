@@ -157,6 +157,33 @@ struct Details: View {
                                 Text("\((app.lastReadingDate - Double(app.sensor.age) * 60).shortDateTime)").foregroundColor(.yellow)
                             }
                         }
+                        if app.sensor.uid.count > 0 {
+                            HStack {
+                                Text("Patch ID")
+                                Spacer()
+                                Text("\(app.sensor.uid.hex)").foregroundColor(.yellow)
+                            }
+                        }
+                        if app.sensor.patchInfo.count > 0 {
+                            HStack {
+                                Text("Patch Info")
+                                Spacer()
+                                Text("\(app.sensor.patchInfo.hex)").foregroundColor(.yellow)
+                            }
+                        }
+                        if app.sensor.unlockCode > 0 {
+                            HStack {
+                                Text("Patch Unlock Code")
+                                Spacer()
+                                Text("\(app.sensor.unlockCode)").foregroundColor(.yellow)
+                            }
+                            HStack {
+                                Text("Patch Unlock Count")
+                                Spacer()
+                                Text("\(app.sensor.unlockCount)").foregroundColor(.yellow)
+                            }
+                        }
+
                     }
 
                 }
@@ -192,11 +219,11 @@ struct Details: View {
                         Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 24, height: 24)
                             .foregroundColor(.blue)
                         Text(app.deviceState == "Connected" && (readingCountdown > 0 || app.status.hasSuffix("sensor")) ?
-                            "\(readingCountdown) s" : "...")
+                                "\(readingCountdown) s" : "...")
                             .fixedSize()
                             .onReceive(timer) { _ in
                                 self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                        }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
+                            }.foregroundColor(.orange).font(Font.footnote.monospacedDigit())
                     }
                 }
 

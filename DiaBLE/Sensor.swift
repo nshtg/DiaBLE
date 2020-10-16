@@ -101,7 +101,7 @@ class Sensor: ObservableObject {
             if serial != "" {
                 serial = type.serialPrefix + serial.dropFirst()
             }
-            if region == 0 {
+            if region == 0 && info.count > 3 {
                 region = Int(info[3])
             }
         }
@@ -186,7 +186,7 @@ class Sensor: ObservableObject {
     // Libre 2 and BLE streaming parameters
     var encryptedFram: Data = Data()
     var unlockCode: UInt32 = 42
-    var unlockCount: UInt16 = 0
+    @Published var unlockCount: UInt16 = 0
 
 
     init() {
@@ -516,7 +516,7 @@ extension UInt16 {
 
 // https://github.com/dabear/SwitftLibreOOPWebPublic/blob/master/SwiftLibreOOPWeb/Model/SensorData.swift
 
-func readBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int) -> Int {
+func readBits(_ buffer: Data, _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int) -> Int {
     guard bitCount != 0 else {
         return 0
     }
@@ -532,7 +532,7 @@ func readBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount
     return res
 }
 
-func writeBits(_ buffer: [UInt8], _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int, _ value: Int) -> [UInt8]{
+func writeBits(_ buffer: Data, _ byteOffset: Int, _ bitOffset: Int, _ bitCount: Int, _ value: Int) -> Data {
     var res = buffer
     for i in 0 ..< bitCount {
         let totalBitOffset = byteOffset * 8 + bitOffset + i
