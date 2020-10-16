@@ -178,7 +178,7 @@ class BluCon: Transmitter {
             } else if dataHex.hasPrefix(ResponseType.multipleBlocks.rawValue) {
                 if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
                 buffer.append(data.suffix(from: 4))
-                main.log("\(name): partial buffer count: \(buffer.count)")
+                main.log("\(name): partial buffer size: \(buffer.count)")
                 if buffer.count == 344 {
                     write(request: .sleep)
                     let fram = buffer[..<344]

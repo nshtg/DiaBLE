@@ -264,8 +264,20 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             // app.device.write([0xD3, 0x01]); log("MiaoMiao: writing start new sensor command D301")
         }
 
-        if app.device.type == .transmitter(.abbott) && app.sensor.type == .libre2 && serviceUUID == Abbott.dataServiceUUID {
+        if app.device.type == .transmitter(.abbott) && serviceUUID == Abbott.dataServiceUUID {
             // TODO: write streaming unlock payload
+            var sensor: Sensor! = app.sensor
+            if app.sensor == nil {
+                sensor = Sensor(transmitter: app.transmitter)
+                main.app.sensor = sensor
+                // TEST
+                sensor.uid = Data("2fe7b10000a407e0".bytes)
+                sensor.patchInfo = Data("9d083001712b".bytes)
+            }
+            if main.settings.debugLevel > 0 {
+                main.debugLog("Bluetooth: writing streaming unlock payload: \(Data(Libre2.streamingUnlockPayload(id: [UInt8](sensor.uid), info: [UInt8](sensor.patchInfo), enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount)).base64EncodedString()) (unlock code: \(sensor.unlockCode), unlock count: \(sensor.unlockCount))")
+                // app.device.write([UInt8](Data(Libre2.streamingUnlockPayload(id: [UInt8](sensor.uid), info: [UInt8]( sensor.patchInfo), enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount)).base64EncodedData()))
+            }
         }
     }
 

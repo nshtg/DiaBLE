@@ -95,9 +95,9 @@ class MiaoMiao: Transmitter {
             }
             if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
             buffer.append(data)
-            main.log("\(name): partial buffer count: \(buffer.count)")
+            main.log("\(name): partial buffer size: \(buffer.count)")
             if buffer.count >= 363 {
-                main.log("\(name): data count: \(Int(buffer[1]) << 8 + Int(buffer[2]))")
+                main.log("\(name): data size: \(Int(buffer[1]) << 8 + Int(buffer[2]))")
                 
                 battery = Int(buffer[13])
                 firmware = buffer[14...15].hex

@@ -360,9 +360,9 @@ class Watlaa: Watch {
                 }
                 if bridge.buffer.count == 0 { bridge.sensor!.lastReadingDate = main.app.lastReadingDate }
                 bridge.buffer.append(data)
-                main.log("\(bridgeName): partial buffer count: \(bridge.buffer.count)")
+                main.log("\(bridgeName): partial buffer size: \(bridge.buffer.count)")
                 if bridge.buffer.count >= 363 {
-                    main.log("\(bridgeName): data count: \(Int(bridge.buffer[1]) << 8 + Int(bridge.buffer[2]))")
+                    main.log("\(bridgeName): data size: \(Int(bridge.buffer[1]) << 8 + Int(bridge.buffer[2]))")
 
                     bridge.battery  = Int(bridge.buffer[13])
                     bridge.firmware = bridge.buffer[14...15].hex
@@ -407,7 +407,7 @@ class Watlaa: Watch {
             if bridge.buffer.count == 0 { bridge.sensor!.lastReadingDate = main.app.lastReadingDate }
             lastReadingDate = main.app.lastReadingDate
             bridge.buffer.append(data)
-            main.log("\(bridgeName): partial buffer count: \(bridge.buffer.count)")
+            main.log("\(bridgeName): partial buffer size: \(bridge.buffer.count)")
 
             if bridge.buffer.count == 344 {
                 let fram = bridge.buffer[..<344]
