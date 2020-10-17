@@ -25,6 +25,30 @@ class Abbott: Transmitter {
     override class var dataReadCharacteristicUUID: String  { UUID.compositeRawData.rawValue }
 
 
+    override func read(_ data: Data, for uuid: String) {
+
+        switch UUID(rawValue: uuid) {
+
+        case .compositeRawData:
+            if sensor == nil {
+                sensor = Sensor(transmitter: self)
+                main.app.sensor = sensor
+            }
+            if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
+            buffer.append(data)
+            main.log("\(name): partial buffer size: \(buffer.count)")
+            if buffer.count == 20 + 18 + 8 {
+                // TODO
+                sensor!.history.insert(contentsOf: parseBLEData(Data(try! Libre2.decryptBLE(id: [UInt8](sensor!.uid), data: [UInt8](buffer.suffix(46))))), at: 0)
+                main.status("\(sensor!.type)  +  BLE)")
+            }
+
+        default:
+            break
+        }
+    }
+
+
     // TEST
     func parseBLEData( _ data: Data = Data("ee098c09e6898b0dd1c98a0dc1898c09a6098d0d9dc98a0d94c98a0dd2c98a0d000008040000080cf52cc08e".bytes)) -> [Glucose] {
         
