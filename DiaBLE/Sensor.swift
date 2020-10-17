@@ -73,6 +73,16 @@ enum SensorState: UInt8, CustomStringConvertible {
     }
 }
 
+struct CalibrationInfo {
+   var i1: Int
+   var i2: Int
+   var i3: Int
+   var negativei3 : Bool
+   var i4: Int
+   var i5: Int
+   var i6: Int
+ }
+
 
 class Sensor: ObservableObject {
 
@@ -224,6 +234,21 @@ class Sensor: ObservableObject {
             crcReport = report
         }
     }
+
+
+    var calibrationInfo: CalibrationInfo {
+
+       let i1 = readBits(fram, 2, 0, 3)
+       let i2 = readBits(fram, 2, 3, 0xa)
+       let i3 = readBits(fram, 0x150, 0, 8)
+       let i4 = readBits(fram, 0x150, 8, 0xe)
+       let negativei3 = readBits(fram, 0x150, 0x21, 1) != 0
+       let i5 = readBits(fram, 0x150, 0x28, 0xc) << 2
+       let i6 = readBits(fram, 0x150, 0x34, 0xc) << 2
+
+       return CalibrationInfo(i1: i1, i2: i2, i3: i3, negativei3: negativei3, i4: i4, i5: i5, i6: i6)
+
+     }
 
 }
 
