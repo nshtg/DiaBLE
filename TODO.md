@@ -1,6 +1,7 @@
 FIXME
 -----
 
+* iOS 14: when getting focus to enter the Nightscout credentials the URL textfields scroll up offscreen
 * Bubble: the Apple Watch app doesn't connect to it
 * Apple Watch app:
   - the Monitor counter doesn't update on rescan
@@ -13,13 +14,14 @@ FIXME
 TODO
 ----
 
-* clean the code base by restarting from a fresh Xcode 12 project template and make use of the new Widgets, @Scene/AppStorage, ScrollViewReaders, lazy grids...
+* clean the code base by restarting from a fresh Xcode 12 project template and make use of Combine and of the new Widgets, @Scene/AppStorage, ScrollViewReaders, lazy grids...
+* correctly implement the Libre 2 BLE protocol
 * selection of glucose units
 * manage Nightscout JavaScript alerts synchronously
 * Apple Watch app: snapshots, workout and extended runtime background sessions, complications
-* BLE: Libre 2 beacons, update RSSI continuously
+* BLE: update RSSI continuously
 * log: limit to a number of readings, prepend time, add a search field, Share menu, record to a file
-* more modern Swift idioms: Combine, property wrappers, @dynamicCallable/MemberLookup, ViewModifiers
+* more modern Swift idioms: property wrappers, @dynamicCallable/MemberLookup, ViewModifiers
 
 
 PLANS / WISHES
