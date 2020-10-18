@@ -60,7 +60,7 @@ class Abbott: Transmitter {
                 temperatureAdjustment = -temperatureAdjustment
             }
             let glucose = Glucose(raw: readBits(data, i * 4, 0, 0xe),
-                                  temperature: readBits(data, i * 4, 0xe, 0xc) << 2,
+                                  rawTemperature: readBits(data, i * 4, 0xe, 0xc) << 2,
                                   temperatureAdjustment: temperatureAdjustment)
             bleGlucose.append(glucose)
         }

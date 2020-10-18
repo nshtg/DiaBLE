@@ -169,7 +169,7 @@ class Sensor: ObservableObject {
                 if negativeAdjustment != 0 { temperatureAdjustment = -temperatureAdjustment }
                 let id = age - i
                 let date = startDate + Double(age - i) * 60
-                trend.append(Glucose(raw: raw, temperature: temperature, temperatureAdjustment: temperatureAdjustment, id: id, date: date))
+                trend.append(Glucose(raw: raw, rawTemperature: temperature, temperatureAdjustment: temperatureAdjustment, id: id, date: date))
             }
 
             // FRAM is updated with a 3 minutes delay:
@@ -194,7 +194,7 @@ class Sensor: ObservableObject {
                 if negativeAdjustment != 0 { temperatureAdjustment = -temperatureAdjustment }
                 let id = age - delay - i * 15
                 let date = readingDate - Double(i) * 15 * 60
-                history.append(Glucose(raw: raw, temperature: temperature, temperatureAdjustment: temperatureAdjustment, id: id, date: date))}
+                history.append(Glucose(raw: raw, rawTemperature: temperature, temperatureAdjustment: temperatureAdjustment, id: id, date: date))}
         }
     }
 

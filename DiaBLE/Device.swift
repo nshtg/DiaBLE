@@ -81,6 +81,12 @@ class Device: ObservableObject {
         self.name = Self.name
     }
 
+    // For log while testing
+    convenience init(main: MainDelegate) {
+        self.init()
+        self.main = main
+    }
+
     // For UI testing
     convenience init(battery: Int, rssi: Int = 0, firmware: String = "", manufacturer: String = "", hardware: String = "", macAddress: Data = Data()) {
         self.init()

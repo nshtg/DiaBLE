@@ -176,12 +176,22 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
 
             log("Sensor age: \(sensor.age) minutes (\(String(format: "%.2f", Double(sensor.age)/60/24)) days), started on: \((app.lastReadingDate - Double(sensor.age) * 60).shortDateTime)")
 
+            let calibrationInfo = sensor.calibrationInfo
+
             history.rawTrend = sensor.trend
             log("Raw trend: \(sensor.trend.map{$0.value})")
-            debugLog("Trend temperatures: \(sensor.trend.map{$0.temperature})")
+            debugLog("Raw trend temperatures: \(sensor.trend.map{$0.rawTemperature})")
+            let factoryTrend = sensor.trend.map { factoryGlucose(raw: $0, calibrationInfo: calibrationInfo) }
+            log("Factory trend: \(factoryTrend.map{$0.value})")
+            log("Trend temperatures: \(factoryTrend.map{Double(String(format: "%.1f", $0.temperature))!}))")
             history.rawValues = sensor.history
             log("Raw history: \(sensor.history.map{$0.value})")
-            debugLog("History temperatures: \(sensor.history.map{$0.temperature})")
+            debugLog("Raw historic temperatures: \(sensor.history.map{$0.rawTemperature})")
+            // TEST
+            // sensor.history.insert(contentsOf: Abbott(main: self).parseBLEData(), at: 0)
+            let factoryHistory = sensor.history.map { factoryGlucose(raw: $0, calibrationInfo: calibrationInfo) }
+            log("Factory history: \(factoryHistory.map{$0.value})")
+            log("Historic temperatures: \(factoryHistory.map{Double(String(format: "%.1f", $0.temperature))!})")
 
             if history.rawTrend.count > 0 {
                 sensor.currentGlucose = -history.rawTrend[0].value
