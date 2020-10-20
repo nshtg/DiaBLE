@@ -130,7 +130,7 @@ class Sensor: ObservableObject {
             encryptedFram = Data()
             if fram.count >= 344 && (type == .libre2 || type == .libreUS14day) && UInt16(fram[0], fram[1]) != crc16(fram[2...23]) {
                 encryptedFram = fram
-                if let decryptedFRAM = try? Data(Libre2.decryptFRAM(type: type, id: uid, info: patchInfo, data: [UInt8](fram))) {
+                if let decryptedFRAM = try? Data(Libre2.decryptFRAM(type: type, id: uid, info: patchInfo, data: fram)) {
                     fram = decryptedFRAM
                 }
             }
@@ -328,7 +328,7 @@ enum Libre2 {
     ///   - info: Sensor info. Retrieved by sending command '0xa1' via NFC.
     ///   - data: Encrypted FRAM data
     /// - Returns: Decrypted FRAM data
-    static func decryptFRAM(type: SensorType, id: Data, info: Data, data: [UInt8]) throws -> [UInt8] {
+    static func decryptFRAM(type: SensorType, id: Data, info: Data, data: Data) throws -> [UInt8] {
         guard type == .libre2 || type == .libreUS14day else {
             struct DecryptFRAMError: Error, LocalizedError {
                 let errorDescription = "Unsupported sensor type"
@@ -373,7 +373,7 @@ enum Libre2 {
     ///   - id: ID/Serial of the sensor. Could be retrieved from NFC as uid.
     ///   - data: Encrypted BLE data
     /// - Returns: Decrypted BLE data
-    static func decryptBLE(id: Data, data: [UInt8]) throws -> [UInt8] {
+    static func decryptBLE(id: Data, data: Data) throws -> [UInt8] {
         let d = usefulFunction(id: id, x: 0x1b, y: 0x1b6a)
         let x = UInt16(d[1], d[0]) ^ UInt16(d[3], d[2]) | 0x63
         let y = UInt16(data[1], data[0]) ^ 0x63

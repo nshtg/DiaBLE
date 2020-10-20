@@ -283,7 +283,7 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
 
             // decryptFRAM() is symmetric: encrypt decrypted fram received from a Bubble
             if (sensor.type == .libre2 || sensor.type == .libreUS14day) && sensor.encryptedFram.count == 0 {
-                fram = try! Data(Libre2.decryptFRAM(type: sensor.type, id: sensor.uid, info: sensor.patchInfo, data: [UInt8](fram)))
+                fram = try! Data(Libre2.decryptFRAM(type: sensor.type, id: sensor.uid, info: sensor.patchInfo, data: fram))
             }
 
             log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.historyEndpoint)...")
