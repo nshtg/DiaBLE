@@ -35,7 +35,7 @@ extension UInt16 {
     }
     // init from data[low...high]
     init(_ data: Data) {
-        self = UInt16(data[1]) << 8 + UInt16(data[0])
+        self = UInt16(data[data.startIndex + 1]) << 8 + UInt16(data[data.startIndex])
     }
 }
 
