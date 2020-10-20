@@ -250,7 +250,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
                             self.debugLog("OOP: activation response: \(oopActivationResponse), activation command: 0x\(String(format: "%2X", UInt8(Int16(oopActivationResponse.activationCommand) & 0xFF)))")
                         }
                         if sensor.type == .libre2 {
-                            self.debugLog("Libre 2: computed activation payload: \(Libre2.activateParameters(id: [UInt8](sensor.uid)).hex)" )
+                            self.debugLog("Libre 2: computed activation payload: \(sensor.nfcCommand(.activate).parameters.hex)" )
                         }
                     }
                 }
