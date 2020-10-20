@@ -22,6 +22,7 @@
 		C53C76EF23D9B87A00B59A98 /* OnlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C53C76EE23D9B87A00B59A98 /* OnlineView.swift */; };
 		C549DD0023F198B700088A4C /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = C549DCFF23F198B700088A4C /* Events.swift */; };
 		C5521C8223BB5D5A00826CFB /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5521C8123BB5D5A00826CFB /* App.swift */; };
+		C55A7F9B253F3EBD00423648 /* NFC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C597AF6A23AB9E3E0012926C /* NFC.swift */; };
 		C55AE3B5245EB1A3009636E0 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55AE3B4245EB1A3009636E0 /* DataView.swift */; };
 		C55B5D16245FCBE50004FE3B /* OnlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55B5D15245FCBE50004FE3B /* OnlineView.swift */; };
 		C566341323B14D55001EB5F3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C566341223B14D55001EB5F3 /* Extensions.swift */; };
@@ -532,6 +533,7 @@
 				C5ADAF43245B4E56003A2E8B /* Device.swift in Sources */,
 				C58507B723C50BF40079539D /* ComplicationController.swift in Sources */,
 				C5E9C75D2444968000D52B32 /* Health.swift in Sources */,
+				C55A7F9B253F3EBD00423648 /* NFC.swift in Sources */,
 				C5E9C755244495B000D52B32 /* Extensions.swift in Sources */,
 				C5DA545E245C5D3A0000BF4E /* BluCon.swift in Sources */,
 				C528E1812445097400BFDA73 /* Monitor.swift in Sources */,

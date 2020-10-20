@@ -1,5 +1,4 @@
 import Foundation
-import CoreNFC
 
 
 // https://fortiguard.com/events/3551/pass-the-salt-2020-pique-curiosity-not-diabetic-fingers
@@ -85,6 +84,10 @@ extension Sensor {
     }
 }
 
+
+#if !os(watchOS)
+
+import CoreNFC
 
 // TODO: reimplement using Combine
 
@@ -455,3 +458,5 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
     }
 
 }
+
+#endif
