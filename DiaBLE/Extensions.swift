@@ -28,10 +28,10 @@ extension Data {
 
 extension UInt16 {
     init(_ high: UInt8, _ low: UInt8) {
-        self = Data([high, low]).withUnsafeBytes { $0.load(as: UInt16.self) }
+        self = UInt16(high) << 8 + UInt16(low)
     }
     init(_ bytes: [UInt8]) {
-        self = Data([bytes[0], bytes[1]]).withUnsafeBytes { $0.load(as: UInt16.self) }
+        self = UInt16(bytes[0]) << 8 + UInt16(bytes[1])
     }
 }
 
