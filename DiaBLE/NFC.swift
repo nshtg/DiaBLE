@@ -72,7 +72,7 @@ extension Sensor {
             y = UInt16(SensorType.libre2.backdoor.bytes)
         }
 
-        let d = Libre2.usefulFunction(id: [UInt8](uid), x: UInt16(code.rawValue), y: y)
+        let d = Libre2.usefulFunction(id: uid, x: UInt16(code.rawValue), y: y)
 
         var params = Data([code.rawValue])
         if code == .enableStreaming {

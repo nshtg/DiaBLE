@@ -130,7 +130,7 @@ class Sensor: ObservableObject {
             encryptedFram = Data()
             if fram.count >= 344 && (type == .libre2 || type == .libreUS14day) && UInt16(fram[0], fram[1]) != crc16(fram[2...23]) {
                 encryptedFram = fram
-                if let decryptedFRAM = try? Data(Libre2.decryptFRAM(type: type, id: [UInt8](uid), info: [UInt8](patchInfo), data: [UInt8](fram))) {
+                if let decryptedFRAM = try? Data(Libre2.decryptFRAM(type: type, id: uid, info: patchInfo, data: [UInt8](fram))) {
                     fram = decryptedFRAM
                 }
             }
@@ -319,8 +319,6 @@ func checksummedFRAM(_ data: Data) -> Data {
 
 
 // https://github.com/ivalkou/LibreTools/blob/master/Sources/LibreTools/Sensor/Libre2.swift
-//
-//  Copyright © 2020 Ivan Valkou. All rights reserved.
 
 enum Libre2 {
     /// Decrypts 43 blocks of Libre 2 FRAM
@@ -330,7 +328,7 @@ enum Libre2 {
     ///   - info: Sensor info. Retrieved by sending command '0xa1' via NFC.
     ///   - data: Encrypted FRAM data
     /// - Returns: Decrypted FRAM data
-    static func decryptFRAM(type: SensorType, id: [UInt8], info: [UInt8], data: [UInt8]) throws -> [UInt8] {
+    static func decryptFRAM(type: SensorType, id: Data, info: Data, data: [UInt8]) throws -> [UInt8] {
         guard type == .libre2 || type == .libreUS14day else {
             struct DecryptFRAMError: Error, LocalizedError {
                 let errorDescription = "Unsupported sensor type"
@@ -375,7 +373,7 @@ enum Libre2 {
     ///   - id: ID/Serial of the sensor. Could be retrieved from NFC as uid.
     ///   - data: Encrypted BLE data
     /// - Returns: Decrypted BLE data
-    static func decryptBLE(id: [UInt8], data: [UInt8]) throws -> [UInt8] {
+    static func decryptBLE(id: Data, data: [UInt8]) throws -> [UInt8] {
         let d = usefulFunction(id: id, x: 0x1b, y: 0x1b6a)
         let x = UInt16(d[1], d[0]) ^ UInt16(d[3], d[2]) | 0x63
         let y = UInt16(data[1], data[0]) ^ 0x63
@@ -398,8 +396,6 @@ enum Libre2 {
         let result = data[2...].enumerated().map { i, value in
             value ^ key[i]
         }
-
-        // Original: guard Crc.hasValidCrc16InLastTwoBytes(result) else {
 
         guard crc16(Data(result.prefix(42))) == UInt16(result[42], result[43]) else {
             struct DecryptBLEError: Error, LocalizedError {
@@ -449,7 +445,7 @@ extension Libre2 {
         return [f4, f3, f2, f1];
     }
 
-    static func prepareVariables(id: [UInt8], x: UInt16, y: UInt16) -> [UInt16] {
+    static func prepareVariables(id: Data, x: UInt16, y: UInt16) -> [UInt16] {
         let s1 = UInt16(truncatingIfNeeded: UInt(UInt16(id[5], id[4])) + UInt(x) + UInt(y))
         let s2 = UInt16(truncatingIfNeeded: UInt(UInt16(id[3], id[2])) + UInt(key[2]))
         let s3 = UInt16(truncatingIfNeeded: UInt(UInt16(id[1], id[0])) + UInt(x) * 2)
@@ -458,7 +454,7 @@ extension Libre2 {
         return [s1, s2, s3, s4]
     }
 
-    static func prepareVariables2(id: [UInt8], i1: UInt16, i2: UInt16, i3: UInt16, i4: UInt16) -> [UInt16] {
+    static func prepareVariables2(id: Data, i1: UInt16, i2: UInt16, i3: UInt16, i4: UInt16) -> [UInt16] {
         let s1 = UInt16(truncatingIfNeeded: UInt(UInt16(id[5], id[4])) + UInt(i1))
         let s2 = UInt16(truncatingIfNeeded: UInt(UInt16(id[3], id[2])) + UInt(i2))
         let s3 = UInt16(truncatingIfNeeded: UInt(UInt16(id[1], id[0])) + UInt(i3) + UInt(key[2]))
@@ -467,7 +463,7 @@ extension Libre2 {
         return [s1, s2, s3, s4]
     }
 
-    static func usefulFunction(id: [UInt8], x: UInt16, y: UInt16) -> [UInt8] {
+    static func usefulFunction(id: Data, x: UInt16, y: UInt16) -> [UInt8] {
         let blockKey = processCrypto(input: prepareVariables(id: id, x: x, y: y))
         let low = blockKey[0]
         let high = blockKey[1]
@@ -483,7 +479,7 @@ extension Libre2 {
         ]
     }
 
-    static func streamingUnlockPayload(id: [UInt8], info: [UInt8], enableTime: UInt32, unlockCount: UInt16) -> [UInt8] {
+    static func streamingUnlockPayload(id: Data, info: Data, enableTime: UInt32, unlockCount: UInt16) -> [UInt8] {
 
         // First 4 bytes are just int32 of timestamp + unlockCount
         let time = enableTime + UInt32(unlockCount)

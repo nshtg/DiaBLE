@@ -265,7 +265,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
 
             // decryptFRAM() is symmetric: encrypt decrypted fram received from a Bubble
             if (sensor.type == .libre2 || sensor.type == .libreUS14day) && sensor.encryptedFram.count == 0 {
-                fram = try! Data(Libre2.decryptFRAM(type: sensor.type, id: [UInt8](sensor.uid), info: [UInt8](sensor.patchInfo), data: [UInt8](fram)))
+                fram = try! Data(Libre2.decryptFRAM(type: sensor.type, id: sensor.uid, info: sensor.patchInfo, data: [UInt8](fram)))
             }
 
             log("Sending sensor data to \(settings.oopServer.siteURL)/\(settings.oopServer.historyEndpoint)...")
