@@ -21,6 +21,7 @@ extension SensorType {
         switch self {
         case .libre1:    return "c2ad7521"
         case .libreProH: return "c2ad0090"
+        case .libre2:    return "1bca"
         default:         return "deadbeef"
         }
     }
@@ -57,6 +58,47 @@ extension Sensor {
         default:
             return NFCCommand(code: 0x00, parameters: Data())
         }
+    }
+
+
+    enum Subcommand: UInt8 {
+        case activate         = 0x1b
+        case enableBluetooth  = 0x1e
+    }
+
+    func nfcCommand(code: Subcommand) -> NFCCommand {
+
+        // 0x1a [] 0x1b6a
+        // 0x1b [] 0x1b6a: activate
+        // 0x1c [] 0x1b6a
+        // 0x1d [] 0x1b6a
+        // 0x1e [params]: enable Bluetooth
+        // 0x1f
+
+        var b: [UInt8] = []
+        var y: UInt16
+
+        if code == .enableBluetooth {
+            b = [
+                UInt8(unlockCode & 0xFF),
+                UInt8((unlockCode >> 8) & 0xFF),
+                UInt8((unlockCode >> 16) & 0xFF),
+                UInt8((unlockCode >> 24) & 0xFF)
+            ]
+            y = UInt16(patchInfo[5], patchInfo[4]) ^ UInt16(b[1], b[0])
+        } else {
+            y = UInt16(SensorType.libre2.backdoor.bytes)
+        }
+
+        let d = Libre2.usefulFunction(id: [UInt8](uid), x: UInt16(code.rawValue), y: y)
+
+        var params = Data([code.rawValue])
+        if code == .enableBluetooth {
+            params.append(contentsOf: [b[0], b[1], b[2], b[3]])
+        }
+        params.append(contentsOf: [d[0], d[1], d[2], d[3]])
+
+        return NFCCommand(code: 0xA1, parameters: params)
     }
 }
 

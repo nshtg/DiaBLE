@@ -26,6 +26,16 @@ extension Data {
 }
 
 
+extension UInt16 {
+    init(_ high: UInt8, _ low: UInt8) {
+        self = Data([high, low]).withUnsafeBytes { $0.load(as: UInt16.self) }
+    }
+    init(_ bytes: [UInt8]) {
+        self = Data([bytes[0], bytes[1]]).withUnsafeBytes { $0.load(as: UInt16.self) }
+    }
+}
+
+
 extension String {
     var base64: String? { self.data(using: .utf8)?.base64EncodedString() }
     var base64Data: Data? { Data(base64Encoded: self) }
