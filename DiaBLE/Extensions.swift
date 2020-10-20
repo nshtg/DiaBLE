@@ -33,6 +33,10 @@ extension UInt16 {
     init(_ bytes: [UInt8]) {
         self = UInt16(bytes[0]) << 8 + UInt16(bytes[1])
     }
+    // init from data[low...high]
+    init(_ data: Data) {
+        self = UInt16(data[1]) << 8 + UInt16(data[0])
+    }
 }
 
 

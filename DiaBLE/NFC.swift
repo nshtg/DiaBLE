@@ -85,7 +85,7 @@ extension Sensor {
                 UInt8((unlockCode >> 16) & 0xFF),
                 UInt8((unlockCode >> 24) & 0xFF)
             ]
-            y = UInt16(patchInfo[5], patchInfo[4]) ^ UInt16(b[1], b[0])
+            y = UInt16(patchInfo[4...5]) ^ UInt16(b)
         } else {
             y = UInt16(SensorType.libre2.backdoor.bytes)
         }
@@ -94,9 +94,9 @@ extension Sensor {
 
         var params = Data([code.rawValue])
         if code == .enableBluetooth {
-            params.append(contentsOf: [b[0], b[1], b[2], b[3]])
+            params.append(contentsOf: b)
         }
-        params.append(contentsOf: [d[0], d[1], d[2], d[3]])
+        params.append(contentsOf: d)
 
         return NFCCommand(code: 0xA1, parameters: params)
     }
