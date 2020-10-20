@@ -21,7 +21,7 @@ extension SensorType {
         switch self {
         case .libre1:    return "c2ad7521"
         case .libreProH: return "c2ad0090"
-        case .libre2:    return "1bca"
+        case .libre2:    return "1b6a"
         default:         return "deadbeef"
         }
     }
@@ -85,7 +85,7 @@ extension Sensor {
                 UInt8((unlockCode >> 16) & 0xFF),
                 UInt8((unlockCode >> 24) & 0xFF)
             ]
-            y = UInt16(patchInfo[4...5]) ^ UInt16(b)
+            y =  UInt16(patchInfo[5], patchInfo[4]) ^ UInt16(b[1], b[0])
         } else {
             y = UInt16(SensorType.libre2.backdoor.bytes)
         }
