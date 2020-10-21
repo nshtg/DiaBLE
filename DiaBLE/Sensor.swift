@@ -1,5 +1,10 @@
 import Foundation
 
+
+typealias SensorUid = Data
+typealias PatchInfo = Data
+
+
 enum SensorType: String, CustomStringConvertible {
     case libre1       = "Libre 1"
     case libre2       = "Libre 2"
@@ -19,7 +24,7 @@ enum SensorType: String, CustomStringConvertible {
 }
 
 
-func sensorType(patchInfo: Data) -> SensorType {
+func sensorType(patchInfo: PatchInfo) -> SensorType {
     switch patchInfo[0] {
     case 0xDF: return .libre1
     case 0xA2: return .libre1
@@ -100,7 +105,7 @@ class Sensor: ObservableObject {
     var crcReport: String = ""    // TODO
 
 
-    var patchInfo: Data = Data() {
+    var patchInfo: PatchInfo = Data() {
         willSet(info) {
             if info.count > 0 {
                 type = sensorType(patchInfo: info)
@@ -116,7 +121,7 @@ class Sensor: ObservableObject {
         }
     }
 
-    var uid: Data = Data() {
+    var uid: SensorUid = Data() {
         willSet(uid) {
             serial = serialNumber(uid: uid)
         }
@@ -260,7 +265,7 @@ class Sensor: ObservableObject {
 
 // https://github.com/UPetersen/LibreMonitor/blob/Swift4/LibreMonitor/Model/SensorSerialNumber.swift
 
-func serialNumber(uid: Data) -> String {
+func serialNumber(uid: SensorUid) -> String {
     let lookupTable = ["0","1","2","3","4","5","6","7","8","9","A","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","T","U","V","W","X","Y","Z"]
     guard uid.count == 8 else { return "invalid uid" }
     let bytes = Array(uid.reversed().suffix(6))
@@ -328,7 +333,7 @@ enum Libre2 {
     ///   - info: Sensor info. Retrieved by sending command '0xa1' via NFC.
     ///   - data: Encrypted FRAM data
     /// - Returns: Decrypted FRAM data
-    static func decryptFRAM(type: SensorType, id: Data, info: Data, data: Data) throws -> [UInt8] {
+    static func decryptFRAM(type: SensorType, id: SensorUid, info: PatchInfo, data: Data) throws -> [UInt8] {
         guard type == .libre2 || type == .libreUS14day else {
             struct DecryptFRAMError: Error, LocalizedError {
                 let errorDescription = "Unsupported sensor type"
@@ -373,7 +378,7 @@ enum Libre2 {
     ///   - id: ID/Serial of the sensor. Could be retrieved from NFC as uid.
     ///   - data: Encrypted BLE data
     /// - Returns: Decrypted BLE data
-    static func decryptBLE(id: Data, data: Data) throws -> [UInt8] {
+    static func decryptBLE(id: SensorUid, data: Data) throws -> [UInt8] {
         let d = usefulFunction(id: id, x: 0x1b, y: 0x1b6a)
         let x = UInt16(d[1], d[0]) ^ UInt16(d[3], d[2]) | 0x63
         let y = UInt16(data[1], data[0]) ^ 0x63
@@ -445,7 +450,7 @@ extension Libre2 {
         return [f4, f3, f2, f1];
     }
 
-    static func prepareVariables(id: Data, x: UInt16, y: UInt16) -> [UInt16] {
+    static func prepareVariables(id: SensorUid, x: UInt16, y: UInt16) -> [UInt16] {
         let s1 = UInt16(truncatingIfNeeded: UInt(UInt16(id[5], id[4])) + UInt(x) + UInt(y))
         let s2 = UInt16(truncatingIfNeeded: UInt(UInt16(id[3], id[2])) + UInt(key[2]))
         let s3 = UInt16(truncatingIfNeeded: UInt(UInt16(id[1], id[0])) + UInt(x) * 2)
@@ -454,7 +459,7 @@ extension Libre2 {
         return [s1, s2, s3, s4]
     }
 
-    static func prepareVariables2(id: Data, i1: UInt16, i2: UInt16, i3: UInt16, i4: UInt16) -> [UInt16] {
+    static func prepareVariables2(id: SensorUid, i1: UInt16, i2: UInt16, i3: UInt16, i4: UInt16) -> [UInt16] {
         let s1 = UInt16(truncatingIfNeeded: UInt(UInt16(id[5], id[4])) + UInt(i1))
         let s2 = UInt16(truncatingIfNeeded: UInt(UInt16(id[3], id[2])) + UInt(i2))
         let s3 = UInt16(truncatingIfNeeded: UInt(UInt16(id[1], id[0])) + UInt(i3) + UInt(key[2]))
@@ -463,7 +468,7 @@ extension Libre2 {
         return [s1, s2, s3, s4]
     }
 
-    static func usefulFunction(id: Data, x: UInt16, y: UInt16) -> [UInt8] {
+    static func usefulFunction(id: SensorUid, x: UInt16, y: UInt16) -> [UInt8] {
         let blockKey = processCrypto(input: prepareVariables(id: id, x: x, y: y))
         let low = blockKey[0]
         let high = blockKey[1]
@@ -479,7 +484,7 @@ extension Libre2 {
         ]
     }
 
-    static func streamingUnlockPayload(id: Data, info: Data, enableTime: UInt32, unlockCount: UInt16) -> [UInt8] {
+    static func streamingUnlockPayload(id: SensorUid, info: PatchInfo, enableTime: UInt32, unlockCount: UInt16) -> [UInt8] {
 
         // First 4 bytes are just int32 of timestamp + unlockCount
         let time = enableTime + UInt32(unlockCount)

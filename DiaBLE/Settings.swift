@@ -119,11 +119,11 @@ class Settings: ObservableObject {
         didSet { UserDefaults.standard.set(self.nightscoutToken, forKey: "nightscoutToken") }
     }
 
-    @Published var patchUid: Data = UserDefaults.standard.data(forKey: "patchUid")! {
+    @Published var patchUid: SensorUid = UserDefaults.standard.data(forKey: "patchUid")! {
         didSet { UserDefaults.standard.set(self.patchUid, forKey: "patchUid") }
     }
 
-    @Published var patchInfo: Data = UserDefaults.standard.data(forKey: "patchInfo")! {
+    @Published var patchInfo: PatchInfo = UserDefaults.standard.data(forKey: "patchInfo")! {
         didSet { UserDefaults.standard.set(self.patchInfo, forKey: "patchInfo") }
     }
 

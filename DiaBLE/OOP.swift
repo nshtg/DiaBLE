@@ -218,7 +218,7 @@ struct GlucoseSpaceActivationResponse: Codable {
 
 // TODO: use Combine Result
 
-func postToOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: Data? = nil, patchInfo: Data? = nil, handler: @escaping (Data?, URLResponse?, Error?, [URLQueryItem]) -> Void) {
+func postToOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), patchUid: SensorUid? = nil, patchInfo: PatchInfo? = nil, handler: @escaping (Data?, URLResponse?, Error?, [URLQueryItem]) -> Void) {
     var urlComponents = URLComponents(string: server.siteURL + "/" + (patchInfo == nil ? server.calibrationEndpoint : (bytes.count > 0 ? server.historyEndpoint : server.activationEndpoint)))!
     var queryItems: [URLQueryItem] = bytes.count > 0 ? [URLQueryItem(name: "content", value: bytes.hex)] : []
     let date = Int64((date.timeIntervalSince1970 * 1000.0).rounded())
