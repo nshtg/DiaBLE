@@ -21,24 +21,41 @@ struct DataView: View {
 
                 if app.deviceState == "Connected" {
                     Text(readingCountdown > 0 || app.status.hasSuffix("sensor") ?
-                        "\(readingCountdown) s" : "")
+                            "\(readingCountdown) s" : "")
                         .fixedSize()
                         .onReceive(timer) { _ in
                             self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                    }.font(Font.caption.monospacedDigit()).foregroundColor(.orange)
+                        }.font(Font.caption.monospacedDigit()).foregroundColor(.orange)
                 }
 
                 VStack {
+
                     HStack {
-                        if history.values.count > 0 {
-                            VStack(spacing: 4) {
-                                Text("OOP history").bold()
-                                ScrollView {
-                                    ForEach(history.values) { glucose in
-                                        (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
-                                    }
-                                }.frame(maxWidth: .infinity, alignment: .topLeading)
-                            }.foregroundColor(.blue)
+
+                        VStack {
+
+                            if history.values.count > 0 {
+                                VStack(spacing: 4) {
+                                    Text("OOP history").bold()
+                                    ScrollView {
+                                        ForEach(history.values) { glucose in
+                                            (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
+                                        }
+                                    }.frame(maxWidth: .infinity, alignment: .topLeading)
+                                }.foregroundColor(.blue)
+                            }
+
+                            if history.factoryValues.count > 0 {
+                                VStack(spacing: 4) {
+                                    Text("History").bold()
+                                    ScrollView {
+                                        ForEach(history.factoryValues) { glucose in
+                                            (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
+                                        }
+                                    }.frame(maxWidth: .infinity, alignment: .topLeading)
+                                }.foregroundColor(.orange)
+                            }
+
                         }
 
                         if history.rawValues.count > 0 {
@@ -54,15 +71,31 @@ struct DataView: View {
                     }
 
                     HStack {
-                        if history.calibratedValues.count > 0 {
-                            VStack(spacing: 4) {
-                                Text("Calibrated history").bold()
-                                ScrollView {
-                                    ForEach(history.calibratedValues) { glucose in
-                                        (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
-                                    }
-                                }.frame(maxWidth: .infinity, alignment: .topLeading)
-                            }.foregroundColor(.purple)
+
+                        VStack {
+
+                            if history.factoryTrend.count > 0 {
+                                VStack(spacing: 4) {
+                                    Text("Trend").bold()
+                                    ScrollView {
+                                        ForEach(history.factoryTrend) { glucose in
+                                            (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
+                                        }
+                                    }.frame(maxWidth: .infinity, alignment: .topLeading)
+                                }.foregroundColor(.orange)
+                            }
+
+                            if history.calibratedValues.count > 0 {
+                                VStack(spacing: 4) {
+                                    Text("Calibrated history").bold()
+                                    ScrollView {
+                                        ForEach(history.calibratedValues) { glucose in
+                                            (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold())
+                                        }
+                                    }.frame(maxWidth: .infinity, alignment: .topLeading)
+                                }.foregroundColor(.purple)
+                            }
+
                         }
 
                         VStack {
@@ -92,6 +125,7 @@ struct DataView: View {
                     }
 
                     HStack(spacing: 0) {
+
                         if history.storedValues.count > 0 {
                             VStack(spacing: 4) {
                                 Text("HealthKit").bold()
@@ -103,7 +137,7 @@ struct DataView: View {
                                 }
                                 .frame(maxWidth: .infinity, alignment: .topLeading)
                             }.foregroundColor(.red)
-                                .onAppear { if let healthKit = self.app.main?.healthKit { healthKit.read() } }
+                            .onAppear { if let healthKit = self.app.main?.healthKit { healthKit.read() } }
                         }
 
                         if history.nightscoutValues.count > 0 {
@@ -117,7 +151,7 @@ struct DataView: View {
                                     .frame(maxWidth: .infinity, alignment: .topLeading)
                                 }
                             }.foregroundColor(Color(UIColor.cyan))
-                                .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
+                            .onAppear { if let nightscout = self.app.main?.nightscout { nightscout.read() } }
                         }
                     }
                 }

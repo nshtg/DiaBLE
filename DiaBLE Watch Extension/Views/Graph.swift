@@ -8,12 +8,14 @@ struct Graph: View {
 
 
     func yMax() -> Double {
-        Double([
+        let maxValues = [
             self.history.rawValues.map{$0.value}.max() ?? 0,
+            self.history.factoryValues.map{$0.value}.max() ?? 0,
             self.history.values.map{$0.value}.max() ?? 0,
             self.history.calibratedValues.map{$0.value}.max() ?? 0,
             Int(self.settings.targetHigh + 20)
-            ].max()!)
+        ]
+        return Double(maxValues.max()!)
     }
 
 
@@ -40,7 +42,7 @@ struct Graph: View {
                 }.font(.footnote).foregroundColor(.gray)
             }
 
-            // History raw values
+            // Historic raw values
             GeometryReader { geometry in
                 Path() { path in
                     let width  = Double(geometry.size.width) - 60.0
@@ -67,8 +69,34 @@ struct Graph: View {
                 }.stroke(Color.yellow).opacity(0.6)
             }
 
+            // Historic factory values
+            GeometryReader { geometry in
+                Path() { path in
+                    let width  = Double(geometry.size.width) - 60.0
+                    let height = Double(geometry.size.height)
+                    let count = self.history.factoryValues.count
+                    if count > 0 {
+                        let v = self.history.factoryValues.map{$0.value}
+                        let yScale = (height - 20.0) / self.yMax()
+                        let xScale = width / Double(count - 1)
+                        var startingVoid = v[count - 1] < 1 ? true : false
+                        if startingVoid == false { path.move(to: .init(x: 0.0 + 30.0, y: height - Double(v[count - 1]) * yScale)) }
+                        for i in 1 ..< count {
+                            if v[count - i - 1] > 0 {
+                                let point = CGPoint(x: Double(i) * xScale + 30.0, y: height - Double(v[count - i - 1]) * yScale)
+                                if startingVoid == false {
+                                    path.addLine(to: point)
+                                } else {
+                                    startingVoid = false
+                                    path.move(to: point)
+                                }
+                            }
+                        }
+                    }
+                }.stroke(Color.orange).opacity(0.6)
+            }
 
-            // History calibrated raw values
+            // Historic calibrated values
             GeometryReader { geometry in
                 Path() { path in
                     let width  = Double(geometry.size.width) - 60.0
@@ -96,7 +124,7 @@ struct Graph: View {
             }
 
 
-            // History (OOP) values
+            // Frame and historic OOP values
             GeometryReader { geometry in
                 Path() { path in
                     let width  = Double(geometry.size.width) - 60.0

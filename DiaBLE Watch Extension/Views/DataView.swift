@@ -24,19 +24,35 @@ struct DataView: View {
                     .fixedSize()
                     .onReceive(timer) { _ in
                         self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                }.font(Font.footnote.monospacedDigit()).foregroundColor(.orange)
+                    }.font(Font.footnote.monospacedDigit()).foregroundColor(.orange)
             }
 
             HStack {
-                if history.values.count > 0 {
-                    VStack(spacing: 4) {
-                        Text("OOP history").bold()
-                        ScrollView {
-                            ForEach(history.values) { glucose in
-                                (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold()).frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 4)
-                            }
-                        }.frame(maxWidth: .infinity, alignment: .topLeading)
-                    }.foregroundColor(.blue)
+
+                VStack {
+
+                    if history.values.count > 0 {
+                        VStack(spacing: 4) {
+                            Text("OOP history").bold()
+                            ScrollView {
+                                ForEach(history.values) { glucose in
+                                    (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold()).frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 4)
+                                }
+                            }.frame(maxWidth: .infinity, alignment: .topLeading)
+                        }.foregroundColor(.blue)
+                    }
+
+                    if history.factoryValues.count > 0 {
+                        VStack(spacing: 4) {
+                            Text("History").bold()
+                            ScrollView {
+                                ForEach(history.factoryValues) { glucose in
+                                    (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold()).frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 4)
+                                }
+                            }.frame(maxWidth: .infinity, alignment: .topLeading)
+                        }.foregroundColor(.orange)
+                    }
+
                 }
 
                 if history.rawValues.count > 0 {
@@ -52,15 +68,30 @@ struct DataView: View {
             }.frame(idealHeight: 300)
 
             HStack {
-                if history.calibratedValues.count > 0 {
-                    VStack(spacing: 4) {
-                        Text("Calibrated history").bold()
-                        ScrollView {
-                            ForEach(history.calibratedValues) { glucose in
-                                (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold()).frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 4)
-                            }
-                        }.frame(maxWidth: .infinity, alignment: .topLeading)
-                    }.foregroundColor(.purple)
+
+                VStack {
+
+                    if history.factoryTrend.count > 0 {
+                        VStack(spacing: 4) {
+                            Text("Raw trend").bold()
+                            ScrollView {
+                                ForEach(history.factoryTrend) { glucose in
+                                    (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold()).frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 4)
+                                }
+                            }.frame(maxWidth: .infinity, alignment: .topLeading)
+                        }.foregroundColor(.orange)
+                    }
+
+                    if history.calibratedValues.count > 0 {
+                        VStack(spacing: 4) {
+                            Text("Calibrated history").bold()
+                            ScrollView {
+                                ForEach(history.calibratedValues) { glucose in
+                                    (Text("\(glucose.id) \(glucose.date.shortDateTime)") + Text("  \(glucose.value, specifier: "%3d")").bold()).frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 4)
+                                }
+                            }.frame(maxWidth: .infinity, alignment: .topLeading)
+                        }.foregroundColor(.purple)
+                    }
                 }
 
                 VStack {
@@ -90,6 +121,7 @@ struct DataView: View {
             }.frame(idealHeight: 300)
 
             HStack(spacing: 0) {
+
                 if history.storedValues.count > 0 {
                     VStack(spacing: 0) {
                         Text("HealthKit").bold()
@@ -101,7 +133,7 @@ struct DataView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                     }.foregroundColor(.red)
-                        .onAppear { if let healthKit = self.app.main?.healthKit { healthKit.read() } }
+                    .onAppear { if let healthKit = self.app.main?.healthKit { healthKit.read() } }
                 }
 
                 if history.nightscoutValues.count > 0 {
@@ -123,8 +155,8 @@ struct DataView: View {
         .navigationTitle("Data")
         .edgesIgnoringSafeArea([.bottom])
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-            // .font(.system(.footnote, design: .monospaced)).foregroundColor(Color(UIColor.lightGray))
-            .font(.footnote).foregroundColor(Color(UIColor.lightGray))
+        // .font(.system(.footnote, design: .monospaced)).foregroundColor(Color(UIColor.lightGray))
+        .font(.footnote).foregroundColor(Color(UIColor.lightGray))
     }
 }
 

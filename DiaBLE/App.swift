@@ -76,9 +76,11 @@ class Log: ObservableObject {
 
 
 class History: ObservableObject {
-    @Published var values:    [Glucose] = []
-    @Published var rawValues: [Glucose] = []
-    @Published var rawTrend:  [Glucose] = []
+    @Published var values:        [Glucose] = []
+    @Published var rawValues:     [Glucose] = []
+    @Published var rawTrend:      [Glucose] = []
+    @Published var factoryValues: [Glucose] = []
+    @Published var factoryTrend:  [Glucose] = []
     @Published var calibratedValues: [Glucose] = []
     @Published var calibratedTrend:  [Glucose] = []
     @Published var storedValues:     [Glucose] = []
@@ -117,6 +119,9 @@ extension History {
         let values = [231, 252, 253, 254, 245, 196, 177, 128, 149, 150, 101, 122, 133, 144, 155, 166, 177, 178, 149, 140, 141, 142, 143, 144, 155, 166, 177, 178, 169, 150, 141, 132].enumerated().map { Glucose($0.1, id: 5000 - $0.1 * 15, date: Date() - Double($0.1) * 15 * 60) }
         history.values = values
 
+        let factoryValues = [231, 252, 253, 254, 245, 196, 177, 128, 149, 150, 101, 122, 133, 144, 155, 166, 177, 178, 149, 140, 141, 142, 143, 144, 155, 166, 177, 178, 169, 150, 141, 132].enumerated().map { Glucose($0.1, id: 5000 - $0.1 * 15, date: Date() - Double($0.1) * 15 * 60) }
+        history.factoryValues = factoryValues
+
         let rawValues = [241, 252, 263, 254, 205, 196, 187, 138, 159, 160, 121, 132, 133, 154, 165, 176, 157, 148, 149, 140, 131, 132, 143, 154, 155, 176, 177, 168, 159, 150, 142].enumerated().map { Glucose($0.1, id: 5000 - $0.0 * 15, date: Date() - Double($0.1) * 15 * 60) }
         history.rawValues = rawValues
 
@@ -125,6 +130,9 @@ extension History {
 
         let calibratedValues = [231, 242, 243, 244, 255, 216, 197, 138, 159, 120, 101, 102, 143, 154, 165, 186, 187, 168, 139, 130, 131, 142, 143, 144, 155, 166, 177, 188, 169, 150, 141, 132].enumerated().map { Glucose($0.1, id: 5000 - $0.0 * 15, date: Date() - Double($0.1) * 15 * 60) }
         history.calibratedValues = calibratedValues
+
+        let factoryTrend = [231, 232, 233, 234, 235, 236, 237, 238, 239, 230, 231, 232, 233, 234, 235].enumerated().map { Glucose($0.1, id: 5000 - $0.0, date: Date() - Double($0.1) * 60) }
+        history.factoryTrend = factoryTrend
 
         let calibratedTrend = [231, 232, 233, 234, 235, 236, 237, 238, 239, 230, 231, 232, 233, 234, 235].enumerated().map { Glucose($0.1, id: 5000 - $0.0, date: Date() - Double($0.1) * 60) }
         history.calibratedTrend = calibratedTrend

@@ -164,6 +164,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
             log("Raw trend: \(sensor.trend.map{$0.value})")
             debugLog("Raw trend temperatures: \(sensor.trend.map{$0.rawTemperature})")
             let factoryTrend = sensor.trend.map { factoryGlucose(raw: $0, calibrationInfo: calibrationInfo) }
+            history.factoryTrend = factoryTrend
             log("Factory trend: \(factoryTrend.map{$0.value})")
             log("Trend temperatures: \(factoryTrend.map{Double(String(format: "%.1f", $0.temperature))!}))")
             history.rawValues = sensor.history
@@ -172,6 +173,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
             // TEST
             // sensor.history.insert(contentsOf: Abbott(main: self).parseBLEData(), at: 0)
             let factoryHistory = sensor.history.map { factoryGlucose(raw: $0, calibrationInfo: calibrationInfo) }
+            history.factoryValues = factoryHistory
             log("Factory history: \(factoryHistory.map{$0.value})")
             log("Historic temperatures: \(factoryHistory.map{Double(String(format: "%.1f", $0.temperature))!})")
 
