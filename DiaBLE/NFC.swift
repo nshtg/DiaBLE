@@ -42,14 +42,14 @@ extension Sensor {
         case enableStreaming = 0x1e
     }
 
-    func nfcCommand(_ code: Subcommand) -> NFCCommand {
 
-        // 0x1a [] 0x1b6a
-        // 0x1b [] 0x1b6a: activate
-        // 0x1c [] 0x1b6a
-        // 0x1d [] 0x1b6a
-        // 0x1e [params]: enable Bluetooth streaming
-        // 0x1f
+    /// 0x1a [] 0x1b6a
+    /// 0x1b [] 0x1b6a: activate
+    /// 0x1c [] 0x1b6a
+    /// 0x1d [] 0x1b6a
+    /// 0x1e [params]: enable Bluetooth streaming
+    /// 0x1f
+    func nfcCommand(_ code: Subcommand) -> NFCCommand {
 
         var b: [UInt8] = []
         var y: UInt16
