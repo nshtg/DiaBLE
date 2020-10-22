@@ -58,6 +58,9 @@ struct Glucose: Identifiable, Codable {
 
 
 func factoryGlucose(raw: Glucose, calibrationInfo: CalibrationInfo) -> Glucose {
+
+    guard raw.id >= 0 else { return raw }
+
     let x: Double = 1000 + 71500
     let y: Double = 1000
 
