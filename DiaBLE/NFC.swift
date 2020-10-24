@@ -57,7 +57,7 @@ extension Sensor {
         if code == .enableStreaming {
 
             // Enables Bluetooth on Libre 2. Returns peripheral MAC address to connect to.
-            // unlockCode could be any 32 bit value. The unlockCode and sensor patchUid/patchInfo
+            // unlockCode could be any 32 bit value. The unlockCode and sensor Uid / patchInfo
             // will have also to be provided to the login function when connecting to peripheral.
 
             b = [
@@ -69,7 +69,7 @@ extension Sensor {
             y = UInt16(patchInfo[4...5]) ^ UInt16(b[1], b[0])
 
         } else {
-            y = UInt16(SensorType.libre2.backdoor.bytes)
+            y = UInt16(SensorType.libre2.backdoor.bytes.reversed())
         }
 
         let d = Libre2.usefulFunction(id: uid, x: UInt16(code.rawValue), y: y)
@@ -88,6 +88,10 @@ extension Sensor {
 #if !os(watchOS)
 
 import CoreNFC
+
+
+// https://github.com/ivalkou/LibreTools/blob/master/Sources/LibreTools/NFC/NFCManager.swift
+
 
 // TODO: reimplement using Combine
 
@@ -170,7 +174,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                         for i in 0 ..< requests {
 
                             self.connectedTag?.readMultipleBlocks(requestFlags: [.highDataRate, .address],
-                                                                  blockRange: NSRange(UInt8(i * requestBlocks)...UInt8(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0)))
+                                                                  blockRange: NSRange(UInt8(i * requestBlocks) ... UInt8(i * requestBlocks + (i == requests - 1 ? (remainder == 0 ? requestBlocks : remainder) : requestBlocks) - (requestBlocks > 1 ? 1 : 0)))
                             ) { blockArray, error in
 
                                 if error != nil {
@@ -412,7 +416,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
                 } else { // address >= 0xF860: write to FRAM blocks
 
-                    let requestBlocks = 2 // 3 doesn't work
+                    let requestBlocks = 2    // 3 doesn't work
 
                     let requests = Int(ceil(Double(blocks) / Double(requestBlocks)))
                     let remainder = blocks % requestBlocks

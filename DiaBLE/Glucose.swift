@@ -74,6 +74,9 @@ func factoryGlucose(raw: Glucose, calibrationInfo: CalibrationInfo) -> Glucose {
     let d = pow(logR, 3) * cd + pow(logR, 2) * cc + logR * cb + ca
     let temperature = 1 / d - 273.15
 
+
+    //https://github.com/JohanDegraeve/xdripswift/blob/master/xdrip/BluetoothTransmitter/CGM/Libre/Utilities/LibreMeasurement.swift
+
     let t1 = [
         0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5,
         0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5,

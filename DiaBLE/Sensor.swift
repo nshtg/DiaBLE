@@ -495,7 +495,7 @@ extension Libre2 {
             UInt8((time >> 24) & 0xFF)
         ]
 
-        // Then we need data of activation command and enable command that were send to sensor
+        // Then we need data of activation command and enable command that were sent to sensor
         let ad = usefulFunction(id: id, x: 0x1b, y: 0x1b6a)
         let ed = usefulFunction(id: id, x: 0x1e, y: UInt16(enableTime & 0xFFFF) ^ UInt16(info[5], info[4]))
 
