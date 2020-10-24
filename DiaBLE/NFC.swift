@@ -274,6 +274,10 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                                         self.main.debugLog("NFC: sending command to enable BLE streaming on \(self.sensor.type): code: 0x\(String(format: "%0X", self.sensor.nfcCommand(.enableStreaming).code)), parameters: 0x\(self.sensor.nfcCommand(.enableStreaming).parameters.hex) (unlock code: \(self.sensor.unlockCode))")
                                                         self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: Int(self.sensor.nfcCommand(.enableStreaming).code), customRequestParameters: self.sensor.nfcCommand(.enableStreaming).parameters) { (customResponse: Data, error: Error?) in
                                                             self.main.debugLog("NFC: enable BLE streaming command response: \(customResponse.hexAddress) (MAC address), error: \(error?.localizedDescription ?? "none")")
+                                                            if customResponse.count == 6 {
+                                                                self.main.settings.activeSensorSerial = self.sensor.serial
+                                                                self.main.settings.activeSensorAddress = Data(customResponse.reversed())
+                                                            }
 
                                                             session.invalidate()
                                                         }

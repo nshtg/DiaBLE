@@ -159,7 +159,7 @@ struct Details: View {
                         }
                         if app.sensor.uid.count > 0 {
                             HStack {
-                                Text("Patch ID")
+                                Text("Sensor UID")
                                 Spacer()
                                 Text("\(app.sensor.uid.hex)").foregroundColor(.yellow)
                             }

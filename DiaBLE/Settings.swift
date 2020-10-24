@@ -26,6 +26,8 @@ class Settings: ObservableObject {
         "nightscoutSite": "dashboard.heroku.com/apps",
         "nightscoutToken": "",
 
+        "activeSensorSerial": "",
+        "activeSensorAddress": Data(),
         "patchUid": Data(),
         "patchInfo": Data(),
 
@@ -117,6 +119,14 @@ class Settings: ObservableObject {
 
     @Published var nightscoutToken: String = UserDefaults.standard.string(forKey: "nightscoutToken")! {
         didSet { UserDefaults.standard.set(self.nightscoutToken, forKey: "nightscoutToken") }
+    }
+
+    @Published var activeSensorSerial: String = UserDefaults.standard.string(forKey: "activeSensorSerial")! {
+        didSet { UserDefaults.standard.set(self.activeSensorSerial, forKey: "activeSensorSerial") }
+    }
+
+    @Published var activeSensorAddress: Data = UserDefaults.standard.data(forKey: "activeSensorAddress")! {
+        didSet { UserDefaults.standard.set(self.activeSensorAddress, forKey: "activeSensorAddress") }
     }
 
     @Published var patchUid: SensorUid = UserDefaults.standard.data(forKey: "patchUid")! {
