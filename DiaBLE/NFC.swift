@@ -291,6 +291,11 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                                                 self.main.settings.activeSensorSerial = self.sensor.serial
                                                                 self.main.settings.activeSensorAddress = Data(customResponse.reversed())
                                                             }
+                                                            if subCmd == .activate && customResponse.count == 4 {
+                                                                self.main.debugLog("NFC: after trying activating received \(customResponse.hex) for the patch info \(patchInfo.hex)")
+                                                                // receiving 9d08100 for a patchInfo 9d0830010000 but state remaining .notActivated
+                                                                // TODO
+                                                            }
 
                                                             session.invalidate()
                                                         }

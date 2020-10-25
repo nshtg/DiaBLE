@@ -3,7 +3,7 @@ import CoreBluetooth
 import AVFoundation
 
 
-public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+public class MainDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegate, UNUserNotificationCenterDelegate {
 
     var app: AppState
     var log: Log
@@ -124,7 +124,27 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCe
         return true
     }
 
-    public func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+    // Pre iOS 14:
+    //
+    //    public func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+    //        if shortcutItem.type == "NFC" {
+    //            if nfcReader.isNFCAvailable {
+    //                nfcReader.startSession()
+    //            }
+    //        }
+    //        completionHandler(true)
+    //    }
+
+
+    // New way in iOS 14: https://developer.apple.com/forums/thread/656997
+
+    public func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        let sceneConfiguration = UISceneConfiguration(name: "LaunchConfiguration", sessionRole: connectingSceneSession.role)
+        sceneConfiguration.delegateClass = MainDelegate.self
+        return sceneConfiguration
+    }
+
+    public func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         if shortcutItem.type == "NFC" {
             if nfcReader.isNFCAvailable {
                 nfcReader.startSession()
