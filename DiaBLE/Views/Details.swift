@@ -108,6 +108,7 @@ struct Details: View {
                                     .foregroundColor(app.device.battery > 10 ? .green : .red)
                             }
                         }
+
                     }.font(.callout)
                 }
 
@@ -160,7 +161,7 @@ struct Details: View {
                         }
                         if app.sensor.uid.count > 0 {
                             HStack {
-                                Text("Sensor UID")
+                                Text("UID")
                                 Spacer()
                                 Text("\(app.sensor.uid.hex)").foregroundColor(.yellow)
                             }
@@ -185,7 +186,7 @@ struct Details: View {
                             }
                         }
 
-                    }
+                    }.font(.callout)
                 }
 
 

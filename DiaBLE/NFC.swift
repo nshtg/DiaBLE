@@ -37,9 +37,18 @@ extension Sensor {
         }
     }
 
-    enum Subcommand: UInt8 {
+    enum Subcommand: UInt8, CustomStringConvertible {
         case activate        = 0x1b
         case enableStreaming = 0x1e
+        case unknown0x1a     = 0x1a
+
+        var description: String {
+            switch self {
+            case .activate:        return "activate"
+            case .enableStreaming: return "enable BLE streaming"
+            default:               return "[unknown: 0x\(String(format: "%x", rawValue))]"
+            }
+        }
     }
 
 
@@ -271,10 +280,14 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                                     // self.main.debugLog("NFC: did write at address: 0x\(String(format: "%04X", $0)), bytes: 0x\($1.hex), error: \($2?.localizedDescription ?? "none")")
 
                                                     if self.sensor.type == .libre2 {
-                                                        self.main.debugLog("NFC: sending command to enable BLE streaming on \(self.sensor.type): code: 0x\(String(format: "%0X", self.sensor.nfcCommand(.enableStreaming).code)), parameters: 0x\(self.sensor.nfcCommand(.enableStreaming).parameters.hex) (unlock code: \(self.sensor.unlockCode))")
-                                                        self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: Int(self.sensor.nfcCommand(.enableStreaming).code), customRequestParameters: self.sensor.nfcCommand(.enableStreaming).parameters) { (customResponse: Data, error: Error?) in
-                                                            self.main.debugLog("NFC: enable BLE streaming command response: \(customResponse.hexAddress) (MAC address), error: \(error?.localizedDescription ?? "none")")
-                                                            if customResponse.count == 6 {
+                                                        // let subCmd:Sensor.Subcommand = .unknown0x1a // TEST
+                                                        let subCmd:Sensor.Subcommand = .enableStreaming
+                                                        let cmd = self.sensor.nfcCommand(subCmd)
+                                                        self.main.debugLog("NFC: sending \(self.sensor.type) command to \(subCmd.description): code: 0x\(String(format: "%0X", cmd.code)), parameters: 0x\(cmd.parameters.hex) (unlock code: \(self.sensor.unlockCode))")
+                                                        self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: Int(cmd.code), customRequestParameters:  cmd.parameters) { (customResponse: Data, error: Error?) in
+                                                            self.main.debugLog("NFC: '\(subCmd.description)' command response (\(customResponse.count) bytes): 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
+                                                            if subCmd == .enableStreaming && customResponse.count == 6 {
+                                                                self.main.debugLog("NFC: enabled BLE streaming on \(self.sensor.type) \(self.sensor.serial) (MAC address: \(Data(customResponse.reversed()).hexAddress))")
                                                                 self.main.settings.activeSensorSerial = self.sensor.serial
                                                                 self.main.settings.activeSensorAddress = Data(customResponse.reversed())
                                                             }
