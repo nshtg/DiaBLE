@@ -223,17 +223,17 @@ func postToOOP(server: OOPServer, bytes: Data = Data(), date: Date = Date(), pat
     var queryItems: [URLQueryItem] = bytes.count > 0 ? [URLQueryItem(name: "content", value: bytes.hex)] : []
     let date = Int64((date.timeIntervalSince1970 * 1000.0).rounded())
     if let patchInfo = patchInfo {
-        queryItems.append(contentsOf: [
+        queryItems += [
             URLQueryItem(name: "accesstoken", value: server.token),
             URLQueryItem(name: "patchUid", value: patchUid!.hex),
             URLQueryItem(name: "patchInfo", value: patchInfo.hex)
-        ])
+        ]
     } else {
-        queryItems.append(contentsOf: [
+        queryItems += [
             URLQueryItem(name: "token", value: server.token),
             URLQueryItem(name: "timestamp", value: "\(date)")
             // , URLQueryItem(name: "appName", value: "diabox")
-        ])
+        ]
     }
     urlComponents.queryItems = queryItems
     if let url = urlComponents.url {

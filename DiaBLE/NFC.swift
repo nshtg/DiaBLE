@@ -85,9 +85,9 @@ extension Sensor {
 
         var params = Data([code.rawValue])
         if code == .enableStreaming {
-            params.append(contentsOf: b)
+            params += b
         }
-        params.append(contentsOf: d)
+        params += d
 
         return NFCCommand(code: 0xA1, parameters: params)
     }
@@ -293,7 +293,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                                             }
                                                             if subCmd == .activate && customResponse.count == 4 {
                                                                 self.main.debugLog("NFC: after trying activating received \(customResponse.hex) for the patch info \(patchInfo.hex)")
-                                                                // receiving 9d08100 for a patchInfo 9d0830010000 but state remaining .notActivated
+                                                                // receiving 9d081000 for a patchInfo 9d0830010000 but state remaining .notActivated
                                                                 // TODO
                                                             }
 
