@@ -40,7 +40,8 @@ class Abbott: Transmitter {
             if buffer.count == 20 + 18 + 8 {
                 // TODO
                 sensor!.history.insert(contentsOf: parseBLEData(Data(try! Libre2.decryptBLE(id: sensor!.uid, data: buffer))), at: 0)
-                main.status("\(sensor!.type)  +  BLE)")
+                main.status("\(sensor!.type)  +  BLE")
+                buffer = Data()
             }
 
         default:

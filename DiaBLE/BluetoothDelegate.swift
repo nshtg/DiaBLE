@@ -86,6 +86,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             app.transmitter = Abbott(peripheral: peripheral, main: main)
             app.device = app.transmitter
             app.device.name = "Libre 2"
+            app.device.serial = String(name!.suffix(name!.count - 6))
         } else if name!.lowercased().hasPrefix("blu") {
             app.transmitter = BluCon(peripheral: peripheral, main: main)
             app.device = app.transmitter
@@ -251,24 +252,33 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             log("\(app.device.name): writing start reading command 0x\(Data(readCommand).hex)")
             // app.device.write([0xD3, 0x01]); log("MiaoMiao: writing start new sensor command D301")
         }
-
         if app.device.type == .transmitter(.abbott) && serviceUUID == Abbott.dataServiceUUID {
-            // TODO: write streaming unlock payload
             var sensor: Sensor! = app.sensor
             if app.sensor == nil {
                 sensor = Sensor(transmitter: app.transmitter)
                 main.app.sensor = sensor
-                // TEST
-                sensor.uid = Data("2fe7b10000a407e0".bytes)
-                sensor.patchInfo = Data("9d083001712b".bytes)
+
+                if settings.activeSensorSerial == app.device.serial {
+                    sensor.uid = settings.patchUid
+                    sensor.patchInfo = settings.patchInfo
+                } else { // TEST
+                    sensor.uid = Data("2fe7b10000a407e0".bytes)
+                    sensor.patchInfo = Data("9d083001712b".bytes)
+                }
             }
-            if main.settings.debugLevel > 0 {
-                app.device.macAddress = settings.activeSensorAddress
-                log("DEBUG: sensor id \(sensor.uid)")
-                sensor.unlockCount += 1
-                main.debugLog("Bluetooth: writing streaming unlock payload: \(Data(Libre2.streamingUnlockPayload(id: sensor.uid, info: sensor.patchInfo, enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount)).hex) (unlock code: \(sensor.unlockCode), unlock count: \(sensor.unlockCount))")
-                app.device.write([UInt8](Data(Libre2.streamingUnlockPayload(id: sensor.uid, info: sensor.patchInfo, enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount))), .withResponse)
+
+            app.transmitter.sensor = sensor
+
+            if settings.activeSensorSerial == app.device.serial {
+                sensor.unlockCode = UInt32(settings.activeSensorUnlockCode)
+                sensor.unlockCount = UInt16(settings.activeSensorUnlockCount)
+                log("Bluetooth: the active sensor \(app.device.serial) has reconnected: restoring settings")
             }
+            app.device.macAddress = settings.activeSensorAddress
+            sensor.unlockCount += 1
+            settings.activeSensorUnlockCount += 1
+            main.debugLog("Bluetooth: writing streaming unlock payload: \(Data(Libre2.streamingUnlockPayload(id: sensor.uid, info: sensor.patchInfo, enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount)).hex) (unlock code: \(sensor.unlockCode), unlock count: \(sensor.unlockCount), sensor id: \(sensor.uid.hex), patch info: \(sensor.patchInfo.hex))")
+            app.device.write([UInt8](Data(Libre2.streamingUnlockPayload(id: sensor.uid, info: sensor.patchInfo, enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount))), .withResponse)
         }
     }
 
