@@ -21,7 +21,7 @@ TODO
 * Apple Watch app: snapshots, workout and extended runtime background sessions, complications
 * BLE: update RSSI continuously
 * log: limit to a number of readings, prepend time, add a search field, Share menu, record to a file
-* more modern Swift idioms: property wrappers, @dynamicCallable/MemberLookup, ViewModifiers
+* more modern Swift idioms: property wrappers, @dynamicCallable/MemberLookup, ViewModifiers/Builders
 
 
 PLANS / WISHES

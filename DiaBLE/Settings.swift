@@ -42,6 +42,8 @@ class Settings: ObservableObject {
         willSet(type) {
             if type == .blu || (type == .miaomiao && readingInterval > 5) {
                 readingInterval = 5
+            } else if type == .abbott {
+                readingInterval = 1
             }
             if type != .none {
                 preferredDevicePattern = type.id

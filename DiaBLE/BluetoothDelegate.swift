@@ -256,7 +256,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             var sensor: Sensor! = app.sensor
             if app.sensor == nil {
                 sensor = Sensor(transmitter: app.transmitter)
-                main.app.sensor = sensor
+                app.sensor = sensor
 
                 if settings.activeSensorSerial == app.device.serial {
                     sensor.uid = settings.patchUid
@@ -272,7 +272,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             if settings.activeSensorSerial == app.device.serial {
                 sensor.unlockCode = UInt32(settings.activeSensorUnlockCode)
                 sensor.unlockCount = UInt16(settings.activeSensorUnlockCount)
-                log("Bluetooth: the active sensor \(app.device.serial) has reconnected: restoring settings")
+                log("Bluetooth: the active sensor \(app.device.serial) has reconnected: restoring settings: unlock count: \(sensor.unlockCount )")
             }
             app.device.macAddress = settings.activeSensorAddress
             sensor.unlockCount += 1
