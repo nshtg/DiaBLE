@@ -190,40 +190,28 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             var msg = "Bluetooth: discovered \(app.device.name) \(serviceDescription) service's characteristic \(uuid)"
             msg += (", properties: \(characteristic.properties)")
 
-            if uuid == BluCon.dataReadCharacteristicUUID || uuid == Bubble.dataReadCharacteristicUUID || uuid == MiaoMiao.dataReadCharacteristicUUID {
+            if uuid == Abbott.dataReadCharacteristicUUID || uuid == BluCon.dataReadCharacteristicUUID || uuid == Bubble.dataReadCharacteristicUUID || uuid == MiaoMiao.dataReadCharacteristicUUID {
                 app.device.readCharacteristic = characteristic
                 app.device.peripheral?.setNotifyValue(true, for: app.device.readCharacteristic!)
                 msg += " (data read)"
 
-            } else if uuid == BluCon.dataWriteCharacteristicUUID || uuid == Bubble.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID {
+            } else if uuid == Abbott.dataWriteCharacteristicUUID || uuid == BluCon.dataWriteCharacteristicUUID || uuid == Bubble.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID {
                 msg += " (data write)"
                 app.device.writeCharacteristic = characteristic
 
-            } else if let uuid = Abbott.UUID(rawValue: uuid) {
-                msg += " (\(uuid))"
-                if characteristic.properties.contains(.notify) {
-                    app.device.readCharacteristic = characteristic
-                    app.device.peripheral?.setNotifyValue(true, for: characteristic)
-                }
-                if characteristic.properties.contains(.read) {
-                    app.device.peripheral?.readValue(for: characteristic)
-                    msg += "; reading it"
-                }
-                if uuid == Abbott.UUID.bleLogin {
-                    app.device.writeCharacteristic = characteristic
-                }
 
-                // } else if let uuid = Custom.UUID(rawValue: uuid) {
-                //    msg += " (\(uuid))"
-                //    if uuid.description.contains("unknown") {
-                //        if characteristic.properties.contains(.notify) {
-                //            app.device.peripheral?.setNotifyValue(true, for: characteristic)
-                //        }
-                //        if characteristic.properties.contains(.read) {
-                //            app.device.peripheral?.readValue(for: characteristic)
-                //            msg += "; reading it"
-                //        }
-                //    }
+                //           } else if let uuid = Custom.UUID(rawValue: uuid) {
+                //              msg += " (\(uuid))"
+                //              if uuid.description.contains("unknown") {
+                //                  if characteristic.properties.contains(.notify) {
+                //                      app.device.peripheral?.setNotifyValue(true, for: characteristic)
+                //                  }
+                //                  if characteristic.properties.contains(.read) {
+                //                      app.device.peripheral?.readValue(for: characteristic)
+                //                      msg += "; reading it"
+                //                  }
+                //              }
+
 
             } else if let uuid = BLE.UUID(rawValue: uuid) {
                 if uuid == .batteryLevel {
@@ -346,8 +334,10 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         if [Abbott.dataReadCharacteristicUUID, BluCon.dataReadCharacteristicUUID, Bubble.dataReadCharacteristicUUID, MiaoMiao.dataReadCharacteristicUUID].contains(characteristicString) {
             characteristicString = "data read"
         }
-        let descriptors = characteristic.descriptors
-        log("Bluetooth: \(name) did update notification state for \(characteristicString) characteristic, descriptors: \(descriptors ?? [])")
+        var msg = "Bluetooth: \(name) did update notification state for \(characteristicString) characteristic"
+        if let descriptors = characteristic.descriptors { msg += ", descriptors: \(descriptors)" }
+        if let error = error { msg += ", error: \(error.localizedDescription)" }
+        log(msg)
     }
 
 
@@ -398,6 +388,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             }
 
         } else {
+
             log("\(msg) string: \"\(data.string)\"")
 
             app.lastReadingDate = Date()
