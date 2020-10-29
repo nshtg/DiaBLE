@@ -290,6 +290,8 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                                                 self.main.debugLog("NFC: enabled BLE streaming on \(self.sensor.type) \(self.sensor.serial) (MAC address: \(Data(customResponse.reversed()).hexAddress))")
                                                                 self.main.settings.activeSensorSerial = self.sensor.serial
                                                                 self.main.settings.activeSensorAddress = Data(customResponse.reversed())
+                                                                self.main.settings.activeSensorUnlockCode = 42
+                                                                self.main.settings.activeSensorUnlockCount = 0
                                                             }
                                                             if subCmd == .activate && customResponse.count == 4 {
                                                                 self.main.debugLog("NFC: after trying activating received \(customResponse.hex) for the patch info \(patchInfo.hex)")

@@ -28,6 +28,8 @@ class Settings: ObservableObject {
 
         "activeSensorSerial": "",
         "activeSensorAddress": Data(),
+        "activeSensorUnlockCode": 0,
+        "activeSensorUnlockCount": 0,
         "patchUid": Data(),
         "patchInfo": Data(),
 
@@ -127,6 +129,14 @@ class Settings: ObservableObject {
 
     @Published var activeSensorAddress: Data = UserDefaults.standard.data(forKey: "activeSensorAddress")! {
         didSet { UserDefaults.standard.set(self.activeSensorAddress, forKey: "activeSensorAddress") }
+    }
+
+    @Published var activeSensorUnlockCode: Int = UserDefaults.standard.integer(forKey: "activeSensorUnlockCode") {
+        didSet { UserDefaults.standard.set(self.activeSensorUnlockCode, forKey: "activeSensorUnlockCode") }
+    }
+
+    @Published var activeSensorUnlockCount: Int = UserDefaults.standard.integer(forKey: "activeSensorUnlockCount") {
+        didSet { UserDefaults.standard.set(self.activeSensorUnlockCount, forKey: "activeSensorUnlockCount") }
     }
 
     @Published var patchUid: SensorUid = UserDefaults.standard.data(forKey: "patchUid")! {

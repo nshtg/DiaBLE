@@ -35,7 +35,7 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
 
         super.init()
 
-        log.text = "Welcome to DiaBLE!\n\(self.settings.logging ? "Log started" : "Log stopped") \(Date().local)\n"
+        log.text = "Welcome to DiaBLE!\n\(settings.logging ? "Log started" : "Log stopped") \(Date().local)\n"
         debugLog("User defaults: \(Settings.defaults.keys.map{ [$0, UserDefaults.standard.dictionaryRepresentation()[$0]!] }.sorted{($0[0] as! String) < ($1[0] as! String) })")
 
         app.main = self
@@ -259,20 +259,20 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
             }
         }
 
-        debugLog("Sensor uid: \(sensor.uid.hex), saved uid:\(self.settings.patchUid.hex), patch info: \(sensor.patchInfo.hex.count > 0 ? sensor.patchInfo.hex : "<nil>"), saved patch info: \(self.settings.patchInfo.hex)")
+        debugLog("Sensor uid: \(sensor.uid.hex), saved uid:\(settings.patchUid.hex), patch info: \(sensor.patchInfo.hex.count > 0 ? sensor.patchInfo.hex : "<nil>"), saved patch info: \(settings.patchInfo.hex)")
 
         if sensor.uid.count > 0 && sensor.patchInfo.count > 0 {
-            self.settings.patchUid = sensor.uid
-            self.settings.patchInfo = sensor.patchInfo
+            settings.patchUid = sensor.uid
+            settings.patchInfo = sensor.patchInfo
         }
 
-        if sensor.uid.count == 0 || self.settings.patchUid.count > 0 {
+        if sensor.uid.count == 0 || settings.patchUid.count > 0 {
             if sensor.uid.count == 0 {
-                sensor.uid = self.settings.patchUid
+                sensor.uid = settings.patchUid
             }
 
-            if sensor.uid == self.settings.patchUid {
-                sensor.patchInfo = self.settings.patchInfo
+            if sensor.uid == settings.patchUid {
+                sensor.patchInfo = settings.patchInfo
             }
         }
 
