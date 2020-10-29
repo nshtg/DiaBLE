@@ -335,6 +335,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             characteristicString = "data read"
         }
         var msg = "Bluetooth: \(name) did update notification state for \(characteristicString) characteristic"
+        msg += ": \(characteristic.isNotifying ? "" : "not ")notifying"
         if let descriptors = characteristic.descriptors { msg += ", descriptors: \(descriptors)" }
         if let error = error { msg += ", error: \(error.localizedDescription)" }
         log(msg)
