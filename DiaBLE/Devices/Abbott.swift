@@ -41,8 +41,9 @@ class Abbott: Transmitter {
                 let bleGlucose = parseBLEData(Data(try! Libre2.decryptBLE(id: sensor!.uid, data: buffer)))
                 let trend = bleGlucose.map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
                 main.log("BLE trend: \(trend.map{$0.value})")
-                main.log("BLE temperatures: \(trend.map{String(format: "%.1f", $0.temperature)})")
-                // TODO
+                main.log("BLE temperatures: \(trend.map{Double(String(format: "%.1f", $0.temperature))!})")
+                sensor!.currentGlucose = trend[0].value
+                // TODO: call didParseSensor
                 main.status("\(sensor!.type)  +  BLE")
                 buffer = Data()
             }
@@ -53,10 +54,10 @@ class Abbott: Transmitter {
     }
 
 
-    // TEST
     func parseBLEData( _ data: Data) -> [Glucose] {
         
         var bleGlucose: [Glucose] = []
+        let wearTimeMinutes = UInt16(data[40...41])
         for i in 0 ..< 10 {
             var temperatureAdjustment = readBits(data, i * 4, 0x1a, 0x5) << 2
             let negativeAdjustment = readBits(data, i * 4, 0x1f, 0x1)
@@ -65,10 +66,10 @@ class Abbott: Transmitter {
             }
             let glucose = Glucose(raw: readBits(data, i * 4, 0, 0xe),
                                   rawTemperature: readBits(data, i * 4, 0xe, 0xc) << 2,
-                                  temperatureAdjustment: temperatureAdjustment)
+                                  temperatureAdjustment: temperatureAdjustment,
+                                  id: Int(wearTimeMinutes) - i)
             bleGlucose.append(glucose)
         }
-        let wearTimeMinutes = UInt16(data[40...41])
         let crc = UInt16(data[42], data[43])
         main.debugLog("Bluetooth: received BLE data 0x\(data.hex) (wear time: \(wearTimeMinutes) minutes (0x\(String(format: "%04x", wearTimeMinutes))), CRC: \(String(format: "%04x", crc)), computed CRC: \(String(format: "%04x", crc16(Data(data[0...41]))))), glucose values: \(bleGlucose)")
         return bleGlucose
