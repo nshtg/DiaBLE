@@ -179,8 +179,7 @@ struct Details: View {
                             }
                             HStack {
                                 Text("BLE Unlock Count")
-                                Spacer()
-                                Text("\(app.sensor.unlockCount)").foregroundColor(.yellow)
+                                TextField("BLE Unlock Count", value: $settings.activeSensorUnlockCount, formatter: NumberFormatter()).multilineTextAlignment(.trailing).foregroundColor(.blue)
                             }
                         }
 
