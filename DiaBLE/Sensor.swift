@@ -78,13 +78,13 @@ enum SensorState: UInt8, CustomStringConvertible {
     }
 }
 
-struct CalibrationInfo {
-   var i1: Int
-   var i2: Int
-   var i3: Int
-   var i4: Int
-   var i5: Int
-   var i6: Int
+struct CalibrationInfo: Codable, Equatable {
+   var i1: Int = 0
+   var i2: Int = 0
+   var i3: Int = 0
+   var i4: Int = 0
+   var i5: Int = 0
+   var i6: Int = 0
  }
 
 

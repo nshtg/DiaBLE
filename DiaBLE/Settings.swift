@@ -30,6 +30,7 @@ class Settings: ObservableObject {
         "activeSensorAddress": Data(),
         "activeSensorUnlockCode": 0,
         "activeSensorUnlockCount": 0,
+        "activeSensorCalibrationInfo": try! JSONEncoder().encode(CalibrationInfo()),
         "patchUid": Data(),
         "patchInfo": Data(),
 
@@ -139,6 +140,10 @@ class Settings: ObservableObject {
 
     @Published var activeSensorUnlockCount: Int = UserDefaults.standard.integer(forKey: "activeSensorUnlockCount") {
         didSet { UserDefaults.standard.set(self.activeSensorUnlockCount, forKey: "activeSensorUnlockCount") }
+    }
+
+    @Published var activeSensorCalibrationInfo: CalibrationInfo = try! JSONDecoder().decode(CalibrationInfo.self, from: UserDefaults.standard.data(forKey: "activeSensorCalibrationInfo")!) {
+        didSet { UserDefaults.standard.set(try! JSONEncoder().encode(self.activeSensorCalibrationInfo), forKey: "activeSensorCalibrationInfo") }
     }
 
     @Published var patchUid: SensorUid = UserDefaults.standard.data(forKey: "patchUid")! {

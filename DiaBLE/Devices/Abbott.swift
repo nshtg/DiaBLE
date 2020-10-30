@@ -38,8 +38,11 @@ class Abbott: Transmitter {
             buffer.append(data)
             main.log("\(name): partial buffer size: \(buffer.count)")
             if buffer.count == 20 + 18 + 8 {
+                let bleGlucose = parseBLEData(Data(try! Libre2.decryptBLE(id: sensor!.uid, data: buffer)))
+                let trend = bleGlucose.map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
+                main.log("BLE trend: \(trend.map{$0.value})")
+                main.log("BLE temperatures: \(trend.map{String(format: "%.1f", $0.temperature)})")
                 // TODO
-                sensor!.history.insert(contentsOf: parseBLEData(Data(try! Libre2.decryptBLE(id: sensor!.uid, data: buffer))), at: 0)
                 main.status("\(sensor!.type)  +  BLE")
                 buffer = Data()
             }
@@ -51,7 +54,7 @@ class Abbott: Transmitter {
 
 
     // TEST
-    func parseBLEData( _ data: Data = Data("ee098c09e6898b0dd1c98a0dc1898c09a6098d0d9dc98a0d94c98a0dd2c98a0d000008040000080cf52cc08e".bytes)) -> [Glucose] {
+    func parseBLEData( _ data: Data) -> [Glucose] {
         
         var bleGlucose: [Glucose] = []
         for i in 0 ..< 10 {

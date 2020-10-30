@@ -173,12 +173,12 @@ struct Details: View {
                         }
                         if app.sensor.unlockCode > 0 {
                             HStack {
-                                Text("Patch Unlock Code")
+                                Text("BLE Unlock Code")
                                 Spacer()
                                 Text("\(app.sensor.unlockCode)").foregroundColor(.yellow)
                             }
                             HStack {
-                                Text("Patch Unlock Count")
+                                Text("BLE Unlock Count")
                                 Spacer()
                                 Text("\(app.sensor.unlockCount)").foregroundColor(.yellow)
                             }

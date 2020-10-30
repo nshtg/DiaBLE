@@ -292,6 +292,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                                                 self.main.settings.activeSensorAddress = Data(customResponse.reversed())
                                                                 self.main.settings.activeSensorUnlockCode = 42
                                                                 self.main.settings.activeSensorUnlockCount = 0
+                                                                self.main.settings.activeSensorCalibrationInfo = self.sensor.calibrationInfo
                                                             }
                                                             if subCmd == .activate && customResponse.count == 4 {
                                                                 self.main.debugLog("NFC: after trying activating received \(customResponse.hex) for the patch info \(patchInfo.hex)")

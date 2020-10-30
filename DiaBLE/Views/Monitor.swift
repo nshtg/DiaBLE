@@ -110,6 +110,7 @@ struct Monitor: View {
                             Button(action: {
                                 self.app.main.centralManager.stopScan()
                                 self.app.main.status("Stopped scanning")
+                                self.app.main.log("Bluetooth: stopped scanning")
                             }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
                             }.foregroundColor(.red)
 
