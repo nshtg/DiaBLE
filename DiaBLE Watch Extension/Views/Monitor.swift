@@ -278,11 +278,9 @@ struct Monitor: View {
                 ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue) }
                 .frame(height: 16)
                 Spacer()
-                if !app.status.contains("canning") {
-                    NavigationLink(destination: Details().environmentObject(app).environmentObject(history).environmentObject(settings)) {
-                        Image(systemName: "info.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
-                    }.frame(height: 16)
-                }
+                NavigationLink(destination: Details().environmentObject(app).environmentObject(history).environmentObject(settings)) {
+                    Image(systemName: "info.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
+                }.frame(height: 16)
                 Spacer()
             }
         }

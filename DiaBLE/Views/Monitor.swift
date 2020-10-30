@@ -32,13 +32,13 @@ struct Monitor: View {
 
                         // currentGlucose is negative when set to the last trend raw value (no online connection or calibration)
                         Text(app.currentGlucose > 0 ? "\(app.currentGlucose) " :
-                            (app.currentGlucose < 0 ? "(\(-app.currentGlucose)) " : "--- "))
+                                (app.currentGlucose < 0 ? "(\(-app.currentGlucose)) " : "--- "))
                             .fontWeight(.black)
                             .foregroundColor(.black)
                             .padding(10)
                             .background(abs(app.currentGlucose) > 0 && (abs(app.currentGlucose) > Int(settings.alarmHigh) || abs(app.currentGlucose) < Int(settings.alarmLow)) ? Color.red :
-                                (app.currentGlucose < 0 ?
-                                    (history.calibratedTrend.count > 0 ? Color.purple : Color.yellow) : Color.blue))
+                                            (app.currentGlucose < 0 ?
+                                                (history.calibratedTrend.count > 0 ? Color.purple : Color.yellow) : Color.blue))
                             .cornerRadius(5)
 
 
@@ -56,11 +56,11 @@ struct Monitor: View {
                         if app.deviceState == "Connected" {
 
                             Text(readingCountdown > 0 || app.status.hasSuffix("sensor") ?
-                                "\(readingCountdown) s" : "")
+                                    "\(readingCountdown) s" : "")
                                 .fixedSize()
                                 .onReceive(timer) { _ in
                                     self.readingCountdown = self.settings.readingInterval * 60 - Int(Date().timeIntervalSince(self.app.lastReadingDate))
-                            }.font(Font.callout.monospacedDigit()).foregroundColor(.orange)
+                                }.font(Font.callout.monospacedDigit()).foregroundColor(.orange)
                         }
                     }
                 }
@@ -116,11 +116,9 @@ struct Monitor: View {
 
                         }
 
-                        if !app.status.contains("canning") {
-                            NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
-                                Text("Details").font(.footnote).bold().fixedSize()
-                                    .padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
-                            }
+                        NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
+                            Text("Details").font(.footnote).bold().fixedSize()
+                                .padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
                         }
                     }
 
@@ -137,12 +135,12 @@ struct Monitor: View {
                                     TextField("Slope slope", value: $app.calibration.slopeSlope, formatter: settings.numberFormatter,
                                               onEditingChanged: { changed in
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
-                                    }).foregroundColor(.purple)
+                                              }).foregroundColor(.purple)
                                         .onTapGesture {
                                             withAnimation {
                                                 self.editingCalibration = true
                                             }
-                                    }
+                                        }
                                 }
                                 if self.editingCalibration {
                                     Slider(value: $app.calibration.slopeSlope, in: 0.00001 ... 0.00002, step: 0.00000005)
@@ -156,12 +154,12 @@ struct Monitor: View {
                                     TextField("Slope offset", value: $app.calibration.offsetSlope, formatter: settings.numberFormatter,
                                               onEditingChanged: { changed in
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
-                                    }).foregroundColor(.purple)
+                                              }).foregroundColor(.purple)
                                         .onTapGesture {
                                             withAnimation {
                                                 self.editingCalibration = true
                                             }
-                                    }
+                                        }
                                 }
                                 if self.editingCalibration {
                                     Slider(value: $app.calibration.offsetSlope, in: -0.02 ... 0.02, step: 0.0001)
@@ -177,12 +175,12 @@ struct Monitor: View {
                                     TextField("Offset slope", value: $app.calibration.slopeOffset, formatter: settings.numberFormatter,
                                               onEditingChanged: { changed in
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
-                                    }).foregroundColor(.purple)
+                                              }).foregroundColor(.purple)
                                         .onTapGesture {
                                             withAnimation {
                                                 self.editingCalibration = true
                                             }
-                                    }
+                                        }
                                 }
                                 if self.editingCalibration {
                                     Slider(value: $app.calibration.slopeOffset, in: -0.01 ... 0.01, step: 0.00005)
@@ -196,12 +194,12 @@ struct Monitor: View {
                                     TextField("Offset offset", value: $app.calibration.offsetOffset, formatter: settings.numberFormatter,
                                               onEditingChanged: { changed in
                                                 self.app.main.applyCalibration(sensor: self.app.sensor)
-                                    }).foregroundColor(.purple)
+                                              }).foregroundColor(.purple)
                                         .onTapGesture {
                                             withAnimation {
                                                 self.editingCalibration = true
                                             }
-                                    }
+                                        }
                                 }
                                 if self.editingCalibration {
                                     Slider(value: $app.calibration.offsetOffset, in: -100 ... 100, step: 0.5)
@@ -210,7 +208,7 @@ struct Monitor: View {
                             }
                         }
                     }.font(.footnote)
-                        .keyboardType(.numbersAndPunctuation)
+                    .keyboardType(.numbersAndPunctuation)
                 }
 
                 if app.sensor != nil && (self.editingCalibration || history.calibratedValues.count == 0) {
@@ -290,20 +288,21 @@ struct Monitor: View {
             .multilineTextAlignment(.center)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("DiaBLE  \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String)  -  Monitor")
-            .navigationBarItems(trailing:
-                Button(action: {
-                    if self.app.main.nfcReader.isNFCAvailable {
-                        self.app.main.nfcReader.startSession()
-                    } else {
-                        self.showingNFCAlert = true
+            .navigationBarItems(
+                trailing:
+                    Button(action: {
+                        if self.app.main.nfcReader.isNFCAvailable {
+                            self.app.main.nfcReader.startSession()
+                        } else {
+                            self.showingNFCAlert = true
+                        }
+                    }) {
+                        Image("NFC").renderingMode(.template).resizable().frame(width: 39, height: 27).padding(4)
+                    }.alert(isPresented: $showingNFCAlert) {
+                        Alert(
+                            title: Text("NFC not supported"),
+                            message: Text("This device doesn't allow scanning the Libre."))
                     }
-                }) {
-                    Image("NFC").renderingMode(.template).resizable().frame(width: 39, height: 27).padding(4)
-                }.alert(isPresented: $showingNFCAlert) {
-                    Alert(
-                        title: Text("NFC not supported"),
-                        message: Text("This device doesn't allow scanning the Libre."))
-                }
             )
         }.navigationViewStyle(StackNavigationViewStyle())
     }
