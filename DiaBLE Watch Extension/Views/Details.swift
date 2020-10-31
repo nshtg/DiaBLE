@@ -157,32 +157,29 @@ struct Details: View {
                                 Text("\((app.lastReadingDate - Double(app.sensor.age) * 60).shortDateTime)").foregroundColor(.yellow)
                             }
                         }
-                        if app.sensor.uid.count > 0 {
-                            HStack {
-                                Text("UID")
-                                Spacer()
-                                Text("\(app.sensor.uid.hex)").foregroundColor(.yellow)
-                            }
-                        }
-                        if app.sensor.patchInfo.count > 0 {
-                            HStack {
-                                Text("Patch Info")
-                                Spacer()
-                                Text("\(app.sensor.patchInfo.hex)").foregroundColor(.yellow)
-                            }
-                        }
-                        if app.sensor.unlockCode > 0 {
-                            HStack {
-                                Text("BLE Unlock Code")
-                                Spacer()
-                                Text("\(app.sensor.unlockCode)").foregroundColor(.yellow)
-                            }
-                            HStack {
-                                Text("BLE Unlock Count")
-                                TextField("BLE Unlock Count", value: $settings.activeSensorUnlockCount, formatter: NumberFormatter()).multilineTextAlignment(.trailing).foregroundColor(.blue)
-                            }
-                        }
+                    }
+                }
 
+                Section(header: Text("BLE Setup")) {
+
+                    // TODO: hex <->  Data formatter
+                    HStack {
+                        Text("Sensor UID")
+                        Spacer()
+                        Text("\(settings.patchUid.hex)").foregroundColor(.yellow)
+                    }
+                    HStack {
+                        Text("Patch Info")
+                        Spacer()
+                        Text("\(settings.patchInfo.hex)").foregroundColor(.yellow)
+                    }
+                    HStack {
+                        Text("Unlock Code")
+                        TextField("Unlock Code", value: $settings.activeSensorUnlockCode, formatter: NumberFormatter()).multilineTextAlignment(.trailing).foregroundColor(.blue)
+                    }
+                    HStack {
+                        Text("Unlock Count")
+                        TextField("Unlock Count", value: $settings.activeSensorUnlockCount, formatter: NumberFormatter()).multilineTextAlignment(.trailing).foregroundColor(.blue)
                     }
 
                 }
