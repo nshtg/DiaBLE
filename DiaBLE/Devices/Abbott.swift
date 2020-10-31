@@ -43,7 +43,9 @@ class Abbott: Transmitter {
                 main.log("BLE trend: \(trend.map{$0.value})")
                 main.log("BLE temperatures: \(trend.map{Double(String(format: "%.1f", $0.temperature))!})")
                 sensor!.currentGlucose = trend[0].value
-                // TODO: call didParseSensor
+                main.history.factoryTrend = trend
+                // TODO: insert into history every 5 minutes
+                main.log("DEBUG: settings.mutedAudio \(main.settings.mutedAudio)") // FIXME
                 main.status("\(sensor!.type)  +  BLE")
                 buffer = Data()
             }
@@ -58,16 +60,21 @@ class Abbott: Transmitter {
         
         var bleGlucose: [Glucose] = []
         let wearTimeMinutes = UInt16(data[40...41])
+        if main.app.sensor!.age == 0 { main.app.sensor!.age = Int(wearTimeMinutes) }
+        let startDate = main.app.lastReadingDate - Double(wearTimeMinutes) * 60
         for i in 0 ..< 10 {
             var temperatureAdjustment = readBits(data, i * 4, 0x1a, 0x5) << 2
             let negativeAdjustment = readBits(data, i * 4, 0x1f, 0x1)
             if negativeAdjustment != 0 {
                 temperatureAdjustment = -temperatureAdjustment
             }
+            let id = Int(wearTimeMinutes) - i
+            let date = startDate + Double(id * 60)
             let glucose = Glucose(raw: readBits(data, i * 4, 0, 0xe),
                                   rawTemperature: readBits(data, i * 4, 0xe, 0xc) << 2,
                                   temperatureAdjustment: temperatureAdjustment,
-                                  id: Int(wearTimeMinutes) - i)
+                                  id: id,
+                                  date: date)
             bleGlucose.append(glucose)
         }
         let crc = UInt16(data[42], data[43])

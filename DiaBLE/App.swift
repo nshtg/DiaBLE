@@ -97,7 +97,7 @@ extension AppState {
 
         app.transmitter = Transmitter(battery: 54, rssi: -75, firmware: "4.56", manufacturer: "Acme Inc.", hardware: "2.3", macAddress: Data([0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF]))
         app.device = app.transmitter
-        app.sensor = Sensor(state: .active, serial: "0M0008B8CSR", age: 3407, uid: Data("2fe7b10000a407e0".bytes), patchInfo: Data("9d083001712b".bytes))
+        app.sensor = Sensor(state: .active, serial: "3MH001DG75W", age: 3407, uid: Data("2fe7b10000a407e0".bytes), patchInfo: Data("9d083001712b".bytes))
         app.selectedTab = tab
         app.currentGlucose = 234
         app.oopAlarm = "HIGH_GLUCOSE"
