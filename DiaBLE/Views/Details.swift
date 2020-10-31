@@ -17,6 +17,14 @@ struct Details: View {
 
             Form {
 
+                if app.device == nil && app.sensor == nil {
+                    HStack {
+                        Spacer()
+                        Text("No device connected").foregroundColor(.red)
+                        Spacer()
+                    }
+                }
+
                 if app.device != nil {
                     Section(header: Text("Device").font(.headline)) {
                         Group {
@@ -193,14 +201,6 @@ struct Details: View {
                 //     .font(.callout)
                 // }
 
-                
-                if app.device == nil && app.sensor == nil {
-                    HStack {
-                        Spacer()
-                        Text("No device connected").foregroundColor(.red)
-                        Spacer()
-                    }
-                }
             }
 
 

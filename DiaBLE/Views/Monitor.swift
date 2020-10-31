@@ -106,16 +106,6 @@ struct Monitor: View {
                             .padding(.vertical, 5)
                             .frame(maxWidth: .infinity)
 
-                        if app.status.hasPrefix("Scanning") || app.status.hasSuffix("retrying...") {
-                            Button(action: {
-                                self.app.main.centralManager.stopScan()
-                                self.app.main.status("Stopped scanning")
-                                self.app.main.log("Bluetooth: stopped scanning")
-                            }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
-                            }.foregroundColor(.red)
-
-                        }
-
                         NavigationLink(destination: Details().environmentObject(app).environmentObject(settings)) {
                             Text("Details").font(.footnote).bold().fixedSize()
                                 .padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2))
@@ -268,21 +258,34 @@ struct Monitor: View {
 
                 Spacer()
 
-                // Same as Rescan
-                Button(action: {
-                    let device = self.app.device
-                    let centralManager = self.app.main.centralManager
-                    if device != nil {
-                        centralManager.cancelPeripheralConnection(device!.peripheral!)
+                HStack {
+
+                    // Same as Rescan
+                    Button(action: {
+                        let device = self.app.device
+                        let centralManager = self.app.main.centralManager
+                        if device != nil {
+                            centralManager.cancelPeripheralConnection(device!.peripheral!)
+                        }
+                        if centralManager.state == .poweredOn {
+                            centralManager.scanForPeripherals(withServices: nil, options: nil)
+                            self.app.main.status("Scanning...")
+                        }
+                        if let healthKit = self.app.main.healthKit { healthKit.read() }
+                        if let nightscout = self.app.main.nightscout { nightscout.read() }
                     }
-                    if centralManager.state == .poweredOn {
-                        centralManager.scanForPeripherals(withServices: nil, options: nil)
-                        self.app.main.status("Scanning...")
+                    ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32).padding(.bottom, 8).foregroundColor(.accentColor) }
+
+                    if app.status.hasPrefix("Scanning") || app.status.hasSuffix("retrying...") {
+                        Button(action: {
+                            self.app.main.centralManager.stopScan()
+                            self.app.main.status("Stopped scanning")
+                            self.app.main.log("Bluetooth: stopped scanning")
+                        }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
+                        }.padding(.bottom, 8).foregroundColor(.red)
                     }
-                    if let healthKit = self.app.main.healthKit { healthKit.read() }
-                    if let nightscout = self.app.main.nightscout { nightscout.read() }
+
                 }
-                ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 32, height: 32).padding(.bottom, 8).foregroundColor(.accentColor) }
 
             }
             .multilineTextAlignment(.center)

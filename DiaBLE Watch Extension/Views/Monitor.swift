@@ -103,165 +103,21 @@ struct Monitor: View {
                         .truncationMode(.head)
                         .frame(maxWidth: .infinity)
 
-                    if app.status.hasPrefix("Scanning") || app.status.hasSuffix("retrying...") {
-                        Button(action: {
-                            self.app.main.centralManager.stopScan()
-                            self.app.main.status("Stopped scanning")
-                            self.app.main.log("Bluetooth: stopped scanning")
-                        }) { Image(systemName: "stop.circle").resizable().frame(width: 32, height: 32)
-                        }.foregroundColor(.red)
-
-                    }
                 }
 
             }
 
-            //                if history.calibratedValues.count > 0 {
-            //                    VStack(spacing: 6) {
-            //                        HStack {
-            //                            VStack(spacing: 0) {
-            //                                HStack {
-            //                                    Text("Slope slope:")
-            //                                    TextField("Slope slope", value: $app.calibration.slopeSlope, formatter: settings.numberFormatter,
-            //                                              onEditingChanged: { changed in
-            //                                                self.app.main.applyCalibration(sensor: self.app.sensor)
-            //                                    }).foregroundColor(.purple)
-            //                                        .onTapGesture {
-            //                                            withAnimation {
-            //                                                self.editingCalibration = true
-            //                                            }
-            //                                    }
-            //                                }
-            //                                if self.editingCalibration {
-            //                                    Slider(value: $app.calibration.slopeSlope, in: 0.00001 ... 0.00002, step: 0.00000005)
-            //                                        .accentColor(.purple)
-            //                                }
-            //                            }
-            //
-            //                            VStack(spacing: 0) {
-            //                                HStack {
-            //                                    Text("Slope offset:")
-            //                                    TextField("Slope offset", value: $app.calibration.offsetSlope, formatter: settings.numberFormatter,
-            //                                              onEditingChanged: { changed in
-            //                                                self.app.main.applyCalibration(sensor: self.app.sensor)
-            //                                    }).foregroundColor(.purple)
-            //                                        .onTapGesture {
-            //                                            withAnimation {
-            //                                                self.editingCalibration = true
-            //                                            }
-            //                                    }
-            //                                }
-            //                                if self.editingCalibration {
-            //                                    Slider(value: $app.calibration.offsetSlope, in: -0.02 ... 0.02, step: 0.0001)
-            //                                        .accentColor(.purple)
-            //                                }
-            //                            }
-            //                        }
-            //
-            //                        HStack {
-            //                            VStack(spacing: 0) {
-            //                                HStack {
-            //                                    Text("Offset slope:")
-            //                                    TextField("Offset slope", value: $app.calibration.slopeOffset, formatter: settings.numberFormatter,
-            //                                              onEditingChanged: { changed in
-            //                                                self.app.main.applyCalibration(sensor: self.app.sensor)
-            //                                    }).foregroundColor(.purple)
-            //                                        .onTapGesture {
-            //                                            withAnimation {
-            //                                                self.editingCalibration = true
-            //                                            }
-            //                                    }
-            //                                }
-            //                                if self.editingCalibration {
-            //                                    Slider(value: $app.calibration.slopeOffset, in: -0.01 ... 0.01, step: 0.00005)
-            //                                        .accentColor(.purple)
-            //                                }
-            //                            }
-            //
-            //                            VStack(spacing: 0) {
-            //                                HStack {
-            //                                    Text("Offset offset:")
-            //                                    TextField("Offset offset", value: $app.calibration.offsetOffset, formatter: settings.numberFormatter,
-            //                                              onEditingChanged: { changed in
-            //                                                self.app.main.applyCalibration(sensor: self.app.sensor)
-            //                                    }).foregroundColor(.purple)
-            //                                        .onTapGesture {
-            //                                            withAnimation {
-            //                                                self.editingCalibration = true
-            //                                            }
-            //                                    }
-            //                                }
-            //                                if self.editingCalibration {
-            //                                    Slider(value: $app.calibration.offsetOffset, in: -100 ... 100, step: 0.5)
-            //                                        .accentColor(.purple)
-            //                                }
-            //                            }
-            //                        }
-            //                    }.font(.footnote)
-            //                        // .keyboardType(.numbersAndPunctuation)
-            //                }
-
-            //                if app.sensor != nil && (self.editingCalibration || history.calibratedValues.count == 0) {
-            //                    Spacer()
-            //                    HStack(spacing: 20) {
-            //                        if self.editingCalibration {
-            //                            Button(action: {
-            //                                withAnimation {
-            //                                    self.editingCalibration = false
-            //                                }
-            //                                self.settings.calibration = Calibration()
-            //                            }
-            //                            ) { Text("Use").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
-            //
-            //                            Button(action: {
-            //                                withAnimation {
-            //                                    self.editingCalibration = false
-            //                                }
-            //                                self.settings.calibration = self.app.calibration
-            //                            }
-            //                            ) { Text("Save").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
-            //                        }
-            //
-            //                        if self.settings.calibration != Calibration() {
-            //                            Button(action: {
-            //                                withAnimation {
-            //                                    self.editingCalibration = false
-            //                                }
-            //                                self.app.calibration = self.settings.calibration
-            //                                if self.app.currentGlucose < 0 {
-            //                                    self.app.main.applyCalibration(sensor: self.app.sensor)
-            //                                    if self.history.calibratedTrend.count > 0 {
-            //                                        self.app.currentGlucose = -self.history.calibratedTrend[0].value
-            //                                    }
-            //                                }
-            //                            }
-            //                            ) { Text("Load").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
-            //                        }
-            //
-            //                        Button(action: {
-            //                            withAnimation {
-            //                                self.editingCalibration = false
-            //                            }
-            //                            self.app.calibration = self.settings.oopCalibration
-            //                            self.settings.calibration = Calibration()
-            //                            if self.app.currentGlucose < 0 {
-            //                                self.app.main.applyCalibration(sensor: self.app.sensor)
-            //                                if self.history.calibratedTrend.count > 0 {
-            //                                    self.app.currentGlucose = -self.history.calibratedTrend[0].value
-            //                                }
-            //                            }
-            //                        }
-            //                        ) { Text("Restore OOP").bold().padding(.horizontal, 4).padding(4).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
-            //
-            //                    }.font(.footnote).accentColor(.purple)
-            //                }
-
+            Spacer()
+            
             HStack {
                 Spacer()
+
                 NavigationLink(destination: ContentView().environmentObject(app).environmentObject(history).environmentObject(log).environmentObject(settings)) {
                     Image(systemName: "chevron.left.circle.fill").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
                 }.frame(height: 16)
+
                 Spacer()
+
                 Button(action: {
                     let device = self.app.device
                     let centralManager = self.app.main.centralManager
@@ -277,7 +133,19 @@ struct Monitor: View {
                 }
                 ) { Image(systemName: "arrow.clockwise.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue) }
                 .frame(height: 16)
+
+                if app.status.hasPrefix("Scanning") || app.status.hasSuffix("retrying...") {
+                    Spacer()
+                    Button(action: {
+                        self.app.main.centralManager.stopScan()
+                        self.app.main.status("Stopped scanning")
+                        self.app.main.log("Bluetooth: stopped scanning")
+                    }) { Image(systemName: "stop.circle").resizable().frame(width: 16, height: 16).foregroundColor(.red) }
+                    .frame(height: 16)
+                }
+
                 Spacer()
+
                 NavigationLink(destination: Details().environmentObject(app).environmentObject(history).environmentObject(settings)) {
                     Image(systemName: "info.circle").resizable().frame(width: 16, height: 16).foregroundColor(.blue)
                 }.frame(height: 16)
