@@ -60,6 +60,7 @@ class Abbott: Transmitter {
         
         var bleGlucose: [Glucose] = []
         let wearTimeMinutes = UInt16(data[40...41])
+        if main.app.sensor!.state == .unknown { main.app.sensor!.state = .active }
         if main.app.sensor!.age == 0 { main.app.sensor!.age = Int(wearTimeMinutes) }
         let startDate = main.app.lastReadingDate - Double(wearTimeMinutes) * 60
         for i in 0 ..< 10 {
