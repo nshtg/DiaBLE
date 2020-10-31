@@ -44,7 +44,8 @@ class Abbott: Transmitter {
                 main.log("BLE temperatures: \(trend.map{Double(String(format: "%.1f", $0.temperature))!})")
                 sensor!.currentGlucose = trend[0].value
                 main.history.factoryTrend = trend
-                // TODO: insert into history every 5 minutes
+                main.history.rawTrend = bleGlucose
+                // TODO: insert into history every 5 minutes (only the 10th value?)
                 main.log("DEBUG: settings.mutedAudio \(main.settings.mutedAudio)") // FIXME
                 main.status("\(sensor!.type)  +  BLE")
                 buffer = Data()

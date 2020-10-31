@@ -294,6 +294,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             log("Bluetooth: error type \(errorCode.rawValue): \(error!.localizedDescription)")
             if app.transmitter != nil && (settings.preferredTransmitter == .none || settings.preferredTransmitter.id == app.transmitter.type.id) {
                 app.deviceState = "Reconnecting..."
+                log("Bluetooth: reconnecting to \(name)...")
                 centralManager.connect(peripheral, options: nil)
             } else {
                 app.device = nil
