@@ -136,6 +136,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         app.device.peripheral?.delegate = self
         main.log("Bluetooth: connecting to \(name!)...")
         centralManager.connect(app.device.peripheral!, options: nil)
+        app.deviceState = "Connecting..."
         if app.device.state == .connecting { app.deviceState = "Connecting" }
     }
 
@@ -292,6 +293,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             let errorCode = CBError.Code(rawValue: (error! as NSError).code)! // 6 = timed out when out of range
             log("Bluetooth: error type \(errorCode.rawValue): \(error!.localizedDescription)")
             if app.transmitter != nil && (settings.preferredTransmitter == .none || settings.preferredTransmitter.id == app.transmitter.type.id) {
+                app.deviceState = "Reconnecting..."
                 centralManager.connect(peripheral, options: nil)
             } else {
                 app.device = nil
