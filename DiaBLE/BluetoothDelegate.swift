@@ -87,6 +87,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             app.device = app.transmitter
             app.device.name = "Libre 2"
             app.device.serial = String(name!.suffix(name!.count - 6))
+            settings.activeSensorSerial = app.device.serial
         } else if name!.lowercased().hasPrefix("blu") {
             app.transmitter = BluCon(peripheral: peripheral, main: main)
             app.device = app.transmitter

@@ -176,12 +176,18 @@ struct Details: View {
                     HStack {
                         Text("Sensor UID")
                         Spacer()
-                        Text("\(settings.patchUid.hex)").foregroundColor(.yellow)
+                        Text(settings.patchUid.hex).foregroundColor(.yellow)
                     }
                     HStack {
                         Text("Patch Info")
                         Spacer()
-                        Text("\(settings.patchInfo.hex)").foregroundColor(.yellow)
+                        Text(settings.patchInfo.hex).foregroundColor(.yellow)
+                    }
+                    HStack {
+                        Text("Calibration Info")
+                        Spacer()
+                        Text("[\(settings.activeSensorCalibrationInfo.i1), \(settings.activeSensorCalibrationInfo.i2), \(settings.activeSensorCalibrationInfo.i3), \(settings.activeSensorCalibrationInfo.i4), \(settings.activeSensorCalibrationInfo.i5), \(settings.activeSensorCalibrationInfo.i6)]")
+                            .foregroundColor(.yellow)
                     }
                     HStack {
                         Text("Unlock Code")
