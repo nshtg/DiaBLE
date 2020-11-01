@@ -159,6 +159,9 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
             log("Sensor age: \(sensor.age) minutes (\(String(format: "%.2f", Double(sensor.age)/60/24)) days), started on: \((app.lastReadingDate - Double(sensor.age) * 60).shortDateTime)")
 
             let calibrationInfo = sensor.calibrationInfo
+            if sensor.serial == settings.activeSensorSerial {
+                settings.activeSensorCalibrationInfo = calibrationInfo
+            }
 
             history.rawTrend = sensor.trend
             log("Raw trend: \(sensor.trend.map{$0.value})")
