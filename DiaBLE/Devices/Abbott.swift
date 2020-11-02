@@ -37,7 +37,7 @@ class Abbott: Transmitter {
             if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
             buffer.append(data)
             main.log("\(name): partial buffer size: \(buffer.count)")
-            if buffer.count > 46 && data.count == 8 { buffer = data.suffix(46) }
+            if buffer.count > (28 + 10 + 8) && data.count == 8 { buffer = data.suffix(46) }
             if buffer.count == 46 {
                 let bleGlucose = parseBLEData(Data(try! Libre2.decryptBLE(id: sensor!.uid, data: buffer)))
                 main.log("BLE raw values: \(bleGlucose.map{$0.raw})")
@@ -48,6 +48,7 @@ class Abbott: Transmitter {
                 main.log("BLE temperatures: \((trend + history).map{Double(String(format: "%.1f", $0.temperature))!})")
                 if trend[0].raw > 0 { sensor!.currentGlucose = trend[0].value }
                 main.history.factoryTrend = trend
+                // TODO: add and unique the last 15 trend values
                 main.history.rawTrend = bleGlucose
                 // TODO: insert new values into history
                 main.status("\(sensor!.type)  +  BLE")
@@ -74,9 +75,19 @@ class Abbott: Transmitter {
             if negativeAdjustment != 0 {
                 temperatureAdjustment = -temperatureAdjustment
             }
-            let id = Int(wearTimeMinutes) - i
+
+            var id = sensor!.age
+
+            if i < 7 {
+                // sparse trend values
+                id -= [0, 2, 4, 6, 7, 12, 15][i]
+
+            } else {
+                // TODO: precise id of the last three recent historic values
+                id = (id / 15) * 15 - 15 * (i - 7)
+            }
+
             let date = startDate + Double(id * 60)
-            // TODO: the last three values come from the history fram
             let glucose = Glucose(raw: raw,
                                   rawTemperature: rawTemperature,
                                   temperatureAdjustment: temperatureAdjustment,
