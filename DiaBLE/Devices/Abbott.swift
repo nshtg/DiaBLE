@@ -45,7 +45,7 @@ class Abbott: Transmitter {
                 main.log("BLE trend: \(trend.map{$0.value})")
                 main.log("BLE history: \(history.map{$0.value})")
                 main.log("BLE temperatures: \((trend + history).map{Double(String(format: "%.1f", $0.temperature))!})")
-                sensor!.currentGlucose = trend[0].value
+                if trend[0].raw > 0 { sensor!.currentGlucose = trend[0].value }
                 main.history.factoryTrend = trend
                 main.history.rawTrend = bleGlucose
                 // TODO: insert new values into history

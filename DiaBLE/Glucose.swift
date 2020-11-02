@@ -339,7 +339,11 @@ func factoryGlucose(raw: Glucose, calibrationInfo: CalibrationInfo) -> Glucose {
     let v2 = t2[calibrationInfo.i2 - 1]
     let value = Int(round((g3 - v1) / v2))
 
-    return Glucose(value, temperature: temperature, id: raw.id, date: raw.date)
+    var glucose = raw
+    glucose.value = value
+    glucose.temperature = temperature
+
+    return glucose
 }
 
 
