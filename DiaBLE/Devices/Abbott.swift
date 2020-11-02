@@ -47,9 +47,7 @@ class Abbott: Transmitter {
                 main.history.factoryTrend = trend
                 main.history.rawTrend = bleGlucose
                 // TODO: insert into history every 5 minutes (only the 10th value?)
-                main.debugLog("DEBUG: settings.mutedAudio \(main.settings.mutedAudio)") // FIXME
                 main.status("\(sensor!.type)  +  BLE")
-                buffer = Data()
             }
 
         default:
