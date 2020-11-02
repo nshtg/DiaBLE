@@ -37,6 +37,7 @@ class Abbott: Transmitter {
             if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
             buffer.append(data)
             main.log("\(name): partial buffer size: \(buffer.count)")
+            if buffer.count > 46 && data.count == 8 { buffer = data.suffix(46) }
             if buffer.count == 20 + 18 + 8 {
                 let bleGlucose = parseBLEData(Data(try! Libre2.decryptBLE(id: sensor!.uid, data: buffer)))
                 let trend = bleGlucose.map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
