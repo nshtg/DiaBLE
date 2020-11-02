@@ -40,13 +40,15 @@ class Abbott: Transmitter {
             if buffer.count > 46 && data.count == 8 { buffer = data.suffix(46) }
             if buffer.count == 20 + 18 + 8 {
                 let bleGlucose = parseBLEData(Data(try! Libre2.decryptBLE(id: sensor!.uid, data: buffer)))
-                let trend = bleGlucose.map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
+                let trend = bleGlucose[0...6].map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
+                let history = bleGlucose[7...9].map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
                 main.log("BLE trend: \(trend.map{$0.value})")
-                main.log("BLE temperatures: \(trend.map{Double(String(format: "%.1f", $0.temperature))!})")
+                main.log("BLE history: \(history.map{$0.value})")
+                main.log("BLE temperatures: \((trend + history).map{Double(String(format: "%.1f", $0.temperature))!})")
                 sensor!.currentGlucose = trend[0].value
                 main.history.factoryTrend = trend
                 main.history.rawTrend = bleGlucose
-                // TODO: insert into history every 5 minutes (only the 10th value?)
+                // TODO: insert new values into history
                 main.status("\(sensor!.type)  +  BLE")
             }
 
@@ -73,6 +75,7 @@ class Abbott: Transmitter {
             }
             let id = Int(wearTimeMinutes) - i
             let date = startDate + Double(id * 60)
+            // TODO: the last three values come from the history fram
             let glucose = Glucose(raw: raw,
                                   rawTemperature: rawTemperature,
                                   temperatureAdjustment: temperatureAdjustment,
