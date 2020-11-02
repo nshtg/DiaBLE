@@ -48,7 +48,7 @@ class Abbott: Transmitter {
                 main.log("BLE temperatures: \((trend + history).map{Double(String(format: "%.1f", $0.temperature))!})")
                 if trend[0].raw > 0 { sensor!.currentGlucose = trend[0].value }
                 main.history.factoryTrend = trend
-                // TODO: add and unique the last 15 trend values
+                // TODO: merge and unique the last 15 trend values
                 main.history.rawTrend = bleGlucose
                 // TODO: insert new values into history
                 main.status("\(sensor!.type)  +  BLE")
@@ -76,7 +76,7 @@ class Abbott: Transmitter {
                 temperatureAdjustment = -temperatureAdjustment
             }
 
-            var id = sensor!.age
+            var id = Int(wearTimeMinutes)
 
             if i < 7 {
                 // sparse trend values
