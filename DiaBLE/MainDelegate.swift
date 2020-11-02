@@ -202,14 +202,14 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
             }
 
             history.rawTrend = sensor.trend
-            log("Raw trend: \(sensor.trend.map{$0.value})")
+            log("Raw trend: \(sensor.trend.map{$0.raw})")
             debugLog("Raw trend temperatures: \(sensor.trend.map{$0.rawTemperature})")
             let factoryTrend = sensor.trend.map { factoryGlucose(raw: $0, calibrationInfo: calibrationInfo) }
             history.factoryTrend = factoryTrend
             log("Factory trend: \(factoryTrend.map{$0.value})")
             log("Trend temperatures: \(factoryTrend.map{Double(String(format: "%.1f", $0.temperature))!}))")
             history.rawValues = sensor.history
-            log("Raw history: \(sensor.history.map{$0.value})")
+            log("Raw history: \(sensor.history.map{$0.raw})")
             debugLog("Raw historic temperatures: \(sensor.history.map{$0.rawTemperature})")
             // TEST
             // sensor.history.insert(contentsOf: Abbott(main: self).parseBLEData(), at: 0)
