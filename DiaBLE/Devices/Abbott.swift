@@ -37,7 +37,7 @@ class Abbott: Transmitter {
             if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
             buffer.append(data)
             main.log("\(name): partial buffer size: \(buffer.count)")
-            if buffer.count > (28 + 10 + 8) && data.count == 8 { buffer = data.suffix(46) }
+            if buffer.count > (28 + 10 + 8) && data.count == 8 { buffer = Data(data.suffix(46)) }
             if buffer.count == 46 {
                 let bleGlucose = parseBLEData(Data(try! Libre2.decryptBLE(id: sensor!.uid, data: buffer)))
                 main.log("BLE raw values: \(bleGlucose.map{$0.raw})")
@@ -47,9 +47,13 @@ class Abbott: Transmitter {
                 main.log("BLE history: \(history.map{$0.value})")
                 main.log("BLE temperatures: \((trend + history).map{Double(String(format: "%.1f", $0.temperature))!})")
                 if trend[0].raw > 0 { sensor!.currentGlucose = trend[0].value }
-                main.history.factoryTrend = trend
-                // TODO: merge and unique the last 15 trend values
-                main.history.rawTrend = bleGlucose
+                var rawTrend = [Glucose](main.history.rawTrend)
+                let rawTrendIds = rawTrend.map { $0.id }
+                rawTrend += bleGlucose.filter { !rawTrendIds.contains($0.id) }
+                rawTrend = [Glucose](rawTrend.sorted(by: { $0.id > $1.id }).prefix(15))
+                main.history.rawTrend = rawTrend
+                main.history.factoryTrend = rawTrend.map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
+                main.log("BLE merged trend: \(main.history.factoryTrend.map{$0.value})")
                 // TODO: insert new values into history
                 main.status("\(sensor!.type)  +  BLE")
             }
