@@ -55,6 +55,7 @@ class Abbott: Transmitter {
                 main.history.factoryTrend = rawTrend.map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
                 main.log("BLE merged trend: \(main.history.factoryTrend.map{$0.value})")
                 main.history.factoryValues = history
+                main.history.rawValues = [Glucose](bleGlucose[7...9])
                 // TODO: merge new values into history
                 main.status("\(sensor!.type)  +  BLE")
             }
