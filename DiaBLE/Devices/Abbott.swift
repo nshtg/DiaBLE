@@ -54,9 +54,14 @@ class Abbott: Transmitter {
                 main.history.rawTrend = rawTrend
                 main.history.factoryTrend = rawTrend.map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
                 main.log("BLE merged trend: \(main.history.factoryTrend.map{$0.value})")
-                main.history.factoryValues = history
-                main.history.rawValues = [Glucose](bleGlucose[7...9])
-                // TODO: merge new values into history
+                var rawValues = [Glucose](main.history.rawValues)
+                let rawValuesIds = rawValues.map { $0.id }
+                rawValues += bleGlucose.suffix(3).filter { !rawValuesIds.contains($0.id) }
+                rawValues = [Glucose](rawValues.sorted(by: { $0.id > $1.id }))
+                main.history.rawValues = rawValues
+                main.history.factoryValues = rawValues.map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
+                main.log("BLE merged history: \(main.history.factoryValues.map{$0.value})")
+                // TODO: backfill all the latest 8 hours
                 main.status("\(sensor!.type)  +  BLE")
             }
 
