@@ -78,6 +78,7 @@ class Abbott: Transmitter {
         if sensor!.state == .unknown { sensor!.state = .active }
         if sensor!.age == 0 {sensor!.age = Int(wearTimeMinutes) }
         let startDate = sensor!.lastReadingDate - Double(wearTimeMinutes) * 60
+        let delay = 2
         for i in 0 ..< 10 {
             let raw = readBits(data, i * 4, 0, 0xe)
             let rawTemperature = readBits(data, i * 4, 0xe, 0xc) << 2
@@ -95,7 +96,7 @@ class Abbott: Transmitter {
 
             } else {
                 // TODO: precise id of the last three recent historic values
-                id = (id / 15) * 15 - 15 * (i - 7)
+                id = ((id - delay) / 15) * 15 - 15 * (i - 7)
             }
 
             let date = startDate + Double(id * 60)
