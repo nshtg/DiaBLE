@@ -88,9 +88,6 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             app.device.name = "Libre 2"
             app.device.serial = String(name!.suffix(name!.count - 6))
             settings.activeSensorSerial = app.device.serial
-        } else if name! == "Bubble" {
-            app.transmitter = Bubble(peripheral: peripheral, main: main)
-            app.device = app.transmitter
         } else if name!.matches("miaomiao") {
             app.transmitter = MiaoMiao(peripheral: peripheral, main: main)
             app.device = app.transmitter
@@ -190,12 +187,12 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             var msg = "Bluetooth: discovered \(app.device.name) \(serviceDescription) service's characteristic \(uuid)"
             msg += (", properties: \(characteristic.properties)")
 
-            if uuid == Abbott.dataReadCharacteristicUUID || uuid == Bubble.dataReadCharacteristicUUID || uuid == MiaoMiao.dataReadCharacteristicUUID {
+            if uuid == Abbott.dataReadCharacteristicUUID || uuid == MiaoMiao.dataReadCharacteristicUUID {
                 app.device.readCharacteristic = characteristic
                 app.device.peripheral?.setNotifyValue(true, for: app.device.readCharacteristic!)
                 msg += " (data read)"
 
-            } else if uuid == Abbott.dataWriteCharacteristicUUID || uuid == Bubble.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID {
+            } else if uuid == Abbott.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID {
                 msg += " (data write)"
                 app.device.writeCharacteristic = characteristic
 
@@ -235,14 +232,6 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             }
 
             log(msg)
-        }
-
-        if app.device.type == .transmitter(.bubble) && serviceUUID == Bubble.dataServiceUUID {
-            let readCommand = app.transmitter.readCommand(interval: settings.readingInterval)
-            app.device.write(readCommand)
-            log("Bubble: writing start reading command 0x\(Data(readCommand).hex)")
-            // app.device.write([0x00, 0x01, 0x05])
-            // log("Bubble: writing reset and send data every 5 minutes command 0x000105")
         }
 
         if app.device.type == .transmitter(.miaomiao) && serviceUUID == MiaoMiao.dataServiceUUID {
@@ -332,7 +321,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         if error != nil {
             log("Bluetooth: error while writing \(name)'s \(characteristicString) characteristic value: \(error!.localizedDescription)")
         } else {
-            if [Abbott.dataWriteCharacteristicUUID, Bubble.dataWriteCharacteristicUUID, MiaoMiao.dataWriteCharacteristicUUID].contains(characteristicString) {
+            if [Abbott.dataWriteCharacteristicUUID, MiaoMiao.dataWriteCharacteristicUUID].contains(characteristicString) {
                 characteristicString = "data write"
             }
             log("Bluetooth: \(name) did write value for \(characteristicString) characteristic")
@@ -343,7 +332,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
         let name = peripheral.name ?? "an unnamed peripheral"
         var characteristicString = characteristic.uuid.uuidString
-        if [Abbott.dataReadCharacteristicUUID, Bubble.dataReadCharacteristicUUID, MiaoMiao.dataReadCharacteristicUUID].contains(characteristicString) {
+        if [Abbott.dataReadCharacteristicUUID, MiaoMiao.dataReadCharacteristicUUID].contains(characteristicString) {
             characteristicString = "data read"
         }
         var msg = "Bluetooth: \(name) did update notification state for \(characteristicString) characteristic"
@@ -357,7 +346,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         let name = peripheral.name ?? "an unnamed peripheral"
         var characteristicString = characteristic.uuid.uuidString
-        if [Abbott.dataReadCharacteristicUUID, Bubble.dataReadCharacteristicUUID, MiaoMiao.dataReadCharacteristicUUID].contains(characteristicString) {
+        if [Abbott.dataReadCharacteristicUUID, MiaoMiao.dataReadCharacteristicUUID].contains(characteristicString) {
             characteristicString = "data read"
         }
 
@@ -408,7 +397,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
             app.device.read(data, for: characteristic.uuid.uuidString)
 
-            if app.device.type == .transmitter(.bubble) || app.device.type == .transmitter(.miaomiao) {
+            if app.device.type == .transmitter(.miaomiao) {
                 var headerLength = 0
                 if app.device.type == .transmitter(.miaomiao) && characteristic.uuid.uuidString == MiaoMiao.dataReadCharacteristicUUID {
                     headerLength = 18 + 1

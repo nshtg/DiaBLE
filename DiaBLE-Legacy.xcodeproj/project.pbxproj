@@ -43,8 +43,6 @@
 		C5A1B8B023C6410A00D60962 /* Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */; };
 		C5A5797023A2CF0700945F72 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5796F23A2CF0700945F72 /* Sensor.swift */; };
 		C5A5797223A2CF2C00945F72 /* OOP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5797123A2CF2C00945F72 /* OOP.swift */; };
-		C5A82D1E245B48BF00F710A1 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A82D1D245B48BF00F710A1 /* Bubble.swift */; };
-		C5A82D1F245B48BF00F710A1 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A82D1D245B48BF00F710A1 /* Bubble.swift */; };
 		C5A82D21245B4A8D00F710A1 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */; };
 		C5A82D22245B4A8D00F710A1 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */; };
 		C5ADAF3F245B4CCF003A2E8B /* BluetoothDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5ADAF3E245B4CCF003A2E8B /* BluetoothDelegate.swift */; };
@@ -160,7 +158,6 @@
 		C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bluetooth.swift; sourceTree = "<group>"; };
 		C5A5796F23A2CF0700945F72 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		C5A5797123A2CF2C00945F72 /* OOP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OOP.swift; sourceTree = "<group>"; };
-		C5A82D1D245B48BF00F710A1 /* Bubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
 		C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiao.swift; sourceTree = "<group>"; };
 		C5ADAF3E245B4CCF003A2E8B /* BluetoothDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDelegate.swift; sourceTree = "<group>"; };
 		C5ADAF41245B4E56003A2E8B /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
@@ -267,7 +264,6 @@
 			isa = PBXGroup;
 			children = (
 				C58F47F2252303260079D2D7 /* Abbott.swift */,
-				C5A82D1D245B48BF00F710A1 /* Bubble.swift */,
 				C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */,
 			);
 			path = Devices;
@@ -509,7 +505,6 @@
 				C5ADAF40245B4CCF003A2E8B /* BluetoothDelegate.swift in Sources */,
 				C5E9C75A2444967300D52B32 /* Sensor.swift in Sources */,
 				C5E9C75E2444968400D52B32 /* OOP.swift in Sources */,
-				C5A82D1F245B48BF00F710A1 /* Bubble.swift in Sources */,
 				C5E9C7592444966A00D52B32 /* Bluetooth.swift in Sources */,
 				C58507AD23C50BF40079539D /* ContentView.swift in Sources */,
 				C53C0D0924471FF200DB08EE /* Details.swift in Sources */,
@@ -562,7 +557,6 @@
 				C5A5797223A2CF2C00945F72 /* OOP.swift in Sources */,
 				C5C937E423CBA0AE00A87BAB /* Health.swift in Sources */,
 				C5DF10F423C783140023E0E2 /* LogView.swift in Sources */,
-				C5A82D1E245B48BF00F710A1 /* Bubble.swift in Sources */,
 				C5A5797023A2CF0700945F72 /* Sensor.swift in Sources */,
 				C58F47F3252303260079D2D7 /* Abbott.swift in Sources */,
 			);

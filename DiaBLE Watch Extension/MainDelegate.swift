@@ -268,7 +268,7 @@ public class MainDelegate: NSObject, WKExtendedRuntimeSessionDelegate {
                 return
             }
 
-            // decryptFRAM() is symmetric: encrypt decrypted fram received from a Bubble
+            // decryptFRAM() is symmetric: encrypt decrypted fram received from a transmitter
             if (sensor.type == .libre2 || sensor.type == .libreUS14day) && sensor.encryptedFram.count == 0 {
                 fram = try! Data(Libre2.decryptFRAM(type: sensor.type, id: sensor.uid, info: sensor.patchInfo, data: fram))
             }

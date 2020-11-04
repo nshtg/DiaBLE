@@ -1,12 +1,12 @@
 <p align ="center"><img src="./DiaBLE/Assets.xcassets/AppIcon.appiconset/Icon.png" width="25%" /></p>
 
-Experimenting with the FreeStyle **Libre 2** glucose sensor and the **Bubble** and **MiaoMiao** BLE transmitters I bought to extend the reach of the Libre 1, trying something new compared to the traditional apps:
+Experimenting with the FreeStyle **Libre 2** glucose sensor and the Bluetooth Low Energy (BLE) devices I bought to extend its reach, trying something new compared to the traditional apps:
 
 * a universal **SwiftUI** application for iPhone, iPad and Mac Catalyst;
 * an **independent Apple Watch app** connecting directly via Bluetooth;
 * scanning the Libre directly via **NFC**;
 * using online servers for calibrating just like **Abbott’s algorithm**;
-* varying the **reading interval** (the Bubble firmware allows to set it from 1 to 15 minutes while the MiaoMiao one to reduce it to 1 or 3 minutes);
+* varying the **reading interval** instead of the usual 5-minute one;
 * a detailed **log** to check the traffic from/to the BLE devices and remote servers.
 
 Still too early to decide the final design (but I really like already the evil logo 😈), here there are some recent screenshots I tweeted:
