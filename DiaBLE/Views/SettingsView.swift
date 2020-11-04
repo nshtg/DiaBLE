@@ -45,8 +45,7 @@ struct SettingsView: View {
                 HStack {
                     Stepper(value: $settings.readingInterval,
                             in: settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ?
-                                1 ... 5 : settings.preferredTransmitter == .blu || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.blu)) ?
-                                5 ... 5 : settings.preferredTransmitter == .abbott || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.abbott)) ?
+                                1 ... 5 : settings.preferredTransmitter == .abbott || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.abbott)) ?
                                 1 ... 1 : 1 ... 15,
                             step: settings.preferredTransmitter == .miaomiao || (settings.preferredTransmitter == .none && app.transmitter != nil && app.transmitter.type == .transmitter(.miaomiao)) ?
                                 2 : 1,
@@ -129,7 +128,7 @@ struct SettingsView: View {
                                     self.app.main.eventKit?.sync()
                                 }
                                 ) { Text("None").bold().padding(.horizontal, 4).padding(2).overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.accentColor, lineWidth: 2)) }
-                                    .disabled(self.settings.calendarTitle == "")
+                                .disabled(self.settings.calendarTitle == "")
                             }
                             Section {
                                 Picker(selection: self.$settings.calendarTitle, label: Text("Calendar")) {

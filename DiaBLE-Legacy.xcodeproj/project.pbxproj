@@ -53,13 +53,9 @@
 		C5ADAF43245B4E56003A2E8B /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5ADAF41245B4E56003A2E8B /* Device.swift */; };
 		C5C20E4523C77FD800475327 /* DataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4423C77FD800475327 /* DataView.swift */; };
 		C5C20E4723C780FB00475327 /* Monitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C20E4623C780FB00475327 /* Monitor.swift */; };
-		C5C4B092248D9CC0008DB91D /* Legacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DB1CFA23DB6208009F5C68 /* Legacy.swift */; };
 		C5C7187B23E2FB5000D04EA7 /* Glucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C7187A23E2FB5000D04EA7 /* Glucose.swift */; };
 		C5C84482241B884F009D3EAF /* alarm_low.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5C84481241B884F009D3EAF /* alarm_low.mp3 */; };
 		C5C937E423CBA0AE00A87BAB /* Health.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C937E323CBA0AE00A87BAB /* Health.swift */; };
-		C5DA545D245C5D3A0000BF4E /* BluCon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA545C245C5D3A0000BF4E /* BluCon.swift */; };
-		C5DA545E245C5D3A0000BF4E /* BluCon.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DA545C245C5D3A0000BF4E /* BluCon.swift */; };
-		C5DB1CFB23DB6208009F5C68 /* Legacy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DB1CFA23DB6208009F5C68 /* Legacy.swift */; };
 		C5DF10F423C783140023E0E2 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DF10F323C783140023E0E2 /* LogView.swift */; };
 		C5DF10F623C7838B0023E0E2 /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DF10F523C7838A0023E0E2 /* Graph.swift */; };
 		C5DF10F823C783F90023E0E2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5DF10F723C783F90023E0E2 /* SettingsView.swift */; };
@@ -174,8 +170,6 @@
 		C5C80BCA23A27EFA00ACFDE9 /* DiaBLE.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiaBLE.entitlements; sourceTree = "<group>"; };
 		C5C84481241B884F009D3EAF /* alarm_low.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm_low.mp3; sourceTree = "<group>"; };
 		C5C937E323CBA0AE00A87BAB /* Health.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Health.swift; sourceTree = "<group>"; };
-		C5DA545C245C5D3A0000BF4E /* BluCon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluCon.swift; sourceTree = "<group>"; };
-		C5DB1CFA23DB6208009F5C68 /* Legacy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Legacy.swift; sourceTree = "<group>"; };
 		C5DF10F323C783140023E0E2 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		C5DF10F523C7838A0023E0E2 /* Graph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
 		C5DF10F723C783F90023E0E2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -273,9 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				C58F47F2252303260079D2D7 /* Abbott.swift */,
-				C5DA545C245C5D3A0000BF4E /* BluCon.swift */,
 				C5A82D1D245B48BF00F710A1 /* Bubble.swift */,
-				C5DB1CFA23DB6208009F5C68 /* Legacy.swift */,
 				C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */,
 			);
 			path = Devices;
@@ -520,7 +512,6 @@
 				C5A82D1F245B48BF00F710A1 /* Bubble.swift in Sources */,
 				C5E9C7592444966A00D52B32 /* Bluetooth.swift in Sources */,
 				C58507AD23C50BF40079539D /* ContentView.swift in Sources */,
-				C5C4B092248D9CC0008DB91D /* Legacy.swift in Sources */,
 				C53C0D0924471FF200DB08EE /* Details.swift in Sources */,
 				C58507B323C50BF40079539D /* NotificationController.swift in Sources */,
 				C55AE3B5245EB1A3009636E0 /* DataView.swift in Sources */,
@@ -535,7 +526,6 @@
 				C5E9C75D2444968000D52B32 /* Health.swift in Sources */,
 				C55A7F9B253F3EBD00423648 /* NFC.swift in Sources */,
 				C5E9C755244495B000D52B32 /* Extensions.swift in Sources */,
-				C5DA545E245C5D3A0000BF4E /* BluCon.swift in Sources */,
 				C528E1812445097400BFDA73 /* Monitor.swift in Sources */,
 				C5E9C7672444A13600D52B32 /* LogView.swift in Sources */,
 				C55B5D16245FCBE50004FE3B /* OnlineView.swift in Sources */,
@@ -565,13 +555,11 @@
 				C5ADAF3F245B4CCF003A2E8B /* BluetoothDelegate.swift in Sources */,
 				C5C20E4523C77FD800475327 /* DataView.swift in Sources */,
 				C501BE47242A1ABD006C7F30 /* Settings.swift in Sources */,
-				C5DA545D245C5D3A0000BF4E /* BluCon.swift in Sources */,
 				C53C76ED23D9AFD700B59A98 /* Nightscout.swift in Sources */,
 				C5FB2EF323A2794D0046F4F9 /* MainDelegate.swift in Sources */,
 				C5ADAF42245B4E56003A2E8B /* Device.swift in Sources */,
 				C5C7187B23E2FB5000D04EA7 /* Glucose.swift in Sources */,
 				C5A5797223A2CF2C00945F72 /* OOP.swift in Sources */,
-				C5DB1CFB23DB6208009F5C68 /* Legacy.swift in Sources */,
 				C5C937E423CBA0AE00A87BAB /* Health.swift in Sources */,
 				C5DF10F423C783140023E0E2 /* LogView.swift in Sources */,
 				C5A82D1E245B48BF00F710A1 /* Bubble.swift in Sources */,
