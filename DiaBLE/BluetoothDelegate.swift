@@ -397,7 +397,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
             app.device.read(data, for: characteristic.uuid.uuidString)
 
-            if app.device.type == .transmitter(.miaomiao) {
+            if app.device.type == .transmitter(.miaomiao) {    // or others than Libre
                 var headerLength = 0
                 if app.device.type == .transmitter(.miaomiao) && characteristic.uuid.uuidString == MiaoMiao.dataReadCharacteristicUUID {
                     headerLength = 18 + 1

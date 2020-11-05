@@ -35,16 +35,12 @@
 		C58507B923C50BF40079539D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C58507B823C50BF40079539D /* Assets.xcassets */; };
 		C58507BC23C50BF40079539D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C58507BB23C50BF40079539D /* Preview Assets.xcassets */; };
 		C58507C123C50BF40079539D /* DiaBLE-Legacy Watch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C585079B23C50BF20079539D /* DiaBLE-Legacy Watch.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C58F47F3252303260079D2D7 /* Abbott.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58F47F2252303260079D2D7 /* Abbott.swift */; };
-		C58F47F4252303260079D2D7 /* Abbott.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58F47F2252303260079D2D7 /* Abbott.swift */; };
 		C5908FB82428E6B600CF6C83 /* alarm_signal_loss.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */; };
 		C5965CC323DCC13300B3C5D8 /* ViewRepresentables.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5965CC223DCC13300B3C5D8 /* ViewRepresentables.swift */; };
 		C597AF6B23AB9E3E0012926C /* NFC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C597AF6A23AB9E3E0012926C /* NFC.swift */; };
 		C5A1B8B023C6410A00D60962 /* Bluetooth.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */; };
 		C5A5797023A2CF0700945F72 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5796F23A2CF0700945F72 /* Sensor.swift */; };
 		C5A5797223A2CF2C00945F72 /* OOP.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A5797123A2CF2C00945F72 /* OOP.swift */; };
-		C5A82D21245B4A8D00F710A1 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */; };
-		C5A82D22245B4A8D00F710A1 /* MiaoMiao.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */; };
 		C5ADAF3F245B4CCF003A2E8B /* BluetoothDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5ADAF3E245B4CCF003A2E8B /* BluetoothDelegate.swift */; };
 		C5ADAF40245B4CCF003A2E8B /* BluetoothDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5ADAF3E245B4CCF003A2E8B /* BluetoothDelegate.swift */; };
 		C5ADAF42245B4E56003A2E8B /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5ADAF41245B4E56003A2E8B /* Device.swift */; };
@@ -151,14 +147,12 @@
 		C58507BB23C50BF40079539D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C58507BD23C50BF40079539D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C58507BE23C50BF40079539D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
-		C58F47F2252303260079D2D7 /* Abbott.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Abbott.swift; sourceTree = "<group>"; };
 		C5908FB72428E6B600CF6C83 /* alarm_signal_loss.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = alarm_signal_loss.mp3; sourceTree = "<group>"; };
 		C5965CC223DCC13300B3C5D8 /* ViewRepresentables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRepresentables.swift; sourceTree = "<group>"; };
 		C597AF6A23AB9E3E0012926C /* NFC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NFC.swift; sourceTree = "<group>"; };
 		C5A1B8AF23C6410A00D60962 /* Bluetooth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bluetooth.swift; sourceTree = "<group>"; };
 		C5A5796F23A2CF0700945F72 /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
 		C5A5797123A2CF2C00945F72 /* OOP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OOP.swift; sourceTree = "<group>"; };
-		C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiaoMiao.swift; sourceTree = "<group>"; };
 		C5ADAF3E245B4CCF003A2E8B /* BluetoothDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothDelegate.swift; sourceTree = "<group>"; };
 		C5ADAF41245B4E56003A2E8B /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		C5C20E4423C77FD800475327 /* DataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataView.swift; sourceTree = "<group>"; };
@@ -260,15 +254,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		C5AF44D02422344300522803 /* Devices */ = {
-			isa = PBXGroup;
-			children = (
-				C58F47F2252303260079D2D7 /* Abbott.swift */,
-				C5A82D20245B4A8D00F710A1 /* MiaoMiao.swift */,
-			);
-			path = Devices;
-			sourceTree = "<group>";
-		};
 		C5C20E4323C77F7700475327 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,7 +297,6 @@
 			isa = PBXGroup;
 			children = (
 				C52F1A5C24975E4F004C2F90 /* Data */,
-				C5AF44D02422344300522803 /* Devices */,
 				C52F1A6024976D3D004C2F90 /* Media */,
 				C5C20E4323C77F7700475327 /* Views */,
 				C566341223B14D55001EB5F3 /* Extensions.swift */,
@@ -515,7 +499,6 @@
 				C5E9C7582444966500D52B32 /* Settings.swift in Sources */,
 				C58507B523C50BF40079539D /* NotificationView.swift in Sources */,
 				C5E9C756244495D700D52B32 /* App.swift in Sources */,
-				C5A82D22245B4A8D00F710A1 /* MiaoMiao.swift in Sources */,
 				C5ADAF43245B4E56003A2E8B /* Device.swift in Sources */,
 				C58507B723C50BF40079539D /* ComplicationController.swift in Sources */,
 				C5E9C75D2444968000D52B32 /* Health.swift in Sources */,
@@ -526,7 +509,6 @@
 				C55B5D16245FCBE50004FE3B /* OnlineView.swift in Sources */,
 				C5E9C763244496C800D52B32 /* MainDelegate.swift in Sources */,
 				C528E1852445A60200BFDA73 /* SettingsView.swift in Sources */,
-				C58F47F4252303260079D2D7 /* Abbott.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,7 +519,6 @@
 				C597AF6B23AB9E3E0012926C /* NFC.swift in Sources */,
 				C5C20E4723C780FB00475327 /* Monitor.swift in Sources */,
 				C5521C8223BB5D5A00826CFB /* App.swift in Sources */,
-				C5A82D21245B4A8D00F710A1 /* MiaoMiao.swift in Sources */,
 				C5A1B8B023C6410A00D60962 /* Bluetooth.swift in Sources */,
 				C522C77123D4D363002021F7 /* Details.swift in Sources */,
 				C5E1014123A2774C00678DF6 /* ContentView.swift in Sources */,
@@ -558,7 +539,6 @@
 				C5C937E423CBA0AE00A87BAB /* Health.swift in Sources */,
 				C5DF10F423C783140023E0E2 /* LogView.swift in Sources */,
 				C5A5797023A2CF0700945F72 /* Sensor.swift in Sources */,
-				C58F47F3252303260079D2D7 /* Abbott.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
