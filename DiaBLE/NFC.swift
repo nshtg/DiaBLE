@@ -16,12 +16,12 @@ struct NFCCommand {
 }
 
 extension SensorType {
-    var backdoor: String {
+    var backdoor: [UInt8] {
         switch self {
-        case .libre1:    return "c2ad7521"
-        case .libreProH: return "c2ad0090"
-        case .libre2:    return "1b6a"
-        default:         return "deadbeef"
+        case .libre1:    return "c2ad7521".bytes
+        case .libreProH: return "c2ad0090".bytes
+        case .libre2:    return "1b6a".bytes
+        default:         return "deadbeef".bytes
         }
     }
 }
@@ -30,8 +30,8 @@ extension Sensor {
 
     var activationCommand: NFCCommand {
         switch self.type {
-        case .libre1:    return NFCCommand(code: 0xA0, parameters: Data(SensorType.libre1.backdoor.bytes))
-        case .libreProH: return NFCCommand(code: 0xA0, parameters: Data(SensorType.libreProH.backdoor.bytes))
+        case .libre1:    return NFCCommand(code: 0xA0, parameters: Data(SensorType.libre1.backdoor))
+        case .libreProH: return NFCCommand(code: 0xA0, parameters: Data(SensorType.libreProH.backdoor))
         case .libre2:    return nfcCommand(.activate)
         default:         return NFCCommand(code: 0x00, parameters: Data())
         }
@@ -78,7 +78,7 @@ extension Sensor {
             y = UInt16(patchInfo[4...5]) ^ UInt16(b[1], b[0])
 
         } else {
-            y = UInt16(SensorType.libre2.backdoor.bytes.reversed())
+            y = UInt16(SensorType.libre2.backdoor.reversed())
         }
 
         let d = Libre2.usefulFunction(id: uid, x: UInt16(code.rawValue), y: y)
@@ -362,7 +362,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
         if buffer.count == 0 { self.main.debugLog("NFC: sending 0xa3\(sensor.type.backdoor) command (\(sensor.type) read raw)") }
 
-        self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data(self.sensor.type.backdoor.bytes + [UInt8(addressToRead & 0x00FF), UInt8(addressToRead >> 8), wordsToRead])) { (customResponse: Data, error: Error?) in
+        self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA3, customRequestParameters: Data(self.sensor.type.backdoor + [UInt8(addressToRead & 0x00FF), UInt8(addressToRead >> 8), wordsToRead])) { (customResponse: Data, error: Error?) in
 
             var data = customResponse
 
@@ -390,7 +390,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
 
         // Unlock
         self.main.debugLog("NFC: sending 0xa4\(sensor.type.backdoor) command (\(sensor.type) unlock)")
-        self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA4, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
+        self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA4, customRequestParameters: Data(self.sensor.type.backdoor)) { (customResponse: Data, error: Error?) in
             self.main.debugLog("NFC: unlock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
 
             let addressToRead = (address / 8) * 8
@@ -431,7 +431,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                             if i == blocks - 1 {
 
                                 // Lock
-                                self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
+                                self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor)) { (customResponse: Data, error: Error?) in
                                     self.main.debugLog("NFC: lock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
                                     handler(address, data, error)
                                 }
@@ -475,7 +475,7 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                             if i == requests - 1 {
 
                                 // Lock
-                                self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor.bytes)) { (customResponse: Data, error: Error?) in
+                                self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: 0xA2, customRequestParameters: Data(self.sensor.type.backdoor)) { (customResponse: Data, error: Error?) in
                                     self.main.debugLog("NFC: lock command response: 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
                                     handler(address, data, error)
                                 }
