@@ -249,7 +249,6 @@ class Sensor: ObservableObject {
 
 
     var calibrationInfo: CalibrationInfo {
-
        let i1 = readBits(fram, 2, 0, 3)
        let i2 = readBits(fram, 2, 3, 0xa)
        let i3 = readBits(fram, 0x150, 0, 8)
@@ -259,7 +258,6 @@ class Sensor: ObservableObject {
        let i6 = readBits(fram, 0x150, 0x34, 0xc) << 2
 
        return CalibrationInfo(i1: i1, i2: i2, i3: negativei3 ? -i3 : i3, i4: i4, i5: i5, i6: i6)
-
      }
 
 }

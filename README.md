@@ -1,6 +1,6 @@
 <p align ="center"><img src="./DiaBLE/Assets.xcassets/AppIcon.appiconset/Icon.png" width="25%" /></p>
 
-Experimenting with the FreeStyle **Libre 2** glucose sensor and the Bluetooth Low Energy (BLE) devices I bought to extend its reach, trying something new compared to the traditional apps:
+Since the FreeStyle Libre 2 glucose sensor is a Bluetooth Low Energy BLE device and my purchase experience with the transmitters available for the previous generation has been quite frustrating, I am trying to leverage the new capabilities to implement something new compared to the traditional apps::
 
 * a universal **SwiftUI** application for iPhone, iPad and Mac Catalyst;
 * an **independent Apple Watch app** connecting directly via Bluetooth;

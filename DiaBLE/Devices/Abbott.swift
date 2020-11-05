@@ -37,16 +37,21 @@ class Abbott: Transmitter {
             if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
             buffer.append(data)
             main.log("\(name): partial buffer size: \(buffer.count)")
+
             if buffer.count > (28 + 10 + 8) && data.count == 8 { buffer = Data(data.suffix(46)) }
+
             if buffer.count == 46 {
                 let bleGlucose = parseBLEData(Data(try! Libre2.decryptBLE(id: sensor!.uid, data: buffer)))
                 main.log("BLE raw values: \(bleGlucose.map{$0.raw})")
+
                 let trend = bleGlucose[0...6].map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
                 let history = bleGlucose[7...9].map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
                 main.log("BLE trend: \(trend.map{$0.value})")
                 main.log("BLE history: \(history.map{$0.value})")
                 main.log("BLE temperatures: \((trend + history).map{Double(String(format: "%.1f", $0.temperature))!})")
+
                 if trend[0].raw > 0 { sensor!.currentGlucose = trend[0].value }
+
                 var rawTrend = [Glucose](main.history.rawTrend)
                 let rawTrendIds = rawTrend.map { $0.id }
                 rawTrend += bleGlucose.prefix(7).filter { !rawTrendIds.contains($0.id) }
@@ -54,6 +59,7 @@ class Abbott: Transmitter {
                 main.history.rawTrend = rawTrend
                 main.history.factoryTrend = rawTrend.map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
                 main.log("BLE merged trend: \(main.history.factoryTrend.map{$0.value})")
+
                 var rawValues = [Glucose](main.history.rawValues)
                 let rawValuesIds = rawValues.map { $0.id }
                 rawValues += bleGlucose.suffix(3).filter { !rawValuesIds.contains($0.id) }
@@ -61,7 +67,9 @@ class Abbott: Transmitter {
                 main.history.rawValues = rawValues
                 main.history.factoryValues = rawValues.map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
                 main.log("BLE merged history: \(main.history.factoryValues.map{$0.value})")
+
                 // TODO: backfill all the latest 8 hours
+
                 main.status("\(sensor!.type)  +  BLE")
             }
 
