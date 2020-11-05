@@ -131,14 +131,14 @@ enum TransmitterType: String, CaseIterable, Hashable, Codable, Identifiable {
     var name: String {
         switch self {
         case .none:     return "Any"
-        case .abbott:   return Abbott.name
+        case .abbott:   return Libre.name
         case .miaomiao: return MiaoMiao.name
         }
     }
     var type: AnyClass {
         switch self {
         case .none:     return Transmitter.self
-        case .abbott:   return Abbott.self
+        case .abbott:   return Libre.self
         case .miaomiao: return MiaoMiao.self
         }
     }
@@ -180,9 +180,9 @@ class AppleWatch: Watch {
 }
 
 
-class Abbott: Transmitter {
+class Libre: Transmitter {
     override class var type: DeviceType { DeviceType.transmitter(.abbott) }
-    override class var name: String { "Abbott" }
+    override class var name: String { "Libre" }
 
     enum UUID: String, CustomStringConvertible, CaseIterable {
         case abbottCustom     = "FDE3"

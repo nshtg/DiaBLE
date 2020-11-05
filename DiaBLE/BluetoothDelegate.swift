@@ -83,7 +83,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         centralManager.stopScan()
         if name!.lowercased().hasPrefix("abbott") {
-            app.transmitter = Abbott(peripheral: peripheral, main: main)
+            app.transmitter = Libre(peripheral: peripheral, main: main)
             app.device = app.transmitter
             app.device.name = "Libre 2"
             app.device.serial = String(name!.suffix(name!.count - 6))
@@ -187,12 +187,12 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             var msg = "Bluetooth: discovered \(app.device.name) \(serviceDescription) service's characteristic \(uuid)"
             msg += (", properties: \(characteristic.properties)")
 
-            if uuid == Abbott.dataReadCharacteristicUUID || uuid == MiaoMiao.dataReadCharacteristicUUID {
+            if uuid == Libre.dataReadCharacteristicUUID || uuid == MiaoMiao.dataReadCharacteristicUUID {
                 app.device.readCharacteristic = characteristic
                 app.device.peripheral?.setNotifyValue(true, for: app.device.readCharacteristic!)
                 msg += " (data read)"
 
-            } else if uuid == Abbott.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID {
+            } else if uuid == Libre.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID {
                 msg += " (data write)"
                 app.device.writeCharacteristic = characteristic
 
@@ -240,7 +240,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             log("\(app.device.name): writing start reading command 0x\(Data(readCommand).hex)")
             // app.device.write([0xD3, 0x01]); log("MiaoMiao: writing start new sensor command D301")
         }
-        if app.device.type == .transmitter(.abbott) && serviceUUID == Abbott.dataServiceUUID {
+        if app.device.type == .transmitter(.abbott) && serviceUUID == Libre.dataServiceUUID {
             var sensor: Sensor! = app.sensor
             if app.sensor == nil {
                 sensor = Sensor(transmitter: app.transmitter)
@@ -321,7 +321,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
         if error != nil {
             log("Bluetooth: error while writing \(name)'s \(characteristicString) characteristic value: \(error!.localizedDescription)")
         } else {
-            if [Abbott.dataWriteCharacteristicUUID, MiaoMiao.dataWriteCharacteristicUUID].contains(characteristicString) {
+            if [Libre.dataWriteCharacteristicUUID, MiaoMiao.dataWriteCharacteristicUUID].contains(characteristicString) {
                 characteristicString = "data write"
             }
             log("Bluetooth: \(name) did write value for \(characteristicString) characteristic")
@@ -332,7 +332,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
         let name = peripheral.name ?? "an unnamed peripheral"
         var characteristicString = characteristic.uuid.uuidString
-        if [Abbott.dataReadCharacteristicUUID, MiaoMiao.dataReadCharacteristicUUID].contains(characteristicString) {
+        if [Libre.dataReadCharacteristicUUID, MiaoMiao.dataReadCharacteristicUUID].contains(characteristicString) {
             characteristicString = "data read"
         }
         var msg = "Bluetooth: \(name) did update notification state for \(characteristicString) characteristic"
@@ -346,7 +346,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         let name = peripheral.name ?? "an unnamed peripheral"
         var characteristicString = characteristic.uuid.uuidString
-        if [Abbott.dataReadCharacteristicUUID, MiaoMiao.dataReadCharacteristicUUID].contains(characteristicString) {
+        if [Libre.dataReadCharacteristicUUID, MiaoMiao.dataReadCharacteristicUUID].contains(characteristicString) {
             characteristicString = "data read"
         }
 

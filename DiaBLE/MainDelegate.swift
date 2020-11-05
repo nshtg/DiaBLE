@@ -211,8 +211,6 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
             history.rawValues = sensor.history
             log("Raw history: \(sensor.history.map{$0.raw})")
             debugLog("Raw historic temperatures: \(sensor.history.map{$0.rawTemperature})")
-            // TEST
-            // sensor.history.insert(contentsOf: Abbott(main: self).parseBLEData(), at: 0)
             let factoryHistory = sensor.history.map { factoryGlucose(raw: $0, calibrationInfo: calibrationInfo) }
             history.factoryValues = factoryHistory
             log("Factory history: \(factoryHistory.map{$0.value})")
