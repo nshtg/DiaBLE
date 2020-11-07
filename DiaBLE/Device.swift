@@ -359,7 +359,7 @@ class MiaoMiao: Transmitter {
     override func parseManufacturerData(_ data: Data) {
         if data.count >= 8 {
             macAddress = data.suffix(6)
-            main.log("\(Self.name): MAC Address: \(macAddress.hexAddress))")
+            main.log("\(Self.name): MAC address: \(macAddress.hexAddress)")
         }
     }
 

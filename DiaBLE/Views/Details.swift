@@ -172,16 +172,13 @@ struct Details: View {
 
                 Section(header: Text("BLE Setup").font(.headline)) {
 
-                    // TODO: hex <->  Data formatter
                     HStack {
                         Text("Sensor UID")
-                        Spacer()
-                        Text(settings.patchUid.hex).foregroundColor(.yellow)
+                        TextField("Sensor UID", value: $settings.patchUid, formatter: HexDataFormatter()).multilineTextAlignment(.trailing).foregroundColor(.blue)
                     }
                     HStack {
                         Text("Patch Info")
-                        Spacer()
-                        Text(settings.patchInfo.hex).foregroundColor(.yellow)
+                        TextField("Patch Info", value: $settings.patchInfo, formatter: HexDataFormatter()).multilineTextAlignment(.trailing).foregroundColor(.blue)
                     }
                     HStack {
                         Text("Calibration Info")

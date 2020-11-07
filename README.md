@@ -5,7 +5,7 @@ Since the FreeStyle Libre 2 glucose sensor is a Bluetooth Low Energy BLE device 
 * a universal **SwiftUI** application for iPhone, iPad and Mac Catalyst;
 * an **independent Apple Watch app** connecting directly via Bluetooth;
 * scanning the Libre directly via **NFC**;
-* using online servers for calibrating just like **Abbott’s algorithm**;
+* using both online servers and offline methods for calibrating just like **Abbott’s algorithm**;
 * varying the **reading interval** instead of the usual 5-minute one;
 * a detailed **log** to check the traffic from/to the BLE devices and remote servers.
 
