@@ -178,6 +178,7 @@ struct Details: View {
                         Text("Patch Info")
                         TextField("Patch Info", value: $settings.patchInfo, formatter: HexDataFormatter()).multilineTextAlignment(.trailing).foregroundColor(.blue)
                     }
+                    // TODO: allow editing when a transmitter is not available
                     HStack {
                         Text("Calibration Info")
                         Spacer()

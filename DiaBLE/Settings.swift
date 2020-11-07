@@ -171,8 +171,8 @@ class Settings: ObservableObject {
 // TODO
 
 class HexDataFormatter: Formatter {
-    override func string(for data: Any?) -> String? {
-        return (data as! Data).hex
+    override func string(for obj: Any?) -> String? {
+        return (obj as! Data).hex
     }
     override func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?, for string: String, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
         obj?.pointee = Data(string.bytes) as AnyObject

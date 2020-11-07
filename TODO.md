@@ -1,7 +1,8 @@
 FIXME
 -----
 
-* iOS 14: when getting focus to enter the Nightscout credentials the URL textfields scroll up offscreen
+* iOS 14:
+   - the 'Scan Sensor' shortcut item is missing from the launchOptions keys
 * Apple Watch app:
   - the Libre 2 disconnects when trying to reuse the current sensor uid and unlock count but not the original patchInfo
   - the Monitor counter doesn't update on rescan
