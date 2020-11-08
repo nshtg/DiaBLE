@@ -409,7 +409,7 @@ public class MainDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegat
 
         eventKit?.sync()
 
-        if history.values.count > 0 {
+        if history.values.count > 0 || history.factoryValues.count > 0 {
             let entries = (self.history.values + [Glucose(currentGlucose, date: sensor.lastReadingDate, source: "DiaBLE")]).filter{ $0.value > 0 }
 
             // TODO
