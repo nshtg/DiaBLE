@@ -168,7 +168,7 @@ class Settings: ObservableObject {
 }
 
 
-// TODO
+// TODO: validate inputs
 
 class HexDataFormatter: Formatter {
     override func string(for obj: Any?) -> String? {

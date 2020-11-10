@@ -228,9 +228,10 @@ class Libre: Transmitter {
 
                 let trend = bleGlucose[0...6].map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
                 let history = bleGlucose[7...9].map { factoryGlucose(raw: $0, calibrationInfo: main.settings.activeSensorCalibrationInfo) }
+
+                main.log("BLE temperatures: \((trend + history).map{Double(String(format: "%.1f", $0.temperature))!})")
                 main.log("BLE trend: \(trend.map{$0.value})")
                 main.log("BLE history: \(history.map{$0.value})")
-                main.log("BLE temperatures: \((trend + history).map{Double(String(format: "%.1f", $0.temperature))!})")
 
                 if trend[0].raw > 0 { sensor!.currentGlucose = trend[0].value }
 

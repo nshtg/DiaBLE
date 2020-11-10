@@ -6,6 +6,7 @@ FIXME
 * Apple Watch app:
   - the Monitor counter doesn't update on rescan
   - readings aren't received in background but Bluetooth connections aren't closed until shutdown, even when the app is removed from the Dock
+* Bubble: the Apple Watch app doesn't connect to it
 * when the sensor is not detected the last reading time is updated anyway
 * the log ScrollView doesn't remember the position when switching tabs, nor allows scrolling to the top when reversed
 
