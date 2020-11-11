@@ -75,6 +75,16 @@ extension String {
 }
 
 
+extension Int {
+    var formattedInterval: String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.day, .hour, .minute]
+        formatter.unitsStyle = .abbreviated
+        return formatter.string(from: TimeInterval(self * 60))!
+    }
+}
+
+
 extension Date {
     var shortTime: String {
         let formatter = DateFormatter()

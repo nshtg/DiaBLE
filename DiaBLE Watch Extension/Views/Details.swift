@@ -150,14 +150,14 @@ struct Details: View {
                             HStack {
                                 Text("Maximum Life")
                                 Spacer()
-                                Text("\(Double(app.sensor.maxLife)/60/24, specifier: "%.2f") days").foregroundColor(.yellow)
+                                Text(app.sensor.maxLife.formattedInterval).foregroundColor(.yellow)
                             }
                         }
                         if app.sensor.age > 0 {
                             HStack {
                                 Text("Age")
                                 Spacer()
-                                Text("\(Double(app.sensor.age)/60/24, specifier: "%.2f") days").foregroundColor(.yellow)
+                                Text(app.sensor.age.formattedInterval).foregroundColor(.yellow)
                             }
                             HStack {
                                 Text("Started on")
