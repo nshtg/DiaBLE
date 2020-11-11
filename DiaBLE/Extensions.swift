@@ -82,6 +82,12 @@ extension Int {
         formatter.unitsStyle = .abbreviated
         return formatter.string(from: TimeInterval(self * 60))!
     }
+    var shortFormattedInterval: String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.day, .hour]
+        formatter.unitsStyle = .abbreviated
+        return formatter.string(from: TimeInterval(self * 60))!
+    }
 }
 
 

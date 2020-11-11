@@ -81,7 +81,7 @@ struct Monitor: View {
                                         .foregroundColor(app.sensor.state == .active ? .green : .red)
 
                                     if app.sensor.age > 0 {
-                                        Text("\(Double(app.sensor.age)/60/24, specifier: "%.1f") days")
+                                        Text(app.sensor.age.shortFormattedInterval)
                                     }
                                 }
                             }
