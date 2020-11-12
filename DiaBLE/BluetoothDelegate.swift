@@ -89,8 +89,8 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             app.device.serial = String(name!.suffix(name!.count - 6))
             settings.activeSensorSerial = app.device.serial
         } else if name! == "Bubble" {
-             app.transmitter = Bubble(peripheral: peripheral, main: main)
-             app.device = app.transmitter
+            app.transmitter = Bubble(peripheral: peripheral, main: main)
+            app.device = app.transmitter
         } else if name!.matches("miaomiao") {
             app.transmitter = MiaoMiao(peripheral: peripheral, main: main)
             app.device = app.transmitter
@@ -165,8 +165,12 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                 if let uuid = BLE.UUID(rawValue: serviceUUID) {
                     description = uuid.description
                 }
-                log("Bluetooth: discovered \(name)'s service \(serviceUUID) (\(description)); discovering characteristics")
-                peripheral.discoverCharacteristics(nil, for: service)
+                var msg = "Bluetooth: discovered \(name)'s service \(serviceUUID) (\(description))"
+                if !(serviceUUID == BLE.UUID.device.rawValue && app.device.characteristics[BLE.UUID.manufacturer.rawValue] != nil) {
+                    msg += "; discovering characteristics"
+                    peripheral.discoverCharacteristics(nil, for: service)
+                }
+                log(msg)
             }
         }
     }
@@ -185,7 +189,6 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
         for characteristic in characteristics {
             let uuid = characteristic.uuid.uuidString
-            app.device.characteristics[uuid] = characteristic
 
             var msg = "Bluetooth: discovered \(app.device.name) \(serviceDescription) service's characteristic \(uuid)"
             msg += (", properties: \(characteristic.properties)")
@@ -217,8 +220,13 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                 if uuid == .batteryLevel {
                     app.device.peripheral?.setNotifyValue(true, for: characteristic)
                 }
-                app.device.peripheral?.readValue(for: characteristic)
-                msg += " (\(uuid)); reading it"
+
+                if app.device.characteristics[uuid.rawValue] != nil {
+                    msg += " (\(uuid)); already read it"
+                } else {
+                    app.device.peripheral?.readValue(for: characteristic)
+                    msg += " (\(uuid)); reading it"
+                }
 
                 // } else if let uuid = OtherDevice.UUID(rawValue: uuid) {
                 //    msg += " (\(uuid))"
@@ -235,15 +243,18 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             }
 
             log(msg)
+
+            app.device.characteristics[uuid] = characteristic
+
         }
 
         if app.device.type == .transmitter(.bubble) && serviceUUID == Bubble.dataServiceUUID {
-             let readCommand = app.transmitter.readCommand(interval: settings.readingInterval)
-             app.device.write(readCommand)
-             log("Bubble: writing start reading command 0x\(Data(readCommand).hex)")
-             // app.device.write([0x00, 0x01, 0x05])
-             // log("Bubble: writing reset and send data every 5 minutes command 0x000105")
-         }
+            let readCommand = app.transmitter.readCommand(interval: settings.readingInterval)
+            app.device.write(readCommand)
+            log("Bubble: writing start reading command 0x\(Data(readCommand).hex)")
+            // app.device.write([0x00, 0x01, 0x05])
+            // log("Bubble: writing reset and send data every 5 minutes command 0x000105")
+        }
 
         if app.device.type == .transmitter(.miaomiao) && serviceUUID == MiaoMiao.dataServiceUUID {
             let readCommand = app.device.readCommand(interval: settings.readingInterval)
