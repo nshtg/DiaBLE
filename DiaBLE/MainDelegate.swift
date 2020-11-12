@@ -3,7 +3,7 @@ import CoreBluetooth
 import AVFoundation
 
 
-public class MainDelegate: NSObject, UIApplicationDelegate, UIWindowSceneDelegate, UNUserNotificationCenterDelegate {
+public class MainDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate, UNUserNotificationCenterDelegate {
 
     var app: AppState
     var log: Log

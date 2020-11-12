@@ -371,6 +371,7 @@ class Bubble: Transmitter {
     override func read(_ data: Data, for uuid: String) {
 
         // https://github.com/NightscoutFoundation/xDrip/blob/master/app/src/main/java/com/eveningoutpost/dexdrip/Models/Bubble.java
+
         let response = ResponseType(rawValue: data[0])
         main.log("\(name) response: \(response?.description ?? "unknown") (0x\(data[0...0].hex))")
 

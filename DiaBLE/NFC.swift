@@ -282,18 +282,22 @@ class NFCReader: NSObject, NFCTagReaderSessionDelegate {
                                                     if self.sensor.type == .libre2 {
                                                         // let subCmd:Sensor.Subcommand = .unknown0x1a // TEST
                                                         let subCmd:Sensor.Subcommand = .enableStreaming
+                                                        let currentUnlockCode = self.sensor.unlockCode
+                                                        self.sensor.unlockCode = UInt32(self.main.settings.activeSensorUnlockCode)
                                                         let cmd = self.sensor.nfcCommand(subCmd)
                                                         self.main.debugLog("NFC: sending \(self.sensor.type) command to \(subCmd.description): code: 0x\(String(format: "%0X", cmd.code)), parameters: 0x\(cmd.parameters.hex) (unlock code: \(self.sensor.unlockCode))")
                                                         self.connectedTag?.customCommand(requestFlags: [.highDataRate], customCommandCode: Int(cmd.code), customRequestParameters:  cmd.parameters) { (customResponse: Data, error: Error?) in
                                                             self.main.debugLog("NFC: '\(subCmd.description)' command response (\(customResponse.count) bytes): 0x\(customResponse.hex), error: \(error?.localizedDescription ?? "none")")
                                                             if subCmd == .enableStreaming && customResponse.count == 6 {
-                                                                self.main.debugLog("NFC: enabled BLE streaming on \(self.sensor.type) \(self.sensor.serial) (MAC address: \(Data(customResponse.reversed()).hexAddress))")
+                                                                self.main.debugLog("NFC: enabled BLE streaming on \(self.sensor.type) \(self.sensor.serial) (unlock code: \(self.sensor.unlockCode), MAC address: \(Data(customResponse.reversed()).hexAddress))")
                                                                 self.main.settings.activeSensorSerial = self.sensor.serial
                                                                 self.main.settings.patchInfo = self.sensor.patchInfo
                                                                 self.main.settings.activeSensorAddress = Data(customResponse.reversed())
-                                                                self.main.settings.activeSensorUnlockCode = 42
+                                                                self.sensor.unlockCount = 0
                                                                 self.main.settings.activeSensorUnlockCount = 0
                                                                 self.main.settings.activeSensorCalibrationInfo = self.sensor.calibrationInfo
+                                                            } else {
+                                                                self.sensor.unlockCode = currentUnlockCode
                                                             }
                                                             if subCmd == .activate && customResponse.count == 4 {
                                                                 self.main.debugLog("NFC: after trying activating received \(customResponse.hex) for the patch info \(patchInfo.hex)")
