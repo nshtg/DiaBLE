@@ -13,8 +13,8 @@ Since the FreeStyle **Libre 2** glucose sensor is a Bluetooth Low Energy BLE dev
 Still too early to decide the final design (but I really like already the evil logo 😈), here there are some recent screenshots I tweeted:
 
 <br><br>
-<p align ="center"><img src="https://pbs.twimg.com/media/EfM5Q6sXYAYazK0?format=jpg&name=4096x4096" width="25%" /></p>
-<h4 align ="center">Libre 2 decrypted thanks to @ivalkou</h4>
+<p align ="center"><img src="https://pbs.twimg.com/media/EfM5Q6sXYAYazK0?format=jpg&name=4096x4096" width="25%" />&nbsp;&nbsp;<img src="https://pbs.twimg.com/media/Emrt9V8WMAMHA6L?format=jpg&name=4096x4096" width="25%" /></p>
+<h4 align ="center">Libre 2 decrypted thanks to @ivalkou  -  Atlas stress test: 1-minute uploads</h4>
 <p align ="center"><br><img src="https://pbs.twimg.com/media/EmTCHz2XcAEf5RE?format=png&name=small" align="top" width="25%" /></p>
 <h4 align ="center">Phones and transmitters: who needs them?</h4>
 <br><br>
