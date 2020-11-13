@@ -90,7 +90,9 @@ extension Sensor {
 
         if code == .enableStreaming {
             params += b
-        } else if code != .unknown0x1f {
+        }
+
+        if code != .unknown0x1f {
             params += d
         }
 
