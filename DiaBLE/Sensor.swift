@@ -379,7 +379,7 @@ enum Libre2 {
     ///   - data: Encrypted BLE data
     /// - Returns: Decrypted BLE data
     static func decryptBLE(id: SensorUid, data: Data) throws -> [UInt8] {
-        let d = usefulFunction(id: id, x: UInt16(Sensor.Subcommand.activate.rawValue), y: UInt16(SensorType.libre2.backdoor.reversed()))
+        let d = usefulFunction(id: id, x: UInt16(Sensor.Subcommand.activate.rawValue), y: 0x1b6a)
         let x = UInt16(d[1], d[0]) ^ UInt16(d[3], d[2]) | 0x63
         let y = UInt16(data[1], data[0]) ^ 0x63
 
@@ -496,7 +496,7 @@ extension Libre2 {
         ]
 
         // Then we need data of activation command and enable command that were sent to sensor
-        let ad = usefulFunction(id: id, x: UInt16(Sensor.Subcommand.activate.rawValue), y: UInt16(SensorType.libre2.backdoor.reversed()))
+        let ad = usefulFunction(id: id, x: UInt16(Sensor.Subcommand.activate.rawValue), y: 0x1b6a)
         let ed = usefulFunction(id: id, x: UInt16(Sensor.Subcommand.enableStreaming.rawValue), y: UInt16(enableTime & 0xFFFF) ^ UInt16(info[5], info[4]))
 
         let t11 = UInt16(ed[1], ed[0]) ^ UInt16(b[3], b[2])
