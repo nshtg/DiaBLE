@@ -100,9 +100,7 @@ extension Sensor {
             parameters += b
         }
 
-        if code != .unknown0x1f {
-            parameters += d
-        }
+        parameters += d
 
         return NFCCommand(code: 0xA1, parameters: parameters)
     }
