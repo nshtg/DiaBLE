@@ -55,11 +55,19 @@ extension Sensor {
     }
 
 
+    /// The customRequestParameters for 0xA1 are built by appending
+    /// code + params (b) + usefulFunction(uid, code, secret (y))
+    ///
     /// 0x1a [] 0x1b6a
+    ///
     /// 0x1b [] 0x1b6a: activate
+    ///
     /// 0x1c [] 0x1b6a
+    ///
     /// 0x1d [] 0x1b6a
+    ///
     /// 0x1e [params]: enable Bluetooth streaming
+    /// 
     /// 0x1f
     func nfcCommand(_ code: Subcommand) -> NFCCommand {
 
@@ -86,17 +94,17 @@ extension Sensor {
 
         let d = Libre2.usefulFunction(id: uid, x: UInt16(code.rawValue), y: y)
 
-        var params = Data([code.rawValue])
+        var parameters = Data([code.rawValue])
 
         if code == .enableStreaming {
-            params += b
+            parameters += b
         }
 
         if code != .unknown0x1f {
-            params += d
+            parameters += d
         }
 
-        return NFCCommand(code: 0xA1, parameters: params)
+        return NFCCommand(code: 0xA1, parameters: parameters)
     }
 }
 
