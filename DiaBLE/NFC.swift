@@ -1,7 +1,6 @@
 import Foundation
 
 
-// https://fortiguard.com/events/3551/pass-the-salt-2020-pique-curiosity-not-diabetic-fingers
 // https://fortinetweb.s3.amazonaws.com/fortiguard/research/techreport.pdf
 // https://github.com/travisgoodspeed/goodtag/wiki/RF430TAL152H
 // https://github.com/travisgoodspeed/GoodV/blob/master/app/src/main/java/com/kk4vcz/goodv/NfcRF430TAL.java

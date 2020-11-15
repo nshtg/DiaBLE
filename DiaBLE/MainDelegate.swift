@@ -416,6 +416,7 @@ public class MainDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDele
             healthKit?.write(entries.filter{$0.date > healthKit?.lastDate ?? Calendar.current.date(byAdding: .hour, value: -8, to: Date())!})
             healthKit?.read()
 
+            // FIXME: dont't delete if older then 8 hours
             nightscout?.delete(query: "find[device]=OOP&count=32") { data, response, error in
                 self.nightscout?.post(entries: entries) { data, response, error in
                     self.nightscout?.read()

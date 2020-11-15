@@ -195,8 +195,13 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
 
             if uuid == Libre.dataReadCharacteristicUUID || uuid == Bubble.dataReadCharacteristicUUID || uuid == MiaoMiao.dataReadCharacteristicUUID {
                 app.device.readCharacteristic = characteristic
-                app.device.peripheral?.setNotifyValue(true, for: app.device.readCharacteristic!)
                 msg += " (data read)"
+
+                // enable Libre notifications only in didWriteValueFor()
+                if uuid != Libre.dataReadCharacteristicUUID {
+                    app.device.peripheral?.setNotifyValue(true, for: app.device.readCharacteristic!)
+                    msg += "; enabling notifications"
+                }
 
             } else if uuid == Libre.dataWriteCharacteristicUUID || uuid == Bubble.dataWriteCharacteristicUUID || uuid == MiaoMiao.dataWriteCharacteristicUUID {
                 msg += " (data write)"
@@ -288,7 +293,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
             app.device.macAddress = settings.activeSensorAddress
             sensor.unlockCount += 1
             settings.activeSensorUnlockCount += 1
-            main.debugLog("Bluetooth: writing streaming unlock payload: \(Data(Libre2.streamingUnlockPayload(id: sensor.uid, info: sensor.patchInfo, enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount)).hex) (unlock code: \(sensor.unlockCode), unlock count: \(sensor.unlockCount), sensor id: \(sensor.uid.hex), patch info: \(sensor.patchInfo.hex))")
+            main.log("Bluetooth: writing streaming unlock payload: \(Data(Libre2.streamingUnlockPayload(id: sensor.uid, info: sensor.patchInfo, enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount)).hex) (unlock code: \(sensor.unlockCode), unlock count: \(sensor.unlockCount), sensor id: \(sensor.uid.hex), patch info: \(sensor.patchInfo.hex))")
             app.device.write([UInt8](Data(Libre2.streamingUnlockPayload(id: sensor.uid, info: sensor.patchInfo, enableTime: sensor.unlockCode, unlockCount: sensor.unlockCount))), .withResponse)
         }
     }
@@ -341,13 +346,17 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
     public func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: Error?) {
         let name = peripheral.name ?? "an unnamed peripheral"
         var characteristicString = characteristic.uuid.uuidString
+        if [Libre.dataWriteCharacteristicUUID, Bubble.dataWriteCharacteristicUUID, MiaoMiao.dataWriteCharacteristicUUID].contains(characteristicString) {
+            characteristicString = "data write"
+        }
         if error != nil {
             log("Bluetooth: error while writing \(name)'s \(characteristicString) characteristic value: \(error!.localizedDescription)")
         } else {
-            if [Libre.dataWriteCharacteristicUUID, Bubble.dataWriteCharacteristicUUID, MiaoMiao.dataWriteCharacteristicUUID].contains(characteristicString) {
-                characteristicString = "data write"
-            }
             log("Bluetooth: \(name) did write value for \(characteristicString) characteristic")
+            if characteristic.uuid.uuidString == Libre.dataWriteCharacteristicUUID {
+                app.device.peripheral?.setNotifyValue(true, for: app.device.readCharacteristic!)
+                log("Bluetooth: enabling data read notifications for \(name)")
+            }
         }
     }
 
