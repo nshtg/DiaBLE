@@ -258,8 +258,8 @@ class Libre: Transmitter {
 
                 catch {
                     // TODO: verify crc16
-                    main.log((error as! LocalizedError).errorDescription!)
-                    main.errorStatus((error as! LocalizedError).errorDescription!)
+                    main.log(error.localizedDescription)
+                    main.errorStatus(error.localizedDescription)
                     buffer = Data()
                 }
 

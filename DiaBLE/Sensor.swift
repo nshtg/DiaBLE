@@ -335,8 +335,8 @@ enum Libre2 {
     /// - Returns: Decrypted FRAM data
     static func decryptFRAM(type: SensorType, id: SensorUid, info: PatchInfo, data: Data) throws -> [UInt8] {
         guard type == .libre2 || type == .libreUS14day else {
-            struct DecryptFRAMError: Error, LocalizedError {
-                let errorDescription = "Unsupported sensor type"
+            struct DecryptFRAMError: LocalizedError {
+                var errorDescription: String? { "Unsupported sensor type" }
             }
             throw DecryptFRAMError()
         }
@@ -403,8 +403,8 @@ enum Libre2 {
         }
 
         guard crc16(Data(result.prefix(42))) == UInt16(result[42], result[43]) else {
-            struct DecryptBLEError: Error, LocalizedError {
-                let errorDescription = "BLE data decrytion failed"
+            struct DecryptBLEError: LocalizedError {
+                var errorDescription: String? { "BLE data decryption failed" }
             }
             throw DecryptBLEError()
         }
