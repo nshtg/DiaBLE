@@ -311,6 +311,7 @@ class BluetoothDelegate: NSObject, CBCentralManagerDelegate, CBPeripheralDelegat
                 app.deviceState = "Reconnecting..."
                 log("Bluetooth: reconnecting to \(name)...")
                 if errorCode == .connectionTimeout { main.errorStatus("Connection timed out. Waiting...") }
+                app.device.buffer = Data()
                 centralManager.connect(peripheral, options: nil)
             } else {
                 app.device = nil
