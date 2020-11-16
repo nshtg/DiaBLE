@@ -473,6 +473,7 @@ extension Libre2 {
         let low = blockKey[0]
         let high = blockKey[1]
 
+        // https://github.com/ivalkou/LibreTools/issues/2: "XOR with inverted low/high words in usefulFunction()"
         let r1 = low ^ 0x4163
         let r2 = high ^ 0x4344
 

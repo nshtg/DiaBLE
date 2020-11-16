@@ -212,15 +212,21 @@ class Libre: Transmitter {
         switch UUID(rawValue: uuid) {
 
         case .compositeRawData:
+
             if sensor == nil {
                 sensor = Sensor(transmitter: self)
                 main.app.sensor = sensor
             }
-            if buffer.count == 0 { sensor!.lastReadingDate = main.app.lastReadingDate }
+
+            // The Libre always sends 46 bytes as three packets of 20 + 18 + 8 bytes
+
+            if data.count == 20 {
+                buffer = Data()
+                sensor!.lastReadingDate = main.app.lastReadingDate
+            }
+
             buffer.append(data)
             main.log("\(name): partial buffer size: \(buffer.count)")
-
-            if buffer.count > (28 + 10 + 8) && data.count == 8 { buffer = Data(data.suffix(46)) }
 
             if buffer.count == 46 {
                 do {
